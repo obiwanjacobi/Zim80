@@ -1,0 +1,93 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="Jacobi.Zim80.Components.CpuZ80.States.CpuExecute" Collapsed="true">
+    <Position X="3" Y="3.5" Width="1.5" />
+    <Compartments>
+      <Compartment Name="Methods" Collapsed="true" />
+    </Compartments>
+    <InheritanceLine Type="Jacobi.Zim80.Components.CpuZ80.States.CpuRefresh" ManuallyRouted="true">
+      <Path>
+        <Point X="2.5" Y="2.691" />
+        <Point X="2.5" Y="3.083" />
+        <Point X="3.75" Y="3.083" />
+        <Point X="3.75" Y="3.5" />
+      </Path>
+    </InheritanceLine>
+    <AssociationLine Name="_instruction" Type="Jacobi.Zim80.Components.CpuZ80.States.Instructions.Instruction" FixedFromPoint="true" FixedToPoint="true">
+      <Path>
+        <Point X="4.5" Y="3.846" />
+        <Point X="4.875" Y="3.846" />
+        <Point X="4.875" Y="2.312" />
+        <Point X="5.75" Y="2.312" />
+      </Path>
+    </AssociationLine>
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAIAAACAAAAAAAAAAAA=</HashCode>
+      <FileName>Components\CpuZ80\States\CpuExecute.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Field Name="_instruction" />
+    </ShowAsAssociation>
+  </Class>
+  <Class Name="Jacobi.Zim80.Components.CpuZ80.States.CpuFetch" Collapsed="true">
+    <Position X="0.75" Y="3.5" Width="1.5" />
+    <InheritanceLine Type="Jacobi.Zim80.Components.CpuZ80.States.CpuRefresh" ManuallyRouted="true">
+      <Path>
+        <Point X="2.5" Y="2.691" />
+        <Point X="2.5" Y="3.104" />
+        <Point X="1.5" Y="3.104" />
+        <Point X="1.5" Y="3.5" />
+      </Path>
+    </InheritanceLine>
+    <TypeIdentifier>
+      <HashCode>AAAAABAAAAAAAAAAAAAAAAAgAAAAAAAAAAAAAAQAAAA=</HashCode>
+      <FileName>Components\CpuZ80\States\CpuFetch.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Jacobi.Zim80.Components.CpuZ80.States.CpuRefresh" Collapsed="true">
+    <Position X="1.75" Y="2" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAABAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAAAA=</HashCode>
+      <FileName>Components\CpuZ80\States\CpuRefresh.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Jacobi.Zim80.Components.CpuZ80.States.CpuState" Collapsed="true">
+    <Position X="1.75" Y="0.5" Width="1.5" />
+    <Compartments>
+      <Compartment Name="Fields" Collapsed="true" />
+      <Compartment Name="Methods" Collapsed="true" />
+    </Compartments>
+    <TypeIdentifier>
+      <HashCode>AQAAABQAAAAAAAAAAAAAAAAAgAAAAACAAAAAQAQAABA=</HashCode>
+      <FileName>Components\CpuZ80\States\CpuState.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Jacobi.Zim80.Components.CpuZ80.States.Instructions.Instruction" Collapsed="true">
+    <Position X="5.75" Y="2" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Components\CpuZ80\States\Instructions\Instruction.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Jacobi.Zim80.Components.CpuZ80.States.Instructions.MultiByteInstruction" Collapsed="true">
+    <Position X="6.75" Y="5" Width="1.5" />
+    <Compartments>
+      <Compartment Name="Methods" Collapsed="true" />
+    </Compartments>
+    <TypeIdentifier>
+      <HashCode>AAABABAAAAAAAAAAAAQAgAAAAAAAAACAAAAAAAAAAAA=</HashCode>
+      <FileName>Components\CpuZ80\States\Instructions\MultiByteInstruction.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Field Name="_currentPart" />
+    </ShowAsAssociation>
+  </Class>
+  <Class Name="Jacobi.Zim80.Components.CpuZ80.States.Instructions.SingleByteInstruction" Collapsed="true">
+    <Position X="4.5" Y="5" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>AAAAABAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAAAA=</HashCode>
+      <FileName>Components\CpuZ80\States\Instructions\SingleByteInstruction.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>

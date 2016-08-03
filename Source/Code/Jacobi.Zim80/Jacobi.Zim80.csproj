@@ -1,0 +1,116 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <MinimumVisualStudioVersion>10.0</MinimumVisualStudioVersion>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{CCB0CD3F-799B-474C-9BE8-14BFABEFC2B2}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Jacobi.Zim80</RootNamespace>
+    <AssemblyName>Jacobi.Zim80</AssemblyName>
+    <DefaultLanguage>en-US</DefaultLanguage>
+    <FileAlignment>512</FileAlignment>
+    <ProjectTypeGuids>{786C830F-07A1-408B-BD7F-6EE04809D6DB};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
+    <TargetFrameworkProfile>Profile344</TargetFrameworkProfile>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <SccProjectName>SAK</SccProjectName>
+    <SccLocalPath>SAK</SccLocalPath>
+    <SccAuxPath>SAK</SccAuxPath>
+    <SccProvider>SAK</SccProvider>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <!-- A reference to the entire .NET Framework is automatically included -->
+    <None Include="Components\Components.cd" />
+    <None Include="Components\CpuZ80\States\Instructions\Jacobi.Zim80.Components.CpuZ80.States.Instructions.MultiByteInstructions.cd" />
+    <None Include="Components\CpuZ80\States\Instructions\Jacobi.Zim80.Components.CpuZ80.States.Instructions.SingleByteInstructions.cd" />
+    <None Include="Components\CpuZ80\States\Jacobi.Zim80.Components.CpuZ80.States.CpuStates.cd" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Components\Bus.cs" />
+    <Compile Include="Components\BusChangedEventArgs.cs" />
+    <Compile Include="Components\BusConflictException.cs" />
+    <Compile Include="Components\BusMaster.cs" />
+    <Compile Include="Components\BusMasterSlave.cs" />
+    <Compile Include="Components\BusSlave.cs" />
+    <Compile Include="Components\BusTap.cs" />
+    <Compile Include="Components\BusData.cs" />
+    <Compile Include="Components\BusData16.cs" />
+    <Compile Include="Components\BusData20.cs" />
+    <Compile Include="Components\BusData24.cs" />
+    <Compile Include="Components\BusData8.cs" />
+    <Compile Include="Components\CpuZ80\InstructionExecutedEventArgs.cs" />
+    <Compile Include="Components\CpuZ80\Opcodes\OpcodeDefinition.Definitions.cs" />
+    <Compile Include="Components\CpuZ80\Opcodes\Register16Table.cs" />
+    <Compile Include="Components\CpuZ80\Opcodes\Register8Table.cs" />
+    <Compile Include="Components\CpuZ80\States\Instructions\Dec8Instruction.cs" />
+    <Compile Include="Components\CpuZ80\States\Instructions\ExAFAFInstruction.cs" />
+    <Compile Include="Components\CpuZ80\States\CpuExecute.cs" />
+    <Compile Include="Components\CpuZ80\States\CpuFetch.cs" />
+    <Compile Include="Components\CpuZ80\States\CpuRefresh.cs" />
+    <Compile Include="Components\CpuZ80\States\CpuState.cs" />
+    <Compile Include="Components\CpuZ80\Die.cs" />
+    <Compile Include="Components\CpuZ80\ExecutionEngine.cs" />
+    <Compile Include="Components\CpuZ80\CycleCounter.cs" />
+    <Compile Include="Components\CpuZ80\Registers.cs" />
+    <Compile Include="Components\CpuZ80\States\Instructions\Dec16Instruction.cs" />
+    <Compile Include="Components\CpuZ80\States\Instructions\Inc16Instruction.cs" />
+    <Compile Include="Components\CpuZ80\States\Instructions\Inc8Instruction.cs" />
+    <Compile Include="Components\CpuZ80\States\Instructions\Instruction.cs" />
+    <Compile Include="Components\CpuZ80\States\Instructions\LoadImmediate16Instruction.cs" />
+    <Compile Include="Components\CpuZ80\States\Instructions\LoadImmediate8Instruction.cs" />
+    <Compile Include="Components\CpuZ80\States\Instructions\ReadIndirectRegisterInstruction.cs" />
+    <Compile Include="Components\CpuZ80\States\Instructions\MultiByteInstruction.cs" />
+    <Compile Include="Components\CpuZ80\States\Instructions\NopInstruction.cs" />
+    <Compile Include="Components\CpuZ80\States\Instructions\ReadParametersInstruction.cs" />
+    <Compile Include="Components\CpuZ80\States\Instructions\ReadT3Instruction.cs" />
+    <Compile Include="Components\CpuZ80\States\Instructions\SingleByteInstruction.cs" />
+    <Compile Include="Components\CpuZ80\States\Instructions\WriteIndirectRegisterInstruction.cs" />
+    <Compile Include="Components\Generators\Randomizer.cs" />
+    <Compile Include="Components\Generators\SignalGenerator.cs" />
+    <Compile Include="Components\CpuZ80\CpuZ80.cs" />
+    <Compile Include="Components\CpuZ80\Opcodes\MultiByteOpcode.cs" />
+    <Compile Include="Components\CpuZ80\Opcodes\OpcodeBuilder.cs" />
+    <Compile Include="Components\CpuZ80\Opcodes\OpcodeByte.cs" />
+    <Compile Include="Components\CpuZ80\Opcodes\OpcodeDefinition.cs" />
+    <Compile Include="Components\CpuZ80\Opcodes\Opcode.cs" />
+    <Compile Include="Components\CpuZ80\Opcodes\SingleByteOpcode.cs" />
+    <Compile Include="Components\Logic\GlueLogic.cs" />
+    <Compile Include="Components\Memory\MemoryRom.cs" />
+    <Compile Include="Components\Memory\MemoryRam.cs" />
+    <Compile Include="Model\SimulationModel.cs" />
+    <Compile Include="DigitalLevel.cs" />
+    <Compile Include="DigitalLevelChangedEventArgs.cs" />
+    <Compile Include="DigitalSignal.cs" />
+    <Compile Include="DigitalSignalConflictException.cs" />
+    <Compile Include="DigitalSignalConsumer.cs" />
+    <Compile Include="DigitalSignalProvider.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Portable\$(TargetFrameworkVersion)\Microsoft.Portable.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>
