@@ -85,6 +85,7 @@
     <Compile Include="Components\CpuZ80\Instructions\LoadImmediate16InstructionTest.cs" />
     <Compile Include="Components\CpuZ80\Instructions\LoadImmediate8InstructionTest.cs" />
     <Compile Include="Components\CpuZ80\Instructions\NopInstructionTest.cs" />
+    <Compile Include="Components\CpuZ80\Instructions\WriteIndirectRegisterInstructionTest.cs" />
     <Compile Include="Components\CpuZ80\Instructions\ReadIndirectRegisterInstructionTest.cs" />
     <Compile Include="Components\CpuZ80\Opcodes\OpcodeDefinitionTest.cs" />
     <Compile Include="Components\CpuZ80\Opcodes\SingleByteOpcodeWithSingleByteParameterTest.cs" />

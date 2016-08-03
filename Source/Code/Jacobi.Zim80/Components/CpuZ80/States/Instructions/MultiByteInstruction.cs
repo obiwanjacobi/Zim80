@@ -34,6 +34,28 @@
             }
         }
 
+        // for write operations
+        protected void OnClockNegWrite()
+        {
+            base.OnClockNeg();
+
+            if (ExecutionEngine.Cycles.IsLastMachineCycle &&
+                ExecutionEngine.Cycles.CycleName == CycleNames.T1)
+            {
+                OnExecute();
+            }
+
+            if (ExecutionEngine.Cycles.IsLastCycle)
+            {
+                if (ExecutionEngine.Cycles.IsLastMachineCycle)
+                {
+                    IsComplete = true;
+                }
+                else if (_currentPart.IsComplete)
+                    SetNextInstructionPart();
+            }
+        }
+
         private void SetNextInstructionPart()
         {
             _currentPart = GetInstructionPart(ExecutionEngine.Cycles.MachineCycle + 1);

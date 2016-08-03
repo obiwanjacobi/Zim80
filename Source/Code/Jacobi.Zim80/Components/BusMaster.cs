@@ -20,9 +20,12 @@ namespace Jacobi.Zim80.Components
             get { return _isEnabled; }
             set
             {
-                _isEnabled = value;
-                if (!_isEnabled)
-                    WriteInternal(new T());
+                if (_isEnabled != value)
+                {
+                    _isEnabled = value;
+                    if (!_isEnabled)
+                        WriteInternal(new T());
+                }
             }
         }
 

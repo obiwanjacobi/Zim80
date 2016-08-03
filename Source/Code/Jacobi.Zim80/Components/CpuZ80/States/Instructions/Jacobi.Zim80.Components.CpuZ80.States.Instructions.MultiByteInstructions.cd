@@ -1,18 +1,116 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <ClassDiagram MajorVersion="1" MinorVersion="1">
   <Class Name="Jacobi.Zim80.Components.CpuZ80.States.Instructions.MultiByteInstruction" Collapsed="true">
-    <Position X="0.75" Y="0.5" Width="1.5" />
+    <Position X="8" Y="0.5" Width="1.5" />
+    <Compartments>
+      <Compartment Name="Methods" Collapsed="true" />
+    </Compartments>
     <TypeIdentifier>
-      <HashCode>AAABABAAAAAAAAAAAAQAgAAAAAAAAACAAAAAAAAAAAA=</HashCode>
+      <HashCode>AAABABAAAAAAAAAAAAQAgAAAAQAAAACAAAAAAAAAAAA=</HashCode>
       <FileName>Components\CpuZ80\States\Instructions\MultiByteInstruction.cs</FileName>
     </TypeIdentifier>
+    <ShowAsAssociation>
+      <Field Name="_currentPart" />
+    </ShowAsAssociation>
   </Class>
   <Class Name="Jacobi.Zim80.Components.CpuZ80.States.Instructions.LoadImmediate8Instruction" Collapsed="true">
-    <Position X="0.5" Y="2" Width="2.25" />
+    <Position X="6.25" Y="5.5" Width="2.25" />
     <TypeIdentifier>
-      <HashCode>AAIAAAAAAAAAAAAAAAQAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <HashCode>AAIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Components\CpuZ80\States\Instructions\LoadImmediate8Instruction.cs</FileName>
     </TypeIdentifier>
+  </Class>
+  <Class Name="Jacobi.Zim80.Components.CpuZ80.States.Instructions.ReadParametersInstruction" Collapsed="true">
+    <Position X="7.75" Y="3" Width="2" />
+    <Compartments>
+      <Compartment Name="Methods" Collapsed="true" />
+    </Compartments>
+    <TypeIdentifier>
+      <HashCode>AAwAAAAAAAAAAAAAAAQAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Components\CpuZ80\States\Instructions\ReadParametersInstruction.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="InstructionM2" />
+      <Property Name="InstructionM3" />
+    </ShowAsAssociation>
+  </Class>
+  <Class Name="Jacobi.Zim80.Components.CpuZ80.States.Instructions.LoadImmediate16Instruction" Collapsed="true">
+    <Position X="9.25" Y="5.5" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>AAIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Components\CpuZ80\States\Instructions\LoadImmediate16Instruction.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Jacobi.Zim80.Components.CpuZ80.States.Instructions.ReadIndirectRegisterInstruction" Collapsed="true">
+    <Position X="3.25" Y="5.5" Width="2.5" />
+    <AssociationLine Name="_instructionPart" Type="Jacobi.Zim80.Components.CpuZ80.States.Instructions.ReadT3Instruction" FixedFromPoint="true" FixedToPoint="true">
+      <Path>
+        <Point X="4.5" Y="6.191" />
+        <Point X="4.5" Y="6.566" />
+        <Point X="12.125" Y="6.566" />
+        <Point X="12.125" Y="3.691" />
+      </Path>
+    </AssociationLine>
+    <TypeIdentifier>
+      <HashCode>AAIAAAAAAAAAAAAAAAQAAAAAAAAAAAAAAAAAAAAAAAQ=</HashCode>
+      <FileName>Components\CpuZ80\States\Instructions\ReadIndirectRegisterInstruction.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Field Name="_instructionPart" />
+    </ShowAsAssociation>
+  </Class>
+  <Class Name="Jacobi.Zim80.Components.CpuZ80.States.CpuState" Collapsed="true">
+    <Position X="12.5" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AQAAABQAAAAAAAAAAAAAAAAAgAAAAACAAAAAQAQAABA=</HashCode>
+      <FileName>Components\CpuZ80\States\CpuState.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Jacobi.Zim80.Components.CpuZ80.States.Instructions.ReadT3Instruction" Collapsed="true">
+    <Position X="11.25" Y="3" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>AAAAABAAAAAAAAAAAAAAAAAgAAAAABAAAAAAAEQAAAA=</HashCode>
+      <FileName>Components\CpuZ80\States\Instructions\ReadT3Instruction.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Jacobi.Zim80.Components.CpuZ80.States.Instructions.MachineCycleState" Collapsed="true">
+    <Position X="12.5" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAEAAAgAAAAAAAAACAAAAAAAAAAAA=</HashCode>
+      <FileName>Components\CpuZ80\States\Instructions\MachineCycleState.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Jacobi.Zim80.Components.CpuZ80.States.Instructions.WriteT3Instruction" Collapsed="true">
+    <Position X="13.25" Y="3" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>AAAAABAAAAAAAAAAAAAAAAAAAAAAABAAAAAAAEUAAAA=</HashCode>
+      <FileName>Components\CpuZ80\States\Instructions\WriteT3Instruction.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Jacobi.Zim80.Components.CpuZ80.States.Instructions.IndirectRegisterInstruction" Collapsed="true">
+    <Position X="2" Y="2.5" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACAAAAAAAAAAA=</HashCode>
+      <FileName>Components\CpuZ80\States\Instructions\IndirectRegisterInstruction.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Jacobi.Zim80.Components.CpuZ80.States.Instructions.WriteIndirectRegisterInstruction" Collapsed="true">
+    <Position X="0.5" Y="5.5" Width="2.5" />
+    <AssociationLine Name="_instructionPart" Type="Jacobi.Zim80.Components.CpuZ80.States.Instructions.WriteT3Instruction" FixedFromPoint="true" FixedToPoint="true">
+      <Path>
+        <Point X="1.688" Y="6.191" />
+        <Point X="1.688" Y="6.816" />
+        <Point X="14.125" Y="6.816" />
+        <Point X="14.125" Y="3.691" />
+      </Path>
+    </AssociationLine>
+    <TypeIdentifier>
+      <HashCode>AAIAABAAAAAAAAAAAAQAAAAAAAAAAAAAAAAAAAAAAAQ=</HashCode>
+      <FileName>Components\CpuZ80\States\Instructions\WriteIndirectRegisterInstruction.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Field Name="_instructionPart" />
+    </ShowAsAssociation>
   </Class>
   <Font Name="Segoe UI" Size="9" />
 </ClassDiagram>

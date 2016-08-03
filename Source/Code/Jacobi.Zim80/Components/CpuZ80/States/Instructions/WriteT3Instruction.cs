@@ -3,33 +3,25 @@ using System;
 
 namespace Jacobi.Zim80.Components.CpuZ80.States.Instructions
 {
-    internal class ReadT3Instruction : MachineCycleState
+    internal class WriteT3Instruction : MachineCycleState
     {
-        private readonly UInt16? _address;
+        private readonly UInt16 _address;
 
-        public ReadT3Instruction(ExecutionEngine executionEngine, 
-            MachineCycleNames activeMachineCycle) 
-            : base(executionEngine, activeMachineCycle)
-        { }
-
-        public ReadT3Instruction(ExecutionEngine executionEngine, 
+        public WriteT3Instruction(ExecutionEngine executionEngine,
             MachineCycleNames activeMachineCycle, UInt16 address)
             : base(executionEngine, activeMachineCycle)
         {
             _address = address;
         }
 
-        public OpcodeByte Data { get; private set; }
+        public OpcodeByte Data { get; set; }
 
         protected override void OnClockPos()
         {
             switch (ExecutionEngine.Cycles.CycleName)
             {
                 case CycleNames.T1:
-                    if (_address.HasValue)
-                        ExecutionEngine.SetAddressBus(_address.Value);
-                    else
-                        ExecutionEngine.SetPcOnAddressBus();
+                    ExecutionEngine.SetAddressBus(_address);
                     break;
             }
         }
@@ -40,23 +32,24 @@ namespace Jacobi.Zim80.Components.CpuZ80.States.Instructions
             {
                 case CycleNames.T1:
                     ExecutionEngine.Die.MemoryRequest.Write(DigitalLevel.Low);
-                    ExecutionEngine.Die.Read.Write(DigitalLevel.Low);
+                    break;
+                case CycleNames.T2:
+                    ExecutionEngine.Die.Write.Write(DigitalLevel.Low);
+                    Write();
                     break;
                 case CycleNames.T3:
-                    Read();
-                    ExecutionEngine.Die.Read.Write(DigitalLevel.High);
+                    ExecutionEngine.Die.Write.Write(DigitalLevel.High);
                     ExecutionEngine.Die.MemoryRequest.Write(DigitalLevel.High);
                     IsComplete = true;
+                    ExecutionEngine.Die.DataBus.IsEnabled = false;
                     break;
             }
         }
 
-        private void Read()
+        private void Write()
         {
-            Data = new OpcodeByte(ExecutionEngine.Die.DataBus.ToSlave().Value.ToByte());
-
-            if (!_address.HasValue)
-                ExecutionEngine.AddOpcodeByte(Data);
+            ExecutionEngine.Die.DataBus.IsEnabled = true;
+            ExecutionEngine.Die.DataBus.Write(new BusData8(Data.Value));
         }
     }
 }

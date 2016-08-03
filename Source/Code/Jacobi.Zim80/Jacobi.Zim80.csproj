@@ -74,9 +74,11 @@
     <Compile Include="Components\CpuZ80\States\Instructions\Dec16Instruction.cs" />
     <Compile Include="Components\CpuZ80\States\Instructions\Inc16Instruction.cs" />
     <Compile Include="Components\CpuZ80\States\Instructions\Inc8Instruction.cs" />
+    <Compile Include="Components\CpuZ80\States\Instructions\IndirectRegisterInstruction.cs" />
     <Compile Include="Components\CpuZ80\States\Instructions\Instruction.cs" />
     <Compile Include="Components\CpuZ80\States\Instructions\LoadImmediate16Instruction.cs" />
     <Compile Include="Components\CpuZ80\States\Instructions\LoadImmediate8Instruction.cs" />
+    <Compile Include="Components\CpuZ80\States\Instructions\MachineCycleState.cs" />
     <Compile Include="Components\CpuZ80\States\Instructions\ReadIndirectRegisterInstruction.cs" />
     <Compile Include="Components\CpuZ80\States\Instructions\MultiByteInstruction.cs" />
     <Compile Include="Components\CpuZ80\States\Instructions\NopInstruction.cs" />
@@ -84,6 +86,7 @@
     <Compile Include="Components\CpuZ80\States\Instructions\ReadT3Instruction.cs" />
     <Compile Include="Components\CpuZ80\States\Instructions\SingleByteInstruction.cs" />
     <Compile Include="Components\CpuZ80\States\Instructions\WriteIndirectRegisterInstruction.cs" />
+    <Compile Include="Components\CpuZ80\States\Instructions\WriteT3Instruction.cs" />
     <Compile Include="Components\Generators\Randomizer.cs" />
     <Compile Include="Components\Generators\SignalGenerator.cs" />
     <Compile Include="Components\CpuZ80\CpuZ80.cs" />
