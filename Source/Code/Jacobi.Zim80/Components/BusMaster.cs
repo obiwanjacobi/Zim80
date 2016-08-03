@@ -30,6 +30,8 @@ namespace Jacobi.Zim80.Components
 
         public void Write(T value)
         {
+            if (value == null) throw new ArgumentNullException("value");
+
             ThrowIfNotEnabled();
             WriteInternal(value);
         }

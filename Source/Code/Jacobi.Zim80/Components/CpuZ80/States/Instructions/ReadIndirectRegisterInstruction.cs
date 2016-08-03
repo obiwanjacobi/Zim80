@@ -4,6 +4,8 @@ namespace Jacobi.Zim80.Components.CpuZ80.States.Instructions
 {
     internal class ReadIndirectRegisterInstruction : MultiByteInstruction
     {
+        private ReadT3Instruction _instructionPart;
+
         public ReadIndirectRegisterInstruction(ExecutionEngine executionEngine) 
             : base(executionEngine)
         { }
@@ -13,7 +15,8 @@ namespace Jacobi.Zim80.Components.CpuZ80.States.Instructions
             switch (machineCycle)
             {
                 case MachineCycleNames.M2:
-                    return new ReadT3Instruction(ExecutionEngine, machineCycle, GetAddress());
+                    _instructionPart = new ReadT3Instruction(ExecutionEngine, machineCycle, GetAddress());
+                    return _instructionPart;
                 default:
                     throw new InvalidOperationException("Invalid machine cycle: " + machineCycle);
             }
@@ -27,7 +30,7 @@ namespace Jacobi.Zim80.Components.CpuZ80.States.Instructions
 
             // TODO: check z -for other instructions
 
-            ExecutionEngine.Die.Registers.PrimarySet.A = ExecutionEngine.MultiByteOpcode.GetParameter(0).Value;
+            ExecutionEngine.Die.Registers.PrimarySet.A = _instructionPart.Data.Value;
         }
 
         private UInt16 GetAddress()

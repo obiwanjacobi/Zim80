@@ -6,8 +6,16 @@ namespace Jacobi.Zim80.Components.CpuZ80
     internal class CycleCounter
     {
         public CycleNames CycleName { get; private set; }
+
         public MachineCycleNames MachineCycle { get; private set; }
+
         public bool IsMachineCycle1 { get { return MachineCycle == MachineCycleNames.M1; } }
+
+        public bool IsFirstCycle
+        {
+            get { return CycleName == CycleNames.T1; }
+        }
+
         public bool IsLastCycle
         {
             get
@@ -17,6 +25,11 @@ namespace Jacobi.Zim80.Components.CpuZ80
 
                 return false;
             }
+        }
+
+        public bool IsLastMachineCycle
+        {
+            get { return (int)MachineCycle == OpcodeDefinition.Cycles.Length -1; }
         }
 
         public void OnClock(DigitalLevel level)

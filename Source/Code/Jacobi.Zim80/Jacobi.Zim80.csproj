@@ -94,8 +94,11 @@
     <Compile Include="Components\CpuZ80\Opcodes\Opcode.cs" />
     <Compile Include="Components\CpuZ80\Opcodes\SingleByteOpcode.cs" />
     <Compile Include="Components\Logic\GlueLogic.cs" />
+    <Compile Include="Components\Memory\IDirectMemoryAccess.cs" />
     <Compile Include="Components\Memory\MemoryRom.cs" />
     <Compile Include="Components\Memory\MemoryRam.cs" />
+    <Compile Include="Components\Memory\MemoryWriter.cs" />
+    <Compile Include="Components\UninitialzedDataException.cs" />
     <Compile Include="Model\SimulationModel.cs" />
     <Compile Include="DigitalLevel.cs" />
     <Compile Include="DigitalLevelChangedEventArgs.cs" />

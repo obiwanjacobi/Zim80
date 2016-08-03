@@ -35,6 +35,30 @@ namespace Jacobi.Zim80.Components
             return _signals[index];
         }
 
+        internal void Write(byte data, int maxWidth = 8)
+       {
+            ThrowIfMaxWidthOutOfRange(maxWidth, 8);
+            Write((UInt32)data, maxWidth);
+        }
+
+        internal void Write(UInt16 data, int maxWidth = 16)
+        {
+            ThrowIfMaxWidthOutOfRange(maxWidth, 16);
+            Write((UInt32)data, maxWidth);
+        }
+
+        internal void Write(UInt32 data, int maxWidth = 32)
+        {
+            ThrowIfMaxWidthOutOfRange(maxWidth, 32);
+            var width = Math.Min(Width, maxWidth);
+
+            for (int i = 0; i < width; i++)
+            {
+                Write(i, (data & 0x01) == 0 ? DigitalLevel.Low : DigitalLevel.High);
+                data >>= 1;
+            }
+        }
+
         public bool Equals(BusData that)
         {
             if (this.Width != that.Width) return false;
@@ -61,6 +85,53 @@ namespace Jacobi.Zim80.Components
         public override int GetHashCode()
         {
             return base.GetHashCode();
+        }
+
+        public byte ToByte(int maxWidth = 8)
+        {
+            ThrowIfMaxWidthOutOfRange(maxWidth, 8);
+
+            byte data = 0;
+            ReadBits(maxWidth, (b) => data |= (byte)b);
+            return data;
+        }
+
+        public UInt16 ToUInt16(int maxWidth = 16)
+        {
+            ThrowIfMaxWidthOutOfRange(maxWidth, 16);
+
+            UInt16 data = 0;
+            ReadBits(maxWidth, (b) => data |= (UInt16)b);
+            return data;
+        }
+
+        public UInt32 ToUInt32(int maxWidth = 32)
+        {
+            ThrowIfMaxWidthOutOfRange(maxWidth, 32);
+
+            UInt32 data = 0;
+            ReadBits(maxWidth, (b) => data |= (UInt32)b);
+            return data;
+        }
+
+        private void ReadBits(int maxWidth, Action<int> write)
+        {
+            for (int i = 0; i < Width && i < maxWidth; i++)
+            {
+                var level = Read(i);
+                if (level == DigitalLevel.High ||
+                    level == DigitalLevel.PosEdge)
+                {
+                    write((1 << i));
+                }
+            }
+        }
+
+        private void ThrowIfMaxWidthOutOfRange(int maxWidth, int expected)
+        {
+            if (maxWidth < 0 || maxWidth > expected)
+                throw new ArgumentOutOfRangeException("maxWidth", 
+                    String.Format("Value expected between 0 and {0}.", expected));
         }
     }
 }

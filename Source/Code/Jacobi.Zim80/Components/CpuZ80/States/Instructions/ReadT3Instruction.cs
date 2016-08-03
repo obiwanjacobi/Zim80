@@ -23,6 +23,8 @@ namespace Jacobi.Zim80.Components.CpuZ80.States.Instructions
             _address = address;
         }
 
+        public OpcodeByte Data { get; private set; }
+
         public override void OnClock(DigitalLevel level)
         {
             if (ExecutionEngine.Cycles.MachineCycle != _activeMachineCycle) return;
@@ -54,16 +56,17 @@ namespace Jacobi.Zim80.Components.CpuZ80.States.Instructions
                     Read();
                     ExecutionEngine.Die.Read.Write(DigitalLevel.High);
                     ExecutionEngine.Die.MemoryRequest.Write(DigitalLevel.High);
+                    IsComplete = true;
                     break;
             }
         }
 
         private void Read()
         {
-            var ob = new OpcodeByte(ExecutionEngine.Die.DataBus.ToSlave().Value.ToByte());
+            Data = new OpcodeByte(ExecutionEngine.Die.DataBus.ToSlave().Value.ToByte());
 
-            if (ExecutionEngine.AddOpcodeByte(ob))
-                IsComplete = true;
+            if (!_address.HasValue)
+                ExecutionEngine.AddOpcodeByte(Data);
         }
     }
 }

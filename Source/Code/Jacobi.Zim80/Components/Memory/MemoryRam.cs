@@ -1,8 +1,8 @@
 ﻿namespace Jacobi.Zim80.Components.Memory
 {
     public class MemoryRam<AddressT, DataT> : MemoryRom<AddressT, DataT>
-        where AddressT : BusData16, new()
-        where DataT : BusData8, new()
+        where AddressT : BusData, new()
+        where DataT : BusData, new()
     {
         private readonly BusSlave<DataT> _dataSlave;
 
@@ -26,7 +26,7 @@
                 WriteEnable.Level == DigitalLevel.Low)
             {
                 Data.IsEnabled = false;
-                Write(data.ToByte());
+                Write(data);
             }
         }
     }

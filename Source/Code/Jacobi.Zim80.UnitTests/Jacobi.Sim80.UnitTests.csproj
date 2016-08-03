@@ -66,6 +66,7 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
+    <Compile Include="Components\BusDataTest.cs" />
     <Compile Include="Components\BusDataTestExtensions.cs" />
     <Compile Include="Components\BusMasterSlaveTest.cs" />
     <Compile Include="Components\BusMasterTest.cs" />

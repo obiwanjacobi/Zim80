@@ -30,31 +30,5 @@ namespace Jacobi.Zim80.Components
         {
             Write(data);
         }
-
-        public byte ToByte()
-        {
-            byte data = 0;
-
-            for (int i = 0; i < BusWidth; i++)
-            {
-                var level = Read(i);
-                if (level == DigitalLevel.High ||
-                    level == DigitalLevel.PosEdge)
-                {
-                    data |= (byte)(1 << i);
-                }
-            }
-
-            return data;
-        }
-
-        internal void Write(byte data)
-        {
-            for (int i = 0; i < BusWidth; i++)
-            {
-                Write(i, (data & 0x01) == 0 ? DigitalLevel.Low : DigitalLevel.High);
-                data >>= 1;
-            }
-        }
     }
 }

@@ -1,14 +1,12 @@
 ﻿using System;
-using System.IO;
 
 namespace Jacobi.Zim80.Components.Memory
 {
-    public class MemoryRom<AddressT, DataT> 
-        // TODO: remove hard coded BusData types!!
-        where AddressT : BusData16, new()
-        where DataT : BusData8, new()
+    public class MemoryRom<AddressT, DataT> : IDirectMemoryAccess<DataT>
+        where AddressT : BusData, new()
+        where DataT : BusData, new()
     {
-        private byte[] _memory;
+        private DataT[] _memory;
 
         public MemoryRom()
         {
@@ -20,14 +18,14 @@ namespace Jacobi.Zim80.Components.Memory
             ChipEnable.OnChanged += ChipEnable_OnChanged;
             OutputEnable.OnChanged += OutputEnable_OnChanged;
             Address.OnChanged += Address_OnChanged;
+
+            AllocateMemory();
         }
 
-        public void Initialize(BinaryReader reader)
+        private void AllocateMemory()
         {
-            if (reader.BaseStream.Length > (long)Math.Pow(2, Address.Value.Width))
-                throw new ArgumentOutOfRangeException("reader", "Stream too long.");
-
-            _memory = reader.ReadBytes((int)reader.BaseStream.Length);
+            long length = (long)Math.Pow(2, Address.Value.Width);
+            _memory = new DataT[length];
         }
 
         public DigitalSignalConsumer ChipEnable { get; private set; }
@@ -35,16 +33,37 @@ namespace Jacobi.Zim80.Components.Memory
         public BusSlave<AddressT> Address { get; private set; }
         public BusMasterSlave<DataT> Data { get; private set; }
 
-        protected byte Read()
+        DataT IDirectMemoryAccess<DataT>.this[int address]
         {
-            var address = Address.Value.ToUInt16();
-            return _memory[address];
+            get { return Read(address); }
+            set { Write(address, value); }
         }
 
-        protected void Write(byte data)
+        protected DataT Read(int address)
+        {
+            var data = _memory[address];
+
+            if (data == null)
+                throw new UninitialzedDataException(address);
+
+            return data;
+        }
+
+        protected DataT Read()
         {
             var address = Address.Value.ToUInt16();
-            _memory[address] = data;
+            return Read(address);
+        }
+
+        protected void Write(int address, DataT value)
+        {
+            _memory[address] = value;
+        }
+
+        protected void Write(DataT data)
+        {
+            var address = Address.Value.ToUInt16();
+            Write(address, data);
         }
 
         private void OutputData()
@@ -53,9 +72,7 @@ namespace Jacobi.Zim80.Components.Memory
                 OutputEnable.Level == DigitalLevel.Low)
             {
                 Data.IsEnabled = true;
-                var data = new DataT();
-                data.Write(Read());
-                Data.Write(data);
+                Data.Write(Read());
             }
             else
             {

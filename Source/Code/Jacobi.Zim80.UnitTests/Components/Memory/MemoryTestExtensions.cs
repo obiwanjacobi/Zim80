@@ -1,5 +1,4 @@
-﻿using System;
-using System.IO;
+﻿using System.IO;
 
 namespace Jacobi.Zim80.Components.Memory.UnitTests
 {
@@ -8,14 +7,16 @@ namespace Jacobi.Zim80.Components.Memory.UnitTests
         public static MemoryRom<BusData16, BusData8> NewRom(byte[] buffer)
         {
             var mem = new MemoryRom<BusData16, BusData8>();
-            mem.Initialize(CreateBinaryReader(buffer));
+            var writer = new MemoryWriter<BusData16, BusData8>(mem);
+            writer.CopyFrom(CreateBinaryReader(buffer));
             return mem;
         }
 
         public static MemoryRam<BusData16, BusData8> NewRam(byte[] buffer)
         {
             var mem = new MemoryRam<BusData16, BusData8>();
-            mem.Initialize(CreateBinaryReader(buffer));
+            var writer = new MemoryWriter<BusData16, BusData8>(mem);
+            writer.CopyFrom(CreateBinaryReader(buffer));
             return mem;
         }
 

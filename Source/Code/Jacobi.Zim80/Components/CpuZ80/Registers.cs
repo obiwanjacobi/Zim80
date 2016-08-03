@@ -15,10 +15,33 @@ namespace Jacobi.Zim80.Components.CpuZ80
 
         public UInt16 PC { get; set; }
         public UInt16 SP { get; set; }
-        public UInt16 IX { get; set; }
-        public UInt16 IY { get; set; }
-        public byte I { get; set; }
-        public byte R { get; set; }
+
+        private Register16 _ix;
+        public UInt16 IX
+        {
+            get { return _ix.Get(); }
+            set { _ix.Set(value); }
+        }
+        private Register16 _iy;
+        public UInt16 IY
+        {
+            get { return _iy.Get(); }
+            set { _iy.Set(value); }
+        }
+        private Register16 _ir;
+        public byte I
+        {
+            get { return _ir.GetHi(); }
+            set { _ir.SetHi(value); }
+        }
+        public byte R
+        {
+            get { return _ir.GetLo(); }
+            set { _ir.SetLo(value); }
+        }
+
+        // temp regs for pc manipulation
+        internal UInt16 WZ { get; set; }
 
         // interrupt mode flip-flops
         public bool IFF1 { get; set; }

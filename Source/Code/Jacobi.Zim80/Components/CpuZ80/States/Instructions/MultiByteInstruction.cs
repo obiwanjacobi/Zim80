@@ -24,7 +24,7 @@
 
             if (ExecutionEngine.Cycles.IsLastCycle)
             {
-                if (ExecutionEngine.IsOpcodeComplete)
+                if (ExecutionEngine.Cycles.IsLastMachineCycle)
                 {
                     OnExecute();
                     IsComplete = true;

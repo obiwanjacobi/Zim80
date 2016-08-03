@@ -131,6 +131,11 @@ namespace Jacobi.Zim80.Components.CpuZ80.Opcodes
             return Value == opcodeByte.Value;
         }
 
+        public override string ToString()
+        {
+            return Text;
+        }
+
         public static OpcodeDefinition Find(OpcodeByte opcode,
             OpcodeByte ext1 = null, OpcodeByte ext2 = null)
         {
