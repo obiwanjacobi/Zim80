@@ -2,17 +2,17 @@
 {
     internal class ExAFAFInstruction : SingleByteInstruction
     {
-        public ExAFAFInstruction(ExecutionEngine executionEngine) 
-            : base(executionEngine)
+        public ExAFAFInstruction(Die die)
+            : base(die)
         { }
 
         protected override void OnExecute()
         {
             // swap AF/AF'
-            var af = ExecutionEngine.Die.Registers.AlternateSet.AF;
-            ExecutionEngine.Die.Registers.AlternateSet.AF = 
-                ExecutionEngine.Die.Registers.PrimarySet.AF;
-            ExecutionEngine.Die.Registers.PrimarySet.AF = af;
+            var af = Registers.AlternateSet.AF;
+            Registers.AlternateSet.AF = 
+                Registers.PrimarySet.AF;
+            Registers.PrimarySet.AF = af;
         }
     }
 }

@@ -2,8 +2,8 @@
 {
     internal class AutoCompleteInstructionPart : MachineCycleState
     {
-        public AutoCompleteInstructionPart(ExecutionEngine executionEngine, MachineCycleNames activeMachineCycle) 
-            : base(executionEngine, activeMachineCycle)
+        public AutoCompleteInstructionPart(Die die, MachineCycleNames activeMachineCycle) 
+            : base(die, activeMachineCycle)
         { }
 
         protected override void OnClockNeg()

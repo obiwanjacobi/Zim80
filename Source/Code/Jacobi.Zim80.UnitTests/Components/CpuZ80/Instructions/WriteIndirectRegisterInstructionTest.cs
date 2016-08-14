@@ -43,7 +43,7 @@ namespace Jacobi.Zim80.Components.CpuZ80.Instructions.UnitTests
             var cpuZ80 = new CpuZ80();
             var model = cpuZ80.Initialize(new byte[] { ob.Value, 0 });
 
-            cpuZ80.FillRegisters(af: 0xAA2A, bc: bc, de: de);
+            cpuZ80.FillRegisters(a: 0xAA, bc: bc, de: de);
 
             model.ClockGen.BlockWave(7);
 

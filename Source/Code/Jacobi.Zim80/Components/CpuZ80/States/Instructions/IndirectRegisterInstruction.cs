@@ -4,8 +4,8 @@ namespace Jacobi.Zim80.Components.CpuZ80.States.Instructions
 {
     internal abstract class IndirectRegisterInstruction : MultiByteInstruction
     {
-        public IndirectRegisterInstruction(ExecutionEngine executionEngine) 
-            : base(executionEngine)
+        public IndirectRegisterInstruction(Die die)
+            : base(die)
         { }
 
         protected UInt16 GetAddress()
@@ -19,9 +19,9 @@ namespace Jacobi.Zim80.Components.CpuZ80.States.Instructions
             switch (p)
             {
                 case 0:
-                    return ExecutionEngine.Die.Registers.PrimarySet.BC;
+                    return Registers.PrimarySet.BC;
                 case 1:
-                    return ExecutionEngine.Die.Registers.PrimarySet.DE;
+                    return Registers.PrimarySet.DE;
             }
 
             throw new InvalidOperationException();

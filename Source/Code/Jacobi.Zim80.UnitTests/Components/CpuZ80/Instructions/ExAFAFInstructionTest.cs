@@ -17,11 +17,11 @@ namespace Jacobi.Zim80.Components.CpuZ80.Instructions.UnitTests
             var cpuZ80 = new CpuZ80();
             var model = cpuZ80.Initialize(new byte[] { od.Value });
 
-            cpuZ80.FillRegisters(af: 0x55, a_af: 0xAA);
+            cpuZ80.FillRegisters(a: 0x55, a_a: 0xAA);
 
             model.ClockGen.BlockWave(4);
 
-            cpuZ80.AssertRegisters(af: 0xAA, a_af: 0x55);
+            cpuZ80.AssertRegisters(a: 0xAA, a_a: 0x55);
         }
     }
 }

@@ -2,8 +2,8 @@
 {
     internal abstract class SingleByteInstruction : Instruction
     {
-        protected SingleByteInstruction(ExecutionEngine executionEngine)
-            : base(executionEngine)
+        protected SingleByteInstruction(Die die)
+            : base(die)
         { }
 
         protected override void OnClockPos()

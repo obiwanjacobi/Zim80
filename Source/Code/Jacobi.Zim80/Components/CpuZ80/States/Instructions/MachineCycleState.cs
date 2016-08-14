@@ -2,9 +2,9 @@
 {
     internal abstract class MachineCycleState : CpuState
     {
-        public MachineCycleState(ExecutionEngine executionEngine,
+        public MachineCycleState(Die die,
             MachineCycleNames activeMachineCycle) 
-            : base(executionEngine)
+            : base(die)
         {
             ActiveMachineCycle = activeMachineCycle;
         }

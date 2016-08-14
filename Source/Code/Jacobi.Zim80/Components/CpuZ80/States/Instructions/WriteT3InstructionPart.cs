@@ -7,9 +7,9 @@ namespace Jacobi.Zim80.Components.CpuZ80.States.Instructions
     {
         private readonly UInt16 _address;
 
-        public WriteT3InstructionPart(ExecutionEngine executionEngine,
+        public WriteT3InstructionPart(Die die,
             MachineCycleNames activeMachineCycle, UInt16 address)
-            : base(executionEngine, activeMachineCycle)
+            : base(die, activeMachineCycle)
         {
             _address = address;
         }
@@ -35,24 +35,24 @@ namespace Jacobi.Zim80.Components.CpuZ80.States.Instructions
             switch (ExecutionEngine.Cycles.CycleName)
             {
                 case CycleNames.T1:
-                    ExecutionEngine.Die.MemoryRequest.Write(DigitalLevel.Low);
+                    Die.MemoryRequest.Write(DigitalLevel.Low);
                     break;
                 case CycleNames.T2:
-                    ExecutionEngine.Die.Write.Write(DigitalLevel.Low);
+                    Die.Write.Write(DigitalLevel.Low);
                     Write();
                     break;
                 case CycleNames.T3:
-                    ExecutionEngine.Die.Write.Write(DigitalLevel.High);
-                    ExecutionEngine.Die.MemoryRequest.Write(DigitalLevel.High);
-                    ExecutionEngine.Die.DataBus.IsEnabled = false;
+                    Die.Write.Write(DigitalLevel.High);
+                    Die.MemoryRequest.Write(DigitalLevel.High);
+                    Die.DataBus.IsEnabled = false;
                     break;
             }
         }
 
         private void Write()
         {
-            ExecutionEngine.Die.DataBus.IsEnabled = true;
-            ExecutionEngine.Die.DataBus.Write(new BusData8(Data.Value));
+            Die.DataBus.IsEnabled = true;
+            Die.DataBus.Write(new BusData8(Data.Value));
         }
     }
 }

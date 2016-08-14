@@ -7,14 +7,14 @@ namespace Jacobi.Zim80.Components.CpuZ80.States.Instructions
     {
         private readonly UInt16? _address;
 
-        public ReadT3InstructionPart(ExecutionEngine executionEngine, 
+        public ReadT3InstructionPart(Die die, 
             MachineCycleNames activeMachineCycle) 
-            : base(executionEngine, activeMachineCycle)
+            : base(die, activeMachineCycle)
         { }
 
-        public ReadT3InstructionPart(ExecutionEngine executionEngine, 
+        public ReadT3InstructionPart(Die die, 
             MachineCycleNames activeMachineCycle, UInt16 address)
-            : base(executionEngine, activeMachineCycle)
+            : base(die, activeMachineCycle)
         {
             _address = address;
         }
@@ -43,20 +43,20 @@ namespace Jacobi.Zim80.Components.CpuZ80.States.Instructions
             switch (ExecutionEngine.Cycles.CycleName)
             {
                 case CycleNames.T1:
-                    ExecutionEngine.Die.MemoryRequest.Write(DigitalLevel.Low);
-                    ExecutionEngine.Die.Read.Write(DigitalLevel.Low);
+                    Die.MemoryRequest.Write(DigitalLevel.Low);
+                    Die.Read.Write(DigitalLevel.Low);
                     break;
                 case CycleNames.T3:
                     Read();
-                    ExecutionEngine.Die.Read.Write(DigitalLevel.High);
-                    ExecutionEngine.Die.MemoryRequest.Write(DigitalLevel.High);
+                    Die.Read.Write(DigitalLevel.High);
+                    Die.MemoryRequest.Write(DigitalLevel.High);
                     break;
             }
         }
 
         private void Read()
         {
-            Data = new OpcodeByte(ExecutionEngine.Die.DataBus.ToSlave().Value.ToByte());
+            Data = new OpcodeByte(Die.DataBus.ToSlave().Value.ToByte());
 
             if (!_address.HasValue)
                 ExecutionEngine.AddOpcodeByte(Data);

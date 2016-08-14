@@ -6,8 +6,8 @@ namespace Jacobi.Zim80.Components.CpuZ80.States.Instructions
     {
         private ReadT3InstructionPart _instructionPart;
 
-        public ReadIndirectRegisterInstruction(ExecutionEngine executionEngine) 
-            : base(executionEngine)
+        public ReadIndirectRegisterInstruction(Die die)
+            : base(die)
         { }
 
         protected override CpuState GetInstructionPart(MachineCycleNames machineCycle)
@@ -15,7 +15,7 @@ namespace Jacobi.Zim80.Components.CpuZ80.States.Instructions
             switch (machineCycle)
             {
                 case MachineCycleNames.M2:
-                    _instructionPart = new ReadT3InstructionPart(ExecutionEngine, machineCycle, GetAddress());
+                    _instructionPart = new ReadT3InstructionPart(Die, machineCycle, GetAddress());
                     return _instructionPart;
                 default:
                     ThrowInvalidMachineCycle(machineCycle);
@@ -33,7 +33,7 @@ namespace Jacobi.Zim80.Components.CpuZ80.States.Instructions
 
             // TODO: check z -for other instructions
 
-            ExecutionEngine.Die.Registers.PrimarySet.A = _instructionPart.Data.Value;
+            Registers.PrimarySet.A = _instructionPart.Data.Value;
         }
     }
 }

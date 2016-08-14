@@ -78,7 +78,7 @@ namespace Jacobi.Zim80.Components.CpuZ80.Instructions.UnitTests
 
             var cpuZ80 = ExecuteTest(ob);
 
-            cpuZ80.AssertRegisters(af: ExpectedValueHi);
+            cpuZ80.AssertRegisters(a: (byte)ExpectedValueLo);
         }
 
         private static CpuZ80 ExecuteTest(OpcodeByte ob)

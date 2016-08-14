@@ -2,8 +2,8 @@
 {
     internal abstract class CpuRefresh : CpuState
     {
-        public CpuRefresh(ExecutionEngine executionEngine)
-            : base(executionEngine)
+        public CpuRefresh(Die die)
+            : base(die)
         { }
 
         protected override void OnClockPos()
@@ -13,12 +13,12 @@
             switch (ExecutionEngine.Cycles.CycleName)
             {
                 case CycleNames.T1:
-                    ExecutionEngine.Die.Refresh.Write(DigitalLevel.High);
+                    Die.Refresh.Write(DigitalLevel.High);
                     break;
 
                 case CycleNames.T3:
                     ExecutionEngine.SetRefreshOnAddressBus();
-                    ExecutionEngine.Die.Refresh.Write(DigitalLevel.Low);
+                    Die.Refresh.Write(DigitalLevel.Low);
                     break;
             }
         }
@@ -30,10 +30,10 @@
             switch (ExecutionEngine.Cycles.CycleName)
             {
                 case CycleNames.T3:
-                    ExecutionEngine.Die.MemoryRequest.Write(DigitalLevel.Low);
+                    Die.MemoryRequest.Write(DigitalLevel.Low);
                     break;
                 case CycleNames.T4:
-                    ExecutionEngine.Die.MemoryRequest.Write(DigitalLevel.High);
+                    Die.MemoryRequest.Write(DigitalLevel.High);
                     break;
             }
         }

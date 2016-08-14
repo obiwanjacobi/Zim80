@@ -6,8 +6,8 @@ namespace Jacobi.Zim80.Components.CpuZ80.States.Instructions
     {
         private CpuState _currentPart;
 
-        public MultiByteInstruction(ExecutionEngine executionEngine) 
-            : base(executionEngine)
+        public MultiByteInstruction(Die die)
+            : base(die)
         {
             SetNextInstructionPart();
         }

@@ -7,14 +7,15 @@ namespace Jacobi.Zim80.Components.CpuZ80.States
     {
         private readonly Instruction _instruction;
 
-        public CpuExecute(ExecutionEngine executionEngine)
-            : base(executionEngine)
+        public CpuExecute(Die die)
+            : base(die)
         {
-            if (executionEngine.Cycles.OpcodeDefinition.Instruction == null)
-                throw new InvalidOperationException("The active OpcodeDefinition has no associated Instruction: " + executionEngine.Cycles.OpcodeDefinition.ToString());
+            if (ExecutionEngine.Cycles.OpcodeDefinition.Instruction == null)
+                throw new InvalidOperationException("The active OpcodeDefinition has no associated Instruction: " 
+                    + ExecutionEngine.Cycles.OpcodeDefinition.ToString());
 
             _instruction = (Instruction)Activator.CreateInstance(
-                executionEngine.Cycles.OpcodeDefinition.Instruction, executionEngine);
+                ExecutionEngine.Cycles.OpcodeDefinition.Instruction, Die);
         }
 
         public override void OnClock(DigitalLevel level)

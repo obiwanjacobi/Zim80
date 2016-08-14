@@ -4,8 +4,8 @@ namespace Jacobi.Zim80.Components.CpuZ80.States.Instructions
 {
     internal abstract class ReadParametersInstruction : MultiByteInstruction
     {
-        public ReadParametersInstruction(ExecutionEngine executionEngine) 
-            : base(executionEngine)
+        public ReadParametersInstruction(Die die)
+            : base(die)
         { }
 
         protected ReadT3InstructionPart InstructionM2 { get; private set; }
@@ -19,13 +19,13 @@ namespace Jacobi.Zim80.Components.CpuZ80.States.Instructions
             switch (machineCycle)
             {
                 case MachineCycleNames.M2:
-                    InstructionM2 = new ReadT3InstructionPart(ExecutionEngine, machineCycle);
+                    InstructionM2 = new ReadT3InstructionPart(Die, machineCycle);
                     return InstructionM2;
                 case MachineCycleNames.M3:
                     if (!ExecutionEngine.Opcode.Definition.nn)
                         ThrowInvalidMachineCycle(machineCycle);
 
-                    InstructionM3 = new ReadT3InstructionPart(ExecutionEngine, machineCycle);
+                    InstructionM3 = new ReadT3InstructionPart(Die, machineCycle);
                     return InstructionM3;
                 default:
                     ThrowInvalidMachineCycle(machineCycle);

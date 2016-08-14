@@ -2,14 +2,16 @@
 {
     internal abstract class CpuState
     {
-        private ExecutionEngine _execEngine;
+        private Die _die;
 
-        public CpuState(ExecutionEngine executionEngine)
+        public CpuState(Die die)
         {
-            _execEngine = executionEngine;
+            _die = die;
         }
 
-        protected ExecutionEngine ExecutionEngine { get { return _execEngine; } }
+        protected Die Die { get { return _die; } }
+
+        protected ExecutionEngine ExecutionEngine { get { return _die.Engine; } }
 
         public bool IsComplete { get; protected set; }
 

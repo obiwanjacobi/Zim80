@@ -15,7 +15,7 @@ namespace Jacobi.Zim80.Components.CpuZ80
         public ExecutionEngine(Die die)
         {
             _die = die;
-            _state = new CpuFetch(this);
+            _state = new CpuFetch(_die);
             _currentState = CpuStates.Fetch;
 
             // the engine that drives it all
@@ -95,11 +95,11 @@ namespace Jacobi.Zim80.Components.CpuZ80
             switch (_currentState)
             {
                 case CpuStates.Fetch:
-                    _state = new CpuExecute(this);
+                    _state = new CpuExecute(_die);
                     _currentState = CpuStates.Execute;
                     break;
                 case CpuStates.Execute:
-                    _state = new CpuFetch(this);
+                    _state = new CpuFetch(_die);
                     _currentState = CpuStates.Fetch;
                     _opcodeBuilder.Clear();
                     _cycles.Reset();

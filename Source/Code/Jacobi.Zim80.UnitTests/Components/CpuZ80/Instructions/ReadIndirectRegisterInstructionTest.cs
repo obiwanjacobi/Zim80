@@ -9,7 +9,7 @@ namespace Jacobi.Zim80.Components.CpuZ80.Instructions.UnitTests
     public class ReadIndirectRegisterInstructionTest
     {
         private const UInt16 Address = 0x0001;
-        private const UInt16 ExpectedValue = 0xAA2A;
+        private const byte ExpectedValue = 0xAA;
 
         [TestMethod]
         public void LdA_BC()
@@ -18,7 +18,7 @@ namespace Jacobi.Zim80.Components.CpuZ80.Instructions.UnitTests
 
             var cpu = ExecuteTest(ob, bc: Address);
 
-            cpu.AssertRegisters(af: ExpectedValue, bc: Address);
+            cpu.AssertRegisters(a: ExpectedValue, bc: Address);
         }
 
         [TestMethod]
@@ -28,7 +28,7 @@ namespace Jacobi.Zim80.Components.CpuZ80.Instructions.UnitTests
 
             var cpu = ExecuteTest(ob, de: Address);
 
-            cpu.AssertRegisters(af: ExpectedValue, de: Address);
+            cpu.AssertRegisters(a: ExpectedValue, de: Address);
         }
 
         private static CpuZ80 ExecuteTest(OpcodeByte ob, 

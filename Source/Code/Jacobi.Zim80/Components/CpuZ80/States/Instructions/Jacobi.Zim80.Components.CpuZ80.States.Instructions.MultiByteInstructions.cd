@@ -6,7 +6,7 @@
       <Compartment Name="Methods" Collapsed="true" />
     </Compartments>
     <TypeIdentifier>
-      <HashCode>AAABABAAAAAAAAAAAAQAgAAAAQAAAACAAAAAAAAAAAA=</HashCode>
+      <HashCode>AAABABAAAAAAAgAAAAQAgAAAAQAAAACAAAAAAAAAAAA=</HashCode>
       <FileName>Components\CpuZ80\States\Instructions\MultiByteInstruction.cs</FileName>
     </TypeIdentifier>
     <ShowAsAssociation>
@@ -21,12 +21,12 @@
     </TypeIdentifier>
   </Class>
   <Class Name="Jacobi.Zim80.Components.CpuZ80.States.Instructions.ReadParametersInstruction" Collapsed="true">
-    <Position X="7.75" Y="3" Width="2" />
+    <Position X="7.75" Y="4.25" Width="2" />
     <Compartments>
       <Compartment Name="Methods" Collapsed="true" />
     </Compartments>
     <TypeIdentifier>
-      <HashCode>AAwAAAAAAAAAAgAAAAQAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <HashCode>AAwAAAAAAAAAAAAAAAQAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Components\CpuZ80\States\Instructions\ReadParametersInstruction.cs</FileName>
     </TypeIdentifier>
     <ShowAsAssociation>
@@ -46,11 +46,11 @@
     <AssociationLine Name="_instructionPart" Type="Jacobi.Zim80.Components.CpuZ80.States.Instructions.ReadT3InstructionPart" FixedFromPoint="true" FixedToPoint="true">
       <Path>
         <Point X="4.75" Y="4.191" />
-        <Point X="4.75" Y="4.566" />
-        <Point X="8.667" Y="4.566" Type="JumpStart" />
-        <Point X="8.833" Y="4.566" Type="JumpEnd" />
-        <Point X="12.25" Y="4.566" />
-        <Point X="12.25" Y="3.691" />
+        <Point X="4.75" Y="5.316" />
+        <Point X="8.667" Y="5.316" Type="JumpStart" />
+        <Point X="8.833" Y="5.316" Type="JumpEnd" />
+        <Point X="12.25" Y="5.316" />
+        <Point X="12.25" Y="4.941" />
       </Path>
     </AssociationLine>
     <TypeIdentifier>
@@ -69,7 +69,7 @@
     </TypeIdentifier>
   </Class>
   <Class Name="Jacobi.Zim80.Components.CpuZ80.States.Instructions.ReadT3InstructionPart" Collapsed="true">
-    <Position X="11.25" Y="3" Width="2" />
+    <Position X="11.25" Y="4.25" Width="2" />
     <TypeIdentifier>
       <HashCode>AAAAABAAAAAAAAAAAAAAAAAgAAAAABAAAAAAAEQAAAA=</HashCode>
       <FileName>Components\CpuZ80\States\Instructions\ReadT3InstructionPart.cs</FileName>
@@ -83,7 +83,7 @@
     </TypeIdentifier>
   </Class>
   <Class Name="Jacobi.Zim80.Components.CpuZ80.States.Instructions.WriteT3InstructionPart" Collapsed="true">
-    <Position X="14.25" Y="3" Width="2" />
+    <Position X="14.25" Y="4.25" Width="2" />
     <TypeIdentifier>
       <HashCode>AAAAABAAAAAAAAAAAAAAAAAAAAAAABAAAAAAAEUAAAA=</HashCode>
       <FileName>Components\CpuZ80\States\Instructions\WriteT3InstructionPart.cs</FileName>
@@ -101,11 +101,11 @@
     <AssociationLine Name="_instructionPart" Type="Jacobi.Zim80.Components.CpuZ80.States.Instructions.WriteT3InstructionPart" ManuallyRouted="true" FixedFromPoint="true" FixedToPoint="true">
       <Path>
         <Point X="1.688" Y="4.191" />
-        <Point X="1.688" Y="4.78" />
-        <Point X="8.667" Y="4.78" Type="JumpStart" />
-        <Point X="8.833" Y="4.78" Type="JumpEnd" />
-        <Point X="15.25" Y="4.78" />
-        <Point X="15.25" Y="3.691" />
+        <Point X="1.688" Y="5.48" />
+        <Point X="8.667" Y="5.48" Type="JumpStart" />
+        <Point X="8.833" Y="5.48" Type="JumpEnd" />
+        <Point X="15.25" Y="5.48" />
+        <Point X="15.25" Y="4.941" />
       </Path>
     </AssociationLine>
     <TypeIdentifier>
@@ -119,8 +119,15 @@
   <Class Name="Jacobi.Zim80.Components.CpuZ80.States.Instructions.DjnzInstruction" Collapsed="true">
     <Position X="8.75" Y="6.5" Width="2.25" />
     <TypeIdentifier>
-      <HashCode>AAIAAAAAAAAAAAAAAAQAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <HashCode>AAIAABAAAAAAAAAAAAQAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Components\CpuZ80\States\Instructions\DjnzInstruction.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Jacobi.Zim80.Components.CpuZ80.States.Instructions.AutoCompleteInstructionPart" Collapsed="true">
+    <Position X="12.25" Y="2.75" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>AAAAABAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Components\CpuZ80\States\Instructions\AutoCompleteInstructionPart.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Font Name="Segoe UI" Size="9" />

@@ -5,8 +5,8 @@ namespace Jacobi.Zim80.Components.CpuZ80.States
 {
     internal class CpuFetch : CpuRefresh
     {
-        public CpuFetch(ExecutionEngine executionEngine)
-            : base(executionEngine)
+        public CpuFetch(Die die)
+            : base(die)
         { }
 
         protected override void OnClockPos()
@@ -15,13 +15,13 @@ namespace Jacobi.Zim80.Components.CpuZ80.States
             {
                 case CycleNames.T1:
                     ExecutionEngine.SetPcOnAddressBus();
-                    ExecutionEngine.Die.MachineCycle1.Write(DigitalLevel.Low);
+                    Die.MachineCycle1.Write(DigitalLevel.Low);
                     break;
                 case CycleNames.T3:
                     Read();
-                    ExecutionEngine.Die.Read.Write(DigitalLevel.High);
-                    ExecutionEngine.Die.MemoryRequest.Write(DigitalLevel.High);
-                    ExecutionEngine.Die.MachineCycle1.Write(DigitalLevel.High);
+                    Die.Read.Write(DigitalLevel.High);
+                    Die.MemoryRequest.Write(DigitalLevel.High);
+                    Die.MachineCycle1.Write(DigitalLevel.High);
                     break;
             }
 
@@ -35,15 +35,15 @@ namespace Jacobi.Zim80.Components.CpuZ80.States
             switch (ExecutionEngine.Cycles.CycleName)
             {
                 case CycleNames.T1:
-                    ExecutionEngine.Die.MemoryRequest.Write(DigitalLevel.Low);
-                    ExecutionEngine.Die.Read.Write(DigitalLevel.Low);
+                    Die.MemoryRequest.Write(DigitalLevel.Low);
+                    Die.Read.Write(DigitalLevel.Low);
                     break;
             }
         }
 
         private void Read()
         {
-            var ob = new OpcodeByte(ExecutionEngine.Die.DataBus.ToSlave().Value.ToByte());
+            var ob = new OpcodeByte(Die.DataBus.ToSlave().Value.ToByte());
 
             if (ExecutionEngine.AddOpcodeByte(ob))
                 IsComplete = true;

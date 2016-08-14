@@ -2,9 +2,11 @@
 {
     internal abstract class Instruction : CpuState
     {
-        protected Instruction(ExecutionEngine executionEngine) 
-            : base(executionEngine)
+        protected Instruction(Die die)
+            : base(die)
         { }
+
+        protected Registers Registers { get { return Die.Registers; } }
 
         protected abstract void OnExecute();
     }

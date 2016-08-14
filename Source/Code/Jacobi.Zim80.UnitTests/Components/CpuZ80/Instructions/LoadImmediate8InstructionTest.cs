@@ -11,7 +11,7 @@ namespace Jacobi.Zim80.Components.CpuZ80.Instructions.UnitTests
         private readonly OpcodeByte _param = new OpcodeByte(0x55);
 
         private const UInt16 ExpectedValueHi = 0x552A;
-        private const UInt16 ExpectedValueLo = 0x0055;
+        private const byte ExpectedValueLo = 0x55;
 
         [TestMethod]
         public void LdBn()
@@ -80,7 +80,7 @@ namespace Jacobi.Zim80.Components.CpuZ80.Instructions.UnitTests
 
             var cpuZ80 = ExecuteTest(ob, _param);
 
-            cpuZ80.AssertRegisters(pc: 2, af: ExpectedValueHi);
+            cpuZ80.AssertRegisters(pc: 2, a: ExpectedValueLo);
         }
 
         private static CpuZ80 ExecuteTest(OpcodeByte ob, OpcodeByte parameter)

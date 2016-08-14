@@ -2,8 +2,8 @@
 {
     internal class DjnzInstruction : ReadParametersInstruction
     {
-        public DjnzInstruction(ExecutionEngine executionEngine) 
-            : base(executionEngine)
+        public DjnzInstruction(Die die)
+            : base(die)
         { }
 
         protected override CpuState GetInstructionPart(MachineCycleNames machineCycle)
@@ -12,7 +12,7 @@
             {
                 case MachineCycleNames.M3:
                     // just chews thru the M3 cycles.
-                    return new AutoCompleteInstructionPart(ExecutionEngine, machineCycle);
+                    return new AutoCompleteInstructionPart(Die, machineCycle);
                 default:
                     return base.GetInstructionPart(machineCycle);
             }
@@ -25,10 +25,10 @@
             if (ExecutionEngine.Cycles.IsMachineCycle1 &&
                 ExecutionEngine.Cycles.IsLastCycle)
             {
-                ExecutionEngine.Die.Registers.PrimarySet.B =
-                    ExecutionEngine.Die.Alu.Dec8(ExecutionEngine.Die.Registers.PrimarySet.B);
+                Registers.PrimarySet.B =
+                    Die.Alu.Dec8(Registers.PrimarySet.B);
 
-                if (ExecutionEngine.Die.Registers.PrimarySet.Flags.Z)
+                if (Registers.PrimarySet.Flags.Z)
                 {
                     ExecutionEngine.Cycles.SetAltCycles();
                 }
@@ -38,11 +38,11 @@
         protected override void OnExecute()
         {
             // perform jump
-            if (!ExecutionEngine.Die.Registers.PrimarySet.Flags.Z)
+            if (!Registers.PrimarySet.Flags.Z)
             {
                 sbyte d = (sbyte)InstructionM2.Data.Value;
-                ExecutionEngine.Die.Registers.PC = 
-                    Alu.Add(ExecutionEngine.Die.Registers.PC, d);
+                Registers.PC = 
+                    Alu.Add(Registers.PC, d);
             }
         }
     }

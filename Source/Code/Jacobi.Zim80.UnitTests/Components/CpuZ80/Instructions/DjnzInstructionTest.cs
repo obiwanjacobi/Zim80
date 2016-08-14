@@ -1,14 +1,13 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Jacobi.Zim80.Components.CpuZ80.Opcodes;
 using Jacobi.Zim80.Components.CpuZ80.UnitTests;
+using FluentAssertions;
 
 namespace Jacobi.Zim80.Components.CpuZ80.Instructions.UnitTests
 {
     [TestClass]
     public class DjnzInstructionTest
     {
-        private const ushort AF_Z = (ushort)CpuZ80TestExtensions.MagicValue | 0x40;
-
         [TestMethod]
         public void Djnz_Once_NZ()
         {
@@ -17,6 +16,8 @@ namespace Jacobi.Zim80.Components.CpuZ80.Instructions.UnitTests
             cpu.AssertRegisters(
                 pc: 0,
                 bc: (ushort)((1 << 8) | CpuZ80TestExtensions.MagicValue));
+
+            cpu.Registers.PrimarySet.Flags.Z.Should().BeFalse();
         }
 
         [TestMethod]
@@ -26,8 +27,9 @@ namespace Jacobi.Zim80.Components.CpuZ80.Instructions.UnitTests
 
             cpu.AssertRegisters(
                 pc: 2,
-                af: AF_Z,
                 bc: CpuZ80TestExtensions.MagicValue);
+
+            cpu.Registers.PrimarySet.Flags.Z.Should().BeTrue();
         }
 
         [TestMethod]
@@ -37,8 +39,9 @@ namespace Jacobi.Zim80.Components.CpuZ80.Instructions.UnitTests
 
             cpu.AssertRegisters(
                 pc: 2,
-                af: AF_Z,
                 bc: CpuZ80TestExtensions.MagicValue);
+
+            cpu.Registers.PrimarySet.Flags.Z.Should().BeTrue();
         }
 
         private static CpuZ80 ExecuteTest(byte b, long cycles)
