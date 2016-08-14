@@ -5,7 +5,7 @@ namespace Jacobi.Zim80.Components.CpuZ80.States.Instructions
 {
     internal class WriteIndirectRegisterInstruction : IndirectRegisterInstruction
     {
-        private WriteT3Instruction _instructionPart;
+        private WriteT3InstructionPart _instructionPart;
 
         public WriteIndirectRegisterInstruction(ExecutionEngine executionEngine) 
             : base(executionEngine)
@@ -16,11 +16,14 @@ namespace Jacobi.Zim80.Components.CpuZ80.States.Instructions
             switch (machineCycle)
             {
                 case MachineCycleNames.M2:
-                    _instructionPart = new WriteT3Instruction(ExecutionEngine, machineCycle, GetAddress());
+                    _instructionPart = new WriteT3InstructionPart(ExecutionEngine, machineCycle, GetAddress());
                     return _instructionPart;
                 default:
-                    throw new InvalidOperationException("Invalid machine cycle: " + machineCycle);
+                    ThrowInvalidMachineCycle(machineCycle);
+                    break;
             }
+
+            return null;
         }
 
         protected override void OnClockNeg()

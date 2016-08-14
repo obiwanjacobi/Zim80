@@ -1,4 +1,6 @@
-﻿namespace Jacobi.Zim80.Components.CpuZ80.States.Instructions
+﻿using System;
+
+namespace Jacobi.Zim80.Components.CpuZ80.States.Instructions
 {
     internal abstract class MultiByteInstruction : Instruction
     {
@@ -59,6 +61,12 @@
         private void SetNextInstructionPart()
         {
             _currentPart = GetInstructionPart(ExecutionEngine.Cycles.MachineCycle + 1);
+        }
+
+        // helper for derived classes that implement GetInstructionPart
+        protected static void ThrowInvalidMachineCycle(MachineCycleNames machineCycle)
+        {
+            throw new InvalidOperationException("Invalid machine cycle: " + machineCycle);
         }
     }
 }

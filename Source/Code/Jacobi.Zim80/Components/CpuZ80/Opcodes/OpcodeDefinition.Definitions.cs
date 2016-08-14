@@ -9,7 +9,7 @@ namespace Jacobi.Zim80.Components.CpuZ80.Opcodes
             // X = 0
             new OpcodeDefinition { X = 0, Z = 0, Y = 0, Text = "NOP", Cycles = new[] { 4 }, Instruction = typeof(NopInstruction) },
             new OpcodeDefinition { X = 0, Z = 0, Y = 1, Text = "EX AF, AF'", Cycles = new[] { 4 }, Instruction = typeof(ExAFAFInstruction) },
-            new OpcodeDefinition { X = 0, Z = 0, Y = 2, Text = "DJNZ {0}", d = true, Cycles = new[] { 5, 3, 5 }, AltCycles = new[] { 5, 3 } },
+            new OpcodeDefinition { X = 0, Z = 0, Y = 2, Text = "DJNZ {0}", d = true, Cycles = new[] { 5, 3, 5 }, AltCycles = new[] { 5, 3 }, Instruction = typeof(DjnzInstruction) },
             new OpcodeDefinition { X = 0, Z = 0, Y = 3, Text = "JR {0}", d = true, Cycles = new[] { 4, 3, 5 } },
             new OpcodeDefinition { X = 0, Z = 0, Y = 4, Text = "JR NZ, {0}", d = true, Cycles = new[] { 4, 3, 5 }, AltCycles = new[] { 4, 3 } },
             new OpcodeDefinition { X = 0, Z = 0, Y = 5, Text = "JR Z, {0}", d = true, Cycles = new[] { 4, 3, 5 }, AltCycles = new[] { 4, 3 } },

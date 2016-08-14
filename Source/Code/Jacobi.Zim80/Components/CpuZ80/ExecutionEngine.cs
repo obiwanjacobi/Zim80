@@ -102,6 +102,7 @@ namespace Jacobi.Zim80.Components.CpuZ80
                     _state = new CpuFetch(this);
                     _currentState = CpuStates.Fetch;
                     _opcodeBuilder.Clear();
+                    _cycles.Reset();
                     break;
             }
         }

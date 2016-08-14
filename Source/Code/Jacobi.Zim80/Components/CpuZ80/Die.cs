@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace Jacobi.Zim80.Components.CpuZ80
+﻿namespace Jacobi.Zim80.Components.CpuZ80
 {
     internal class Die
     {
@@ -41,6 +39,7 @@ namespace Jacobi.Zim80.Components.CpuZ80
 
             _execEngine = new ExecutionEngine(this);
             _registers = new Registers();
+            _alu = new Alu(_registers.PrimarySet);
 
             Initialize();
         }
@@ -82,9 +81,10 @@ namespace Jacobi.Zim80.Components.CpuZ80
         { get { return _registers; } }
 
         public ExecutionEngine Engine
-        {
-            get { return _execEngine; }
-        }
+        { get { return _execEngine; } }
+
+        public Alu Alu
+        { get { return _alu; } }
 
         #region Private
         private readonly BusMaster<BusData16> _addressBus;
@@ -105,6 +105,7 @@ namespace Jacobi.Zim80.Components.CpuZ80
         private readonly DigitalSignalProvider _write;
 
         private readonly ExecutionEngine _execEngine;
+        private readonly Alu _alu;
         private readonly Registers _registers;
 
         private void Initialize()

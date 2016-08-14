@@ -3,16 +3,16 @@ using System;
 
 namespace Jacobi.Zim80.Components.CpuZ80.States.Instructions
 {
-    internal class ReadT3Instruction : MachineCycleState
+    internal class ReadT3InstructionPart : AutoCompleteInstructionPart
     {
         private readonly UInt16? _address;
 
-        public ReadT3Instruction(ExecutionEngine executionEngine, 
+        public ReadT3InstructionPart(ExecutionEngine executionEngine, 
             MachineCycleNames activeMachineCycle) 
             : base(executionEngine, activeMachineCycle)
         { }
 
-        public ReadT3Instruction(ExecutionEngine executionEngine, 
+        public ReadT3InstructionPart(ExecutionEngine executionEngine, 
             MachineCycleNames activeMachineCycle, UInt16 address)
             : base(executionEngine, activeMachineCycle)
         {
@@ -23,6 +23,8 @@ namespace Jacobi.Zim80.Components.CpuZ80.States.Instructions
 
         protected override void OnClockPos()
         {
+            base.OnClockPos();
+
             switch (ExecutionEngine.Cycles.CycleName)
             {
                 case CycleNames.T1:
@@ -36,6 +38,8 @@ namespace Jacobi.Zim80.Components.CpuZ80.States.Instructions
 
         protected override void OnClockNeg()
         {
+            base.OnClockNeg();
+
             switch (ExecutionEngine.Cycles.CycleName)
             {
                 case CycleNames.T1:
@@ -46,7 +50,6 @@ namespace Jacobi.Zim80.Components.CpuZ80.States.Instructions
                     Read();
                     ExecutionEngine.Die.Read.Write(DigitalLevel.High);
                     ExecutionEngine.Die.MemoryRequest.Write(DigitalLevel.High);
-                    IsComplete = true;
                     break;
             }
         }

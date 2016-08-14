@@ -8,8 +8,8 @@ namespace Jacobi.Zim80.Components.CpuZ80.States.Instructions
             : base(executionEngine)
         { }
 
-        protected ReadT3Instruction InstructionM2 { get; private set; }
-        protected ReadT3Instruction InstructionM3 { get; private set; }
+        protected ReadT3InstructionPart InstructionM2 { get; private set; }
+        protected ReadT3InstructionPart InstructionM3 { get; private set; }
 
         protected override CpuState GetInstructionPart(MachineCycleNames machineCycle)
         {
@@ -19,17 +19,20 @@ namespace Jacobi.Zim80.Components.CpuZ80.States.Instructions
             switch (machineCycle)
             {
                 case MachineCycleNames.M2:
-                    InstructionM2 = new ReadT3Instruction(ExecutionEngine, machineCycle);
+                    InstructionM2 = new ReadT3InstructionPart(ExecutionEngine, machineCycle);
                     return InstructionM2;
                 case MachineCycleNames.M3:
                     if (!ExecutionEngine.Opcode.Definition.nn)
-                        throw new InvalidOperationException("Invalid machine cycle.");
+                        ThrowInvalidMachineCycle(machineCycle);
 
-                    InstructionM3 = new ReadT3Instruction(ExecutionEngine, machineCycle);
+                    InstructionM3 = new ReadT3InstructionPart(ExecutionEngine, machineCycle);
                     return InstructionM3;
                 default:
-                    throw new InvalidOperationException("Invalid machine cycle: " + machineCycle);
+                    ThrowInvalidMachineCycle(machineCycle);
+                    break;
             }
+
+            return null;
         }
     }
 }

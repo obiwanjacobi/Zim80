@@ -16,19 +16,19 @@ namespace Jacobi.Zim80.Components.CpuZ80
         public UInt16 PC { get; set; }
         public UInt16 SP { get; set; }
 
-        private Register16 _ix;
+        private readonly Register16 _ix = new Register16();
         public UInt16 IX
         {
             get { return _ix.Get(); }
             set { _ix.Set(value); }
         }
-        private Register16 _iy;
+        private readonly Register16 _iy = new Register16();
         public UInt16 IY
         {
             get { return _iy.Get(); }
             set { _iy.Set(value); }
         }
-        private Register16 _ir;
+        private readonly Register16 _ir = new Register16();
         public byte I
         {
             get { return _ir.GetHi(); }
@@ -49,16 +49,16 @@ namespace Jacobi.Zim80.Components.CpuZ80
 
         public class RegisterSet
         {
-            private Register16 _af;
-            private Register16 _bc;
-            private Register16 _de;
-            private Register16 _hl;
+            private Register16 _af = new Register16();
+            private Register16 _bc = new Register16();
+            private Register16 _de = new Register16();
+            private Register16 _hl = new Register16();
 
             private readonly Flags _flags;
 
             public RegisterSet()
             {
-                _flags = new Flags(ref _af);
+                _flags = new Flags(_af);
             }
 
             public byte A
@@ -132,7 +132,7 @@ namespace Jacobi.Zim80.Components.CpuZ80
         public class Flags
         {
             private readonly Register16 _af;
-            internal Flags(ref Register16 af)
+            internal Flags(Register16 af)
             {
                 _af = af;
             }
@@ -197,7 +197,7 @@ namespace Jacobi.Zim80.Components.CpuZ80
             }
         }
 
-        internal struct Register16
+        internal class Register16
         {
             private UInt16 _val16;
 
