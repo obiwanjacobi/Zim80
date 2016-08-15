@@ -78,6 +78,7 @@
     <Compile Include="Components\CpuZ80\CycleCounterTest.cs" />
     <Compile Include="Components\CpuZ80\InstructionLogger.cs" />
     <Compile Include="Components\CpuZ80\Instructions\Dec16InstructionTest.cs" />
+    <Compile Include="Components\CpuZ80\Instructions\JumpRelativeInstructionTest.cs" />
     <Compile Include="Components\CpuZ80\Instructions\DjnzInstructionTest.cs" />
     <Compile Include="Components\CpuZ80\Instructions\ExAFAFInstructionTest.cs" />
     <Compile Include="Components\CpuZ80\Instructions\Inc16InstructionTest.cs" />

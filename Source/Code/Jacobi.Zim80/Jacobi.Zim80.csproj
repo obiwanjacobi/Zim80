@@ -78,6 +78,7 @@
     <Compile Include="Components\CpuZ80\States\Instructions\Inc8Instruction.cs" />
     <Compile Include="Components\CpuZ80\States\Instructions\IndirectRegisterInstruction.cs" />
     <Compile Include="Components\CpuZ80\States\Instructions\Instruction.cs" />
+    <Compile Include="Components\CpuZ80\States\Instructions\JumpRelativeInstruction.cs" />
     <Compile Include="Components\CpuZ80\States\Instructions\LoadImmediate16Instruction.cs" />
     <Compile Include="Components\CpuZ80\States\Instructions\LoadImmediate8Instruction.cs" />
     <Compile Include="Components\CpuZ80\States\Instructions\MachineCycleState.cs" />
