@@ -1,12 +1,12 @@
 ﻿namespace Jacobi.Zim80.Components.CpuZ80.States.Instructions
 {
-    internal class ExAFAFInstruction : SingleByteInstruction
+    internal class ExAFAFInstruction : SingleCycleInstruction
     {
         public ExAFAFInstruction(Die die)
             : base(die)
         { }
 
-        protected override void OnExecute()
+        protected override void OnLastCycleFirstM()
         {
             // swap AF/AF'
             var af = Registers.AlternateSet.AF;

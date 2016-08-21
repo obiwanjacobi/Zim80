@@ -8,6 +8,6 @@
 
         protected Registers Registers { get { return Die.Registers; } }
 
-        protected abstract void OnExecute();
+        protected abstract void OnLastCycleFirstM();
     }
 }

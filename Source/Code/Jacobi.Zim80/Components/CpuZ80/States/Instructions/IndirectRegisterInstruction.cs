@@ -2,7 +2,7 @@
 
 namespace Jacobi.Zim80.Components.CpuZ80.States.Instructions
 {
-    internal abstract class IndirectRegisterInstruction : MultiByteInstruction
+    internal abstract class IndirectRegisterInstruction : MultiCycleInstruction
     {
         public IndirectRegisterInstruction(Die die)
             : base(die)

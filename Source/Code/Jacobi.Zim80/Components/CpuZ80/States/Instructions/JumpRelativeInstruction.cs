@@ -31,7 +31,7 @@ namespace Jacobi.Zim80.Components.CpuZ80.States.Instructions
             }
         }
 
-        protected override void OnExecute()
+        protected override void OnLastCycleLastM()
         {
             // perform jump
             if (IsConditionMet())

@@ -2,7 +2,7 @@
 
 namespace Jacobi.Zim80.Components.CpuZ80.States.Instructions
 {
-    internal abstract class ReadParametersInstruction : MultiByteInstruction
+    internal abstract class ReadParametersInstruction : MultiCycleInstruction
     {
         public ReadParametersInstruction(Die die)
             : base(die)

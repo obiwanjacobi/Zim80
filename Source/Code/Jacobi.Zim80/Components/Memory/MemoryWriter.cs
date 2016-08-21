@@ -14,6 +14,26 @@ namespace Jacobi.Zim80.Components.Memory
             _memory = memory;
         }
 
+        public long Fill(long size, DataT data)
+        {
+            var length = CalcLength(size);
+
+            // TODO: int-long mismatch
+            for (int address = 0; address < length; address++)
+            {
+                _memory[address] = data;
+            }
+
+            return length;
+        }
+
+        public DataT this[AddressT address]
+        {
+            // TODO: unsiged to signed cast
+            get { return _memory[(int)address.ToUInt32()]; }
+            set { _memory[(int)address.ToUInt32()] = value; }
+        }
+
         public long CopyFrom(BinaryReader reader)
         {
             var width = new DataT().Width;
@@ -48,8 +68,8 @@ namespace Jacobi.Zim80.Components.Memory
 
         private long WriteToMemory(long maxLength, Action<DataT> writeData)
         {
-            var length = Math.Min(maxLength, (long)Math.Pow(2, new AddressT().Width));
-            
+            long length = CalcLength(maxLength);
+
             // TODO: int-long mismatch
             for (int address = 0; address < length; address++)
             {
@@ -59,6 +79,11 @@ namespace Jacobi.Zim80.Components.Memory
             }
 
             return length;
+        }
+
+        private static long CalcLength(long size)
+        {
+            return Math.Min(size, (long)Math.Pow(2, new AddressT().Width));
         }
     }
 }

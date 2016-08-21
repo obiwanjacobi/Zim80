@@ -1,12 +1,12 @@
 ﻿namespace Jacobi.Zim80.Components.CpuZ80.States.Instructions
 {
-    internal class Inc8Instruction : SingleByteInstruction
+    internal class Inc8Instruction : SingleCycleInstruction
     {
         public Inc8Instruction(Die die)
             : base(die)
         { }
 
-        protected override void OnExecute()
+        protected override void OnLastCycleFirstM()
         {
             switch (ExecutionEngine.Opcode.Definition.Register8FromY)
             {

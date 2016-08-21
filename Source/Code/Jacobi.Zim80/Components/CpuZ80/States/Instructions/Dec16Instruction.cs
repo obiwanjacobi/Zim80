@@ -2,13 +2,13 @@
 
 namespace Jacobi.Zim80.Components.CpuZ80.States.Instructions
 {
-    internal class Dec16Instruction : SingleByteInstruction
+    internal class Dec16Instruction : SingleCycleInstruction
     {
         public Dec16Instruction(Die die)
             : base(die)
         { }
 
-        protected override void OnExecute()
+        protected override void OnLastCycleFirstM()
         {
             switch (ExecutionEngine.Opcode.Definition.Register16FromP)
             {

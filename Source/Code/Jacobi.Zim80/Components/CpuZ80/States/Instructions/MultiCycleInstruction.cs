@@ -2,11 +2,11 @@
 
 namespace Jacobi.Zim80.Components.CpuZ80.States.Instructions
 {
-    internal abstract class MultiByteInstruction : Instruction
+    internal abstract class MultiCycleInstruction : Instruction
     {
         private CpuState _currentPart;
 
-        public MultiByteInstruction(Die die)
+        public MultiCycleInstruction(Die die)
             : base(die)
         {
             SetNextInstructionPart();
@@ -26,37 +26,33 @@ namespace Jacobi.Zim80.Components.CpuZ80.States.Instructions
 
             if (ExecutionEngine.Cycles.IsLastCycle)
             {
-                if (ExecutionEngine.Cycles.IsLastMachineCycle)
+                if (ExecutionEngine.Cycles.IsMachineCycle1)
                 {
-                    OnExecute();
+                    OnLastCycleFirstM();
+                }
+                else if (ExecutionEngine.Cycles.IsLastMachineCycle)
+                {
+                    OnLastCycleLastM();
                     IsComplete = true;
                 }
                 else if (_currentPart.IsComplete)
                     SetNextInstructionPart();
             }
-        }
-
-        // for write operations
-        protected void OnClockNegWrite()
-        {
-            base.OnClockNeg();
-
-            if (ExecutionEngine.Cycles.IsLastMachineCycle &&
-                ExecutionEngine.Cycles.CycleName == CycleNames.T1)
+            else if (ExecutionEngine.Cycles.IsLastMachineCycle &&
+                     ExecutionEngine.Cycles.CycleName == CycleNames.T1)
             {
-                OnExecute();
-            }
-
-            if (ExecutionEngine.Cycles.IsLastCycle)
-            {
-                if (ExecutionEngine.Cycles.IsLastMachineCycle)
-                {
-                    IsComplete = true;
-                }
-                else if (_currentPart.IsComplete)
-                    SetNextInstructionPart();
+                OnFirstCycleLastM();
             }
         }
+
+        protected override void OnLastCycleFirstM()
+        { }
+
+        protected virtual void OnFirstCycleLastM()
+        { }
+
+        protected virtual void OnLastCycleLastM()
+        { }
 
         private void SetNextInstructionPart()
         {

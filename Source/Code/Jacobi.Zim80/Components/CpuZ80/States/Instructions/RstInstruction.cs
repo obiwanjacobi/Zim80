@@ -2,15 +2,15 @@
 
 namespace Jacobi.Zim80.Components.CpuZ80.States.Instructions
 {
-    internal class NopInstruction : SingleCycleInstruction
+    internal class RstInstruction : PushInstruction
     {
-        public NopInstruction(Die die)
+        public RstInstruction(Die die) 
             : base(die)
         { }
 
         protected override void OnLastCycleFirstM()
         {
-            // no operation
+            Registers.PC = (ushort)(ExecutionEngine.Opcode.Definition.Y * 0x08);
         }
     }
 }

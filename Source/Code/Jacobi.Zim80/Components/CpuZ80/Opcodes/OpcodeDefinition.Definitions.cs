@@ -271,10 +271,10 @@ namespace Jacobi.Zim80.Components.CpuZ80.Opcodes
             new OpcodeDefinition { X = 3, Z = 4, Y = 6, Text = "CALL P, {0}", nn = true, Cycles = new[] { 4, 3, 4, 3, 3 }, AltCycles = new[] { 4, 3, 3 } },
             new OpcodeDefinition { X = 3, Z = 4, Y = 7, Text = "CALL M, {0}", nn = true, Cycles = new[] { 4, 3, 4, 3, 3 }, AltCycles = new[] { 4, 3, 3 } },
 
-            new OpcodeDefinition { X = 3, Z = 5, Q = 0, P = 0, Text = "PUSH BC", Cycles = new[] { 5, 3, 3 } },
-            new OpcodeDefinition { X = 3, Z = 5, Q = 0, P = 1, Text = "PUSH DE", Cycles = new[] { 5, 3, 3 } },
-            new OpcodeDefinition { X = 3, Z = 5, Q = 0, P = 2, Text = "PUSH HL", Cycles = new[] { 5, 3, 3 } },
-            new OpcodeDefinition { X = 3, Z = 5, Q = 0, P = 3, Text = "PUSH AF", Cycles = new[] { 5, 3, 3 } },
+            new OpcodeDefinition { X = 3, Z = 5, Q = 0, P = 0, Text = "PUSH BC", Cycles = new[] { 5, 3, 3 }, Instruction = typeof(PushInstruction) },
+            new OpcodeDefinition { X = 3, Z = 5, Q = 0, P = 1, Text = "PUSH DE", Cycles = new[] { 5, 3, 3 }, Instruction = typeof(PushInstruction) },
+            new OpcodeDefinition { X = 3, Z = 5, Q = 0, P = 2, Text = "PUSH HL", Cycles = new[] { 5, 3, 3 }, Instruction = typeof(PushInstruction) },
+            new OpcodeDefinition { X = 3, Z = 5, Q = 0, P = 3, Text = "PUSH AF", Cycles = new[] { 5, 3, 3 }, Instruction = typeof(PushInstruction) },
             new OpcodeDefinition { X = 3, Z = 5, Q = 1, P = 0, Text = "CALL {0}", nn = true, Cycles = new[] { 4, 3, 4, 3, 3 } },
             //new OpcodeDefinition { X = 3, Z = 5, Q = 1, P = 1, Text = "#DD", Cycles = new[] { 4 } },
             //new OpcodeDefinition { X = 3, Z = 5, Q = 1, P = 2, Text = "#ED", Cycles = new[] { 4 } },
@@ -289,14 +289,14 @@ namespace Jacobi.Zim80.Components.CpuZ80.Opcodes
             new OpcodeDefinition { X = 3, Z = 6, Y = 6, Text = "OR A, {0}", n = true, Cycles = new[] { 4, 3 } },
             new OpcodeDefinition { X = 3, Z = 6, Y = 7, Text = "CP A, {0}", n = true, Cycles = new[] { 4, 3 } },
 
-            new OpcodeDefinition { X = 3, Z = 7, Y = 0, Text = "RST 00", Cycles = new[] { 5, 3, 3 } },
-            new OpcodeDefinition { X = 3, Z = 7, Y = 1, Text = "RST 08", Cycles = new[] { 5, 3, 3 } },
-            new OpcodeDefinition { X = 3, Z = 7, Y = 2, Text = "RST 10", Cycles = new[] { 5, 3, 3 } },
-            new OpcodeDefinition { X = 3, Z = 7, Y = 3, Text = "RST 18", Cycles = new[] { 5, 3, 3 } },
-            new OpcodeDefinition { X = 3, Z = 7, Y = 4, Text = "RST 20", Cycles = new[] { 5, 3, 3 } },
-            new OpcodeDefinition { X = 3, Z = 7, Y = 5, Text = "RST 28", Cycles = new[] { 5, 3, 3 } },
-            new OpcodeDefinition { X = 3, Z = 7, Y = 6, Text = "RST 30", Cycles = new[] { 5, 3, 3 } },
-            new OpcodeDefinition { X = 3, Z = 7, Y = 7, Text = "RST 38", Cycles = new[] { 5, 3, 3 } },
+            new OpcodeDefinition { X = 3, Z = 7, Y = 0, Text = "RST 00", Cycles = new[] { 5, 3, 3 }, Instruction = typeof(RstInstruction) },
+            new OpcodeDefinition { X = 3, Z = 7, Y = 1, Text = "RST 08", Cycles = new[] { 5, 3, 3 }, Instruction = typeof(RstInstruction) },
+            new OpcodeDefinition { X = 3, Z = 7, Y = 2, Text = "RST 10", Cycles = new[] { 5, 3, 3 }, Instruction = typeof(RstInstruction) },
+            new OpcodeDefinition { X = 3, Z = 7, Y = 3, Text = "RST 18", Cycles = new[] { 5, 3, 3 }, Instruction = typeof(RstInstruction) },
+            new OpcodeDefinition { X = 3, Z = 7, Y = 4, Text = "RST 20", Cycles = new[] { 5, 3, 3 }, Instruction = typeof(RstInstruction) },
+            new OpcodeDefinition { X = 3, Z = 7, Y = 5, Text = "RST 28", Cycles = new[] { 5, 3, 3 }, Instruction = typeof(RstInstruction) },
+            new OpcodeDefinition { X = 3, Z = 7, Y = 6, Text = "RST 30", Cycles = new[] { 5, 3, 3 }, Instruction = typeof(RstInstruction) },
+            new OpcodeDefinition { X = 3, Z = 7, Y = 7, Text = "RST 38", Cycles = new[] { 5, 3, 3 }, Instruction = typeof(RstInstruction) },
 
             // CB prefixed
             // X = 0

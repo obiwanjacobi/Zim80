@@ -83,12 +83,14 @@
     <Compile Include="Components\CpuZ80\States\Instructions\LoadImmediate8Instruction.cs" />
     <Compile Include="Components\CpuZ80\States\Instructions\MachineCycleState.cs" />
     <Compile Include="Components\CpuZ80\States\Instructions\AutoCompleteInstructionPart.cs" />
+    <Compile Include="Components\CpuZ80\States\Instructions\PushInstruction.cs" />
     <Compile Include="Components\CpuZ80\States\Instructions\ReadIndirectRegisterInstruction.cs" />
-    <Compile Include="Components\CpuZ80\States\Instructions\MultiByteInstruction.cs" />
+    <Compile Include="Components\CpuZ80\States\Instructions\MultiCycleInstruction.cs" />
     <Compile Include="Components\CpuZ80\States\Instructions\NopInstruction.cs" />
     <Compile Include="Components\CpuZ80\States\Instructions\ReadParametersInstruction.cs" />
     <Compile Include="Components\CpuZ80\States\Instructions\ReadT3InstructionPart.cs" />
-    <Compile Include="Components\CpuZ80\States\Instructions\SingleByteInstruction.cs" />
+    <Compile Include="Components\CpuZ80\States\Instructions\RstInstruction.cs" />
+    <Compile Include="Components\CpuZ80\States\Instructions\SingleCycleInstruction.cs" />
     <Compile Include="Components\CpuZ80\States\Instructions\WriteIndirectRegisterInstruction.cs" />
     <Compile Include="Components\CpuZ80\States\Instructions\WriteT3InstructionPart.cs" />
     <Compile Include="Components\Generators\Randomizer.cs" />

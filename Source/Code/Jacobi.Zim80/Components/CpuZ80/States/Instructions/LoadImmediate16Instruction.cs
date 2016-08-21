@@ -9,7 +9,7 @@ namespace Jacobi.Zim80.Components.CpuZ80.States.Instructions
             : base(die)
         { }
 
-        protected override void OnExecute()
+        protected override void OnLastCycleLastM()
         {
             var lsb = ExecutionEngine.MultiByteOpcode.GetParameter(0);
             var msb = ExecutionEngine.MultiByteOpcode.GetParameter(1);

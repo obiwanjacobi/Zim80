@@ -25,7 +25,7 @@ namespace Jacobi.Zim80.Components.CpuZ80.States.Instructions
             return null;
         }
 
-        protected override void OnExecute()
+        protected override void OnLastCycleLastM()
         {
             var z = ExecutionEngine.Opcode.Definition.Z;
             var q = ExecutionEngine.Opcode.Definition.Q;

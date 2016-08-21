@@ -26,12 +26,7 @@ namespace Jacobi.Zim80.Components.CpuZ80.States.Instructions
             return null;
         }
 
-        protected override void OnClockNeg()
-        {
-            OnClockNegWrite();
-        }
-
-        protected override void OnExecute()
+        protected override void OnFirstCycleLastM()
         {
             _instructionPart.Data = new OpcodeByte(Registers.PrimarySet.A);
         }

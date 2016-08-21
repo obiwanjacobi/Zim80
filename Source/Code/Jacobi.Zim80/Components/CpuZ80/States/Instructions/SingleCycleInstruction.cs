@@ -1,20 +1,10 @@
 ﻿namespace Jacobi.Zim80.Components.CpuZ80.States.Instructions
 {
-    internal abstract class SingleByteInstruction : Instruction
+    internal abstract class SingleCycleInstruction : Instruction
     {
-        protected SingleByteInstruction(Die die)
+        protected SingleCycleInstruction(Die die)
             : base(die)
         { }
-
-        protected override void OnClockPos()
-        {
-            base.OnClockPos();
-
-            if (ExecutionEngine.Cycles.IsLastCycle)
-            {
-                OnExecute();
-            }
-        }
 
         protected override void OnClockNeg()
         {
@@ -22,6 +12,7 @@
 
             if (ExecutionEngine.Cycles.IsLastCycle)
             {
+                OnLastCycleFirstM();
                 IsComplete = true;
             }
         }
