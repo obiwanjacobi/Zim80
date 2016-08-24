@@ -13,20 +13,30 @@ namespace Jacobi.Zim80.Components.CpuZ80
         public RegisterSet PrimarySet { get; private set; }
         public RegisterSet AlternateSet { get; private set; }
 
-        public UInt16 PC { get; set; }
+        private readonly Register16 _pc = new Register16();
+        public UInt16 PC
+        {
+            get { return _pc.Value; }
+            set { _pc.Value = value; }
+        }
+        public Register16 GetPC()
+        {
+            return _pc;
+        }
+    
         public UInt16 SP { get; set; }
 
         private readonly Register16 _ix = new Register16();
         public UInt16 IX
         {
-            get { return _ix.Get(); }
-            set { _ix.Set(value); }
+            get { return _ix.Value; }
+            set { _ix.Value = value; }
         }
         private readonly Register16 _iy = new Register16();
         public UInt16 IY
         {
-            get { return _iy.Get(); }
-            set { _iy.Set(value); }
+            get { return _iy.Value; }
+            set { _iy.Value = value; }
         }
         private readonly Register16 _ir = new Register16();
         public byte I
@@ -39,9 +49,6 @@ namespace Jacobi.Zim80.Components.CpuZ80
             get { return _ir.GetLo(); }
             set { _ir.SetLo(value); }
         }
-
-        // temp regs for pc manipulation
-        internal UInt16 WZ { get; set; }
 
         // interrupt mode flip-flops
         public bool IFF1 { get; set; }
@@ -104,23 +111,23 @@ namespace Jacobi.Zim80.Components.CpuZ80
 
             public UInt16 AF
             {
-                get { return _af.Get(); }
-                set { _af.Set(value); }
+                get { return _af.Value; }
+                set { _af.Value = value; }
             }
             public UInt16 BC
             {
-                get { return _bc.Get(); }
-                set { _bc.Set(value); }
+                get { return _bc.Value; }
+                set { _bc.Value = value; }
             }
             public UInt16 DE
             {
-                get { return _de.Get(); }
-                set { _de.Set(value); }
+                get { return _de.Value; }
+                set { _de.Value = value; }
             }
             public UInt16 HL
             {
-                get { return _hl.Get(); }
-                set { _hl.Set(value); }
+                get { return _hl.Value; }
+                set { _hl.Value = value; }
             }
 
             public Flags Flags
@@ -197,14 +204,14 @@ namespace Jacobi.Zim80.Components.CpuZ80
             }
         }
 
-        internal class Register16
+        public class Register16
         {
             private UInt16 _val16;
-
-            public void Set(UInt16 value)
-            { _val16 = value; }
-            public UInt16 Get()
-            { return _val16; }
+            public UInt16 Value
+            {
+                get { return _val16; }
+                set { _val16 = value; }
+            }
 
             public void SetLo(byte value)
             { _val16 = (UInt16)((_val16 & 0xFF00) | value); }

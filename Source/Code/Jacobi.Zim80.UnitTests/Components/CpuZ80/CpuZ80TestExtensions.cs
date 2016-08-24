@@ -71,20 +71,20 @@ namespace Jacobi.Zim80.Components.CpuZ80.UnitTests
             byte a = MagicValue, UInt16 bc = MagicValue, UInt16 de = MagicValue, UInt16 hl = MagicValue,
             byte a_a = MagicValue, UInt16 a_bc = MagicValue, UInt16 a_de = MagicValue, UInt16 a_hl = MagicValue)
         {
-            cpu.Registers.PC.Should().Be(pc);
-            cpu.Registers.SP.Should().Be(sp);
-            cpu.Registers.IX.Should().Be(ix);
-            cpu.Registers.IY.Should().Be(iy);
-            cpu.Registers.I.Should().Be(i);
-            cpu.Registers.R.Should().Be(r);
-            cpu.Registers.PrimarySet.A.Should().Be(a);
-            cpu.Registers.PrimarySet.BC.Should().Be(bc);
-            cpu.Registers.PrimarySet.DE.Should().Be(de);
-            cpu.Registers.PrimarySet.HL.Should().Be(hl);
-            cpu.Registers.AlternateSet.A.Should().Be(a_a);
-            cpu.Registers.AlternateSet.BC.Should().Be(a_bc);
-            cpu.Registers.AlternateSet.DE.Should().Be(a_de);
-            cpu.Registers.AlternateSet.HL.Should().Be(a_hl);
+            cpu.Registers.PC.Should().Be(pc, "pc");
+            cpu.Registers.SP.Should().Be(sp, "sp");
+            cpu.Registers.IX.Should().Be(ix, "ix");
+            cpu.Registers.IY.Should().Be(iy, "iy");
+            cpu.Registers.I.Should().Be(i, "i");
+            cpu.Registers.R.Should().Be(r, "r");
+            cpu.Registers.PrimarySet.A.Should().Be(a, "a");
+            cpu.Registers.PrimarySet.BC.Should().Be(bc, "bc");
+            cpu.Registers.PrimarySet.DE.Should().Be(de, "de");
+            cpu.Registers.PrimarySet.HL.Should().Be(hl, "hl");
+            cpu.Registers.AlternateSet.A.Should().Be(a_a, "a'");
+            cpu.Registers.AlternateSet.BC.Should().Be(a_bc, "bc'");
+            cpu.Registers.AlternateSet.DE.Should().Be(a_de, "de'");
+            cpu.Registers.AlternateSet.HL.Should().Be(a_hl, "hl'");
         }
 
     }

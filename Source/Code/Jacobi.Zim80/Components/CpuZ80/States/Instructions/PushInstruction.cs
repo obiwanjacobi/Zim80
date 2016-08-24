@@ -44,7 +44,7 @@ namespace Jacobi.Zim80.Components.CpuZ80.States.Instructions
             };
         }
 
-        private byte GetRegisterLowValue()
+        protected virtual byte GetRegisterLowValue()
         {
             switch (ExecutionEngine.Opcode.Definition.P)
             {
@@ -61,7 +61,7 @@ namespace Jacobi.Zim80.Components.CpuZ80.States.Instructions
             throw new InvalidOperationException("Invalid OpcodeDefinition.P value.");
         }
 
-        private byte GetRegisterHighValue()
+        protected virtual byte GetRegisterHighValue()
         {
             switch (ExecutionEngine.Opcode.Definition.P)
             {

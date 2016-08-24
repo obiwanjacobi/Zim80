@@ -24,6 +24,11 @@ namespace Jacobi.Zim80.Components.CpuZ80.States.Instructions
         {
             base.OnClockNeg();
 
+            if (_currentPart.IsComplete)
+            {
+                OnInstructionPartCompleted(_currentPart);
+            }
+
             if (ExecutionEngine.Cycles.IsLastCycle)
             {
                 if (ExecutionEngine.Cycles.IsMachineCycle1)
@@ -36,12 +41,23 @@ namespace Jacobi.Zim80.Components.CpuZ80.States.Instructions
                     IsComplete = true;
                 }
                 else if (_currentPart.IsComplete)
+                {
                     SetNextInstructionPart();
+                }
             }
             else if (ExecutionEngine.Cycles.IsLastMachineCycle &&
                      ExecutionEngine.Cycles.CycleName == CycleNames.T1)
             {
                 OnFirstCycleLastM();
+            }
+        }
+
+        protected virtual void OnInstructionPartCompleted(CpuState completedPart)
+        {
+            if (completedPart == null ||
+                !completedPart.IsComplete)
+            {
+                throw new InvalidOperationException("InstructionPart was not completed!");
             }
         }
 
@@ -57,6 +73,9 @@ namespace Jacobi.Zim80.Components.CpuZ80.States.Instructions
         private void SetNextInstructionPart()
         {
             _currentPart = GetInstructionPart(ExecutionEngine.Cycles.MachineCycle + 1);
+
+            if (_currentPart == null)
+                throw new InvalidOperationException("GetInstructionPart returned null.");
         }
 
         // helper for derived classes that implement GetInstructionPart
