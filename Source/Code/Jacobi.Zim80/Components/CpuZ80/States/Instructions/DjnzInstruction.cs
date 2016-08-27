@@ -6,13 +6,13 @@
             : base(die)
         { }
 
-        protected override void ProcessLastCycleOfM1()
+        protected override void OnLastCycleFirstM()
         {
             // NOTE: docs say no flags are affected...
             Registers.PrimarySet.B =
                 Die.Alu.Dec8(Registers.PrimarySet.B);
 
-            base.ProcessLastCycleOfM1();
+            base.OnLastCycleFirstM();
         }
 
         protected override bool IsConditionMet()

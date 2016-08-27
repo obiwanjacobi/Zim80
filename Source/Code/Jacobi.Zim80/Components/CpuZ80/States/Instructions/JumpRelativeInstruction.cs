@@ -20,17 +20,6 @@ namespace Jacobi.Zim80.Components.CpuZ80.States.Instructions
             }
         }
 
-        protected override void OnClockNeg()
-        {
-            base.OnClockNeg();
-
-            if (ExecutionEngine.Cycles.IsMachineCycle1 &&
-                ExecutionEngine.Cycles.IsLastCycle)
-            {
-                ProcessLastCycleOfM1();
-            }
-        }
-
         protected override void OnLastCycleLastM()
         {
             // perform jump
@@ -41,7 +30,7 @@ namespace Jacobi.Zim80.Components.CpuZ80.States.Instructions
             }
         }
 
-        protected virtual void ProcessLastCycleOfM1()
+        protected override void OnLastCycleFirstM()
         {
             if (ExecutionEngine.Opcode.Definition.AltCycles != null &&
                 !IsConditionMet())

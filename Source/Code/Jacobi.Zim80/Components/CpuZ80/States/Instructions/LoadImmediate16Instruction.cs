@@ -11,8 +11,8 @@ namespace Jacobi.Zim80.Components.CpuZ80.States.Instructions
 
         protected override void OnLastCycleLastM()
         {
-            var lsb = ExecutionEngine.MultiByteOpcode.GetParameter(0);
-            var msb = ExecutionEngine.MultiByteOpcode.GetParameter(1);
+            var lsb = ExecutionEngine.MultiCycleOpcode.GetParameter(0);
+            var msb = ExecutionEngine.MultiCycleOpcode.GetParameter(1);
             var value = OpcodeByte.MakeUInt16(lsb, msb);
 
             switch (ExecutionEngine.Opcode.Definition.Register16FromP)

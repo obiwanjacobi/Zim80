@@ -11,7 +11,7 @@ namespace Jacobi.Zim80.Components.CpuZ80.States.Instructions
 
         protected override void OnLastCycleLastM()
         {
-            var ob = ExecutionEngine.MultiByteOpcode.GetParameter(0);
+            var ob = ExecutionEngine.MultiCycleOpcode.GetParameter(0);
 
             switch (ExecutionEngine.Opcode.Definition.Register8FromY)
             {

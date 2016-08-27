@@ -7,6 +7,8 @@ namespace Jacobi.Zim80.Components.CpuZ80.Opcodes.UnitTests
     [TestClass]
     public class OpcodeDefinitionTest
     {
+        public TestContext TestContext { get; set; }
+
         [TestMethod]
         public void OpcodeDefinition_Y_TranslatesToP_and_Q_1()
         {
@@ -81,6 +83,25 @@ namespace Jacobi.Zim80.Components.CpuZ80.Opcodes.UnitTests
                 if (od.Ext2 != 0) expected++;
 
                 od.Cycles.Count().Should().BeGreaterOrEqualTo(expected, od.Text, "{0}");
+            }
+        }
+
+        [TestMethod]
+        public void OpcodeDefinition_MustHaveInstruction()
+        {
+            var missingInstruction = OpcodeDefinition.Defintions
+                                        .Where(od => od.Instruction == null);
+
+            if (missingInstruction.Any())
+            {
+                TestContext.WriteLine("Opcode Definitions without Instruction types:");
+
+                foreach (var od in missingInstruction)
+                {
+                    TestContext.WriteLine(od.Text, "x");
+                }
+
+                Assert.Inconclusive();
             }
         }
     }

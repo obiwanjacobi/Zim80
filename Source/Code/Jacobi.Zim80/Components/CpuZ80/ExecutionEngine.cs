@@ -48,12 +48,12 @@ namespace Jacobi.Zim80.Components.CpuZ80
             get { return _opcodeBuilder.Opcode; }
         }
 
-        public SingleByteOpcode SingleByteOpcode
+        public SingleByteOpcode SingleCycleOpcode
         {
             get { return _opcodeBuilder.Opcode as SingleByteOpcode; }
         }
 
-        public MultiByteOpcode MultiByteOpcode
+        public MultiByteOpcode MultiCycleOpcode
         {
             get { return _opcodeBuilder.Opcode as MultiByteOpcode; }
         }

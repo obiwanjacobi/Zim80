@@ -85,6 +85,12 @@ namespace Jacobi.Zim80.Components.CpuZ80.Opcodes
         }
 
         public Opcode Opcode { get; private set; }
+
         public bool IsDone { get; private set; }
+
+        public bool IsShifted
+        {
+            get { return _ext1 != null && _ext1.IsDD || _ext1.IsFD; }
+        }
     }
 }

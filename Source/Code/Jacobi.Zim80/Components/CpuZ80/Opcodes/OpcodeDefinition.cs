@@ -1,12 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 
 namespace Jacobi.Zim80.Components.CpuZ80.Opcodes
 {
+    [DebuggerDisplay("{Text} ({Value})")]
     public partial class OpcodeDefinition
     {
-        public readonly static byte NotInUse = 0xFF;
+        public const byte NotInUse = 0xFF;
 
         private OpcodeDefinition()
         { }
@@ -139,11 +141,27 @@ namespace Jacobi.Zim80.Components.CpuZ80.Opcodes
         public static OpcodeDefinition Find(OpcodeByte opcode,
             OpcodeByte ext1 = null, OpcodeByte ext2 = null)
         {
-            return (from od in Defintions
-                    where ext1 == null || od.Ext1 == ext1.Value
-                    where ext2 == null || od.Ext2 == ext2.Value
-                    where od.IsEqualTo(opcode)
-                    select od).FirstOrDefault();
+            IEnumerable<OpcodeDefinition> result;
+
+            // extension prefix that shifts HL usage to IX (DD) or IY (FD).
+            if (ext1 != null &&
+                (ext1.IsDD || ext1.IsFD))
+            {
+                result = (from od in Defintions
+                          where (ext2 == null && od.Ext1 == 0) || ext2 != null && od.Ext1 == ext2.Value
+                          where od.IsEqualTo(opcode)
+                          select od);
+            }
+            else
+            {
+                result = (from od in Defintions
+                          where (ext1 == null && od.Ext1 == 0) || ext1 != null && od.Ext1 == ext1.Value
+                          where (ext2 == null && od.Ext2 == 0) || ext2 != null && od.Ext2 == ext2.Value
+                          where od.IsEqualTo(opcode)
+                          select od);
+            }
+
+            return result.SingleOrDefault();
         }
 
         public static IEnumerable<OpcodeDefinition> FindAll(Type instructionType)
