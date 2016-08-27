@@ -66,7 +66,7 @@ namespace Jacobi.Zim80.Components.CpuZ80
 
         public void SetRefreshOnAddressBus()
         {
-            SetAddressBus(_die.Registers.R);
+            SetAddressBus(_die.Registers.IR);
         }
 
         public void SetAddressBus(UInt16 address)
@@ -95,6 +95,14 @@ namespace Jacobi.Zim80.Components.CpuZ80
             switch (_currentState)
             {
                 case CpuStates.Fetch:
+                    if (_cycles.IsLastCycle &&
+                        _opcodeBuilder.HasShiftExtension)
+                    {
+                        // continue to Fetch.
+                        _state = new CpuFetch(_die);
+                        _cycles.Reset();
+                        break;
+                    }
                     _state = new CpuExecute(_die);
                     _currentState = CpuStates.Execute;
                     break;

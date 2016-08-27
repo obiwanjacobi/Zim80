@@ -27,15 +27,7 @@ namespace Jacobi.Zim80.Components.CpuZ80.Opcodes
             {
                 if (opcodeByte.IsExtension)
                 {
-                    if (_ext1 == null)
-                    {
-                        _ext1 = opcodeByte;
-                    }
-                    else
-                    {
-                        // TODO: additional extension added will replace others
-                        _ext2 = opcodeByte;
-                    }
+                    SetExtension(opcodeByte);
                 }
                 else
                 {
@@ -51,6 +43,9 @@ namespace Jacobi.Zim80.Components.CpuZ80.Opcodes
                     }
                     else
                         Opcode = new MultiByteOpcode(_opcodeDef);
+
+                    Opcode.Ext1 = _ext1;
+                    Opcode.Ext2 = _ext2;
                 }
             }
             else // parameters
@@ -59,7 +54,7 @@ namespace Jacobi.Zim80.Components.CpuZ80.Opcodes
 
                 if (mbo == null)
                     throw new InvalidOperationException("OpcodeBuilder already produced an Opcode -or- " +
-                        "you are adding parameters to a single byte opcode. Did you forget to call Clear?");
+                        "you are adding parameters to a SingleCycleOpcode. Did you forget to call Clear?");
 
                 int paramCount = 1;
                 if (_opcodeDef.nn)
@@ -75,6 +70,19 @@ namespace Jacobi.Zim80.Components.CpuZ80.Opcodes
             return Opcode != null;
         }
 
+        private void SetExtension(OpcodeByte opcodeByte)
+        {
+            if (_ext1 == null)
+            {
+                _ext1 = opcodeByte;
+            }
+            else
+            {
+                // TODO: additional extension added will replace others
+                _ext2 = opcodeByte;
+            }
+        }
+
         public void Clear()
         {
             _opcodeDef = null;
@@ -88,7 +96,7 @@ namespace Jacobi.Zim80.Components.CpuZ80.Opcodes
 
         public bool IsDone { get; private set; }
 
-        public bool IsShifted
+        public bool HasShiftExtension
         {
             get { return _ext1 != null && _ext1.IsDD || _ext1.IsFD; }
         }

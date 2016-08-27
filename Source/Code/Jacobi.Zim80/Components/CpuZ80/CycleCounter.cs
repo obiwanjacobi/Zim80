@@ -27,8 +27,9 @@ namespace Jacobi.Zim80.Components.CpuZ80
             {
                 if (OpcodeDefinition != null)
                     return _cycles[(int)MachineCycle] == (int)CycleName;
-
-                return false;
+                
+                // opcode fetch
+                return CycleName == CycleNames.T4;
             }
         }
 

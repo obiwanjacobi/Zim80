@@ -49,14 +49,41 @@ namespace Jacobi.Zim80.Components.CpuZ80.Instructions.UnitTests
             cpuZ80.AssertRegisters(sp: ExpectedValue);
         }
 
-        private static CpuZ80 ExecuteTest(OpcodeByte ob)
+        [TestMethod]
+        public void DecIX()
+        {
+            var ob = OpcodeByte.New(z: 3, q: 1, p: 2);
+
+            var cpuZ80 = ExecuteTest(ob, 0xDD);
+
+            cpuZ80.AssertRegisters(ix: ExpectedValue, pc: 2);
+        }
+
+        [TestMethod]
+        public void DecIY()
+        {
+            var ob = OpcodeByte.New(z: 3, q: 1, p: 2);
+
+            var cpuZ80 = ExecuteTest(ob, 0xFD);
+
+            cpuZ80.AssertRegisters(iy: ExpectedValue, pc: 2);
+        }
+
+        private static CpuZ80 ExecuteTest(OpcodeByte ob, byte extension = 0)
         {
             var cpuZ80 = new CpuZ80();
-            var model = cpuZ80.Initialize(new byte[] { ob.Value });
+            byte[] buffer;
+
+            if (extension == 0)
+                buffer = new byte[] { ob.Value };
+            else
+                buffer = new byte[] { extension, ob.Value };
+
+            var model = cpuZ80.Initialize(buffer);
 
             cpuZ80.FillRegisters();
 
-            model.ClockGen.BlockWave(6);
+            model.ClockGen.BlockWave(extension == 0 ? 6 : 10);
 
             return cpuZ80;
         }

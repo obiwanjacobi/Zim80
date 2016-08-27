@@ -1,5 +1,4 @@
 ﻿using Jacobi.Zim80.Components.CpuZ80.Opcodes;
-using System;
 
 namespace Jacobi.Zim80.Components.CpuZ80.States
 {
@@ -38,6 +37,10 @@ namespace Jacobi.Zim80.Components.CpuZ80.States
                     Die.MemoryRequest.Write(DigitalLevel.Low);
                     Die.Read.Write(DigitalLevel.Low);
                     break;
+                case CycleNames.T4:
+                    // incomplete opcode byte was read
+                    IsComplete = true;
+                    break;
             }
         }
 
@@ -47,8 +50,6 @@ namespace Jacobi.Zim80.Components.CpuZ80.States
 
             if (ExecutionEngine.AddOpcodeByte(ob))
                 IsComplete = true;
-            else
-                throw new InvalidOperationException("No valid opcode during Fetch.");
         }
     }
 }
