@@ -28,15 +28,49 @@ namespace Jacobi.Zim80.Components.CpuZ80.States.Instructions
                     Registers.PrimarySet.E = ob.Value;
                     break;
                 case Register8Table.H:
-                    Registers.PrimarySet.H = ob.Value;
+                    if (!ExecuteShiftedInstructionHi(ob.Value))
+                        Registers.PrimarySet.H = ob.Value;
                     break;
                 case Register8Table.L:
-                    Registers.PrimarySet.L = ob.Value;
+                    if (!ExecuteShiftedInstructionLo(ob.Value))
+                        Registers.PrimarySet.L = ob.Value;
                     break;
                 case Register8Table.A:
                     Registers.PrimarySet.A = ob.Value;
                     break;
             }
+        }
+
+        private bool ExecuteShiftedInstructionHi(byte value)
+        {
+            if (ExecutionEngine.Opcode.IsIX)
+            {
+                Registers.GetIX().SetHi(value);
+                return true;
+            }
+            if (ExecutionEngine.Opcode.IsIY)
+            {
+                Registers.GetIY().SetHi(value);
+                return true;
+            }
+
+            return false;
+        }
+
+        private bool ExecuteShiftedInstructionLo(byte value)
+        {
+            if (ExecutionEngine.Opcode.IsIX)
+            {
+                Registers.GetIX().SetLo(value);
+                return true;
+            }
+            if (ExecutionEngine.Opcode.IsIY)
+            {
+                Registers.GetIY().SetLo(value);
+                return true;
+            }
+
+            return false;
         }
     }
 }

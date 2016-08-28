@@ -47,19 +47,43 @@ namespace Jacobi.Zim80.Components.CpuZ80.Instructions.UnitTests
             model.Cpu.AssertRegisters(sp: Stack + 2, a: 0xAA);
         }
 
-        private static SimulationModel ExecuteTest(OpcodeByte pop)
+        [TestMethod]
+        public void PopIX()
+        {
+            var pop = OpcodeByte.New(x: 3, z: 1, p: 2);
+            var model = ExecuteTest(pop, 0xDD);
+
+            model.Cpu.AssertRegisters(sp: Stack + 2, ix: 0xAA55);
+        }
+
+        [TestMethod]
+        public void PopIY()
+        {
+            var pop = OpcodeByte.New(x: 3, z: 1, p: 2);
+            var model = ExecuteTest(pop, 0xFD);
+
+            model.Cpu.AssertRegisters(sp: Stack + 2, iy: 0xAA55);
+        }
+
+        private static SimulationModel ExecuteTest(OpcodeByte pop, byte extension = 0)
         {
             var cpuZ80 = new CpuZ80();
             var model = cpuZ80.Initialize(null);
 
             var writer = new MemoryWriter<BusData16, BusData8>(model.Memory);
             writer.Fill(0x48, new BusData8(0));
-            writer[new BusData16(0)] = new BusData8(pop.Value);
+            if (extension == 0)
+                writer[new BusData16(0)] = new BusData8(pop.Value);
+            else
+            {
+                writer[new BusData16(0)] = new BusData8(extension);
+                writer[new BusData16(1)] = new BusData8(pop.Value);
+            }
             writer[new BusData16(Stack)] = new BusData8(0x55);
             writer[new BusData16(Stack + 1)] = new BusData8(0xAA);
 
             model.Cpu.FillRegisters(sp: Stack);
-            model.ClockGen.BlockWave(10);
+            model.ClockGen.BlockWave(extension == 0 ? 10 : 14);
 
             return model;
         }

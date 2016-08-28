@@ -40,6 +40,46 @@
             }
         }
 
+        protected virtual void SetRegisterHighValue(byte value)
+        {
+            switch (ExecutionEngine.Opcode.Definition.P)
+            {
+                case 0:
+                    Registers.PrimarySet.B = value;
+                    break;
+                case 1:
+                    Registers.PrimarySet.D = value;
+                    break;
+                case 2:
+                    if (!ExecuteShiftedInstructionHi(value))
+                        Registers.PrimarySet.H = value;
+                    break;
+                case 3:
+                    Registers.PrimarySet.A = value;
+                    break;
+            }
+        }
+
+        protected virtual void SetRegisterLowValue(byte value)
+        {
+            switch (ExecutionEngine.Opcode.Definition.P)
+            {
+                case 0:
+                    Registers.PrimarySet.C = value;
+                    break;
+                case 1:
+                    Registers.PrimarySet.E = value;
+                    break;
+                case 2:
+                    if (!ExecuteShiftedInstructionLo(value))
+                        Registers.PrimarySet.L = value;
+                    break;
+                case 3:
+                    Registers.PrimarySet.F = value;
+                    break;
+            }
+        }
+
         #region Private
         private ReadT3InstructionPart _instructionM2;
         private ReadT3InstructionPart _instructionM3;
@@ -54,42 +94,36 @@
             return new ReadT3InstructionPart(Die, MachineCycleNames.M3, Registers.SP);
         }
 
-        protected virtual void SetRegisterLowValue(byte value)
+        private bool ExecuteShiftedInstructionHi(byte value)
         {
-            switch (ExecutionEngine.Opcode.Definition.P)
+            if (ExecutionEngine.Opcode.IsIX)
             {
-                case 0:
-                    Registers.PrimarySet.C = value;
-                    break;
-                case 1:
-                    Registers.PrimarySet.E = value;
-                    break;
-                case 2:
-                    Registers.PrimarySet.L = value;
-                    break;
-                case 3:
-                    Registers.PrimarySet.F = value;
-                    break;
+                Registers.GetIX().SetHi(value);
+                return true;
             }
+            if (ExecutionEngine.Opcode.IsIY)
+            {
+                Registers.GetIY().SetHi(value);
+                return true;
+            }
+
+            return false;
         }
 
-        protected virtual void SetRegisterHighValue(byte value)
+        private bool ExecuteShiftedInstructionLo(byte value)
         {
-            switch (ExecutionEngine.Opcode.Definition.P)
+            if (ExecutionEngine.Opcode.IsIX)
             {
-                case 0:
-                    Registers.PrimarySet.B = value;
-                    break;
-                case 1:
-                    Registers.PrimarySet.D = value;
-                    break;
-                case 2:
-                    Registers.PrimarySet.H = value;
-                    break;
-                case 3:
-                    Registers.PrimarySet.A = value;
-                    break;
+                Registers.GetIX().SetLo(value);
+                return true;
             }
+            if (ExecutionEngine.Opcode.IsIY)
+            {
+                Registers.GetIY().SetLo(value);
+                return true;
+            }
+
+            return false;
         }
         #endregion
     }

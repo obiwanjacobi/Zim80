@@ -83,14 +83,61 @@ namespace Jacobi.Zim80.Components.CpuZ80.Instructions.UnitTests
             cpuZ80.AssertRegisters(pc: 2, a: ExpectedValueLo);
         }
 
-        private static CpuZ80 ExecuteTest(OpcodeByte ob, OpcodeByte parameter)
+        [TestMethod]
+        public void LdIXhn()
+        {
+            var ob = OpcodeByte.New(z: 6, y: 4);
+
+            var cpuZ80 = ExecuteTest(ob, _param, 0xDD);
+
+            cpuZ80.AssertRegisters(pc: 3, ix: ExpectedValueHi);
+        }
+
+        [TestMethod]
+        public void LdIXln()
+        {
+            var ob = OpcodeByte.New(z: 6, y: 5);
+
+            var cpuZ80 = ExecuteTest(ob, _param, 0xDD);
+
+            cpuZ80.AssertRegisters(pc: 3, ix: ExpectedValueLo);
+        }
+
+        [TestMethod]
+        public void LdIYhn()
+        {
+            var ob = OpcodeByte.New(z: 6, y: 4);
+
+            var cpuZ80 = ExecuteTest(ob, _param, 0xFD);
+
+            cpuZ80.AssertRegisters(pc: 3, iy: ExpectedValueHi);
+        }
+
+        [TestMethod]
+        public void LdIYln()
+        {
+            var ob = OpcodeByte.New(z: 6, y: 5);
+
+            var cpuZ80 = ExecuteTest(ob, _param, 0xFD);
+
+            cpuZ80.AssertRegisters(pc: 3, iy: ExpectedValueLo);
+        }
+
+        private static CpuZ80 ExecuteTest(OpcodeByte ob, OpcodeByte parameter, byte extension = 0)
         {
             var cpuZ80 = new CpuZ80();
-            var model = cpuZ80.Initialize(new byte[] { ob.Value, parameter.Value });
+            byte[] buffer;
+
+            if (extension == 0)
+                buffer = new byte[] { ob.Value, parameter.Value };
+            else
+                buffer = new byte[] { extension, ob.Value, parameter.Value };
+
+            var model = cpuZ80.Initialize(buffer);
 
             cpuZ80.FillRegisters();
 
-            model.ClockGen.BlockWave(7);
+            model.ClockGen.BlockWave(extension == 0 ? 7 : 11);
 
             return cpuZ80;
         }

@@ -24,12 +24,29 @@ namespace Jacobi.Zim80.Components.CpuZ80.States.Instructions
                     Registers.PrimarySet.DE = value;
                     break;
                 case Opcodes.Register16Table.HL:
-                    Registers.PrimarySet.HL = value;
+                    if (!ExecuteShiftedInstruction(value))
+                        Registers.PrimarySet.HL = value;
                     break;
                 case Opcodes.Register16Table.SP:
                     Registers.SP = value;
                     break;
             }
+        }
+
+        private bool ExecuteShiftedInstruction(ushort value)
+        {
+            if (ExecutionEngine.Opcode.IsIX)
+            {
+                Registers.IX = value;
+                return true;
+            }
+            if (ExecutionEngine.Opcode.IsIY)
+            {
+                Registers.IY = value;
+                return true;
+            }
+
+            return false;
         }
     }
 }
