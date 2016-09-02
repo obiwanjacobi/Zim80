@@ -54,7 +54,7 @@ namespace Jacobi.Zim80.Components.CpuZ80.States.Instructions
                 case 7: // jr c, d
                     return Registers.PrimarySet.Flags.C;
                 default:
-                    throw new InvalidOperationException("Instruction assigned to an illegal opcode.");
+                    throw Errors.AssignedToIllegalOpcode();
             }
         }
     }

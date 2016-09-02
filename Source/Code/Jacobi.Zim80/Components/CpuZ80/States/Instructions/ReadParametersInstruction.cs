@@ -23,16 +23,13 @@ namespace Jacobi.Zim80.Components.CpuZ80.States.Instructions
                     return InstructionM2;
                 case MachineCycleNames.M3:
                     if (!ExecutionEngine.Opcode.Definition.nn)
-                        ThrowInvalidMachineCycle(machineCycle);
+                        throw Errors.InvalidMachineCycle(machineCycle);
 
                     InstructionM3 = new ReadT3InstructionPart(Die, machineCycle);
                     return InstructionM3;
                 default:
-                    ThrowInvalidMachineCycle(machineCycle);
-                    break;
+                    throw Errors.InvalidMachineCycle(machineCycle);
             }
-
-            return null;
         }
     }
 }

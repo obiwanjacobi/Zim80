@@ -20,11 +20,8 @@ namespace Jacobi.Zim80.Components.CpuZ80.States.Instructions
                     Registers.SP--;
                     return CreateInstructionPartM3();
                 default:
-                    ThrowInvalidMachineCycle(machineCycle);
-                    break;
+                    throw Errors.InvalidMachineCycle(machineCycle);
             }
-
-            return null;
         }
 
         protected virtual byte GetRegisterHighValue()

@@ -50,7 +50,7 @@ namespace Jacobi.Zim80.Components.CpuZ80.Opcodes
             new OpcodeDefinition { X = 0, Z = 4, Y = 3, Mnemonic = "INC E", Cycles = new[] { 4 }, Instruction = typeof(Inc8Instruction) },
             new OpcodeDefinition { X = 0, Z = 4, Y = 4, Mnemonic = "INC H", Cycles = new[] { 4 }, Instruction = typeof(Inc8Instruction) },
             new OpcodeDefinition { X = 0, Z = 4, Y = 5, Mnemonic = "INC L", Cycles = new[] { 4 }, Instruction = typeof(Inc8Instruction) },
-            new OpcodeDefinition { X = 0, Z = 4, Y = 6, Mnemonic = "INC (HL)", Cycles = new[] { 4, 4, 3 }, Instruction = typeof(IncIndirectInstruction) },
+            new OpcodeDefinition { X = 0, Z = 4, Y = 6, Mnemonic = "INC (HL)", Cycles = new[] { 4, 4, 3 }, Instruction = typeof(IncDecIndirectInstruction) },
             new OpcodeDefinition { X = 0, Z = 4, Y = 7, Mnemonic = "INC A", Cycles = new[] { 4 }, Instruction = typeof(Inc8Instruction) },
 
             new OpcodeDefinition { X = 0, Z = 5, Y = 0, Mnemonic = "DEC B", Cycles = new[] { 4 }, Instruction = typeof(Dec8Instruction) },
@@ -59,7 +59,7 @@ namespace Jacobi.Zim80.Components.CpuZ80.Opcodes
             new OpcodeDefinition { X = 0, Z = 5, Y = 3, Mnemonic = "DEC E", Cycles = new[] { 4 }, Instruction = typeof(Dec8Instruction) },
             new OpcodeDefinition { X = 0, Z = 5, Y = 4, Mnemonic = "DEC H", Cycles = new[] { 4 }, Instruction = typeof(Dec8Instruction) },
             new OpcodeDefinition { X = 0, Z = 5, Y = 5, Mnemonic = "DEC L", Cycles = new[] { 4 }, Instruction = typeof(Dec8Instruction) },
-            new OpcodeDefinition { X = 0, Z = 5, Y = 6, Mnemonic = "DEC (HL)", Cycles = new[] { 4, 4, 3 }, Instruction = typeof(DecIndirectInstruction) },
+            new OpcodeDefinition { X = 0, Z = 5, Y = 6, Mnemonic = "DEC (HL)", Cycles = new[] { 4, 4, 3 }, Instruction = typeof(IncDecIndirectInstruction) },
             new OpcodeDefinition { X = 0, Z = 5, Y = 7, Mnemonic = "DEC A", Cycles = new[] { 4 }, Instruction = typeof(Dec8Instruction) },
 
             new OpcodeDefinition { X = 0, Z = 6, Y = 0, Mnemonic = "LD B, {0}", n = true, Cycles = new[] { 4, 3 }, Instruction = typeof(LoadImmediate8Instruction) },

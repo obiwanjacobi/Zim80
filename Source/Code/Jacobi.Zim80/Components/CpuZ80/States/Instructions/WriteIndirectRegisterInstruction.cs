@@ -19,11 +19,8 @@ namespace Jacobi.Zim80.Components.CpuZ80.States.Instructions
                     _instructionPart = new WriteT3InstructionPart(Die, machineCycle, GetAddress());
                     return _instructionPart;
                 default:
-                    ThrowInvalidMachineCycle(machineCycle);
-                    break;
+                    throw Errors.InvalidMachineCycle(machineCycle);
             }
-
-            return null;
         }
 
         protected override void OnFirstCycleLastM()

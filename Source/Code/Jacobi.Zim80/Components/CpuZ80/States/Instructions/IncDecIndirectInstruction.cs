@@ -1,10 +1,11 @@
 ﻿using Jacobi.Zim80.Components.CpuZ80.Opcodes;
+using System;
 
 namespace Jacobi.Zim80.Components.CpuZ80.States.Instructions
 {
-    internal class DecIndirectInstruction : IndirectRegisterInstruction
+    internal class IncDecIndirectInstruction : IndirectRegisterInstruction
     {
-        public DecIndirectInstruction(Die die) 
+        public IncDecIndirectInstruction(Die die) 
             : base(die)
         { }
 
@@ -20,14 +21,29 @@ namespace Jacobi.Zim80.Components.CpuZ80.States.Instructions
                     return _instructionM2;
                 case MachineCycleNames.M3:
                     _instructionM3 = new WriteT3InstructionPart(Die, machineCycle, GetAddress());
-                    _instructionM3.Data = new OpcodeByte(Die.Alu.Dec8(_instructionM2.Data.Value));
+                    _instructionM3.Data = IncDecValue(_instructionM2.Data);
                     return _instructionM3;
                 default:
-                    ThrowInvalidMachineCycle(machineCycle);
+                    throw Errors.InvalidMachineCycle(machineCycle);
+            }
+        }
+
+        private OpcodeByte IncDecValue(OpcodeByte value)
+        {
+            byte result;
+            switch (ExecutionEngine.Opcode.Definition.Z)
+            {
+                case 4:  // INC (HL)
+                    result = Die.Alu.Inc8(value.Value);
                     break;
+                case 5:  // DEC (HL)
+                    result = Die.Alu.Dec8(value.Value);
+                    break;
+                default:
+                    throw Errors.AssignedToIllegalOpcode();
             }
 
-            return null;
+            return new OpcodeByte(result);
         }
     }
 }

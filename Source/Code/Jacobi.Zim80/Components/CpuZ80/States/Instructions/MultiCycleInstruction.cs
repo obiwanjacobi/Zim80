@@ -77,11 +77,5 @@ namespace Jacobi.Zim80.Components.CpuZ80.States.Instructions
             if (_currentPart == null)
                 throw new InvalidOperationException("GetInstructionPart returned null.");
         }
-
-        // helper for derived classes that implement GetInstructionPart
-        protected static void ThrowInvalidMachineCycle(MachineCycleNames machineCycle)
-        {
-            throw new InvalidOperationException("Invalid machine cycle: " + machineCycle);
-        }
     }
 }

@@ -17,11 +17,8 @@
                     _instructionM3 = CreateInstructionPartM3();
                     return _instructionM3;
                 default:
-                    ThrowInvalidMachineCycle(machineCycle);
-                    break;
+                    throw Errors.InvalidMachineCycle(machineCycle);
             }
-
-            return null;
         }
 
         protected override void OnInstructionPartCompleted(CpuState completedPart)
