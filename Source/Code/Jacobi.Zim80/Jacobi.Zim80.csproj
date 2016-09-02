@@ -59,6 +59,7 @@
     <Compile Include="Components\BusData8.cs" />
     <Compile Include="Components\CpuZ80\Alu.cs" />
     <Compile Include="Components\CpuZ80\InstructionExecutedEventArgs.cs" />
+    <Compile Include="Components\CpuZ80\Opcodes\Mnemonic.cs" />
     <Compile Include="Components\CpuZ80\Opcodes\OpcodeDefinition.Definitions.cs" />
     <Compile Include="Components\CpuZ80\Opcodes\Register16Table.cs" />
     <Compile Include="Components\CpuZ80\Opcodes\Register8Table.cs" />
@@ -76,6 +77,8 @@
     <Compile Include="Components\CpuZ80\States\Instructions\Dec16Instruction.cs" />
     <Compile Include="Components\CpuZ80\States\Instructions\Inc16Instruction.cs" />
     <Compile Include="Components\CpuZ80\States\Instructions\Inc8Instruction.cs" />
+    <Compile Include="Components\CpuZ80\States\Instructions\DecIndirectInstruction.cs" />
+    <Compile Include="Components\CpuZ80\States\Instructions\IncIndirectInstruction.cs" />
     <Compile Include="Components\CpuZ80\States\Instructions\IndirectRegisterInstruction.cs" />
     <Compile Include="Components\CpuZ80\States\Instructions\Instruction.cs" />
     <Compile Include="Components\CpuZ80\States\Instructions\JumpRelativeInstruction.cs" />

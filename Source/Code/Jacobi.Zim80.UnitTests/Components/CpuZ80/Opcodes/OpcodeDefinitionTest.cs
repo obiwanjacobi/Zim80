@@ -82,7 +82,7 @@ namespace Jacobi.Zim80.Components.CpuZ80.Opcodes.UnitTests
                 if (od.Ext1 != 0) expected++;
                 if (od.Ext2 != 0) expected++;
 
-                od.Cycles.Count().Should().BeGreaterOrEqualTo(expected, od.Text, "{0}");
+                od.Cycles.Count().Should().BeGreaterOrEqualTo(expected, od.Mnemonic, "{0}");
             }
         }
 
@@ -98,7 +98,7 @@ namespace Jacobi.Zim80.Components.CpuZ80.Opcodes.UnitTests
 
                 foreach (var od in missingInstruction)
                 {
-                    TestContext.WriteLine(od.Text, "x");
+                    TestContext.WriteLine(od.Mnemonic, "x");
                 }
 
                 Assert.Inconclusive();

@@ -5,9 +5,6 @@
         public SingleByteOpcode(OpcodeDefinition opcodeDefinition)
         {
             Definition = opcodeDefinition;
-            Text = Definition.Text;
         }
-
-        public byte Value { get { return Definition.Value; } }
     }
 }

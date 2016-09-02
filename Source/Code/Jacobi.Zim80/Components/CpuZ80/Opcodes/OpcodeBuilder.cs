@@ -15,14 +15,14 @@ namespace Jacobi.Zim80.Components.CpuZ80.Opcodes
 
         public bool Add(OpcodeByte opcodeByte)
         {
+            if (opcodeByte == null)
+                throw new ArgumentNullException("opcodeByte");
+
             return Process(opcodeByte);
         }
 
         private bool Process(OpcodeByte opcodeByte)
         {
-            if (opcodeByte == null)
-                throw new ArgumentNullException("opcodeByte");
-
             if (_opcodeDef == null)
             {
                 if (opcodeByte.IsExtension)
@@ -70,16 +70,36 @@ namespace Jacobi.Zim80.Components.CpuZ80.Opcodes
             return Opcode != null;
         }
 
+        // implements how additional extensions will replace others
         private void SetExtension(OpcodeByte opcodeByte)
         {
+            _ext2 = null;
+            
             if (_ext1 == null)
             {
                 _ext1 = opcodeByte;
             }
+            else if (opcodeByte.IsDD || opcodeByte.IsED || opcodeByte.IsFD)
+            {
+                // last one wins
+                _ext1 = opcodeByte;
+            }
+            else if (opcodeByte.IsCB)
+            {
+                if (_ext1.IsED)
+                {
+                    // CB overwrites ED
+                    _ext1 = opcodeByte;
+                }
+                else
+                {
+                    // but not DD/FD
+                    _ext2 = opcodeByte;
+                }
+            }
             else
             {
-                // TODO: additional extension added will replace others
-                _ext2 = opcodeByte;
+                throw new InvalidOperationException("Opcode Extension Error!");
             }
         }
 

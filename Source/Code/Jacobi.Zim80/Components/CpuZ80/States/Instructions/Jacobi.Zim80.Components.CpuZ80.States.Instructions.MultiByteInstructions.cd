@@ -1,22 +1,9 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <ClassDiagram MajorVersion="1" MinorVersion="1">
-  <Class Name="Jacobi.Zim80.Components.CpuZ80.States.Instructions.MultiByteInstruction" Collapsed="true">
-    <Position X="8" Y="0.5" Width="1.5" />
-    <Compartments>
-      <Compartment Name="Methods" Collapsed="true" />
-    </Compartments>
-    <TypeIdentifier>
-      <HashCode>AAABABAAAAAAAgAAAAQAgAAAAQAAAACAAAAAAAAAAAA=</HashCode>
-      <FileName>Components\CpuZ80\States\Instructions\MultiByteInstruction.cs</FileName>
-    </TypeIdentifier>
-    <ShowAsAssociation>
-      <Field Name="_currentPart" />
-    </ShowAsAssociation>
-  </Class>
   <Class Name="Jacobi.Zim80.Components.CpuZ80.States.Instructions.LoadImmediate8Instruction" Collapsed="true">
     <Position X="2" Y="6.5" Width="2.25" />
     <TypeIdentifier>
-      <HashCode>AAIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAABAAAAAAAAAAAAAQCAAAAA=</HashCode>
       <FileName>Components\CpuZ80\States\Instructions\LoadImmediate8Instruction.cs</FileName>
     </TypeIdentifier>
   </Class>
@@ -37,7 +24,7 @@
   <Class Name="Jacobi.Zim80.Components.CpuZ80.States.Instructions.LoadImmediate16Instruction" Collapsed="true">
     <Position X="5.25" Y="6.5" Width="2.25" />
     <TypeIdentifier>
-      <HashCode>AAIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAEAAAAAAAAAAAAAAACAAAAA=</HashCode>
       <FileName>Components\CpuZ80\States\Instructions\LoadImmediate16Instruction.cs</FileName>
     </TypeIdentifier>
   </Class>
@@ -54,7 +41,7 @@
       </Path>
     </AssociationLine>
     <TypeIdentifier>
-      <HashCode>AAIAAAAAAAAAAAAAAAQAAAAAAAAAAAAAAAAAAAAAAAQ=</HashCode>
+      <HashCode>AAAAAAAAAAAAAAAAAAQAAAAAAAAAAAAAAAAAACAAAAQ=</HashCode>
       <FileName>Components\CpuZ80\States\Instructions\ReadIndirectRegisterInstruction.cs</FileName>
     </TypeIdentifier>
     <ShowAsAssociation>
@@ -64,7 +51,7 @@
   <Class Name="Jacobi.Zim80.Components.CpuZ80.States.CpuState" Collapsed="true">
     <Position X="12.5" Y="0.5" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AQAAABQAAAAAAAAAAAAAAAAAgAAAAACAAAAAQAQAABA=</HashCode>
+      <HashCode>AQAAABQAAAAAAAAgAAAAABAAgAAAAACAAAAAQAQAAAA=</HashCode>
       <FileName>Components\CpuZ80\States\CpuState.cs</FileName>
     </TypeIdentifier>
   </Class>
@@ -109,7 +96,7 @@
       </Path>
     </AssociationLine>
     <TypeIdentifier>
-      <HashCode>AAIAABAAAAAAAAAAAAQAAAAAAAAAAAAAAAAAAAAAAAQ=</HashCode>
+      <HashCode>AAAAAAAAAAAAAAAAAAQAAAAABAAAAAAAAAAAAAAAAAQ=</HashCode>
       <FileName>Components\CpuZ80\States\Instructions\WriteIndirectRegisterInstruction.cs</FileName>
     </TypeIdentifier>
     <ShowAsAssociation>
@@ -119,7 +106,7 @@
   <Class Name="Jacobi.Zim80.Components.CpuZ80.States.Instructions.DjnzInstruction" Collapsed="true">
     <Position X="8.75" Y="6.5" Width="2.25" />
     <TypeIdentifier>
-      <HashCode>AAIAABAAAAAAAAAAAAQAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <HashCode>AEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAEAAAA=</HashCode>
       <FileName>Components\CpuZ80\States\Instructions\DjnzInstruction.cs</FileName>
     </TypeIdentifier>
   </Class>
@@ -129,6 +116,19 @@
       <HashCode>AAAAABAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Components\CpuZ80\States\Instructions\AutoCompleteInstructionPart.cs</FileName>
     </TypeIdentifier>
+  </Class>
+  <Class Name="Jacobi.Zim80.Components.CpuZ80.States.Instructions.MultiCycleInstruction" Collapsed="true">
+    <Position X="8" Y="0.5" Width="1.75" />
+    <Compartments>
+      <Compartment Name="Methods" Collapsed="true" />
+    </Compartments>
+    <TypeIdentifier>
+      <HashCode>AAABABAAAAAAAgAAAAQAgAAABAAAABCAAAAAACEAAAA=</HashCode>
+      <FileName>Components\CpuZ80\States\Instructions\MultiCycleInstruction.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Field Name="_currentPart" />
+    </ShowAsAssociation>
   </Class>
   <Font Name="Segoe UI" Size="9" />
 </ClassDiagram>

@@ -6,7 +6,7 @@ namespace Jacobi.Zim80.Components.CpuZ80.Opcodes
     internal class MultiByteOpcode : Opcode
     {
         private readonly List<OpcodeByte> _parameters = new List<OpcodeByte>();
-
+        
         public MultiByteOpcode(OpcodeDefinition opcodeDef)
         {
             Definition = opcodeDef;
@@ -15,7 +15,7 @@ namespace Jacobi.Zim80.Components.CpuZ80.Opcodes
         public void AddParameter(OpcodeByte parameter)
         {
             _parameters.Add(parameter);
-            SetText();
+            FormatText();
         }
 
         public int ParameterCount
@@ -28,12 +28,14 @@ namespace Jacobi.Zim80.Components.CpuZ80.Opcodes
             return _parameters[index];
         }
 
-        private void SetText()
+        private void FormatText()
         {
             if (_parameters.Count > 1)
-                Text = string.Format(Definition.Text, CreateValue16(_parameters));
+                Mnemonic.FormatParameter(CreateValue16(_parameters));
+            else if (Definition.d)  // signed
+                Mnemonic.FormatParameter((sbyte)_parameters[0].Value);
             else
-                Text = string.Format(Definition.Text, _parameters[0].Value);
+                Mnemonic.FormatParameter(_parameters[0].Value);
         }
 
         private static UInt16 CreateValue16(IList<OpcodeByte> parameters)

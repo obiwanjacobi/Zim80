@@ -29,7 +29,7 @@ namespace Jacobi.Zim80.Components.CpuZ80.Opcodes.UnitTests
             // this is a hubble test! (use its own data to test itself)
             foreach (var def in defs)
             {
-                TestContext.WriteLine("{0:X} - {1}.", def.Value, def.Text);
+                TestContext.WriteLine("{0:X} - {1}.", def.Value, def.Mnemonic);
                 ExecuteSingleByteDecode(def.Value);
             }
         }

@@ -97,7 +97,7 @@ namespace Jacobi.Zim80.Components.CpuZ80.Opcodes
             }
         }
 
-        public string Text { get; private set; }
+        public string Mnemonic { get; private set; }
 
         // parameters
         public bool HasParameters { get { return d || n || nn; } }
@@ -135,28 +135,24 @@ namespace Jacobi.Zim80.Components.CpuZ80.Opcodes
 
         public override string ToString()
         {
-            return Text;
+            return Mnemonic;
         }
 
         public static OpcodeDefinition Find(OpcodeByte opcode,
             OpcodeByte ext1 = null, OpcodeByte ext2 = null)
         {
-            IEnumerable<OpcodeDefinition> result;
+            var result = (from od in Defintions
+                          where (ext1 == null && od.Ext1 == 0) || ext1 != null && od.Ext1 == ext1.Value
+                          where (ext2 == null && od.Ext2 == 0) || ext2 != null && od.Ext2 == ext2.Value
+                          where od.IsEqualTo(opcode)
+                          select od);
 
             // extension prefix that shifts HL usage to IX (DD) or IY (FD).
-            if (ext1 != null &&
-                (ext1.IsDD || ext1.IsFD))
+            if (!result.Any() &&
+                ext1 != null && (ext1.IsDD || ext1.IsFD))
             {
                 result = (from od in Defintions
                           where (ext2 == null && od.Ext1 == 0) || ext2 != null && od.Ext1 == ext2.Value
-                          where od.IsEqualTo(opcode)
-                          select od);
-            }
-            else
-            {
-                result = (from od in Defintions
-                          where (ext1 == null && od.Ext1 == 0) || ext1 != null && od.Ext1 == ext1.Value
-                          where (ext2 == null && od.Ext2 == 0) || ext2 != null && od.Ext2 == ext2.Value
                           where od.IsEqualTo(opcode)
                           select od);
             }
