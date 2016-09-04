@@ -47,13 +47,13 @@ namespace Jacobi.Zim80.Components.CpuZ80.States.Instructions
 
         private bool ExecuteShiftedInstructionHi()
         {
-            if (ExecutionEngine.Opcode.IsIX)
+            if (ExecutionEngine.Opcode.Definition.IsIX)
             {
                 Registers.GetIX().SetHi(
                         Die.Alu.Dec8(Registers.GetIX().GetHi()));
                 return true;
             }
-            if (ExecutionEngine.Opcode.IsIY)
+            if (ExecutionEngine.Opcode.Definition.IsIY)
             {
                 Registers.GetIY().SetHi(
                         Die.Alu.Dec8(Registers.GetIY().GetHi()));
@@ -65,13 +65,13 @@ namespace Jacobi.Zim80.Components.CpuZ80.States.Instructions
 
         private bool ExecuteShiftedInstructionLo()
         {
-            if (ExecutionEngine.Opcode.IsIX)
+            if (ExecutionEngine.Opcode.Definition.IsIX)
             {
                 Registers.GetIX().SetLo(
                         Die.Alu.Dec8(Registers.GetIX().GetLo()));
                 return true;
             }
-            if (ExecutionEngine.Opcode.IsIY)
+            if (ExecutionEngine.Opcode.Definition.IsIY)
             {
                 Registers.GetIY().SetLo(
                         Die.Alu.Dec8(Registers.GetIY().GetLo()));

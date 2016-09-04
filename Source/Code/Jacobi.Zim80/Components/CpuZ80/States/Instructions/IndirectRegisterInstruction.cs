@@ -30,14 +30,22 @@ namespace Jacobi.Zim80.Components.CpuZ80.States.Instructions
 
             // See OpcodeDefinition.Definitions
             if ( (y == 6 && (z == 4 || z == 5 || z == 6) || x == 1) ||
-                 (x == 2 && z == 6))
+                 (x == 2 && z == 6)
                  // CB: (x == 0 || x == 1 || x== 2 || x== 3) && z == 6
+                 )
             {
-                if (ExecutionEngine.Opcode.IsIX)
+                if (ExecutionEngine.Opcode.Definition.IsIX)
+                {
+                    if (ExecutionEngine.Opcode.Definition.d)
+                        return Alu.Add(Registers.IX, (sbyte)ExecutionEngine.MultiCycleOpcode.GetParameter(0).Value);
                     return Registers.IX;
-
-                if (ExecutionEngine.Opcode.IsIY)
+                }
+                if (ExecutionEngine.Opcode.Definition.IsIY)
+                {
+                    if (ExecutionEngine.Opcode.Definition.d)
+                        return Alu.Add(Registers.IY, (sbyte)ExecutionEngine.MultiCycleOpcode.GetParameter(0).Value);
                     return Registers.IY;
+                }
 
                 return Registers.PrimarySet.HL;
             }

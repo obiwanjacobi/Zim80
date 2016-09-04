@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace Jacobi.Zim80.Components.CpuZ80.States.Instructions
+﻿namespace Jacobi.Zim80.Components.CpuZ80.States.Instructions
 {
     internal abstract class ReadParametersInstruction : MultiCycleInstruction
     {
@@ -14,7 +12,7 @@ namespace Jacobi.Zim80.Components.CpuZ80.States.Instructions
         protected override CpuState GetInstructionPart(MachineCycleNames machineCycle)
         {
             if (!ExecutionEngine.Opcode.Definition.HasParameters)
-                throw new InvalidOperationException("Use a SingleByteInstruction base class for parameter-less instructions.");
+                throw Errors.NoParameters();
 
             switch (machineCycle)
             {

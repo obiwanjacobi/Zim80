@@ -34,14 +34,14 @@ namespace Jacobi.Zim80.Components.CpuZ80.States.Instructions
 
         private bool ExecuteShiftedInstruction()
         {
-            if (ExecutionEngine.Opcode.IsIX)
+            if (ExecutionEngine.Opcode.Definition.IsIX)
             {
                 // ix
                 Registers.IX = Die.Alu.Dec16(Registers.IX);
                 return true;
             }
 
-            if (ExecutionEngine.Opcode.IsIY)
+            if (ExecutionEngine.Opcode.Definition.IsIY)
             {
                 // iy
                 Registers.IY = Die.Alu.Dec16(Registers.IY);

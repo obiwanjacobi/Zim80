@@ -5,8 +5,6 @@ namespace Jacobi.Zim80.Components.CpuZ80
 {
     internal class CycleCounter
     {
-        private int[] _cycles;
-
         public CycleNames CycleName { get; private set; }
 
         public MachineCycleNames MachineCycle { get; private set; }
@@ -25,9 +23,9 @@ namespace Jacobi.Zim80.Components.CpuZ80
         {
             get
             {
-                if (OpcodeDefinition != null)
-                    return _cycles[(int)MachineCycle] == (int)CycleName;
-                
+                if (_cycles != null)
+                    return GetCycle(MachineCycle) == CycleName;
+
                 // opcode fetch
                 return CycleName == CycleNames.T4;
             }
@@ -39,7 +37,7 @@ namespace Jacobi.Zim80.Components.CpuZ80
             {
                 if (_cycles == null) return false;
 
-                return (int)MachineCycle == _cycles.Length -1;
+                return MachineCycleToIndex(MachineCycle) == _cycles.Length - 1;
             }
         }
 
@@ -64,7 +62,7 @@ namespace Jacobi.Zim80.Components.CpuZ80
                     _cycles = null;
             }
         }
-        
+
         public void SetAltCycles()
         {
             if (_opcodeDefinition == null ||
@@ -84,19 +82,22 @@ namespace Jacobi.Zim80.Components.CpuZ80
             MachineCycle = MachineCycleNames.M1;
         }
 
+        #region private
+        private int[] _cycles;
+
         private void IncrementCycle()
         {
             CycleName++;
 
-            if (OpcodeDefinition != null &&
-                _cycles[(int)MachineCycle] < (int)CycleName)
+            if (_cycles != null &&
+                GetCycle(MachineCycle) < CycleName)
             {
                 NextMachineCycle();
 
                 if ((int)MachineCycle > _cycles.Length)
                     throw new InvalidOperationException("Too many machine cycles.");
             }
-            else if(CycleName > CycleNames.T6)
+            else if (CycleName > CycleNames.T6)
                 throw new InvalidOperationException("Too many T-cycles.");
         }
 
@@ -105,6 +106,35 @@ namespace Jacobi.Zim80.Components.CpuZ80
             MachineCycle++;
             CycleName = CycleNames.T1;
         }
+
+        private CycleNames GetCycle(MachineCycleNames machineCycle)
+        {
+            if (_cycles != null)
+            {
+                var index = MachineCycleToIndex(machineCycle);
+
+                return (CycleNames)_cycles[(int)index];
+            }
+
+            return CycleNames.NotInitialized;
+        }
+
+        private int MachineCycleToIndex(MachineCycleNames machineCycle)
+        {
+            int index = (int)machineCycle;
+
+            if (OpcodeDefinition != null &&
+                OpcodeDefinition.Ext1 != 0)
+            {
+                index++;
+
+                if (OpcodeDefinition.Ext2 != 0)
+                    index++;
+            }
+
+            return index;
+        }
+        #endregion
     }
 
     public enum CycleNames

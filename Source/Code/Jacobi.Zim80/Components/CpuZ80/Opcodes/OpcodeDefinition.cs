@@ -5,7 +5,7 @@ using System.Linq;
 
 namespace Jacobi.Zim80.Components.CpuZ80.Opcodes
 {
-    [DebuggerDisplay("{Text} ({Value})")]
+    [DebuggerDisplay("{Mnemonic} ({Value})")]
     public partial class OpcodeDefinition
     {
         public const byte NotInUse = 0xFF;
@@ -109,6 +109,13 @@ namespace Jacobi.Zim80.Components.CpuZ80.Opcodes
         public bool HasExtension { get { return Ext1 != 0 || Ext2 != 0; } }
         public byte Ext1 { get; private set; }
         public byte Ext2 { get; private set; }
+        public bool IsIX { get { return IsShifted(0xDD); } }
+        public bool IsIY { get { return IsShifted(0xFD); } }
+
+        private bool IsShifted(byte opcode)
+        {
+            return Ext1 == opcode;
+        }
 
         // T-cycle counts per machine cycle
         public int[] Cycles { get; private set; }
@@ -148,14 +155,14 @@ namespace Jacobi.Zim80.Components.CpuZ80.Opcodes
                           select od);
 
             // extension prefix that shifts HL usage to IX (DD) or IY (FD).
-            if (!result.Any() &&
-                ext1 != null && (ext1.IsDD || ext1.IsFD))
-            {
-                result = (from od in Defintions
-                          where (ext2 == null && od.Ext1 == 0) || ext2 != null && od.Ext1 == ext2.Value
-                          where od.IsEqualTo(opcode)
-                          select od);
-            }
+            //if (!result.Any() &&
+            //    ext1 != null && (ext1.IsDD || ext1.IsFD))
+            //{
+            //    result = (from od in Defintions
+            //              where (ext2 == null && od.Ext1 == 0) || ext2 != null && od.Ext1 == ext2.Value
+            //              where od.IsEqualTo(opcode)
+            //              select od);
+            //}
 
             return result.SingleOrDefault();
         }

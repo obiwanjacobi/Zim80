@@ -45,13 +45,13 @@
 
         private bool ExecuteShiftedInstructionHi()
         {
-            if (ExecutionEngine.Opcode.IsIX)
+            if (ExecutionEngine.Opcode.Definition.IsIX)
             {
                 Registers.GetIX().SetHi(
                         Die.Alu.Inc8(Registers.GetIX().GetHi()));
                 return true;
             }
-            if (ExecutionEngine.Opcode.IsIY)
+            if (ExecutionEngine.Opcode.Definition.IsIY)
             {
                 Registers.GetIY().SetHi(
                         Die.Alu.Inc8(Registers.GetIY().GetHi()));
@@ -63,13 +63,13 @@
 
         private bool ExecuteShiftedInstructionLo()
         {
-            if (ExecutionEngine.Opcode.IsIX)
+            if (ExecutionEngine.Opcode.Definition.IsIX)
             {
                 Registers.GetIX().SetLo(
                         Die.Alu.Inc8(Registers.GetIX().GetLo()));
                 return true;
             }
-            if (ExecutionEngine.Opcode.IsIY)
+            if (ExecutionEngine.Opcode.Definition.IsIY)
             {
                 Registers.GetIY().SetLo(
                         Die.Alu.Inc8(Registers.GetIY().GetLo()));

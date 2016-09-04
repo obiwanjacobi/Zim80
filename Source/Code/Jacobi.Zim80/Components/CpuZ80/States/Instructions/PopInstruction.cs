@@ -11,10 +11,10 @@
             switch (machineCycle)
             {
                 case MachineCycleNames.M2:
-                    _instructionM2 = CreateInstructionPartM2();
+                    _instructionM2 = new ReadT3InstructionPart(Die, machineCycle, Registers.SP);
                     return _instructionM2;
                 case MachineCycleNames.M3:
-                    _instructionM3 = CreateInstructionPartM3();
+                    _instructionM3 = new ReadT3InstructionPart(Die, machineCycle, Registers.SP);
                     return _instructionM3;
                 default:
                     throw Errors.InvalidMachineCycle(machineCycle);
@@ -81,24 +81,14 @@
         private ReadT3InstructionPart _instructionM2;
         private ReadT3InstructionPart _instructionM3;
 
-        private ReadT3InstructionPart CreateInstructionPartM2()
-        {
-            return new ReadT3InstructionPart(Die, MachineCycleNames.M2, Registers.SP);
-        }
-
-        private ReadT3InstructionPart CreateInstructionPartM3()
-        {
-            return new ReadT3InstructionPart(Die, MachineCycleNames.M3, Registers.SP);
-        }
-
         private bool ExecuteShiftedInstructionHi(byte value)
         {
-            if (ExecutionEngine.Opcode.IsIX)
+            if (ExecutionEngine.Opcode.Definition.IsIX)
             {
                 Registers.GetIX().SetHi(value);
                 return true;
             }
-            if (ExecutionEngine.Opcode.IsIY)
+            if (ExecutionEngine.Opcode.Definition.IsIY)
             {
                 Registers.GetIY().SetHi(value);
                 return true;
@@ -109,12 +99,12 @@
 
         private bool ExecuteShiftedInstructionLo(byte value)
         {
-            if (ExecutionEngine.Opcode.IsIX)
+            if (ExecutionEngine.Opcode.Definition.IsIX)
             {
                 Registers.GetIX().SetLo(value);
                 return true;
             }
-            if (ExecutionEngine.Opcode.IsIY)
+            if (ExecutionEngine.Opcode.Definition.IsIY)
             {
                 Registers.GetIY().SetLo(value);
                 return true;

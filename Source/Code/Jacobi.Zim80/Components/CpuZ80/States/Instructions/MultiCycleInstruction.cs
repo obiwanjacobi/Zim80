@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace Jacobi.Zim80.Components.CpuZ80.States.Instructions
+﻿namespace Jacobi.Zim80.Components.CpuZ80.States.Instructions
 {
     internal abstract class MultiCycleInstruction : Instruction
     {
@@ -8,15 +6,15 @@ namespace Jacobi.Zim80.Components.CpuZ80.States.Instructions
 
         public MultiCycleInstruction(Die die)
             : base(die)
-        {
-            SetNextInstructionPart();
-        }
+        { }
 
         protected abstract CpuState GetInstructionPart(MachineCycleNames machineCycle);
 
         public override void OnClock(DigitalLevel level)
         {
-            _currentPart.OnClock(level);
+            if (_currentPart != null)
+                _currentPart.OnClock(level);
+
             base.OnClock(level);
         }
 
@@ -24,7 +22,8 @@ namespace Jacobi.Zim80.Components.CpuZ80.States.Instructions
         {
             base.OnClockNeg();
 
-            if (_currentPart.IsComplete)
+            if (_currentPart != null &&
+                _currentPart.IsComplete)
             {
                 OnInstructionPartCompleted(_currentPart);
             }
@@ -34,6 +33,7 @@ namespace Jacobi.Zim80.Components.CpuZ80.States.Instructions
                 if (ExecutionEngine.Cycles.IsMachineCycle1)
                 {
                     OnLastCycleFirstM();
+                    SetNextInstructionPart();
                 }
                 else if (ExecutionEngine.Cycles.IsLastMachineCycle)
                 {
@@ -57,7 +57,7 @@ namespace Jacobi.Zim80.Components.CpuZ80.States.Instructions
             if (completedPart == null ||
                 !completedPart.IsComplete)
             {
-                throw new InvalidOperationException("InstructionPart was not completed!");
+                throw Errors.InstructionPartWasNotCompleted();
             }
         }
 
@@ -75,7 +75,7 @@ namespace Jacobi.Zim80.Components.CpuZ80.States.Instructions
             _currentPart = GetInstructionPart(ExecutionEngine.Cycles.MachineCycle + 1);
 
             if (_currentPart == null)
-                throw new InvalidOperationException("GetInstructionPart returned null.");
+                throw Errors.NextInstructionPartIsNull();
         }
     }
 }

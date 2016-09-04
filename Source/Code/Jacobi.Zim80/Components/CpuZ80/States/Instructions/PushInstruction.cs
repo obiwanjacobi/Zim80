@@ -33,9 +33,9 @@ namespace Jacobi.Zim80.Components.CpuZ80.States.Instructions
                 case 1:
                     return Registers.PrimarySet.D;
                 case 2:
-                    if (ExecutionEngine.Opcode.IsIX)
+                    if (ExecutionEngine.Opcode.Definition.IsIX)
                         return Registers.GetIX().GetHi();
-                    if (ExecutionEngine.Opcode.IsIY)
+                    if (ExecutionEngine.Opcode.Definition.IsIY)
                         return Registers.GetIY().GetHi();
                     return Registers.PrimarySet.H;
                 case 3:
@@ -54,9 +54,9 @@ namespace Jacobi.Zim80.Components.CpuZ80.States.Instructions
                 case 1:
                     return Registers.PrimarySet.E;
                 case 2:
-                    if (ExecutionEngine.Opcode.IsIX)
+                    if (ExecutionEngine.Opcode.Definition.IsIX)
                         return Registers.GetIX().GetLo();
-                    if (ExecutionEngine.Opcode.IsIY)
+                    if (ExecutionEngine.Opcode.Definition.IsIY)
                         return Registers.GetIY().GetLo();
                     return Registers.PrimarySet.L;
                 case 3:
@@ -82,7 +82,6 @@ namespace Jacobi.Zim80.Components.CpuZ80.States.Instructions
                 Data = new OpcodeByte(GetRegisterLowValue())
             };
         }
-
         
         #endregion
     }

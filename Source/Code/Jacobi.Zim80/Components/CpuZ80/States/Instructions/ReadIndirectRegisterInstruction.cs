@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace Jacobi.Zim80.Components.CpuZ80.States.Instructions
+﻿namespace Jacobi.Zim80.Components.CpuZ80.States.Instructions
 {
     internal class ReadIndirectRegisterInstruction : IndirectRegisterInstruction
     {

@@ -1,5 +1,4 @@
 ﻿using Jacobi.Zim80.Components.CpuZ80.Opcodes;
-using System;
 
 namespace Jacobi.Zim80.Components.CpuZ80.States.Instructions
 {
@@ -28,7 +27,7 @@ namespace Jacobi.Zim80.Components.CpuZ80.States.Instructions
             }
         }
 
-        private OpcodeByte IncDecValue(OpcodeByte value)
+        protected OpcodeByte IncDecValue(OpcodeByte value)
         {
             byte result;
             switch (ExecutionEngine.Opcode.Definition.Z)

@@ -43,12 +43,12 @@ namespace Jacobi.Zim80.Components.CpuZ80.States.Instructions
 
         private bool ExecuteShiftedInstructionHi(byte value)
         {
-            if (ExecutionEngine.Opcode.IsIX)
+            if (ExecutionEngine.Opcode.Definition.IsIX)
             {
                 Registers.GetIX().SetHi(value);
                 return true;
             }
-            if (ExecutionEngine.Opcode.IsIY)
+            if (ExecutionEngine.Opcode.Definition.IsIY)
             {
                 Registers.GetIY().SetHi(value);
                 return true;
@@ -59,12 +59,12 @@ namespace Jacobi.Zim80.Components.CpuZ80.States.Instructions
 
         private bool ExecuteShiftedInstructionLo(byte value)
         {
-            if (ExecutionEngine.Opcode.IsIX)
+            if (ExecutionEngine.Opcode.Definition.IsIX)
             {
                 Registers.GetIX().SetLo(value);
                 return true;
             }
-            if (ExecutionEngine.Opcode.IsIY)
+            if (ExecutionEngine.Opcode.Definition.IsIY)
             {
                 Registers.GetIY().SetLo(value);
                 return true;

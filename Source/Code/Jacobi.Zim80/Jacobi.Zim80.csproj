@@ -78,6 +78,7 @@
     <Compile Include="Components\CpuZ80\States\Instructions\Dec16Instruction.cs" />
     <Compile Include="Components\CpuZ80\States\Instructions\Inc16Instruction.cs" />
     <Compile Include="Components\CpuZ80\States\Instructions\Inc8Instruction.cs" />
+    <Compile Include="Components\CpuZ80\States\Instructions\IncDecShiftedIndirectInstruction.cs" />
     <Compile Include="Components\CpuZ80\States\Instructions\IncDecIndirectInstruction.cs" />
     <Compile Include="Components\CpuZ80\States\Instructions\IndirectRegisterInstruction.cs" />
     <Compile Include="Components\CpuZ80\States\Instructions\Instruction.cs" />

@@ -43,9 +43,6 @@ namespace Jacobi.Zim80.Components.CpuZ80.Opcodes
                     }
                     else
                         Opcode = new MultiByteOpcode(_opcodeDef);
-
-                    Opcode.Ext1 = _ext1;
-                    Opcode.Ext2 = _ext2;
                 }
             }
             else // parameters

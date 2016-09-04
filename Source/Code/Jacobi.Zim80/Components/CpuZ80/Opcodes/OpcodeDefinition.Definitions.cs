@@ -7,7 +7,7 @@ namespace Jacobi.Zim80.Components.CpuZ80.Opcodes
         // See also: http://z80.info/decoding.htm
         public static readonly OpcodeDefinition[] Defintions = new OpcodeDefinition[]
         {
-            // X = 0
+            #region X = 0
             new OpcodeDefinition { X = 0, Z = 0, Y = 0, Mnemonic = "NOP", Cycles = new[] { 4 }, Instruction = typeof(NopInstruction) },
             new OpcodeDefinition { X = 0, Z = 0, Y = 1, Mnemonic = "EX AF, AF'", Cycles = new[] { 4 }, Instruction = typeof(ExAFAFInstruction) },
             new OpcodeDefinition { X = 0, Z = 0, Y = 2, Mnemonic = "DJNZ {0}", d = true, Cycles = new[] { 5, 3, 5 }, AltCycles = new[] { 5, 3 }, Instruction = typeof(DjnzInstruction) },
@@ -79,8 +79,9 @@ namespace Jacobi.Zim80.Components.CpuZ80.Opcodes
             new OpcodeDefinition { X = 0, Z = 7, Y = 5, Mnemonic = "CPL", Cycles = new[] { 4 } },
             new OpcodeDefinition { X = 0, Z = 7, Y = 6, Mnemonic = "SCF", Cycles = new[] { 4 } },
             new OpcodeDefinition { X = 0, Z = 7, Y = 7, Mnemonic = "CCF", Cycles = new[] { 4 } },
+            #endregion
 
-            // X = 1
+            #region X = 1
             new OpcodeDefinition { X = 1, Z = 0, Y = 0, Mnemonic = "LD B, B", Cycles = new[] { 4 } },
             new OpcodeDefinition { X = 1, Z = 0, Y = 1, Mnemonic = "LD C, B", Cycles = new[] { 4 } },
             new OpcodeDefinition { X = 1, Z = 0, Y = 2, Mnemonic = "LD D, B", Cycles = new[] { 4 } },
@@ -152,8 +153,9 @@ namespace Jacobi.Zim80.Components.CpuZ80.Opcodes
             new OpcodeDefinition { X = 1, Z = 7, Y = 5, Mnemonic = "LD L, A", Cycles = new[] { 4 } },
             new OpcodeDefinition { X = 1, Z = 7, Y = 6, Mnemonic = "LD (HL), A", Cycles = new[] { 4, 3 } },
             new OpcodeDefinition { X = 1, Z = 7, Y = 7, Mnemonic = "LD A, A", Cycles = new[] { 4 } },
+            #endregion
 
-            // X = 2
+            #region X = 2
             new OpcodeDefinition { X = 2, Z = 0, Y = 0, Mnemonic = "ADD A, B", Cycles = new[] { 4 } },
             new OpcodeDefinition { X = 2, Z = 0, Y = 1, Mnemonic = "ADC A, B", Cycles = new[] { 4 } },
             new OpcodeDefinition { X = 2, Z = 0, Y = 2, Mnemonic = "SUB A, B", Cycles = new[] { 4 } },
@@ -225,8 +227,9 @@ namespace Jacobi.Zim80.Components.CpuZ80.Opcodes
             new OpcodeDefinition { X = 2, Z = 7, Y = 5, Mnemonic = "XOR A, A", Cycles = new[] { 4 } },
             new OpcodeDefinition { X = 2, Z = 7, Y = 6, Mnemonic = "OR A, A", Cycles = new[] { 4 } },
             new OpcodeDefinition { X = 2, Z = 7, Y = 7, Mnemonic = "CP A, A", Cycles = new[] { 4 } },
+            #endregion
 
-            // X = 3
+            #region X = 3
             new OpcodeDefinition { X = 3, Z = 0, Y = 0, Mnemonic = "RET NZ", Cycles = new[] { 5, 3, 3 }, AltCycles = new[] { 5 } },
             new OpcodeDefinition { X = 3, Z = 0, Y = 1, Mnemonic = "RET Z", Cycles = new[] { 5, 3, 3 }, AltCycles = new[] { 5 } },
             new OpcodeDefinition { X = 3, Z = 0, Y = 2, Mnemonic = "RET NC", Cycles = new[] { 5, 3, 3 }, AltCycles = new[] { 5 } },
@@ -298,9 +301,10 @@ namespace Jacobi.Zim80.Components.CpuZ80.Opcodes
             new OpcodeDefinition { X = 3, Z = 7, Y = 5, Mnemonic = "RST 28", Cycles = new[] { 5, 3, 3 }, Instruction = typeof(RstInstruction) },
             new OpcodeDefinition { X = 3, Z = 7, Y = 6, Mnemonic = "RST 30", Cycles = new[] { 5, 3, 3 }, Instruction = typeof(RstInstruction) },
             new OpcodeDefinition { X = 3, Z = 7, Y = 7, Mnemonic = "RST 38", Cycles = new[] { 5, 3, 3 }, Instruction = typeof(RstInstruction) },
+            #endregion
 
-            // CB prefixed
-            // X = 0
+            #region CB prefixed 
+            #region X = 0
             new OpcodeDefinition { X = 0, Z = 0, Y = 0, Mnemonic = "RLC B", Ext1 = 0xCB, Cycles = new[] { 4, 4 } },
             new OpcodeDefinition { X = 0, Z = 0, Y = 1, Mnemonic = "RRC B", Ext1 = 0xCB, Cycles = new[] { 4, 4 } },
             new OpcodeDefinition { X = 0, Z = 0, Y = 2, Mnemonic = "RL B", Ext1 = 0xCB, Cycles = new[] { 4, 4 } },
@@ -372,8 +376,9 @@ namespace Jacobi.Zim80.Components.CpuZ80.Opcodes
             new OpcodeDefinition { X = 0, Z = 7, Y = 5, Mnemonic = "SRA A", Ext1 = 0xCB, Cycles = new[] { 4, 4 } },
             new OpcodeDefinition { X = 0, Z = 7, Y = 6, Mnemonic = "SLL A", Ext1 = 0xCB, Cycles = new[] { 4, 4 } },
             new OpcodeDefinition { X = 0, Z = 7, Y = 7, Mnemonic = "SRL A", Ext1 = 0xCB, Cycles = new[] { 4, 4 } },
+            #endregion
 
-            // X = 1
+            #region X = 1
             new OpcodeDefinition { X = 1, Z = 0, Y = 0, Mnemonic = "BIT 0, B", Ext1 = 0xCB, Cycles = new[] { 4, 4 } },
             new OpcodeDefinition { X = 1, Z = 0, Y = 1, Mnemonic = "BIT 1, B", Ext1 = 0xCB, Cycles = new[] { 4, 4 } },
             new OpcodeDefinition { X = 1, Z = 0, Y = 2, Mnemonic = "BIT 2, B", Ext1 = 0xCB, Cycles = new[] { 4, 4 } },
@@ -445,8 +450,9 @@ namespace Jacobi.Zim80.Components.CpuZ80.Opcodes
             new OpcodeDefinition { X = 1, Z = 7, Y = 5, Mnemonic = "BIT 5, A", Ext1 = 0xCB, Cycles = new[] { 4, 4 } },
             new OpcodeDefinition { X = 1, Z = 7, Y = 6, Mnemonic = "BIT 6, A", Ext1 = 0xCB, Cycles = new[] { 4, 4 } },
             new OpcodeDefinition { X = 1, Z = 7, Y = 7, Mnemonic = "BIT 7, A", Ext1 = 0xCB, Cycles = new[] { 4, 4 } },
+            #endregion
 
-            // X = 2
+            #region X = 2
             new OpcodeDefinition { X = 2, Z = 0, Y = 0, Mnemonic = "RES 0, B", Ext1 = 0xCB, Cycles = new[] { 4, 4 } },
             new OpcodeDefinition { X = 2, Z = 0, Y = 1, Mnemonic = "RES 1, B", Ext1 = 0xCB, Cycles = new[] { 4, 4 } },
             new OpcodeDefinition { X = 2, Z = 0, Y = 2, Mnemonic = "RES 2, B", Ext1 = 0xCB, Cycles = new[] { 4, 4 } },
@@ -518,8 +524,9 @@ namespace Jacobi.Zim80.Components.CpuZ80.Opcodes
             new OpcodeDefinition { X = 2, Z = 7, Y = 5, Mnemonic = "RES 5, A", Ext1 = 0xCB, Cycles = new[] { 4, 4 } },
             new OpcodeDefinition { X = 2, Z = 7, Y = 6, Mnemonic = "RES 6, A", Ext1 = 0xCB, Cycles = new[] { 4, 4 } },
             new OpcodeDefinition { X = 2, Z = 7, Y = 7, Mnemonic = "RES 7, A", Ext1 = 0xCB, Cycles = new[] { 4, 4 } },
+            #endregion
 
-            // X = 3
+            #region X = 3
             new OpcodeDefinition { X = 3, Z = 0, Y = 0, Mnemonic = "SET 0, B", Ext1 = 0xCB, Cycles = new[] { 4, 4 } },
             new OpcodeDefinition { X = 3, Z = 0, Y = 1, Mnemonic = "SET 1, B", Ext1 = 0xCB, Cycles = new[] { 4, 4 } },
             new OpcodeDefinition { X = 3, Z = 0, Y = 2, Mnemonic = "SET 2, B", Ext1 = 0xCB, Cycles = new[] { 4, 4 } },
@@ -591,9 +598,11 @@ namespace Jacobi.Zim80.Components.CpuZ80.Opcodes
             new OpcodeDefinition { X = 3, Z = 7, Y = 5, Mnemonic = "SET 5, A", Ext1 = 0xCB, Cycles = new[] { 4, 4 } },
             new OpcodeDefinition { X = 3, Z = 7, Y = 6, Mnemonic = "SET 6, A", Ext1 = 0xCB, Cycles = new[] { 4, 4 } },
             new OpcodeDefinition { X = 3, Z = 7, Y = 7, Mnemonic = "SET 7, A", Ext1 = 0xCB, Cycles = new[] { 4, 4 } },
+            #endregion
+            #endregion // CB
 
-            // ED prefixed
-            // X = 1
+            #region ED prefixed
+            #region X = 1
             new OpcodeDefinition { X = 1, Z = 0, Y = 0, Mnemonic = "IN B, (C)", Ext1 = 0xED, Cycles = new[] { 4, 4, 4 } },
             new OpcodeDefinition { X = 1, Z = 0, Y = 1, Mnemonic = "IN C, (C)", Ext1 = 0xED, Cycles = new[] { 4, 4, 4 } },
             new OpcodeDefinition { X = 1, Z = 0, Y = 2, Mnemonic = "IN D, (C)", Ext1 = 0xED, Cycles = new[] { 4, 4, 4 } },
@@ -657,8 +666,9 @@ namespace Jacobi.Zim80.Components.CpuZ80.Opcodes
             new OpcodeDefinition { X = 1, Z = 7, Y = 5, Mnemonic = "RLD", Ext1 = 0xED, Cycles = new[] { 4, 4, 3, 4, 3 } },
             new OpcodeDefinition { X = 1, Z = 7, Y = 6, Mnemonic = "NOP*", Ext1 = 0xED, Cycles = new[] { 4, 4 } },
             new OpcodeDefinition { X = 1, Z = 7, Y = 7, Mnemonic = "NOP*", Ext1 = 0xED, Cycles = new[] { 4, 4 } },
+            #endregion
 
-            // X = 2
+            #region X = 2
             new OpcodeDefinition { X = 2, Z = 0, Y = 4, Mnemonic = "LDI", Ext1 = 0xED, Cycles = new[] { 4, 4, 3, 5 } },
             new OpcodeDefinition { X = 2, Z = 0, Y = 5, Mnemonic = "LDD", Ext1 = 0xED, Cycles = new[] { 4, 4, 3, 5 } },
             new OpcodeDefinition { X = 2, Z = 0, Y = 6, Mnemonic = "LDIR", Ext1 = 0xED, Cycles = new[] { 4, 4, 3, 5, 5 } },
@@ -678,22 +688,70 @@ namespace Jacobi.Zim80.Components.CpuZ80.Opcodes
             new OpcodeDefinition { X = 2, Z = 3, Y = 5, Mnemonic = "OUTD", Ext1 = 0xED, Cycles = new[] { 4, 5, 3, 4 } },
             new OpcodeDefinition { X = 2, Z = 3, Y = 6, Mnemonic = "OUTIR", Ext1 = 0xED, Cycles = new[] { 4, 5, 3, 4, 5 }, AltCycles = new[] { 4, 5, 3, 4 } },
             new OpcodeDefinition { X = 2, Z = 3, Y = 7, Mnemonic = "OUTDR", Ext1 = 0xED, Cycles = new[] { 4, 5, 3, 4, 5 }, AltCycles = new[] { 4, 5, 3, 4 } },
+            #endregion
+            #endregion  // ED
 
+            #region DD prefixed (IX)
+            #region X = 0
+            new OpcodeDefinition { X = 0, Z = 1, Q = 0, P = 2, Mnemonic = "LD IX, {0}", Ext1 = 0xDD, nn = true, Cycles = new[] { 4, 4, 3, 3 }, Instruction = typeof(LoadImmediate16Instruction) },
 
-            // DD prefixed (IX)
-            // X = 0
+            new OpcodeDefinition { X = 0, Z = 3, Q = 0, P = 2, Mnemonic = "INC IX", Ext1 = 0xDD, Cycles = new[] { 4, 6 }, Instruction = typeof(Inc16Instruction) },
+            new OpcodeDefinition { X = 0, Z = 3, Q = 1, P = 2, Mnemonic = "DEC IX", Ext1 = 0xDD, Cycles = new[] { 4, 6 }, Instruction = typeof(Dec16Instruction) },
 
+            new OpcodeDefinition { X = 0, Z = 4, Y = 4, Mnemonic = "INC IXh", Ext1 = 0xDD, Cycles = new[] { 4, 4 }, Instruction = typeof(Inc8Instruction) },
+            new OpcodeDefinition { X = 0, Z = 4, Y = 5, Mnemonic = "INC IXl", Ext1 = 0xDD, Cycles = new[] { 4, 4 }, Instruction = typeof(Inc8Instruction) },
+            new OpcodeDefinition { X = 0, Z = 4, Y = 6, Mnemonic = "INC (IX{0})", Ext1 = 0xDD, d = true, Cycles = new[] { 4, 4, 3, 5, 4, 3 }, Instruction = typeof(IncDecShiftedIndirectInstruction) },
 
-            // FD prefixed (IY)
-            // X = 0
+            new OpcodeDefinition { X = 0, Z = 5, Y = 4, Mnemonic = "DEC IXh", Ext1 = 0xDD, Cycles = new[] { 4, 4 }, Instruction = typeof(Dec8Instruction) },
+            new OpcodeDefinition { X = 0, Z = 5, Y = 5, Mnemonic = "DEC IXl", Ext1 = 0xDD, Cycles = new[] { 4, 4 }, Instruction = typeof(Dec8Instruction) },
+            new OpcodeDefinition { X = 0, Z = 5, Y = 6, Mnemonic = "DEC (IX{0})", Ext1 = 0xDD, d = true, Cycles = new[] { 4, 4, 3, 5, 4, 3 }, Instruction = typeof(IncDecShiftedIndirectInstruction) },
 
+            new OpcodeDefinition { X = 0, Z = 6, Y = 4, Mnemonic = "LD IXh, {0}", Ext1 = 0xDD, n = true, Cycles = new[] { 4, 4, 3 }, Instruction = typeof(LoadImmediate8Instruction) },
+            new OpcodeDefinition { X = 0, Z = 6, Y = 5, Mnemonic = "LD IXl, {0}", Ext1 = 0xDD, n = true, Cycles = new[] { 4, 4, 3 }, Instruction = typeof(LoadImmediate8Instruction) },
+            #endregion
 
-            // DD-CB prefixed
-            // X = 0
+            #region X = 3
+            new OpcodeDefinition { X = 3, Z = 1, Q = 0, P = 2, Mnemonic = "POP IX", Ext1 = 0xDD, Cycles = new[] { 4, 4, 3, 3 }, Instruction = typeof(PopInstruction) },
 
+            new OpcodeDefinition { X = 3, Z = 5, Q = 0, P = 2, Mnemonic = "PUSH IX", Ext1 = 0xDD, Cycles = new[] { 4, 5, 3, 3 }, Instruction = typeof(PushInstruction) },
+            #endregion
+            #endregion  //DD
 
-            // FD-CB prefixed
-            // X = 0
+            #region FD prefixed (IY)
+            #region X = 0
+            new OpcodeDefinition { X = 0, Z = 1, Q = 0, P = 2, Mnemonic = "LD IY, {0}", Ext1 = 0xFD, nn = true, Cycles = new[] { 4, 4, 3, 3 }, Instruction = typeof(LoadImmediate16Instruction) },
+
+            new OpcodeDefinition { X = 0, Z = 3, Q = 0, P = 2, Mnemonic = "INC IY", Ext1 = 0xFD, Cycles = new[] { 4, 6 }, Instruction = typeof(Inc16Instruction) },
+            new OpcodeDefinition { X = 0, Z = 3, Q = 1, P = 2, Mnemonic = "DEC IY", Ext1 = 0xFD, Cycles = new[] { 4, 6 }, Instruction = typeof(Dec16Instruction) },
+
+            new OpcodeDefinition { X = 0, Z = 4, Y = 4, Mnemonic = "INC IYh", Ext1 = 0xFD, Cycles = new[] { 4, 4 }, Instruction = typeof(Inc8Instruction) },
+            new OpcodeDefinition { X = 0, Z = 4, Y = 5, Mnemonic = "INC IYl", Ext1 = 0xFD, Cycles = new[] { 4, 4 }, Instruction = typeof(Inc8Instruction) },
+            new OpcodeDefinition { X = 0, Z = 4, Y = 6, Mnemonic = "INC (IY{0})", Ext1 = 0xFD, d = true, Cycles = new[] { 4, 4, 3, 5, 4, 3 }, Instruction = typeof(IncDecShiftedIndirectInstruction) },
+
+            new OpcodeDefinition { X = 0, Z = 5, Y = 4, Mnemonic = "DEC IYh", Ext1 = 0xFD, Cycles = new[] { 4, 4 }, Instruction = typeof(Dec8Instruction) },
+            new OpcodeDefinition { X = 0, Z = 5, Y = 5, Mnemonic = "DEC IYl", Ext1 = 0xFD, Cycles = new[] { 4, 4 }, Instruction = typeof(Dec8Instruction) },
+            new OpcodeDefinition { X = 0, Z = 5, Y = 6, Mnemonic = "DEC (IY{0})", Ext1 = 0xFD, d = true, Cycles = new[] { 4, 4, 3, 5, 4, 3 }, Instruction = typeof(IncDecShiftedIndirectInstruction) },
+
+            new OpcodeDefinition { X = 0, Z = 6, Y = 4, Mnemonic = "LD IYh, {0}", Ext1 = 0xFD, n = true, Cycles = new[] { 4, 4, 3 }, Instruction = typeof(LoadImmediate8Instruction) },
+            new OpcodeDefinition { X = 0, Z = 6, Y = 5, Mnemonic = "LD IYl, {0}", Ext1 = 0xFD, n = true, Cycles = new[] { 4, 4, 3 }, Instruction = typeof(LoadImmediate8Instruction) },
+            #endregion
+
+            #region X = 3
+            new OpcodeDefinition { X = 3, Z = 1, Q = 0, P = 2, Mnemonic = "POP IY", Ext1 = 0xFD, Cycles = new[] { 4, 4, 3, 3 }, Instruction = typeof(PopInstruction) },
+
+            new OpcodeDefinition { X = 3, Z = 5, Q = 0, P = 2, Mnemonic = "PUSH IY", Ext1 = 0xFD, Cycles = new[] { 4, 5, 3, 3 }, Instruction = typeof(PushInstruction) },
+            #endregion
+            #endregion  //FD
+
+            #region DD-CB prefixed
+            #region X = 0
+            #endregion
+            #endregion  //DD-CB
+
+            #region FD-CB prefixed
+            #region X = 0
+            #endregion
+            #endregion  //FD-CB
 
         };
     }

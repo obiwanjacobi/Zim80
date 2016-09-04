@@ -22,6 +22,7 @@ namespace Jacobi.Zim80.Components.CpuZ80.Instructions.UnitTests
                 writer[new BusData16(0x10)] = new BusData8(0xAA);
             });
 
+            model.Cpu.AssertRegisters(hl: 0x10);
             model.Memory.Assert(0x10, 0xAB);
         }
 
@@ -36,11 +37,66 @@ namespace Jacobi.Zim80.Components.CpuZ80.Instructions.UnitTests
                 writer[new BusData16(0x10)] = new BusData8(0xAA);
             });
 
+            model.Cpu.AssertRegisters(hl: 0x10);
             model.Memory.Assert(0x10, 0xA9);
         }
 
+        [TestMethod]
+        public void IncIXd()
+        {
+            var ob = OpcodeByte.New(z: 4, y: 6);
+
+            // INC (IX-1)
+            var model = ExecuteTest(ob, (m) => {
+                m.Cpu.FillRegisters(ix: 0x10);
+                var writer = new MemoryWriter<BusData16, BusData8>(m.Memory);
+                writer[new BusData16(0x0F)] = new BusData8(0xAA);
+                writer[new BusData16(0x10)] = new BusData8(0x55);
+            }, 0xDD, -1);
+
+            model.Cpu.AssertRegisters(ix: 0x10);
+            model.Memory.Assert(0x0F, 0xAB);
+            model.Memory.Assert(0x10, 0x55);
+        }
+
+        [TestMethod]
+        public void DecIXd()
+        {
+            var ob = OpcodeByte.New(z: 5, y: 6);
+
+            // DEC (IX-1)
+            var model = ExecuteTest(ob, (m) => {
+                m.Cpu.FillRegisters(ix: 0x10);
+                var writer = new MemoryWriter<BusData16, BusData8>(m.Memory);
+                writer[new BusData16(0x0F)] = new BusData8(0xAA);
+                writer[new BusData16(0x10)] = new BusData8(0x55);
+            }, 0xDD, -1);
+
+            model.Cpu.AssertRegisters(ix: 0x10);
+            model.Memory.Assert(0x0F, 0xA9);
+            model.Memory.Assert(0x10, 0x55);
+        }
+
+        [TestMethod]
+        public void IncIYd()
+        {
+            var ob = OpcodeByte.New(z: 4, y: 6);
+
+            // INC (IY-1)
+            var model = ExecuteTest(ob, (m) => {
+                m.Cpu.FillRegisters(iy: 0x10);
+                var writer = new MemoryWriter<BusData16, BusData8>(m.Memory);
+                writer[new BusData16(0x0F)] = new BusData8(0xAA);
+                writer[new BusData16(0x10)] = new BusData8(0x55);
+            }, 0xFD, -1);
+
+            model.Cpu.AssertRegisters(iy: 0x10);
+            model.Memory.Assert(0x0F, 0xAB);
+            model.Memory.Assert(0x10, 0x55);
+        }
+
         private static SimulationModel ExecuteTest(OpcodeByte ob,
-                Action<SimulationModel> preTest, byte extension = 0)
+                Action<SimulationModel> preTest, byte extension = 0, sbyte? d = null)
         {
             var cpuZ80 = new CpuZ80();
             var model = cpuZ80.Initialize(null);
@@ -54,11 +110,12 @@ namespace Jacobi.Zim80.Components.CpuZ80.Instructions.UnitTests
             {
                 writer[new BusData16(0)] = new BusData8(extension);
                 writer[new BusData16(1)] = new BusData8(ob.Value);
+                writer[new BusData16(2)] = new BusData8((byte)d);
             }
 
             preTest(model);
 
-            model.ClockGen.BlockWave(extension == 0 ? 11 : 15);
+            model.ClockGen.BlockWave(extension == 0 ? 11 : 23);
 
             return model;
         }

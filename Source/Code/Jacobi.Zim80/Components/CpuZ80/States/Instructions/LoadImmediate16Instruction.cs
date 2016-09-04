@@ -35,12 +35,12 @@ namespace Jacobi.Zim80.Components.CpuZ80.States.Instructions
 
         private bool ExecuteShiftedInstruction(ushort value)
         {
-            if (ExecutionEngine.Opcode.IsIX)
+            if (ExecutionEngine.Opcode.Definition.IsIX)
             {
                 Registers.IX = value;
                 return true;
             }
-            if (ExecutionEngine.Opcode.IsIY)
+            if (ExecutionEngine.Opcode.Definition.IsIY)
             {
                 Registers.IY = value;
                 return true;

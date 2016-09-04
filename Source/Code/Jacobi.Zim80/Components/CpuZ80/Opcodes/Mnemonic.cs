@@ -6,33 +6,18 @@ namespace Jacobi.Zim80.Components.CpuZ80.Opcodes
     {
         private string _mnemonic;
 
-        public bool IsIX { get; set; }
-        public bool IsIY { get; set; }
-
-        public void SetMnemonic(string mnemonic)
+        public void SetMnemonic(OpcodeDefinition opcodeDefinition)
         {
-            if (mnemonic == null)
+            if (opcodeDefinition == null)
             {
                 _mnemonic = null;
+                Text = string.Empty;
                 return;
             }
 
-            if (!IsIX && !IsIY)
-            {
-                _mnemonic = mnemonic;
-                return;
-            }
-
-            var altText = IsIY ? "IY" : "IX";
-
-            if (mnemonic.Contains("(") && mnemonic.Contains(")"))
-            {
-                // IX/IY+d
-                altText += "{0}";
-            }
-
-            _mnemonic = mnemonic.Replace("HL", altText);
+            _mnemonic = opcodeDefinition.Mnemonic;
             Text = _mnemonic;
+            return;
         }
 
         public string Text { get; private set; }
