@@ -96,7 +96,7 @@ namespace Jacobi.Zim80.Components.CpuZ80
             {
                 case CpuStates.Fetch:
                     if (_cycles.IsLastCycle &&
-                        _opcodeBuilder.HasShiftExtension)
+                        _cycles.OpcodeDefinition == null)
                     {
                         // continue to Fetch.
                         _state = new CpuFetch(_die);
@@ -107,6 +107,8 @@ namespace Jacobi.Zim80.Components.CpuZ80
                     _currentState = CpuStates.Execute;
                     break;
                 case CpuStates.Execute:
+                    // TODO: check for interrupts here
+                case CpuStates.Interrupt:
                     _state = new CpuFetch(_die);
                     _currentState = CpuStates.Fetch;
                     _opcodeBuilder.Clear();
@@ -118,7 +120,8 @@ namespace Jacobi.Zim80.Components.CpuZ80
         internal enum CpuStates
         {
             Fetch,
-            Execute
+            Execute,
+            Interrupt
         }
     }
 }

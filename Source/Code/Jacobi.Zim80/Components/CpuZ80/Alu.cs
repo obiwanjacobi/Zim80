@@ -25,6 +25,11 @@ namespace Jacobi.Zim80.Components.CpuZ80
             return newValue;
         }
 
+        public void TestBit(byte bit, byte value)
+        {
+            Flags.Z = (value & (1 << bit)) == 0;
+        }
+
         public ushort Dec16(ushort value)
         {
             var newValue = (ushort)(value - 1);

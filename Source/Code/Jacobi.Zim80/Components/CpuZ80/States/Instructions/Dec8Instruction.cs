@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace Jacobi.Zim80.Components.CpuZ80.States.Instructions
+﻿namespace Jacobi.Zim80.Components.CpuZ80.States.Instructions
 {
     internal class Dec8Instruction : SingleCycleInstruction
     {
@@ -10,38 +8,25 @@ namespace Jacobi.Zim80.Components.CpuZ80.States.Instructions
 
         protected override void OnLastCycleFirstM()
         {
-            switch (ExecutionEngine.Opcode.Definition.Register8FromY)
+            var register = ExecutionEngine.Opcode.Definition.Register8FromY;
+
+            if (ExecutionEngine.Opcode.Definition.IsIX ||
+                ExecutionEngine.Opcode.Definition.IsIY)
             {
-                case Opcodes.Register8Table.B:
-                    Registers.PrimarySet.B =
-                        Die.Alu.Dec8(Registers.PrimarySet.B);
-                    break;
-                case Opcodes.Register8Table.C:
-                    Registers.PrimarySet.C =
-                        Die.Alu.Dec8(Registers.PrimarySet.C);
-                    break;
-                case Opcodes.Register8Table.D:
-                    Registers.PrimarySet.D =
-                        Die.Alu.Dec8(Registers.PrimarySet.D);
-                    break;
-                case Opcodes.Register8Table.E:
-                    Registers.PrimarySet.E =
-                        Die.Alu.Dec8(Registers.PrimarySet.E);
-                    break;
-                case Opcodes.Register8Table.H:
-                    if (!ExecuteShiftedInstructionHi())
-                        Registers.PrimarySet.H =
-                            Die.Alu.Dec8(Registers.PrimarySet.H);
-                    break;
-                case Opcodes.Register8Table.L:
-                    if (!ExecuteShiftedInstructionLo())
-                        Registers.PrimarySet.L =
-                            Die.Alu.Dec8(Registers.PrimarySet.L);
-                    break;
-                case Opcodes.Register8Table.A:
-                    Registers.PrimarySet.A =
-                        Die.Alu.Dec8(Registers.PrimarySet.A);
-                    break;
+                switch (register)
+                {
+                    case Opcodes.Register8Table.H:
+                        ExecuteShiftedInstructionHi();
+                        break;
+                    case Opcodes.Register8Table.L:
+                        ExecuteShiftedInstructionLo();
+                        break;
+                }
+            }
+            else
+            {
+                Registers.PrimarySet[register] =
+                        Die.Alu.Dec8(Registers.PrimarySet[register]);
             }
         }
 

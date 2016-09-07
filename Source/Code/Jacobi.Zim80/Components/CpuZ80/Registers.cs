@@ -1,4 +1,5 @@
 ﻿using System;
+using Jacobi.Zim80.Components.CpuZ80.Opcodes;
 
 namespace Jacobi.Zim80.Components.CpuZ80
 {
@@ -148,8 +149,97 @@ namespace Jacobi.Zim80.Components.CpuZ80
             {
                 get { return _flags; }
             }
-        }
 
+            public byte this[Register8Table register]
+            {
+                get
+                {
+                    switch (register)
+                    {
+                        case Register8Table.B:
+                            return B;
+                        case Register8Table.C:
+                            return C;
+                        case Register8Table.D:
+                            return D;
+                        case Register8Table.E:
+                            return E;
+                        case Register8Table.H:
+                            return H;
+                        case Register8Table.L:
+                            return L;
+                        case Register8Table.A:
+                            return A;
+                        default:
+                            throw new InvalidOperationException();
+                    }
+                }
+                set
+                {
+                    switch (register)
+                    {
+                        case Register8Table.B:
+                            B = value;
+                            break;
+                        case Register8Table.C:
+                            C = value;
+                            break;
+                        case Register8Table.D:
+                            D = value;
+                            break;
+                        case Register8Table.E:
+                            E = value;
+                            break;
+                        case Register8Table.H:
+                            H = value;
+                            break;
+                        case Register8Table.L:
+                            L = value;
+                            break;
+                        case Register8Table.A:
+                            A = value;
+                            break;
+                        default:
+                            throw new InvalidOperationException();
+                    }
+                }
+            }
+
+            public ushort this[Register16Table register]
+            {
+                get
+                {
+                    switch (register)
+                    {
+                        case Register16Table.BC:
+                            return BC;
+                        case Register16Table.DE:
+                            return DE;
+                        case Register16Table.HL:
+                            return HL;
+                    }
+
+                    throw new InvalidOperationException();
+                }
+                set
+                {
+                    switch (register)
+                    {
+                        case Register16Table.BC:
+                            BC = value;
+                            break;
+                        case Register16Table.DE:
+                            DE = value;
+                            break;
+                        case Register16Table.HL:
+                            HL = value;
+                            break;
+                        default:
+                            throw new InvalidOperationException();
+                    }
+                }
+            }
+        }
         
 
         public class Flags
