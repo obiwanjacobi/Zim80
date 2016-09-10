@@ -1,5 +1,6 @@
 ﻿using System;
 using Jacobi.Zim80.Components.CpuZ80.Opcodes;
+using System.Collections.Generic;
 
 namespace Jacobi.Zim80.Components.CpuZ80
 {
@@ -65,9 +66,10 @@ namespace Jacobi.Zim80.Components.CpuZ80
             set { _ir.SetLo(value); }
         }
 
-        // interrupt mode flip-flops
-        public bool IFF1 { get; set; }
-        public bool IFF2 { get; set; }
+        private readonly InterruptRegisters _interrupt = new InterruptRegisters();
+        public InterruptRegisters Interrupt
+        { get { return _interrupt; } }
+        
 
         public class RegisterSet
         {
@@ -241,6 +243,77 @@ namespace Jacobi.Zim80.Components.CpuZ80
             }
         }
         
+        public class InterruptRegisters
+        {
+            private InterruptTypes _interruptMode;
+            public InterruptTypes InterruptMode
+            {
+                get { return _interruptMode; }
+                set
+                {
+                    if (value == InterruptTypes.Nmi)
+                        throw new ArgumentException("NMI is not an interrupt mode.");
+                    _interruptMode = value;
+                }
+            }
+
+            private readonly Stack<InterruptTypes> _interrupts = new Stack<InterruptTypes>();
+            public InterruptTypes? ActiveInterrupt
+            {
+                get
+                {
+                    if (_interrupts.Count > 0)
+                        return _interrupts.Peek();
+
+                    return null;
+                }
+            }
+
+            public void EnableInterrupt()
+            {
+                IFF1 = true;
+                IFF2 = true;
+            }
+
+            public void DisableInterrupt()
+            {
+                IFF1 = false;
+                IFF2 = false;
+            }
+
+            // interrupt mode flags
+            public bool IFF1 { get; private set; }
+            public bool IFF2 { get; private set; }
+
+            // nmi
+            internal void PushNmi()
+            {
+                _interrupts.Push(InterruptTypes.Nmi);
+                IFF2 = IFF1;
+                IFF1 = false;
+            }
+            // retn
+            internal void PopNmi()
+            {
+                if (ActiveInterrupt == InterruptTypes.Nmi)
+                    _interrupts.Pop();
+
+                IFF1 = IFF2;
+            }
+            // int
+            internal void PushInt()
+            {
+                _interrupts.Push(InterruptMode);
+                DisableInterrupt();
+            }
+            // reti (ret)
+            internal void PopInt()
+            {
+                if (ActiveInterrupt != null &&
+                    ActiveInterrupt != InterruptTypes.Nmi)
+                    _interrupts.Pop();
+            }
+        }
 
         public class Flags
         {
@@ -281,6 +354,13 @@ namespace Jacobi.Zim80.Components.CpuZ80
                 set { SetBit(6, value); }
             }
 
+            // undocumented: copy of bit5 of result
+            public bool Y
+            {
+                get { return IsBitSet(5); }
+                set { SetBit(5, value); }
+            }
+
             // half-carry
             public bool H
             {
@@ -288,7 +368,14 @@ namespace Jacobi.Zim80.Components.CpuZ80
                 set { SetBit(4, value); }
             }
 
-            // parity/
+            // undocumented: copy of bit3 of result
+            public bool X
+            {
+                get { return IsBitSet(3); }
+                set { SetBit(3, value); }
+            }
+
+            // parity/overflow
             public bool PV
             {
                 get { return IsBitSet(2); }

@@ -74,6 +74,7 @@
     <Compile Include="Components\BusTest.cs" />
     <Compile Include="Components\BusTestExtensions.cs" />
     <Compile Include="Components\CpuZ80\CpuZ80FetchTest.cs" />
+    <Compile Include="Components\CpuZ80\CpuZ80InterruptTest.cs" />
     <Compile Include="Components\CpuZ80\CpuZ80TestExtensions.cs" />
     <Compile Include="Components\CpuZ80\CycleCounterTest.cs" />
     <Compile Include="Components\CpuZ80\InstructionLogger.cs" />

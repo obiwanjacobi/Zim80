@@ -116,7 +116,7 @@ namespace Jacobi.Zim80.Components.CpuZ80.Opcodes
             new OpcodeDefinition { X = 1, Z = 3, Y = 3, Mnemonic = "LD E, E", Cycles = new[] { 4 } },
             new OpcodeDefinition { X = 1, Z = 3, Y = 4, Mnemonic = "LD H, E", Cycles = new[] { 4 } },
             new OpcodeDefinition { X = 1, Z = 3, Y = 5, Mnemonic = "LD L, E", Cycles = new[] { 4 } },
-            new OpcodeDefinition { X = 1, Z = 3, Y = 6, Mnemonic = "LD (HL), E", Cycles = new[] { 4 } },
+            new OpcodeDefinition { X = 1, Z = 3, Y = 6, Mnemonic = "LD (HL), E", Cycles = new[] { 4, 3 } },
             new OpcodeDefinition { X = 1, Z = 3, Y = 7, Mnemonic = "LD A, E", Cycles = new[] { 4 } },
 
             new OpcodeDefinition { X = 1, Z = 4, Y = 0, Mnemonic = "LD B, H", Cycles = new[] { 4 } },
@@ -134,7 +134,7 @@ namespace Jacobi.Zim80.Components.CpuZ80.Opcodes
             new OpcodeDefinition { X = 1, Z = 5, Y = 3, Mnemonic = "LD E, L", Cycles = new[] { 4 } },
             new OpcodeDefinition { X = 1, Z = 5, Y = 4, Mnemonic = "LD H, L", Cycles = new[] { 4 } },
             new OpcodeDefinition { X = 1, Z = 5, Y = 5, Mnemonic = "LD L, L", Cycles = new[] { 4 } },
-            new OpcodeDefinition { X = 1, Z = 5, Y = 6, Mnemonic = "LD (HL), L", Cycles = new[] { 4 } },
+            new OpcodeDefinition { X = 1, Z = 5, Y = 6, Mnemonic = "LD (HL), L", Cycles = new[] { 4, 3 } },
             new OpcodeDefinition { X = 1, Z = 5, Y = 7, Mnemonic = "LD A, L", Cycles = new[] { 4 } },
 
             new OpcodeDefinition { X = 1, Z = 6, Y = 0, Mnemonic = "LD B, (HL)", Cycles = new[] { 4, 3 } },

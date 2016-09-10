@@ -59,10 +59,12 @@
     <Compile Include="Components\BusData8.cs" />
     <Compile Include="Components\CpuZ80\Alu.cs" />
     <Compile Include="Components\CpuZ80\InstructionExecutedEventArgs.cs" />
+    <Compile Include="Components\CpuZ80\InterruptTypes.cs" />
     <Compile Include="Components\CpuZ80\Opcodes\Mnemonic.cs" />
     <Compile Include="Components\CpuZ80\Opcodes\OpcodeDefinition.Definitions.cs" />
     <Compile Include="Components\CpuZ80\Opcodes\Register16Table.cs" />
     <Compile Include="Components\CpuZ80\Opcodes\Register8Table.cs" />
+    <Compile Include="Components\CpuZ80\States\CpuInterrupt.cs" />
     <Compile Include="Components\CpuZ80\States\Instructions\BitInstruction.cs" />
     <Compile Include="Components\CpuZ80\States\Instructions\Dec8Instruction.cs" />
     <Compile Include="Components\CpuZ80\States\Instructions\DjnzInstruction.cs" />
@@ -83,11 +85,13 @@
     <Compile Include="Components\CpuZ80\States\Instructions\IncDecIndirectInstruction.cs" />
     <Compile Include="Components\CpuZ80\States\Instructions\IndirectRegisterInstruction.cs" />
     <Compile Include="Components\CpuZ80\States\Instructions\Instruction.cs" />
+    <Compile Include="Components\CpuZ80\States\Instructions\IntInstruction.cs" />
     <Compile Include="Components\CpuZ80\States\Instructions\JumpRelativeInstruction.cs" />
     <Compile Include="Components\CpuZ80\States\Instructions\LoadImmediate16Instruction.cs" />
     <Compile Include="Components\CpuZ80\States\Instructions\LoadImmediate8Instruction.cs" />
     <Compile Include="Components\CpuZ80\States\Instructions\MachineCycleState.cs" />
     <Compile Include="Components\CpuZ80\States\Instructions\AutoCompleteInstructionPart.cs" />
+    <Compile Include="Components\CpuZ80\States\Instructions\NmiInstruction.cs" />
     <Compile Include="Components\CpuZ80\States\Instructions\PopInstruction.cs" />
     <Compile Include="Components\CpuZ80\States\Instructions\PushInstruction.cs" />
     <Compile Include="Components\CpuZ80\States\Instructions\ReadIndirectRegisterInstruction.cs" />

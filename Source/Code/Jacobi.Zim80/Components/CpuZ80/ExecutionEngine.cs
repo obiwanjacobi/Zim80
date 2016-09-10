@@ -1,6 +1,7 @@
 ﻿using Jacobi.Zim80.Components.CpuZ80.Opcodes;
 using Jacobi.Zim80.Components.CpuZ80.States;
 using System;
+using System.Collections.Generic;
 
 namespace Jacobi.Zim80.Components.CpuZ80
 {
@@ -9,22 +10,24 @@ namespace Jacobi.Zim80.Components.CpuZ80
         private readonly Die _die;
         private readonly CycleCounter _cycles = new CycleCounter();
         private readonly OpcodeBuilder _opcodeBuilder = new OpcodeBuilder();
+        private readonly List<CpuInterrupt> _interrupts = new List<CpuInterrupt>();
         private CpuState _state;
         private CpuStates _currentState;
 
         public ExecutionEngine(Die die)
         {
             _die = die;
-            _state = new CpuFetch(_die);
-            _currentState = CpuStates.Fetch;
+            StartFetch();
 
             // the engine that drives it all
             _die.Clock.OnChanged += Clock_OnChanged;
+            _die.NonMaskableInterrupt.OnChanged += NonMaskableInterupt_OnChanged;
+            _die.Interrupt.OnChanged += Interrupt_OnChanged;
         }
 
-        public Die Die { get { return _die; } }
-
         public event EventHandler<InstructionExecutedEventArgs> InstructionExecuted;
+
+        public Die Die { get { return _die; } }
 
         public CycleCounter Cycles { get { return _cycles; } }
 
@@ -85,6 +88,29 @@ namespace Jacobi.Zim80.Components.CpuZ80
             }
         }
 
+        private void NonMaskableInterupt_OnChanged(object sender, DigitalLevelChangedEventArgs e)
+        {
+            // NMI is edge triggered
+            if (e.Level == DigitalLevel.NegEdge)
+            {
+                // TODO: check if we're already in NMI?
+                var def = OpcodeDefinition.GetInterruptDefinition(InterruptTypes.Nmi);
+                var nmi = new CpuInterrupt(_die, def);
+                _interrupts.Insert(0, nmi);
+            }
+        }
+
+        private void Interrupt_OnChanged(object sender, DigitalLevelChangedEventArgs e)
+        {
+            if (_die.Registers.Interrupt.IFF1 && 
+                e.Level == DigitalLevel.Low)
+            {
+                var def = OpcodeDefinition.GetInterruptDefinition(InterruptTypes.Nmi);
+                var nmi = new CpuInterrupt(_die, def);
+                _interrupts.Insert(0, nmi);
+            }
+        }
+
         internal void NotifyInstructionExecuted()
         {
             InstructionExecuted?.Invoke(this, new InstructionExecutedEventArgs(Opcode));
@@ -95,26 +121,64 @@ namespace Jacobi.Zim80.Components.CpuZ80
             switch (_currentState)
             {
                 case CpuStates.Fetch:
-                    if (_cycles.IsLastCycle &&
-                        _cycles.OpcodeDefinition == null)
-                    {
-                        // continue to Fetch.
-                        _state = new CpuFetch(_die);
-                        _cycles.Reset();
-                        break;
-                    }
-                    _state = new CpuExecute(_die);
-                    _currentState = CpuStates.Execute;
+                    if (!ContinueFetch())
+                        StartExecute();
                     break;
                 case CpuStates.Execute:
-                    // TODO: check for interrupts here
+                    if (!AcceptInterrupt())
+                        StartFetch();
+                    break;
                 case CpuStates.Interrupt:
-                    _state = new CpuFetch(_die);
-                    _currentState = CpuStates.Fetch;
-                    _opcodeBuilder.Clear();
-                    _cycles.Reset();
+                    StartFetch();
                     break;
             }
+        }
+
+        private void StartFetch()
+        {
+            _state = new CpuFetch(_die);
+            _currentState = CpuStates.Fetch;
+            _opcodeBuilder.Clear();
+            _cycles.Reset();
+        }
+
+        private bool ContinueFetch()
+        {
+            if (_cycles.IsLastCycle &&
+                _cycles.OpcodeDefinition == null)
+            {
+                _state = new CpuFetch(_die);
+                _cycles.Reset();
+                return true;
+            }
+
+            return false;
+        }
+
+        private void StartExecute()
+        {
+            _state = new CpuExecute(_die);
+            _currentState = CpuStates.Execute;
+        }
+
+        private bool AcceptInterrupt()
+        {
+            if (_interrupts.Count > 0)
+            {
+                var interrupt = _interrupts[0];
+                _interrupts.RemoveAt(0);
+
+                _state = interrupt;
+                _currentState = CpuStates.Interrupt;
+
+                // prep engine state
+                _opcodeBuilder.Clear();
+                _cycles.Reset();
+                _cycles.OpcodeDefinition = interrupt.Definition;
+                return true;
+            }
+
+            return false;
         }
 
         internal enum CpuStates

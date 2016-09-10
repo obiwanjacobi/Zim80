@@ -1,8 +1,6 @@
 ﻿using Jacobi.Zim80.Components.CpuZ80.Opcodes;
-using Jacobi.Zim80.Components.CpuZ80.States.Instructions;
 using Jacobi.Zim80.Components.CpuZ80.UnitTests;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System.Linq;
 
 namespace Jacobi.Zim80.Components.CpuZ80.Instructions.UnitTests
 {
@@ -12,10 +10,10 @@ namespace Jacobi.Zim80.Components.CpuZ80.Instructions.UnitTests
         [TestMethod]
         public void ExAFAF()
         {
-            var od = OpcodeDefinition.FindAll(typeof(ExAFAFInstruction)).FirstOrDefault();
+            var ob = OpcodeByte.New(y: 1);
 
             var cpuZ80 = new CpuZ80();
-            var model = cpuZ80.Initialize(new byte[] { od.Value });
+            var model = cpuZ80.Initialize(new byte[] { ob.Value });
 
             cpuZ80.FillRegisters(a: 0x55, a_a: 0xAA);
 

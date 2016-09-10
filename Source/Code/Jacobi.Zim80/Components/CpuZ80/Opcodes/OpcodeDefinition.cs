@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Jacobi.Zim80.Components.CpuZ80.States.Instructions;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
@@ -155,25 +156,22 @@ namespace Jacobi.Zim80.Components.CpuZ80.Opcodes
                           where od.IsEqualTo(opcode)
                           select od);
 
-            // extension prefix that shifts HL usage to IX (DD) or IY (FD).
-            //if (!result.Any() &&
-            //    ext1 != null && (ext1.IsDD || ext1.IsFD))
-            //{
-            //    result = (from od in Defintions
-            //              where (ext2 == null && od.Ext1 == 0) || ext2 != null && od.Ext1 == ext2.Value
-            //              where od.IsEqualTo(opcode)
-            //              select od);
-            //}
-
             return result.SingleOrDefault();
         }
 
-        public static IEnumerable<OpcodeDefinition> FindAll(Type instructionType)
+        // interrupt definitions
+        private static readonly OpcodeDefinition[] Interrupts = new OpcodeDefinition[]
         {
-            return from od in Defintions
-                   where od.Instruction != null
-                   where od.Instruction.Name == instructionType.Name
-                   select od;
+            // X = unused
+            new OpcodeDefinition { Z = 0, Y = 0, Mnemonic = "NMI", Cycles = new[] { 5, 3, 3 }, Instruction = typeof(NmiInstruction) },
+            new OpcodeDefinition { Z = 1, Y = 0, Mnemonic = "INT0", Cycles = new[] { 7, 3, 3 }, Instruction = typeof(IntInstruction) },
+            new OpcodeDefinition { Z = 1, Y = 1, Mnemonic = "INT1", Cycles = new[] { 7, 3, 3 }, Instruction = typeof(IntInstruction) },
+            new OpcodeDefinition { Z = 1, Y = 2, Mnemonic = "INT2", Cycles = new[] { 7, 3, 3, 3, 3 }, Instruction = typeof(IntInstruction) },
+        };
+
+        internal static OpcodeDefinition GetInterruptDefinition(InterruptTypes intType)
+        {
+            return Interrupts[(int)intType];
         }
     }
 }
