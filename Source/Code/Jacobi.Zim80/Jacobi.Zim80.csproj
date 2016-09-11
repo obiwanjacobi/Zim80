@@ -99,6 +99,7 @@
     <Compile Include="Components\CpuZ80\States\Instructions\NopInstruction.cs" />
     <Compile Include="Components\CpuZ80\States\Instructions\ReadParametersInstruction.cs" />
     <Compile Include="Components\CpuZ80\States\Instructions\ReadT3InstructionPart.cs" />
+    <Compile Include="Components\CpuZ80\States\Instructions\RetInstruction.cs" />
     <Compile Include="Components\CpuZ80\States\Instructions\RstInstruction.cs" />
     <Compile Include="Components\CpuZ80\States\Instructions\SingleCycleInstruction.cs" />
     <Compile Include="Components\CpuZ80\States\Instructions\WriteIndirectRegisterInstruction.cs" />

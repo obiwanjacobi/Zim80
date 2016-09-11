@@ -33,7 +33,9 @@
                 if (ExecutionEngine.Cycles.IsMachineCycle1)
                 {
                     OnLastCycleFirstM();
-                    SetNextInstructionPart();
+
+                    if (!IsComplete)
+                        SetNextInstructionPart();
                 }
                 else if (ExecutionEngine.Cycles.IsLastMachineCycle)
                 {

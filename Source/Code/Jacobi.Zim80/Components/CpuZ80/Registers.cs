@@ -245,6 +245,11 @@ namespace Jacobi.Zim80.Components.CpuZ80
         
         public class InterruptRegisters
         {
+            public InterruptRegisters()
+            {
+                _interruptMode = InterruptTypes.Int0;
+            }
+
             private InterruptTypes _interruptMode;
             public InterruptTypes InterruptMode
             {
@@ -258,6 +263,7 @@ namespace Jacobi.Zim80.Components.CpuZ80
             }
 
             private readonly Stack<InterruptTypes> _interrupts = new Stack<InterruptTypes>();
+            // interrupt currently active (not the mode!)
             public InterruptTypes? ActiveInterrupt
             {
                 get
@@ -269,21 +275,21 @@ namespace Jacobi.Zim80.Components.CpuZ80
                 }
             }
 
-            public void EnableInterrupt()
+            // interrupt mode flags
+            public bool IFF1 { get; private set; }
+            public bool IFF2 { get; private set; }
+
+            internal void EnableInterrupt()
             {
                 IFF1 = true;
                 IFF2 = true;
             }
 
-            public void DisableInterrupt()
+            internal void DisableInterrupt()
             {
                 IFF1 = false;
                 IFF2 = false;
             }
-
-            // interrupt mode flags
-            public bool IFF1 { get; private set; }
-            public bool IFF2 { get; private set; }
 
             // nmi
             internal void PushNmi()
@@ -297,7 +303,6 @@ namespace Jacobi.Zim80.Components.CpuZ80
             {
                 if (ActiveInterrupt == InterruptTypes.Nmi)
                     _interrupts.Pop();
-
                 IFF1 = IFF2;
             }
             // int
@@ -321,23 +326,6 @@ namespace Jacobi.Zim80.Components.CpuZ80
             internal Flags(Register16 af)
             {
                 _af = af;
-            }
-
-            private bool IsBitSet(int bitNo)
-            {
-                return (_af.GetLo() & (1 << bitNo)) > 0;
-            }
-            private void SetBit(int bitNo, bool value)
-            {
-                var flags = _af.GetLo();
-                var mask = (1 << bitNo);
-
-                if (value)
-                    flags |= (byte)mask;
-                else
-                    flags &= (byte)~mask;
-
-                _af.SetLo(flags);
             }
 
             // sign
@@ -394,6 +382,23 @@ namespace Jacobi.Zim80.Components.CpuZ80
             {
                 get { return IsBitSet(0); }
                 set { SetBit(0, value); }
+            }
+
+            private bool IsBitSet(int bitNo)
+            {
+                return (_af.GetLo() & (1 << bitNo)) > 0;
+            }
+            private void SetBit(int bitNo, bool value)
+            {
+                var flags = _af.GetLo();
+                var mask = (1 << bitNo);
+
+                if (value)
+                    flags |= (byte)mask;
+                else
+                    flags &= (byte)~mask;
+
+                _af.SetLo(flags);
             }
         }
 
