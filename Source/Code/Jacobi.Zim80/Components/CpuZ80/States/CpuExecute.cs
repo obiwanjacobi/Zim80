@@ -10,6 +10,8 @@ namespace Jacobi.Zim80.Components.CpuZ80.States
         public CpuExecute(Die die)
             : base(die)
         {
+            if (ExecutionEngine.Cycles.OpcodeDefinition == null)
+                throw new InvalidOperationException("There is no active OpcodeDefinition.");
             if (ExecutionEngine.Cycles.OpcodeDefinition.Instruction == null)
                 throw new InvalidOperationException("The active OpcodeDefinition has no associated Instruction: " 
                     + ExecutionEngine.Cycles.OpcodeDefinition.ToString());

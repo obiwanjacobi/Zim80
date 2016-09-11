@@ -1,4 +1,5 @@
-﻿using Jacobi.Zim80.UnitTests;
+﻿using FluentAssertions;
+using Jacobi.Zim80.UnitTests;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace Jacobi.Zim80.Components.CpuZ80.UnitTests
@@ -7,7 +8,7 @@ namespace Jacobi.Zim80.Components.CpuZ80.UnitTests
     public class CpuZ80InterruptTest
     {
         [TestMethod]
-        public void Int_DI_At2Cycles()
+        public void IntDI_After2Cycles()
         {
             var cpu = new CpuZ80();
             var interruptProvider = cpu.Interrupt.CreateConnection();
@@ -17,6 +18,25 @@ namespace Jacobi.Zim80.Components.CpuZ80.UnitTests
             interruptProvider.Write(DigitalLevel.Low);
             model.ClockGen.BlockWave(2);
 
+            cpu.Registers.Interrupt.ActiveInterrupt.Should().Be(null);
+        }
+
+        [TestMethod]
+        public void IntEI_After2Cycles()
+        {
+            var cpu = new CpuZ80();
+            cpu.Registers.Interrupt.EnableInterrupt();
+            var interruptProvider = cpu.Interrupt.CreateConnection();
+            var model = cpu.Initialize(new byte[] { 0 });
+
+            // nop
+            model.ClockGen.BlockWave(2);
+            interruptProvider.Write(DigitalLevel.Low);
+            model.ClockGen.BlockWave(2);
+            // start interrupt
+            model.ClockGen.BlockWave(2);
+
+            cpu.Registers.Interrupt.ActiveInterrupt.Should().Be(InterruptTypes.Int0);
         }
     }
 }

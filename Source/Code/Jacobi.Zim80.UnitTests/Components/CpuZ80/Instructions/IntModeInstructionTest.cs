@@ -10,6 +10,13 @@ namespace Jacobi.Zim80.Components.CpuZ80.Instructions.UnitTests
     public class IntModeInstructionTest
     {
         [TestMethod]
+        public void IntMode0_IsDefault()
+        {
+            var cpu = new CpuZ80();
+            cpu.Registers.Interrupt.InterruptMode.Should().Be(InterruptTypes.Int0);
+        }
+
+        [TestMethod]
         public void IntMode0()
         {
             var ob = OpcodeByte.New(x: 1, z: 6, y: 0);
