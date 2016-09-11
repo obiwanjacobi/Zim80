@@ -1,6 +1,5 @@
 ﻿using Jacobi.Zim80.Components.CpuZ80.States.Instructions;
 using System;
-using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 
@@ -163,10 +162,10 @@ namespace Jacobi.Zim80.Components.CpuZ80.Opcodes
         private static readonly OpcodeDefinition[] Interrupts = new OpcodeDefinition[]
         {
             // X = unused
-            new OpcodeDefinition { Z = 0, Y = 0, Mnemonic = "NMI", Cycles = new[] { 5, 3, 3 }, Instruction = typeof(NmiInstruction) },
-            new OpcodeDefinition { Z = 1, Y = 0, Mnemonic = "INT0", Cycles = new[] { 7, 3, 3 }, Instruction = typeof(IntInstruction) },
-            new OpcodeDefinition { Z = 1, Y = 1, Mnemonic = "INT1", Cycles = new[] { 7, 3, 3 }, Instruction = typeof(IntInstruction) },
-            new OpcodeDefinition { Z = 1, Y = 2, Mnemonic = "INT2", Cycles = new[] { 7, 3, 3, 3, 3 }, Instruction = typeof(IntInstruction) },
+            new OpcodeDefinition { Z = 0, Y = 0, Mnemonic = "NMI", Cycles = new[] { 5, 3, 3 }, Instruction = typeof(NmiInterrupt) },
+            new OpcodeDefinition { Z = 1, Y = 0, Mnemonic = "INT0", Cycles = new[] { 7, 3, 3 }, Instruction = typeof(Interrupt) },
+            new OpcodeDefinition { Z = 1, Y = 1, Mnemonic = "INT1", Cycles = new[] { 7, 3, 3 }, Instruction = typeof(Interrupt) },
+            new OpcodeDefinition { Z = 1, Y = 2, Mnemonic = "INT2", Cycles = new[] { 7, 3, 3, 3, 3 }, Instruction = typeof(Interrupt) },
         };
 
         internal static OpcodeDefinition GetInterruptDefinition(InterruptTypes intType)

@@ -1,4 +1,5 @@
-﻿using Jacobi.Zim80.Components.CpuZ80.Opcodes;
+﻿using System;
+using Jacobi.Zim80.Components.CpuZ80.Opcodes;
 
 namespace Jacobi.Zim80.Components.CpuZ80.States
 {
@@ -14,6 +15,11 @@ namespace Jacobi.Zim80.Components.CpuZ80.States
         public OpcodeDefinition Definition
         {
             get { return _definition; }
+        }
+
+        public static implicit operator int(CpuInterrupt v)
+        {
+            throw new NotImplementedException();
         }
     }
 }

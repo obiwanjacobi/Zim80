@@ -275,9 +275,15 @@ namespace Jacobi.Zim80.Components.CpuZ80
                 }
             }
 
+            public bool IsEnabled
+            {
+                get { return IFF1 && !IsSuspended; }
+            }
+
             // interrupt mode flags
             public bool IFF1 { get; private set; }
             public bool IFF2 { get; private set; }
+            public bool IsSuspended { get; internal set; }
 
             internal void EnableInterrupt()
             {

@@ -77,6 +77,28 @@ namespace Jacobi.Zim80.Components.CpuZ80
             _die.AddressBus.Write(new BusData16(address));
         }
 
+        // number of instructions the interrupts remain disabled.
+        private int _interruptSuspendedInstructionCount;
+
+        internal void SuspendInterrupts(int numberOfInstructions = 2)
+        {
+            _interruptSuspendedInstructionCount = numberOfInstructions;
+            Die.Registers.Interrupt.IsSuspended = true;
+        }
+
+        internal void ReleaseInterrupts()
+        {
+            if (_interruptSuspendedInstructionCount > 0)
+            {
+                _interruptSuspendedInstructionCount--;
+
+                if (_interruptSuspendedInstructionCount == 0)
+                {
+                    Die.Registers.Interrupt.IsSuspended = false;
+                }
+            }
+        }
+
         private void Clock_OnChanged(object sender, DigitalLevelChangedEventArgs e)
         {
             _cycles.OnClock(e.Level);
@@ -93,21 +115,20 @@ namespace Jacobi.Zim80.Components.CpuZ80
             // NMI is edge triggered
             if (e.Level == DigitalLevel.NegEdge)
             {
-                // TODO: check if we're already in NMI?
                 var def = OpcodeDefinition.GetInterruptDefinition(InterruptTypes.Nmi);
-                var nmi = new CpuInterrupt(_die, def);
-                _interrupts.Insert(0, nmi);
+                var interrupt = new CpuInterrupt(_die, def);
+                _interrupts.Insert(0, interrupt);
             }
         }
 
         private void Interrupt_OnChanged(object sender, DigitalLevelChangedEventArgs e)
         {
-            if (_die.Registers.Interrupt.IFF1 && 
+            if (_die.Registers.Interrupt.IsEnabled && 
                 e.Level == DigitalLevel.Low)
             {
-                var def = OpcodeDefinition.GetInterruptDefinition(InterruptTypes.Nmi);
-                var nmi = new CpuInterrupt(_die, def);
-                _interrupts.Insert(0, nmi);
+                var def = OpcodeDefinition.GetInterruptDefinition(Die.Registers.Interrupt.InterruptMode);
+                var interrupt = new CpuInterrupt(_die, def);
+                _interrupts.Add(interrupt);
             }
         }
 

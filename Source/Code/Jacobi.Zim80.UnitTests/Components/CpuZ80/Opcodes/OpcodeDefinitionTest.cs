@@ -94,7 +94,7 @@ namespace Jacobi.Zim80.Components.CpuZ80.Opcodes.UnitTests
 
             if (missingInstruction.Any())
             {
-                TestContext.WriteLine("Opcode Definitions without Instruction types:");
+                TestContext.WriteLine("{0} Opcode Definitions without Instruction types:", missingInstruction.Count());
 
                 foreach (var od in missingInstruction)
                 {

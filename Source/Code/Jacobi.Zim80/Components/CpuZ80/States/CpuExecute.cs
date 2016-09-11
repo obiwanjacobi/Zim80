@@ -33,7 +33,11 @@ namespace Jacobi.Zim80.Components.CpuZ80.States
             IsComplete = _instruction.IsComplete;
 
             if (IsComplete)
+            {
+                ExecutionEngine.ReleaseInterrupts();
                 ExecutionEngine.NotifyInstructionExecuted();
+
+            }
         }
     }
 }

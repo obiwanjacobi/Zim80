@@ -264,8 +264,8 @@ namespace Jacobi.Zim80.Components.CpuZ80.Opcodes
             new OpcodeDefinition { X = 3, Z = 3, Y = 3, Mnemonic = "IN A,({0})", n = true, Cycles = new[] { 4, 4 } },      //Cycles?
             new OpcodeDefinition { X = 3, Z = 3, Y = 4, Mnemonic = "EX (SP), HL", Cycles = new[] { 4, 3, 4, 3, 5 } },
             new OpcodeDefinition { X = 3, Z = 3, Y = 5, Mnemonic = "EX DE, HL", Cycles = new[] { 4 } },
-            new OpcodeDefinition { X = 3, Z = 3, Y = 6, Mnemonic = "DI", Cycles = new[] { 4 } },
-            new OpcodeDefinition { X = 3, Z = 3, Y = 7, Mnemonic = "EI", Cycles = new[] { 4 } },
+            new OpcodeDefinition { X = 3, Z = 3, Y = 6, Mnemonic = "DI", Cycles = new[] { 4 }, Instruction = typeof(InterruptInstruction) },
+            new OpcodeDefinition { X = 3, Z = 3, Y = 7, Mnemonic = "EI", Cycles = new[] { 4 }, Instruction = typeof(InterruptInstruction) },
 
             new OpcodeDefinition { X = 3, Z = 4, Y = 0, Mnemonic = "CALL NZ, {0}", nn = true, Cycles = new[] { 4, 3, 4, 3, 3 }, AltCycles = new[] { 4, 3, 3 } },
             new OpcodeDefinition { X = 3, Z = 4, Y = 1, Mnemonic = "CALL Z, {0}", nn = true, Cycles = new[] { 4, 3, 4, 3, 3 }, AltCycles = new[] { 4, 3, 3 } },
@@ -650,14 +650,14 @@ namespace Jacobi.Zim80.Components.CpuZ80.Opcodes
             new OpcodeDefinition { X = 1, Z = 5, Y = 5, Mnemonic = "RETN", Ext1 = 0xED, Cycles = new[] { 4, 4, 3, 3 } },
             new OpcodeDefinition { X = 1, Z = 5, Y = 6, Mnemonic = "RETN", Ext1 = 0xED, Cycles = new[] { 4, 4, 3, 3 } },
 
-            new OpcodeDefinition { X = 1, Z = 6, Y = 0, Mnemonic = "IM 0", Ext1 = 0xED, Cycles = new[] { 4, 4 } },
+            new OpcodeDefinition { X = 1, Z = 6, Y = 0, Mnemonic = "IM 0", Ext1 = 0xED, Cycles = new[] { 4, 4 }, Instruction = typeof(IntModeInstruction) },
             new OpcodeDefinition { X = 1, Z = 6, Y = 1, Mnemonic = "IM 0/1", Ext1 = 0xED, Cycles = new[] { 4, 4 } },
-            new OpcodeDefinition { X = 1, Z = 6, Y = 2, Mnemonic = "IM 1", Ext1 = 0xED, Cycles = new[] { 4, 4 } },
-            new OpcodeDefinition { X = 1, Z = 6, Y = 3, Mnemonic = "IM 2", Ext1 = 0xED, Cycles = new[] { 4, 4 } },
-            new OpcodeDefinition { X = 1, Z = 6, Y = 4, Mnemonic = "IM 0", Ext1 = 0xED, Cycles = new[] { 4, 4 } },
+            new OpcodeDefinition { X = 1, Z = 6, Y = 2, Mnemonic = "IM 1", Ext1 = 0xED, Cycles = new[] { 4, 4 }, Instruction = typeof(IntModeInstruction) },
+            new OpcodeDefinition { X = 1, Z = 6, Y = 3, Mnemonic = "IM 2", Ext1 = 0xED, Cycles = new[] { 4, 4 }, Instruction = typeof(IntModeInstruction) },
+            new OpcodeDefinition { X = 1, Z = 6, Y = 4, Mnemonic = "IM 0", Ext1 = 0xED, Cycles = new[] { 4, 4 }, Instruction = typeof(IntModeInstruction) },
             new OpcodeDefinition { X = 1, Z = 6, Y = 5, Mnemonic = "IM 0/1", Ext1 = 0xED, Cycles = new[] { 4, 4 } },
-            new OpcodeDefinition { X = 1, Z = 6, Y = 6, Mnemonic = "IM 1", Ext1 = 0xED, Cycles = new[] { 4, 4 } },
-            new OpcodeDefinition { X = 1, Z = 6, Y = 7, Mnemonic = "IM 2", Ext1 = 0xED, Cycles = new[] { 4, 4 } },
+            new OpcodeDefinition { X = 1, Z = 6, Y = 6, Mnemonic = "IM 1", Ext1 = 0xED, Cycles = new[] { 4, 4 }, Instruction = typeof(IntModeInstruction) },
+            new OpcodeDefinition { X = 1, Z = 6, Y = 7, Mnemonic = "IM 2", Ext1 = 0xED, Cycles = new[] { 4, 4 }, Instruction = typeof(IntModeInstruction) },
 
             new OpcodeDefinition { X = 1, Z = 7, Y = 0, Mnemonic = "LD I, A", Ext1 = 0xED, Cycles = new[] { 4, 5 } },
             new OpcodeDefinition { X = 1, Z = 7, Y = 1, Mnemonic = "LD R, A", Ext1 = 0xED, Cycles = new[] { 4, 5 } },
