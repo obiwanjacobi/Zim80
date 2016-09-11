@@ -56,5 +56,12 @@
       <FileName>Components\CpuZ80\States\Instructions\SingleCycleInstruction.cs</FileName>
     </TypeIdentifier>
   </Class>
+  <Class Name="Jacobi.Zim80.Components.CpuZ80.States.Instructions.BitInstruction" Collapsed="true">
+    <Position X="1.75" Y="4.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAEAAAA=</HashCode>
+      <FileName>Components\CpuZ80\States\Instructions\BitInstruction.cs</FileName>
+    </TypeIdentifier>
+  </Class>
   <Font Name="Segoe UI" Size="9" />
 </ClassDiagram>
