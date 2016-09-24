@@ -247,32 +247,14 @@ namespace Jacobi.Zim80.Components.CpuZ80
         {
             public InterruptRegisters()
             {
-                _interruptMode = InterruptTypes.Int0;
+                _interruptMode = InterruptModes.InterruptMode0;
             }
 
-            private InterruptTypes _interruptMode;
-            public InterruptTypes InterruptMode
+            private InterruptModes _interruptMode;
+            public InterruptModes InterruptMode
             {
                 get { return _interruptMode; }
-                set
-                {
-                    if (value == InterruptTypes.Nmi)
-                        throw new ArgumentException("NMI is not an interrupt mode.");
-                    _interruptMode = value;
-                }
-            }
-
-            private readonly Stack<InterruptTypes> _interrupts = new Stack<InterruptTypes>();
-            // interrupt currently active (not the mode!)
-            public InterruptTypes? ActiveInterrupt
-            {
-                get
-                {
-                    if (_interrupts.Count > 0)
-                        return _interrupts.Peek();
-
-                    return null;
-                }
+                set { _interruptMode = value; }
             }
 
             public bool IsEnabled
@@ -281,49 +263,9 @@ namespace Jacobi.Zim80.Components.CpuZ80
             }
 
             // interrupt mode flags
-            public bool IFF1 { get; private set; }
-            public bool IFF2 { get; private set; }
+            public bool IFF1 { get; set; }
+            public bool IFF2 { get; set; }
             public bool IsSuspended { get; internal set; }
-
-            internal void EnableInterrupt()
-            {
-                IFF1 = true;
-                IFF2 = true;
-            }
-
-            internal void DisableInterrupt()
-            {
-                IFF1 = false;
-                IFF2 = false;
-            }
-
-            // nmi
-            internal void PushNmi()
-            {
-                _interrupts.Push(InterruptTypes.Nmi);
-                IFF2 = IFF1;
-                IFF1 = false;
-            }
-            // retn
-            internal void PopNmi()
-            {
-                if (ActiveInterrupt == InterruptTypes.Nmi)
-                    _interrupts.Pop();
-                IFF1 = IFF2;
-            }
-            // int
-            internal void PushInt()
-            {
-                _interrupts.Push(InterruptMode);
-                DisableInterrupt();
-            }
-            // reti (ret)
-            internal void PopInt()
-            {
-                if (ActiveInterrupt != null &&
-                    ActiveInterrupt != InterruptTypes.Nmi)
-                    _interrupts.Pop();
-            }
         }
 
         public class Flags

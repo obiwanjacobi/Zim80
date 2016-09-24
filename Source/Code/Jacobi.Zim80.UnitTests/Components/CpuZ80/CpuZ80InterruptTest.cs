@@ -8,6 +8,22 @@ namespace Jacobi.Zim80.Components.CpuZ80.UnitTests
     public class CpuZ80InterruptTest
     {
         [TestMethod]
+        public void ByDefault_InterruptModeIs0()
+        {
+            var cpu = new CpuZ80();
+
+            cpu.Registers.Interrupt.InterruptMode.Should().Be(InterruptModes.InterruptMode0);
+        }
+
+        [TestMethod]
+        public void ByDefault_InterruptIsDisabled()
+        {
+            var cpu = new CpuZ80();
+
+            cpu.Registers.Interrupt.IFF1.Should().BeFalse();
+        }
+
+        [TestMethod]
         public void IntDI_After2Cycles()
         {
             var cpu = new CpuZ80();
@@ -18,14 +34,14 @@ namespace Jacobi.Zim80.Components.CpuZ80.UnitTests
             interruptProvider.Write(DigitalLevel.Low);
             model.ClockGen.BlockWave(2);
 
-            cpu.Registers.Interrupt.ActiveInterrupt.Should().Be(null);
+            cpu.Registers.Interrupt.IFF1.Should().BeFalse();
         }
 
         [TestMethod]
-        public void IntEI_After2Cycles()
+        public void IntEI_AcceptInterrupt_TurnsOffIFF1()
         {
             var cpu = new CpuZ80();
-            cpu.Registers.Interrupt.EnableInterrupt();
+            cpu.Registers.Interrupt.IFF1 = true;
             var interruptProvider = cpu.Interrupt.CreateConnection();
             var model = cpu.Initialize(new byte[] { 0 });
 
@@ -36,7 +52,8 @@ namespace Jacobi.Zim80.Components.CpuZ80.UnitTests
             // start interrupt
             model.ClockGen.BlockWave(2);
 
-            cpu.Registers.Interrupt.ActiveInterrupt.Should().Be(InterruptTypes.Int0);
+            // interrupt accepted turns off IFF1
+            cpu.Registers.Interrupt.IFF1.Should().BeFalse();
         }
     }
 }

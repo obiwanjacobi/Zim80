@@ -11,11 +11,11 @@
             switch(ExecutionEngine.Opcode.Definition.Y)
             {
                 case 6: // di
-                    Registers.Interrupt.DisableInterrupt();
+                    ExecutionEngine.InterruptManager.DisableInterrupt();
                     break;
                 case 7: // ei
-                    Registers.Interrupt.EnableInterrupt();
-                    ExecutionEngine.SuspendInterrupts();
+                    ExecutionEngine.InterruptManager.EnableInterrupt();
+                    ExecutionEngine.InterruptManager.SuspendInterrupts();
                     break;
                 default:
                     throw Errors.AssignedToIllegalOpcode();

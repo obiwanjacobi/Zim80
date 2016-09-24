@@ -1,7 +1,6 @@
 ﻿using Jacobi.Zim80.Components.CpuZ80.Opcodes;
 using Jacobi.Zim80.Components.CpuZ80.States;
 using System;
-using System.Collections.Generic;
 
 namespace Jacobi.Zim80.Components.CpuZ80
 {
@@ -10,24 +9,26 @@ namespace Jacobi.Zim80.Components.CpuZ80
         private readonly Die _die;
         private readonly CycleCounter _cycles = new CycleCounter();
         private readonly OpcodeBuilder _opcodeBuilder = new OpcodeBuilder();
-        private readonly List<CpuInterrupt> _interrupts = new List<CpuInterrupt>();
+        private readonly InterruptManager _interruptManager;
         private CpuState _state;
         private CpuStates _currentState;
 
         public ExecutionEngine(Die die)
         {
             _die = die;
+            _interruptManager = new InterruptManager(_die);
+
             StartFetch();
 
             // the engine that drives it all
             _die.Clock.OnChanged += Clock_OnChanged;
-            _die.NonMaskableInterrupt.OnChanged += NonMaskableInterupt_OnChanged;
-            _die.Interrupt.OnChanged += Interrupt_OnChanged;
         }
 
         public event EventHandler<InstructionExecutedEventArgs> InstructionExecuted;
 
         public Die Die { get { return _die; } }
+
+        public InterruptManager InterruptManager { get { return _interruptManager; } }
 
         public CycleCounter Cycles { get { return _cycles; } }
 
@@ -70,6 +71,11 @@ namespace Jacobi.Zim80.Components.CpuZ80
         public void SetRefreshOnAddressBus()
         {
             SetAddressBus(_die.Registers.IR);
+
+            _die.Registers.R++;
+            // bit 7 is not used
+            if (_die.Registers.R > 127)
+                _die.Registers.R = 0;
         }
 
         public void SetAddressBus(UInt16 address)
@@ -77,58 +83,15 @@ namespace Jacobi.Zim80.Components.CpuZ80
             _die.AddressBus.Write(new BusData16(address));
         }
 
-        // number of instructions the interrupts remain disabled.
-        private int _interruptSuspendedInstructionCount;
-
-        internal void SuspendInterrupts(int numberOfInstructions = 2)
-        {
-            _interruptSuspendedInstructionCount = numberOfInstructions;
-            Die.Registers.Interrupt.IsSuspended = true;
-        }
-
-        internal void ReleaseInterrupts()
-        {
-            if (_interruptSuspendedInstructionCount > 0)
-            {
-                _interruptSuspendedInstructionCount--;
-
-                if (_interruptSuspendedInstructionCount == 0)
-                {
-                    Die.Registers.Interrupt.IsSuspended = false;
-                }
-            }
-        }
-
         private void Clock_OnChanged(object sender, DigitalLevelChangedEventArgs e)
         {
             _cycles.OnClock(e.Level);
+            _interruptManager.OnClock(e.Level);
             _state.OnClock(e.Level);
 
             if (_state.IsComplete)
             {
                 SwitchToNextState();
-            }
-        }
-
-        private void NonMaskableInterupt_OnChanged(object sender, DigitalLevelChangedEventArgs e)
-        {
-            // NMI is edge triggered
-            if (e.Level == DigitalLevel.NegEdge)
-            {
-                var def = OpcodeDefinition.GetInterruptDefinition(InterruptTypes.Nmi);
-                var interrupt = new CpuInterrupt(_die, def);
-                _interrupts.Insert(0, interrupt);
-            }
-        }
-
-        private void Interrupt_OnChanged(object sender, DigitalLevelChangedEventArgs e)
-        {
-            if (_die.Registers.Interrupt.IsEnabled && 
-                e.Level == DigitalLevel.Low)
-            {
-                var def = OpcodeDefinition.GetInterruptDefinition(Die.Registers.Interrupt.InterruptMode);
-                var interrupt = new CpuInterrupt(_die, def);
-                _interrupts.Add(interrupt);
             }
         }
 
@@ -184,11 +147,9 @@ namespace Jacobi.Zim80.Components.CpuZ80
 
         private bool AcceptInterrupt()
         {
-            if (_interrupts.Count > 0)
+            var interrupt = _interruptManager.PopInterrupt();
+            if (interrupt != null)
             {
-                var interrupt = _interrupts[0];
-                _interrupts.RemoveAt(0);
-
                 _state = interrupt;
                 _currentState = CpuStates.Interrupt;
 
@@ -206,7 +167,9 @@ namespace Jacobi.Zim80.Components.CpuZ80
         {
             Fetch,
             Execute,
-            Interrupt
+            Interrupt,
+            BusRequest,
+            Reset,
         }
     }
 }

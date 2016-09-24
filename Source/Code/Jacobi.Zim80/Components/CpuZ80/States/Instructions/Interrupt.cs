@@ -10,7 +10,7 @@
         {
             if (ExecutionEngine.Cycles.IsMachineCycle1 &&
                 ExecutionEngine.Cycles.IsFirstCycle)
-                Registers.Interrupt.PushInt();
+                ExecutionEngine.InterruptManager.PushInt();
 
             base.OnClockPos();
         }

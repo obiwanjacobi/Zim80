@@ -2,9 +2,23 @@
 {
     public enum InterruptTypes
     {
+        /// <summary>Reset</summary>
+        Rst,
+
+        /// <summary>Bus Request</summary>
+        Brq,
+
+        /// <summary>Non-Maskable Interrupt</summary>
         Nmi,
-        Int0,
-        Int1,
-        Int2
+
+        /// <summary>Maskable Interrupt</summary>
+        Int,
+    }
+
+    public enum InterruptModes
+    {
+        InterruptMode0,
+        InterruptMode1,
+        InterruptMode2,
     }
 }

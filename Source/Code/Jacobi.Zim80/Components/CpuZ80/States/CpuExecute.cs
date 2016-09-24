@@ -36,7 +36,7 @@ namespace Jacobi.Zim80.Components.CpuZ80.States
 
             if (IsComplete)
             {
-                ExecutionEngine.ReleaseInterrupts();
+                ExecutionEngine.InterruptManager.ReleaseInterrupts();
                 ExecutionEngine.NotifyInstructionExecuted();
 
             }

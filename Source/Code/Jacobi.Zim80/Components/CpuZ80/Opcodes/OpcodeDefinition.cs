@@ -168,9 +168,14 @@ namespace Jacobi.Zim80.Components.CpuZ80.Opcodes
             new OpcodeDefinition { Z = 1, Y = 2, Mnemonic = "INT2", Cycles = new[] { 7, 3, 3, 3, 3 }, Instruction = typeof(Interrupt) },
         };
 
-        internal static OpcodeDefinition GetInterruptDefinition(InterruptTypes intType)
+        internal static OpcodeDefinition GetNmiDefinition()
         {
-            return Interrupts[(int)intType];
+            return Interrupts[0];
+        }
+
+        internal static OpcodeDefinition GetInterruptDefinition(InterruptModes intMode)
+        {
+            return Interrupts[(int)intMode + 1];
         }
     }
 }

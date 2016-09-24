@@ -59,6 +59,7 @@
     <Compile Include="Components\BusData8.cs" />
     <Compile Include="Components\CpuZ80\Alu.cs" />
     <Compile Include="Components\CpuZ80\InstructionExecutedEventArgs.cs" />
+    <Compile Include="Components\CpuZ80\InterruptManager.cs" />
     <Compile Include="Components\CpuZ80\InterruptTypes.cs" />
     <Compile Include="Components\CpuZ80\Opcodes\Mnemonic.cs" />
     <Compile Include="Components\CpuZ80\Opcodes\OpcodeDefinition.Definitions.cs" />

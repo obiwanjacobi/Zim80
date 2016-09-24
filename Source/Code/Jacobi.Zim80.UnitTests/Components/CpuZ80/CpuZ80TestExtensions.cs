@@ -65,7 +65,7 @@ namespace Jacobi.Zim80.Components.CpuZ80.UnitTests
         }
 
         public static void AssertRegisters(this CpuZ80 cpu,
-            byte i = (byte)MagicValue, byte r = (byte)MagicValue,
+            byte i = 0, byte r = 0,
             UInt16 pc = 0, UInt16 sp = 0,
             UInt16 ix = MagicValue, UInt16 iy = MagicValue,
             byte a = MagicValue, UInt16 bc = MagicValue, UInt16 de = MagicValue, UInt16 hl = MagicValue,
@@ -78,8 +78,10 @@ namespace Jacobi.Zim80.Components.CpuZ80.UnitTests
 
             cpu.Registers.IX.Should().Be(ix, "ix");
             cpu.Registers.IY.Should().Be(iy, "iy");
-            cpu.Registers.I.Should().Be(i, "i");
-            cpu.Registers.R.Should().Be(r, "r");
+            if (i != 0)
+                cpu.Registers.I.Should().Be(i, "i");
+            if (r != 0)
+                cpu.Registers.R.Should().Be(r, "r");
             cpu.Registers.PrimarySet.A.Should().Be(a, "a");
             cpu.Registers.PrimarySet.BC.Should().Be(bc, "bc");
             cpu.Registers.PrimarySet.DE.Should().Be(de, "de");

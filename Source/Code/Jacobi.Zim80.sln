@@ -7,6 +7,11 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Jacobi.Zim80", "Jacobi.Zim8
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Jacobi.Sim80.UnitTests", "Jacobi.Zim80.UnitTests\Jacobi.Sim80.UnitTests.csproj", "{4EF86D7F-3F04-44BB-BCDF-DDD060461D70}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{B252E763-82AE-48E7-BB99-C9B4FC20ED73}"
+	ProjectSection(SolutionItems) = preProject
+		readme.md = readme.md
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
