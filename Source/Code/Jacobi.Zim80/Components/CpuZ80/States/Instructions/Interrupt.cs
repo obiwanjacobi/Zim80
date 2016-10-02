@@ -1,22 +1,46 @@
-﻿namespace Jacobi.Zim80.Components.CpuZ80.States.Instructions
+﻿using Jacobi.Zim80.Components.CpuZ80.Opcodes;
+
+namespace Jacobi.Zim80.Components.CpuZ80.States.Instructions
 {
-    internal class Interrupt : Instruction
+    // TODO: derive from CallInstruction
+    internal class Interrupt : PushInstruction
     {
-        public Interrupt(Die die) 
+        private readonly OpcodeDefinition _opcodeDefinition;
+
+        public Interrupt(Die die, OpcodeDefinition opcodeDefinition) 
             : base(die)
-        { }
+        {
+            _opcodeDefinition = opcodeDefinition;
+        }
+
+        protected OpcodeDefinition OpcodeDefinition
+        {
+            get { return _opcodeDefinition; }
+        }
 
         protected override void OnClockPos()
         {
             if (ExecutionEngine.Cycles.IsMachineCycle1 &&
                 ExecutionEngine.Cycles.IsFirstCycle)
-                ExecutionEngine.InterruptManager.PushInt();
+                StartInterrupt();
 
             base.OnClockPos();
         }
 
-        protected override void OnLastCycleFirstM()
+        protected virtual void StartInterrupt()
         {
+            ExecutionEngine.InterruptManager.PushInt();
         }
+
+        protected override byte GetRegisterLowValue()
+        {
+            return Registers.GetPC().GetLo();
+        }
+
+        protected override byte GetRegisterHighValue()
+        {
+            return Registers.GetPC().GetHi();
+        }
+
     }
 }

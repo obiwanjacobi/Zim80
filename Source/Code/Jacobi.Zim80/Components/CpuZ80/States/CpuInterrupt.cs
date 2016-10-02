@@ -17,11 +17,12 @@ namespace Jacobi.Zim80.Components.CpuZ80.States
             _definition = definition;
 
             if (_definition.Instruction == null)
-                throw new InvalidOperationException("The Interrupt OpcodeDefinition has no associated Instruction: "
-                    + ExecutionEngine.Cycles.OpcodeDefinition.ToString());
+                throw new InvalidOperationException(
+                    "The Interrupt OpcodeDefinition has no associated Instruction: "
+                    + definition.ToString());
 
             _interrupt = (Interrupt)Activator.CreateInstance(
-                _definition.Instruction, Die);
+                _definition.Instruction, Die, _definition);
         }
 
         private readonly OpcodeDefinition _definition;
@@ -34,6 +35,21 @@ namespace Jacobi.Zim80.Components.CpuZ80.States
         {
             base.OnClock(level);
             _interrupt.OnClock(level);
+
+            HandleInstructionCompletion();
+        }
+
+        private void HandleInstructionCompletion()
+        {
+            if (IsComplete) return;
+
+            IsComplete = _interrupt.IsComplete;
+
+            if (IsComplete)
+            {
+                //ExecutionEngine.InterruptManager.ReleaseInterrupts();
+                //ExecutionEngine.NotifyInterruptExecuted();
+            }
         }
     }
 }

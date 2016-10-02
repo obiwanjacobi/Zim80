@@ -106,11 +106,21 @@ namespace Jacobi.Zim80.Components.CpuZ80
             }
         }
 
+        protected override void OnClockPos()
+        {
+            // sample INT on the last T-cycle of the last M-cycle.
+            if (ExecutionEngine.Cycles.IsLastMachineCycle &&
+                ExecutionEngine.Cycles.IsLastCycle)
+            {
+                DetermineINT(Die.Interrupt.Level);
+            }
+
+            base.OnClockPos();
+        }
+
         private void DetermineINT(DigitalLevel level)
         {
-            if (_pendingINT != null) return;
-
-            if (Die.Registers.Interrupt.IsEnabled &&
+            if (Die.Registers.Interrupt.IFF1 &&
                 level == DigitalLevel.Low)
             {
                 var def = OpcodeDefinition.GetInterruptDefinition(Die.Registers.Interrupt.InterruptMode);

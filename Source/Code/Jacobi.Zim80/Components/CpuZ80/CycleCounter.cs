@@ -113,6 +113,12 @@ namespace Jacobi.Zim80.Components.CpuZ80
             {
                 var index = MachineCycleToIndex(machineCycle);
 
+                if (index >= _cycles.Length)
+                {
+                    throw new InvalidOperationException(
+                        string.Format("The instuction {0} did not signal complete within its declared cycles.", OpcodeDefinition));
+                }
+
                 return (CycleNames)_cycles[(int)index];
             }
 
