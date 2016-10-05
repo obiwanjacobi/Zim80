@@ -1,6 +1,5 @@
 ﻿namespace Jacobi.Zim80.Components.CpuZ80.States.Instructions
 {
-    // TODO: derive from CallInstruction
     internal class RstInstruction : PushInstruction
     {
         public RstInstruction(Die die) 

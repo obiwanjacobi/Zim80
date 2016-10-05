@@ -65,8 +65,10 @@
     <Compile Include="Components\CpuZ80\Opcodes\OpcodeDefinition.Definitions.cs" />
     <Compile Include="Components\CpuZ80\Opcodes\Register16Table.cs" />
     <Compile Include="Components\CpuZ80\Opcodes\Register8Table.cs" />
+    <Compile Include="Components\CpuZ80\RegisterExtensions.cs" />
     <Compile Include="Components\CpuZ80\States\CpuInterrupt.cs" />
     <Compile Include="Components\CpuZ80\States\Instructions\BitInstruction.cs" />
+    <Compile Include="Components\CpuZ80\States\Instructions\CallInstruction.cs" />
     <Compile Include="Components\CpuZ80\States\Instructions\Dec8Instruction.cs" />
     <Compile Include="Components\CpuZ80\States\Instructions\DjnzInstruction.cs" />
     <Compile Include="Components\CpuZ80\States\Instructions\Errors.cs" />

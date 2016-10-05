@@ -8,8 +8,7 @@
 
         protected override void OnLastCycleFirstM()
         {
-            if (ExecutionEngine.Opcode.Definition.AltCycles != null &&
-                !IsConditionMet())
+            if (!IsConditionMet())
             {
                 ExecutionEngine.Cycles.SetAltCycles();
             }
@@ -19,25 +18,7 @@
         {
             if (ExecutionEngine.Opcode.Definition.Z == 0)
             {
-                switch (ExecutionEngine.Opcode.Definition.Y)
-                {
-                    case 0: // nz
-                        return !Registers.PrimarySet.Flags.Z;
-                    case 1: // z
-                        return Registers.PrimarySet.Flags.Z;
-                    case 2: // nc
-                        return !Registers.PrimarySet.Flags.C;
-                    case 3: // c
-                        return Registers.PrimarySet.Flags.C;
-                    case 4: // po
-                        return !Registers.PrimarySet.Flags.PV;
-                    case 5: // pe
-                        return Registers.PrimarySet.Flags.PV;
-                    case 6: // p
-                        return !Registers.PrimarySet.Flags.S;
-                    case 7: // m
-                        return Registers.PrimarySet.Flags.S;
-                }
+                return Registers.PrimarySet.FlagFromOpcodeY(ExecutionEngine.Opcode.Definition.Y);
             }
             else if (ExecutionEngine.Opcode.Definition.Z == 1)
             {

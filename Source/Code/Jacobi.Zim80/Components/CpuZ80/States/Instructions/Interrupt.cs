@@ -2,7 +2,6 @@
 
 namespace Jacobi.Zim80.Components.CpuZ80.States.Instructions
 {
-    // TODO: derive from CallInstruction
     internal class Interrupt : PushInstruction
     {
         private readonly OpcodeDefinition _opcodeDefinition;

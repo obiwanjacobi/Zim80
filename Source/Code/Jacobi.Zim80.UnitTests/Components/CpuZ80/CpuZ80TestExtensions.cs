@@ -41,27 +41,39 @@ namespace Jacobi.Zim80.Components.CpuZ80.UnitTests
 
         public const byte MagicValue = 42;
 
-        public static void FillRegisters(this CpuZ80 cpu, 
+        public static void FillRegisters(this CpuZ80 cpu,
             byte i = (byte)MagicValue, byte r = (byte)MagicValue,
             UInt16 pc = 0, UInt16 sp = MagicValue,
             UInt16 ix = MagicValue, UInt16 iy = MagicValue,
             byte a = MagicValue, UInt16 bc = MagicValue, UInt16 de = MagicValue, UInt16 hl = MagicValue,
             byte a_a = MagicValue, UInt16 a_bc = MagicValue, UInt16 a_de = MagicValue, UInt16 a_hl = MagicValue)
         {
-            cpu.Registers.PC = pc;
-            cpu.Registers.SP = sp;
-            cpu.Registers.IX = ix;
-            cpu.Registers.IY = iy;
-            cpu.Registers.I = i;
-            cpu.Registers.R = r;
-            cpu.Registers.PrimarySet.A = a;
-            cpu.Registers.PrimarySet.BC = bc;
-            cpu.Registers.PrimarySet.DE = de;
-            cpu.Registers.PrimarySet.HL = hl;
-            cpu.Registers.AlternateSet.A = a_a;
-            cpu.Registers.AlternateSet.BC = a_bc;
-            cpu.Registers.AlternateSet.DE = a_de;
-            cpu.Registers.AlternateSet.HL = a_hl;
+            FillRegisters(cpu.Registers, i, r, pc, sp, ix, iy, 
+                    a, bc, de, hl, 
+                    a_a, a_bc, a_de, a_hl);
+        }
+
+        public static void FillRegisters(this Registers registers,
+            byte i = (byte)MagicValue, byte r = (byte)MagicValue,
+            UInt16 pc = 0, UInt16 sp = MagicValue,
+            UInt16 ix = MagicValue, UInt16 iy = MagicValue,
+            byte a = MagicValue, UInt16 bc = MagicValue, UInt16 de = MagicValue, UInt16 hl = MagicValue,
+            byte a_a = MagicValue, UInt16 a_bc = MagicValue, UInt16 a_de = MagicValue, UInt16 a_hl = MagicValue)
+        {
+            registers.PC = pc;
+            registers.SP = sp;
+            registers.IX = ix;
+            registers.IY = iy;
+            registers.I = i;
+            registers.R = r;
+            registers.PrimarySet.A = a;
+            registers.PrimarySet.BC = bc;
+            registers.PrimarySet.DE = de;
+            registers.PrimarySet.HL = hl;
+            registers.AlternateSet.A = a_a;
+            registers.AlternateSet.BC = a_bc;
+            registers.AlternateSet.DE = a_de;
+            registers.AlternateSet.HL = a_hl;
         }
 
         public static void AssertRegisters(this CpuZ80 cpu,
