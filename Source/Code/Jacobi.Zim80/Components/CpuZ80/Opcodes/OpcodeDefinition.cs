@@ -106,7 +106,7 @@ namespace Jacobi.Zim80.Components.CpuZ80.Opcodes
         public bool nn { get; private set; }
 
         // extensions
-        public bool HasExtension { get { return Ext1 != 0 || Ext2 != 0; } }
+        public bool HasExtension { get { return Ext1 != 0; } }
         public byte Ext1 { get; private set; }
         public byte Ext2 { get; private set; }
         public bool IsIX { get { return IsShifted(0xDD); } }

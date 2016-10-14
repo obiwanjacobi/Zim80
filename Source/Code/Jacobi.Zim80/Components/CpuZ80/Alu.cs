@@ -75,6 +75,19 @@ namespace Jacobi.Zim80.Components.CpuZ80
             return newValue;
         }
 
+        public ushort Add16(ushort value1, ushort value2, bool addCarry = false)
+        {
+            int newValue = (int)value1 + (int)value2;
+
+            if (addCarry && Flags.C) newValue++;
+
+            Flags.C = newValue > 0xFFFF;
+            //Flags.H = HalfCarryFromLo(); HOW to detect carry from bit11->bit12?
+            Flags.N = false;
+
+            return (ushort)newValue;
+        }
+
         private static bool IsNegative(byte value)
         {
             return (value & 0x80) > 0;
