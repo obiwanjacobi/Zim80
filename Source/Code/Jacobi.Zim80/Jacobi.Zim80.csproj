@@ -98,6 +98,7 @@
     <Compile Include="Components\CpuZ80\States\Instructions\LoadRegister8Instruction.cs" />
     <Compile Include="Components\CpuZ80\States\Instructions\MachineCycleState.cs" />
     <Compile Include="Components\CpuZ80\States\Instructions\AutoCompleteInstructionPart.cs" />
+    <Compile Include="Components\CpuZ80\States\Instructions\MathRegister8Instruction.cs" />
     <Compile Include="Components\CpuZ80\States\Instructions\NmiInterrupt.cs" />
     <Compile Include="Components\CpuZ80\States\Instructions\PopInstruction.cs" />
     <Compile Include="Components\CpuZ80\States\Instructions\PushInstruction.cs" />

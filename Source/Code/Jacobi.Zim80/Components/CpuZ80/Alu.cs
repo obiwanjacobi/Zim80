@@ -87,17 +87,117 @@ namespace Jacobi.Zim80.Components.CpuZ80
             return newValue;
         }
 
-        public ushort Add16(ushort value1, ushort value2, bool addCarry = false)
+        public ushort Add16(ushort acc, ushort value, bool addCarry = false)
         {
-            int newValue = (int)value1 + (int)value2;
+            int newValue = (int)acc + (int)value;
 
             if (addCarry && Flags.C) newValue++;
 
             Flags.C = newValue > 0xFFFF;
-            //Flags.H = HalfCarryFromLo(); HOW to detect carry from bit11->bit12?
+            Flags.H = HalfCarryFromLo((byte)(acc >> 8), (byte)(newValue >> 8));
             Flags.N = false;
 
             return (ushort)newValue;
+        }
+
+        public byte Add8(byte acc, byte value, bool addCarry = false)
+        {
+            var newValue = acc + value;
+            if (addCarry && Flags.C) newValue++;
+
+            Flags.S = IsNegative((byte)newValue);
+            Flags.Z = newValue == 0;
+            Flags.H = HalfCarryFromLo(acc, (byte)newValue);
+            Flags.PV = IsOverflow(acc, value, newValue);
+            Flags.N = false;
+            Flags.C = (uint)newValue > 0xFF;
+
+            return (byte)newValue;
+        }
+
+        public byte Sub8(byte acc, byte value, bool subCarry = false)
+        {
+            var newValue = acc - value;
+            if (subCarry && Flags.C) newValue--;
+
+            Flags.S = IsNegative((byte)newValue);
+            Flags.Z = newValue == 0;
+            Flags.H = HalfCarryFromHi(acc, (byte)newValue);
+            Flags.PV = IsOverflow(acc, value, newValue);
+            Flags.N = true;
+            Flags.C = (uint)newValue > 0xFF;
+
+            return (byte)newValue;
+        }
+
+        public byte And8(byte acc, byte value)
+        {
+            var newValue = acc & value;
+
+            Flags.S = IsNegative((byte)newValue);
+            Flags.Z = newValue == 0;
+            Flags.H = true;
+            Flags.PV = IsOverflow(acc, value, newValue);
+            Flags.N = false;
+            Flags.C = false;
+
+            return (byte)newValue;
+        }
+
+        public byte Xor8(byte acc, byte value)
+        {
+            var newValue = acc ^ value;
+
+            Flags.S = IsNegative((byte)newValue);
+            Flags.Z = newValue == 0;
+            Flags.H = false;
+            Flags.PV = IsParityEven((byte)newValue);
+            Flags.N = false;
+            Flags.C = false;
+
+            return (byte)newValue;
+        }
+
+        public byte Or8(byte acc, byte value)
+        {
+            var newValue = acc | value;
+
+            Flags.S = IsNegative((byte)newValue);
+            Flags.Z = newValue == 0;
+            Flags.H = false;
+            Flags.PV = IsOverflow(acc, value, newValue);
+            Flags.N = false;
+            Flags.C = false;
+
+            return (byte)newValue;
+        }
+
+        private static bool IsParityEven(byte value)
+        {
+            bool oddParity = false;
+
+            while (value != 0)
+            {
+                oddParity = !oddParity;
+                value = (byte)(value & (value - 1));
+            }
+
+            return !oddParity;
+        }
+
+        private static bool IsOverflow(byte value1, byte value2, int newValue)
+        {
+            if (IsNegative(value1) && IsNegative(value2))
+            {
+                return newValue > 0;
+            }
+
+            if (!IsNegative(value1) && !IsNegative(value2))
+            {
+                return newValue < 0;
+            }
+
+            return false;
         }
 
         private static bool IsNegative(byte value)
