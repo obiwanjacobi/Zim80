@@ -108,6 +108,7 @@
     <Compile Include="Components\CpuZ80\States\Instructions\ResInstruction.cs" />
     <Compile Include="Components\CpuZ80\States\Instructions\RetInstruction.cs" />
     <Compile Include="Components\CpuZ80\States\Instructions\RstInstruction.cs" />
+    <Compile Include="Components\CpuZ80\States\Instructions\SetInstruction.cs" />
     <Compile Include="Components\CpuZ80\States\Instructions\SingleCycleInstruction.cs" />
     <Compile Include="Components\CpuZ80\States\Instructions\WriteIndirectRegisterInstruction.cs" />
     <Compile Include="Components\CpuZ80\States\Instructions\WriteT3InstructionPart.cs" />

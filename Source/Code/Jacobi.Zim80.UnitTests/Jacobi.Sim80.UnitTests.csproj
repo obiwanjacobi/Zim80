@@ -100,6 +100,7 @@
     <Compile Include="Components\CpuZ80\Instructions\ResInstructionTest.cs" />
     <Compile Include="Components\CpuZ80\Instructions\RetInstructionTest.cs" />
     <Compile Include="Components\CpuZ80\Instructions\RstInstructionTest.cs" />
+    <Compile Include="Components\CpuZ80\Instructions\SetInstructionTest.cs" />
     <Compile Include="Components\CpuZ80\Instructions\WriteIndirectRegisterInstructionTest.cs" />
     <Compile Include="Components\CpuZ80\Instructions\ReadIndirectRegisterInstructionTest.cs" />
     <Compile Include="Components\CpuZ80\Opcodes\OpcodeDefinitionTest.cs" />
