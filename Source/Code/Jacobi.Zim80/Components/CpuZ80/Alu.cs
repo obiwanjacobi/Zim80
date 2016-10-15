@@ -25,6 +25,8 @@ namespace Jacobi.Zim80.Components.CpuZ80
             return newValue;
         }
 
+        
+
         // Y/X flags not supported for (HL) and IX/IY +d
         // see undocumented (p15)
         public void TestBit(byte bit, byte value)
@@ -38,6 +40,16 @@ namespace Jacobi.Zim80.Components.CpuZ80
             Flags.X = bit == 3 && isSet;
             Flags.PV = !isSet;
             Flags.N = true;
+        }
+
+        public byte ResetBit(byte bit, byte value)
+        {
+            return (byte)(value & ~(1 << bit));
+        }
+
+        public byte SetBit(byte bit, byte value)
+        {
+            return (byte)(value | (1 << bit));
         }
 
         public ushort Dec16(ushort value)

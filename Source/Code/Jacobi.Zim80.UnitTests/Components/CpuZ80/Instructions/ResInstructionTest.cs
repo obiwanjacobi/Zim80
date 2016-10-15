@@ -1,45 +1,22 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using System;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Jacobi.Zim80.Components.CpuZ80.Opcodes;
 using Jacobi.Zim80.Components.CpuZ80.UnitTests;
-using System;
 using Jacobi.Zim80.Model;
-using FluentAssertions;
 
 namespace Jacobi.Zim80.Components.CpuZ80.Instructions.UnitTests
 {
     [TestClass]
-    public class BitInstructionTest
+    public class ResInstructionTest
     {
         [TestMethod]
-        public void Bit0Bz()
-        {
-            var cpu = ExecuteTest(0, Register8Table.B, 
-                (m) => m.Cpu.FillRegisters(bc:0));
-
-            cpu.AssertRegisters(
-                pc: 2,
-                bc: 0);
-        }
-
-        [TestMethod]
-        public void Bit7Bz()
-        {
-            var cpu = ExecuteTest(7, Register8Table.B,
-                (m) => m.Cpu.FillRegisters(bc: 0x80));
-
-            cpu.AssertRegisters(
-                pc: 2,
-                bc: 0x80);
-        }
-
-        [TestMethod]
-        public void TestAllZ()
+        public void RES_false()
         {
             TestAll(false);
         }
 
         [TestMethod]
-        public void TestAllNZ()
+        public void RES_true()
         {
             TestAll(true);
         }
@@ -54,8 +31,8 @@ namespace Jacobi.Zim80.Components.CpuZ80.Instructions.UnitTests
                     var value = CreateValue(bit, reg, bitValue);
                     var cpu = ExecuteTest(bit, reg, (m) => FillRegister(m.Cpu, reg, value));
 
-                    AssertRegisters(cpu, reg, value);
-                    cpu.Registers.PrimarySet.Flags.Z.Should().Be(!bitValue);
+                    var expected = (ushort)0;
+                    AssertRegisters(cpu, reg, expected);
                 }
             }
         }
@@ -107,7 +84,7 @@ namespace Jacobi.Zim80.Components.CpuZ80.Instructions.UnitTests
         private static ushort CreateValue(byte bit, Register8Table reg, bool bitValue)
         {
             var regValue = (1 << bit);
-            if (!bitValue) regValue = ~regValue;
+            //if (!bitValue) regValue = ~regValue;
 
             switch (reg)
             {
@@ -123,7 +100,7 @@ namespace Jacobi.Zim80.Components.CpuZ80.Instructions.UnitTests
 
         private static CpuZ80 ExecuteTest(byte bit, Register8Table register, Action<SimulationModel> fnPreTest)
         {
-            var ob = OpcodeByte.New(x: 1, y: bit, z: (byte)register);
+            var ob = OpcodeByte.New(x: 2, y: bit, z: (byte)register);
             return ExecuteTest(ob, fnPreTest);
         }
 
