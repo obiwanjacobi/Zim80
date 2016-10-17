@@ -1,4 +1,5 @@
 ﻿using System;
+using Jacobi.Zim80.Components.CpuZ80.Opcodes;
 
 namespace Jacobi.Zim80.Components.CpuZ80
 {
@@ -24,8 +25,6 @@ namespace Jacobi.Zim80.Components.CpuZ80
 
             return newValue;
         }
-
-        
 
         // Y/X flags not supported for (HL) and IX/IY +d
         // see undocumented (p15)

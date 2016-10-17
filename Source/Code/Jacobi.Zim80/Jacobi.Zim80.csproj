@@ -102,6 +102,7 @@
     <Compile Include="Components\CpuZ80\States\Instructions\NmiInterrupt.cs" />
     <Compile Include="Components\CpuZ80\States\Instructions\PopInstruction.cs" />
     <Compile Include="Components\CpuZ80\States\Instructions\PushInstruction.cs" />
+    <Compile Include="Components\CpuZ80\States\Instructions\ReadImmediateRegisterInstruction.cs" />
     <Compile Include="Components\CpuZ80\States\Instructions\ReadIndirectRegisterInstruction.cs" />
     <Compile Include="Components\CpuZ80\States\Instructions\MultiCycleInstruction.cs" />
     <Compile Include="Components\CpuZ80\States\Instructions\NopInstruction.cs" />
@@ -112,6 +113,7 @@
     <Compile Include="Components\CpuZ80\States\Instructions\RstInstruction.cs" />
     <Compile Include="Components\CpuZ80\States\Instructions\SetInstruction.cs" />
     <Compile Include="Components\CpuZ80\States\Instructions\SingleCycleInstruction.cs" />
+    <Compile Include="Components\CpuZ80\States\Instructions\WriteImmediateRegisterInstruction.cs" />
     <Compile Include="Components\CpuZ80\States\Instructions\WriteIndirectRegisterInstruction.cs" />
     <Compile Include="Components\CpuZ80\States\Instructions\WriteT3InstructionPart.cs" />
     <Compile Include="Components\Generators\Randomizer.cs" />
