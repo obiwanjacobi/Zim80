@@ -110,6 +110,7 @@
     <Compile Include="Components\CpuZ80\States\Instructions\ReadT3InstructionPart.cs" />
     <Compile Include="Components\CpuZ80\States\Instructions\ResInstruction.cs" />
     <Compile Include="Components\CpuZ80\States\Instructions\RetInstruction.cs" />
+    <Compile Include="Components\CpuZ80\States\Instructions\ShiftRotateInstruction.cs" />
     <Compile Include="Components\CpuZ80\States\Instructions\RstInstruction.cs" />
     <Compile Include="Components\CpuZ80\States\Instructions\SetInstruction.cs" />
     <Compile Include="Components\CpuZ80\States\Instructions\SingleCycleInstruction.cs" />

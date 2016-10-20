@@ -202,7 +202,7 @@ namespace Jacobi.Zim80.Components.CpuZ80
                             A = value;
                             break;
                         default:
-                            throw new InvalidOperationException();
+                            throw new InvalidOperationException("Invalid Register index.");
                     }
                 }
             }
