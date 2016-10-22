@@ -22,21 +22,23 @@ namespace Jacobi.Zim80.Components.CpuZ80.Opcodes
 
         public string Text { get; private set; }
 
+        public void FormatParameters(sbyte offset, byte param)
+        {
+            var offsetTxt = FormatOffest(offset);
+            var paramTxt = FormatByte(param);
+
+            Text = string.Format(_mnemonic, offsetTxt, paramTxt);
+        }
+
         public void FormatParameter(sbyte value)
         {
-            string valTxt;
-
-            if (value < 0)
-                valTxt = string.Format("{0:D}", value);
-            else
-                valTxt = string.Format("+{0:D}", value);
-
+            var valTxt = FormatOffest(value);
             Text = string.Format(_mnemonic, valTxt);
         }
 
         public void FormatParameter(byte value)
         {
-            var valTxt = string.Format("{0:X2}", value);
+            var valTxt = FormatByte(value);
             Text = string.Format(_mnemonic, valTxt);
         }
 
@@ -44,6 +46,19 @@ namespace Jacobi.Zim80.Components.CpuZ80.Opcodes
         {
             var valTxt = string.Format("{0:X4}", value);
             Text = string.Format(_mnemonic, value);
+        }
+
+        private static string FormatOffest(sbyte value)
+        {
+            if (value < 0)
+                return string.Format("{0:D}", value);
+
+            return string.Format("+{0:D}", value);
+        }
+
+        private static string FormatByte(byte value)
+        {
+            return string.Format("{0:X2}", value);
         }
     }
 }

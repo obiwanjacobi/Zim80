@@ -53,10 +53,8 @@ namespace Jacobi.Zim80.Components.CpuZ80.Opcodes
                     throw new InvalidOperationException("OpcodeBuilder already produced an Opcode -or- " +
                         "you are adding parameters to a SingleCycleOpcode. Did you forget to call Clear?");
 
-                int paramCount = 1;
-                if (_opcodeDef.nn)
-                    paramCount++;
-
+                int paramCount = _opcodeDef.ParameterCount;
+                
                 if (mbo.ParameterCount >= paramCount)
                     throw new InvalidOperationException("Too many parameters.");
 

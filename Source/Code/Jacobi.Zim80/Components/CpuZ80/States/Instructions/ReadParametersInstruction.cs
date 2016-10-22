@@ -20,7 +20,7 @@
                     InstructionM2 = new ReadT3InstructionPart(Die, machineCycle);
                     return InstructionM2;
                 case MachineCycleNames.M3:
-                    if (!ExecutionEngine.Opcode.Definition.nn)
+                    if (ExecutionEngine.Opcode.Definition.ParameterCount <= 1)
                         throw Errors.InvalidMachineCycle(machineCycle);
 
                     InstructionM3 = new ReadT3InstructionPart(Die, machineCycle);

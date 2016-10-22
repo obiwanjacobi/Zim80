@@ -30,7 +30,13 @@ namespace Jacobi.Zim80.Components.CpuZ80.Opcodes
 
         private void FormatText()
         {
-            if (_parameters.Count > 1)
+            if (Definition.d && Definition.n)
+            {
+                if (_parameters.Count > 1)
+                    Mnemonic.FormatParameters(
+                        (sbyte)_parameters[0].Value, _parameters[1].Value);
+            }
+            else if (_parameters.Count > 1)
                 Mnemonic.FormatParameter(CreateValue16(_parameters));
             else if (Definition.d)  // signed
                 Mnemonic.FormatParameter((sbyte)_parameters[0].Value);

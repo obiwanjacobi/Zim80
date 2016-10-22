@@ -101,6 +101,18 @@ namespace Jacobi.Zim80.Components.CpuZ80.Opcodes
 
         // parameters
         public bool HasParameters { get { return d || n || nn; } }
+        public int ParameterCount
+        {
+            get
+            {
+                int count = 0;
+                if (d) count++;
+                if (n) count++;
+                if (nn) count = 2;
+
+                return count;
+            }
+        }
         public bool d { get; private set; }
         public bool n { get; private set; }
         public bool nn { get; private set; }

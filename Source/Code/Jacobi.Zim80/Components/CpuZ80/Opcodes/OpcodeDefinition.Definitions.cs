@@ -68,7 +68,7 @@ namespace Jacobi.Zim80.Components.CpuZ80.Opcodes
             new OpcodeDefinition { X = 0, Z = 6, Y = 3, Mnemonic = "LD E, {0}", n = true, Cycles = new[] { 4, 3 }, Instruction = typeof(LoadImmediate8Instruction) },
             new OpcodeDefinition { X = 0, Z = 6, Y = 4, Mnemonic = "LD H, {0}", n = true, Cycles = new[] { 4, 3 }, Instruction = typeof(LoadImmediate8Instruction) },
             new OpcodeDefinition { X = 0, Z = 6, Y = 5, Mnemonic = "LD L, {0}", n = true, Cycles = new[] { 4, 3 }, Instruction = typeof(LoadImmediate8Instruction) },
-            new OpcodeDefinition { X = 0, Z = 6, Y = 6, Mnemonic = "LD (HL), {0}", n = true, Cycles = new[] { 4, 3, 3 } },
+            new OpcodeDefinition { X = 0, Z = 6, Y = 6, Mnemonic = "LD (HL), {0}", n = true, Cycles = new[] { 4, 3, 3 }, Instruction = typeof(LoadImmediateIndirectInstruction) },
             new OpcodeDefinition { X = 0, Z = 6, Y = 7, Mnemonic = "LD A, {0}", n = true, Cycles = new[] { 4, 3 }, Instruction = typeof(LoadImmediate8Instruction) },
 
             new OpcodeDefinition { X = 0, Z = 7, Y = 0, Mnemonic = "RLCA", Cycles = new[] { 4 }, Instruction = typeof(ShiftRotateInstruction) },
@@ -715,6 +715,7 @@ namespace Jacobi.Zim80.Components.CpuZ80.Opcodes
 
             new OpcodeDefinition { X = 0, Z = 6, Y = 4, Mnemonic = "LD IXh, {0}", Ext1 = 0xDD, n = true, Cycles = new[] { 4, 4, 3 }, Instruction = typeof(LoadImmediate8Instruction) },
             new OpcodeDefinition { X = 0, Z = 6, Y = 5, Mnemonic = "LD IXl, {0}", Ext1 = 0xDD, n = true, Cycles = new[] { 4, 4, 3 }, Instruction = typeof(LoadImmediate8Instruction) },
+            new OpcodeDefinition { X = 0, Z = 6, Y = 6, Mnemonic = "LD (IX{0}), {1}", Ext1 = 0xDD, d = true, n = true, Cycles = new[] { 4, 4, 3, 5, 3 }, Instruction = typeof(LoadImmediateIndirectInstruction) },
             #endregion
 
             #region X= 1
@@ -768,6 +769,7 @@ namespace Jacobi.Zim80.Components.CpuZ80.Opcodes
 
             new OpcodeDefinition { X = 0, Z = 6, Y = 4, Mnemonic = "LD IYh, {0}", Ext1 = 0xFD, n = true, Cycles = new[] { 4, 4, 3 }, Instruction = typeof(LoadImmediate8Instruction) },
             new OpcodeDefinition { X = 0, Z = 6, Y = 5, Mnemonic = "LD IYl, {0}", Ext1 = 0xFD, n = true, Cycles = new[] { 4, 4, 3 }, Instruction = typeof(LoadImmediate8Instruction) },
+            new OpcodeDefinition { X = 0, Z = 6, Y = 6, Mnemonic = "LD (IY{0}), {1}", Ext1 = 0xFD, d = true, n = true, Cycles = new[] { 4, 4, 3, 5, 3 }, Instruction = typeof(LoadImmediateIndirectInstruction) },
             #endregion
 
             #region X= 1

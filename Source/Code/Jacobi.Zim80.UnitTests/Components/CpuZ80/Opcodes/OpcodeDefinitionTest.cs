@@ -55,7 +55,7 @@ namespace Jacobi.Zim80.Components.CpuZ80.Opcodes.UnitTests
         }
 
         [TestMethod]
-        public void OpcodeDefinition_CanOnlyHaveOneTypeOfParameter()
+        public void OpcodeDefinition_CanOnlyHaveMaxTwoParameters()
         {
             foreach (var od in OpcodeDefinition.Defintions)
             {
@@ -65,7 +65,7 @@ namespace Jacobi.Zim80.Components.CpuZ80.Opcodes.UnitTests
                 if (od.n) expected++;
                 if (od.nn) expected++;
 
-                expected.Should().BeInRange(0, 1);
+                expected.Should().BeInRange(0, 2);
             }
         }
 
@@ -82,7 +82,7 @@ namespace Jacobi.Zim80.Components.CpuZ80.Opcodes.UnitTests
                 if (od.Ext1 != 0) expected++;
                 if (od.Ext2 != 0) expected++;
 
-                od.Cycles.Count().Should().BeGreaterOrEqualTo(expected, od.Mnemonic, "{0}");
+                od.Cycles.Count().Should().BeGreaterOrEqualTo(expected, od.Mnemonic, "{0}", "{1}");
             }
         }
 
@@ -102,7 +102,8 @@ namespace Jacobi.Zim80.Components.CpuZ80.Opcodes.UnitTests
 
                 foreach (var od in missingInstructions)
                 {
-                    TestContext.WriteLine(od.Mnemonic, "x");
+                    var mnemonic = string.Format(od.Mnemonic, "{0}", "{1}");
+                    TestContext.WriteLine("{0}\t\t\tX={3}, Z={4}, Y={5}\t{1:X}-{2:X}", mnemonic, od.Ext1, od.Ext2, od.X, od.Z, od.Y);
                 }
 
                 Assert.Inconclusive();
