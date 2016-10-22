@@ -1,66 +1,108 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <ClassDiagram MajorVersion="1" MinorVersion="1">
   <Class Name="Jacobi.Zim80.Components.CpuZ80.States.Instructions.Dec16Instruction" Collapsed="true">
-    <Position X="0.5" Y="3.5" Width="1.5" />
+    <Position X="2.25" Y="3.25" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAEAAAAAAAAAAAAAAAAEAAAA=</HashCode>
       <FileName>Components\CpuZ80\States\Instructions\Dec16Instruction.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="Jacobi.Zim80.Components.CpuZ80.States.Instructions.Dec8Instruction" Collapsed="true">
-    <Position X="2.75" Y="3.5" Width="1.5" />
+    <Position X="0.5" Y="3.25" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAABAAAAAAAAAAAAAQAEAAAA=</HashCode>
       <FileName>Components\CpuZ80\States\Instructions\Dec8Instruction.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="Jacobi.Zim80.Components.CpuZ80.States.Instructions.ExAFAFInstruction" Collapsed="true">
-    <Position X="5" Y="3.5" Width="1.5" />
+    <Position X="19" Y="3.25" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAEAAAA=</HashCode>
       <FileName>Components\CpuZ80\States\Instructions\ExAFAFInstruction.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="Jacobi.Zim80.Components.CpuZ80.States.Instructions.Inc16Instruction" Collapsed="true">
-    <Position X="7.25" Y="3.5" Width="1.5" />
+    <Position X="5.75" Y="3.25" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAEAAAAAAAAAAAAAAAAEAAAA=</HashCode>
       <FileName>Components\CpuZ80\States\Instructions\Inc16Instruction.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="Jacobi.Zim80.Components.CpuZ80.States.Instructions.Inc8Instruction" Collapsed="true">
-    <Position X="9.5" Y="3.5" Width="1.5" />
+    <Position X="4" Y="3.25" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAABAAAAAAAAAAAAAQAEAAAA=</HashCode>
       <FileName>Components\CpuZ80\States\Instructions\Inc8Instruction.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="Jacobi.Zim80.Components.CpuZ80.States.Instructions.NopInstruction" Collapsed="true">
-    <Position X="11.75" Y="3.5" Width="1.5" />
+    <Position X="17.25" Y="3.25" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAEAAAA=</HashCode>
       <FileName>Components\CpuZ80\States\Instructions\NopInstruction.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="Jacobi.Zim80.Components.CpuZ80.States.Instructions.Instruction" Collapsed="true">
-    <Position X="5.25" Y="0.5" Width="1.75" />
+    <Position X="12.75" Y="0.5" Width="1.75" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAABAAAAAAAAAAEAAAA=</HashCode>
       <FileName>Components\CpuZ80\States\Instructions\Instruction.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="Jacobi.Zim80.Components.CpuZ80.States.Instructions.SingleCycleInstruction" Collapsed="true">
-    <Position X="5.25" Y="1.75" Width="1.75" />
+    <Position X="12.75" Y="1.5" Width="1.75" />
     <TypeIdentifier>
       <HashCode>AAAAABAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Components\CpuZ80\States\Instructions\SingleCycleInstruction.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="Jacobi.Zim80.Components.CpuZ80.States.Instructions.BitInstruction" Collapsed="true">
-    <Position X="1.75" Y="4.75" Width="1.5" />
+    <Position X="7.5" Y="3.25" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAEAAAA=</HashCode>
       <FileName>Components\CpuZ80\States\Instructions\BitInstruction.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Jacobi.Zim80.Components.CpuZ80.States.Instructions.InterruptInstruction" Collapsed="true">
+    <Position X="22.75" Y="3.25" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAEAAAA=</HashCode>
+      <FileName>Components\CpuZ80\States\Instructions\InterruptInstruction.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Jacobi.Zim80.Components.CpuZ80.States.Instructions.IntModeInstruction" Collapsed="true">
+    <Position X="20.75" Y="3.25" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAEAAAA=</HashCode>
+      <FileName>Components\CpuZ80\States\Instructions\IntModeInstruction.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Jacobi.Zim80.Components.CpuZ80.States.Instructions.LoadRegister8Instruction" Collapsed="true">
+    <Position X="11" Y="3.25" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAEAAAA=</HashCode>
+      <FileName>Components\CpuZ80\States\Instructions\LoadRegister8Instruction.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Jacobi.Zim80.Components.CpuZ80.States.Instructions.MathRegister8Instruction" Collapsed="true">
+    <Position X="15" Y="3.25" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAEAAAA=</HashCode>
+      <FileName>Components\CpuZ80\States\Instructions\MathRegister8Instruction.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Jacobi.Zim80.Components.CpuZ80.States.Instructions.ResInstruction" Collapsed="true">
+    <Position X="9.25" Y="3.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAEAAAA=</HashCode>
+      <FileName>Components\CpuZ80\States\Instructions\ResInstruction.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Jacobi.Zim80.Components.CpuZ80.States.Instructions.SetInstruction" Collapsed="true">
+    <Position X="13.25" Y="3.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAEAAAA=</HashCode>
+      <FileName>Components\CpuZ80\States\Instructions\SetInstruction.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Font Name="Segoe UI" Size="9" />

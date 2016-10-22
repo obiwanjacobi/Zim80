@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <ClassDiagram MajorVersion="1" MinorVersion="1">
   <Class Name="Jacobi.Zim80.Components.CpuZ80.States.Instructions.LoadImmediate8Instruction" Collapsed="true">
-    <Position X="0.5" Y="6.5" Width="2.25" />
+    <Position X="6.5" Y="7" Width="2.25" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAABAAAAAAAAAAAAAQCAAAAA=</HashCode>
       <FileName>Components\CpuZ80\States\Instructions\LoadImmediate8Instruction.cs</FileName>
@@ -36,7 +36,7 @@
     </ShowAsAssociation>
   </Class>
   <Class Name="Jacobi.Zim80.Components.CpuZ80.States.Instructions.LoadImmediate16Instruction" Collapsed="true">
-    <Position X="3.5" Y="6.5" Width="2.25" />
+    <Position X="9.25" Y="7" Width="2.25" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAEAAAAAAAAAAAAAAACAAAAA=</HashCode>
       <FileName>Components\CpuZ80\States\Instructions\LoadImmediate16Instruction.cs</FileName>
@@ -121,7 +121,7 @@
     </ShowAsAssociation>
   </Class>
   <Class Name="Jacobi.Zim80.Components.CpuZ80.States.Instructions.DjnzInstruction" Collapsed="true">
-    <Position X="6.5" Y="8" Width="2" />
+    <Position X="14" Y="8.5" Width="2" />
     <TypeIdentifier>
       <HashCode>AEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAEAAAA=</HashCode>
       <FileName>Components\CpuZ80\States\Instructions\DjnzInstruction.cs</FileName>
@@ -162,7 +162,7 @@
     </TypeIdentifier>
   </Class>
   <Class Name="Jacobi.Zim80.Components.CpuZ80.States.Instructions.JumpRelativeInstruction" Collapsed="true">
-    <Position X="6.5" Y="6.5" Width="2" />
+    <Position X="14" Y="7" Width="2" />
     <TypeIdentifier>
       <HashCode>AEAAAAAAAAAAAAAAAAQAAAAAAAAAAAAAAAAAACEAAAA=</HashCode>
       <FileName>Components\CpuZ80\States\Instructions\JumpRelativeInstruction.cs</FileName>
@@ -194,6 +194,27 @@
     <TypeIdentifier>
       <HashCode>AAAAAAAABAAAAAAAAAAAAAAAAACAAAAAAAAAAAEAAAA=</HashCode>
       <FileName>Components\CpuZ80\States\Instructions\RstInstruction.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Jacobi.Zim80.Components.CpuZ80.States.Instructions.CallInstruction" Collapsed="true">
+    <Position X="12" Y="7" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AEAAAAAAAAAAAIAAAAQAAAAAAAAAAAAQAAAAAAQAAAA=</HashCode>
+      <FileName>Components\CpuZ80\States\Instructions\CallInstruction.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Jacobi.Zim80.Components.CpuZ80.States.Instructions.ReadImmediateRegisterInstruction" Collapsed="true">
+    <Position X="16.5" Y="7" Width="2.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAIAAAAAAAAQAAAAQAAAAAAAAAAAACAAAAACAAAAA=</HashCode>
+      <FileName>Components\CpuZ80\States\Instructions\ReadImmediateRegisterInstruction.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Jacobi.Zim80.Components.CpuZ80.States.Instructions.WriteImmediateRegisterInstruction" Collapsed="true">
+    <Position X="19.5" Y="7" Width="2.75" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAQAQBAAAAAAAAACAAAAAAAAAAA=</HashCode>
+      <FileName>Components\CpuZ80\States\Instructions\WriteImmediateRegisterInstruction.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Font Name="Segoe UI" Size="9" />

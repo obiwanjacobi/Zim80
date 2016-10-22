@@ -83,6 +83,7 @@
     <Compile Include="Components\CpuZ80\Instructions\BitInstructionTest.cs" />
     <Compile Include="Components\CpuZ80\Instructions\CallInstructionTest.cs" />
     <Compile Include="Components\CpuZ80\Instructions\Dec16InstructionTest.cs" />
+    <Compile Include="Components\CpuZ80\Instructions\IndirectBitSetResInstructionTest.cs" />
     <Compile Include="Components\CpuZ80\Instructions\IndirectRegisterTest.cs" />
     <Compile Include="Components\CpuZ80\Instructions\InterruptInstructionTest.cs" />
     <Compile Include="Components\CpuZ80\Instructions\IntModeInstructionTest.cs" />

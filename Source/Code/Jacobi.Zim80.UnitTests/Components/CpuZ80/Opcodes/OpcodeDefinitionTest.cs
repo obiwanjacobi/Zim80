@@ -89,14 +89,18 @@ namespace Jacobi.Zim80.Components.CpuZ80.Opcodes.UnitTests
         [TestMethod]
         public void OpcodeDefinition_MustHaveInstruction()
         {
-            var missingInstruction = OpcodeDefinition.Defintions
+            var implInstructions = OpcodeDefinition.Defintions
+                                        .Where(od => od.Instruction != null);
+            TestContext.WriteLine("{0} Implemented Opcode Definitions.", implInstructions.Count());
+
+            var missingInstructions = OpcodeDefinition.Defintions
                                         .Where(od => od.Instruction == null);
 
-            if (missingInstruction.Any())
+            if (missingInstructions.Any())
             {
-                TestContext.WriteLine("{0} Opcode Definitions without Instruction types:", missingInstruction.Count());
+                TestContext.WriteLine("{0} Opcode Definitions without Instruction types:", missingInstructions.Count());
 
-                foreach (var od in missingInstruction)
+                foreach (var od in missingInstructions)
                 {
                     TestContext.WriteLine(od.Mnemonic, "x");
                 }
