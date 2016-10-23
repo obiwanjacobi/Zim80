@@ -77,8 +77,8 @@ namespace Jacobi.Zim80.Components.CpuZ80.Opcodes
             new OpcodeDefinition { X = 0, Z = 7, Y = 3, Mnemonic = "RRA", Cycles = new[] { 4 }, Instruction = typeof(ShiftRotateInstruction) },
             new OpcodeDefinition { X = 0, Z = 7, Y = 4, Mnemonic = "DAA", Cycles = new[] { 4 } },
             new OpcodeDefinition { X = 0, Z = 7, Y = 5, Mnemonic = "CPL", Cycles = new[] { 4 } },
-            new OpcodeDefinition { X = 0, Z = 7, Y = 6, Mnemonic = "SCF", Cycles = new[] { 4 } },
-            new OpcodeDefinition { X = 0, Z = 7, Y = 7, Mnemonic = "CCF", Cycles = new[] { 4 } },
+            new OpcodeDefinition { X = 0, Z = 7, Y = 6, Mnemonic = "SCF", Cycles = new[] { 4 }, Instruction = typeof(CarryFlagInstruction) },
+            new OpcodeDefinition { X = 0, Z = 7, Y = 7, Mnemonic = "CCF", Cycles = new[] { 4 }, Instruction = typeof(CarryFlagInstruction) },
             #endregion
 
             #region X = 1
