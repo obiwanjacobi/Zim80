@@ -51,7 +51,49 @@ namespace Jacobi.Zim80.Components.CpuZ80
             return (byte)(value | (1 << bit));
         }
 
-        
+        /* http://z80-heaven.wikidot.com/instructions-set:daa
+         * if the least significant four bits of A contain a non-BCD digit 
+         * (i. e. it is greater than 9) or the H flag is set, then $06 is 
+         * added to the register. Then the four most significant bits are 
+         * checked. If this more significant digit also happens to be greater 
+         * than 9 or the C flag is set, then $60 is added.
+         * 
+         * The same rule applies when N=1. The only thing is that you have 
+         * to subtract the correction when N=1
+         * 
+         * See also undocumented instructions doc (page 17).
+         * http://z80.info/zip/z80-documented.pdf
+         */
+        public byte DecimalAdjust(byte acc)
+        {
+            var newValue = acc;
+            var loOverflow = (acc & 0x0F) > 0x09;
+            var hiOverflow = (acc & 0xF0) > 0x90;
+            var hi9Overflow = (acc & 0xF0) > 0x80;
+
+            byte diff = 0;
+            if (loOverflow || Flags.H) diff += 0x06;
+            if (hiOverflow || Flags.C) diff += 0x60;
+
+            if (Flags.N)
+                newValue -= diff;
+            else
+                newValue += diff;
+
+            if (!Flags.C) Flags.C =
+                (hi9Overflow && loOverflow) ||
+                hiOverflow;
+
+            Flags.H =
+                (!Flags.N && loOverflow) ||
+                !(Flags.N && !Flags.H) ||
+                (Flags.N && Flags.H && (acc & 0x0F) <= 0x05);
+
+            Flags.Z = newValue == 0;
+            Flags.S = (newValue & 0x80) > 0;
+
+            return newValue;
+        }
 
         public ushort Dec16(ushort value)
         {
