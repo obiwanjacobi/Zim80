@@ -61,6 +61,10 @@ namespace Jacobi.Zim80.Components.CpuZ80.Opcodes
             get { return Value == 0xFD; }
         }
 
+        private static readonly OpcodeByte _empty = new OpcodeByte(0);
+
+        public static OpcodeByte Empty { get { return _empty; } }
+
         public static OpcodeByte New(byte z = 0, byte x = 0, byte p = 0, byte q  = 0)
         {
             return new OpcodeByte((byte)((x << 6) | (p << 4) | (q << 3) | z));

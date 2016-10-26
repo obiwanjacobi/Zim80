@@ -88,7 +88,7 @@ namespace Jacobi.Zim80.Components.CpuZ80.Opcodes
             new OpcodeDefinition { X = 1, Z = 0, Y = 3, Mnemonic = "LD E, B", Cycles = new[] { 4 }, Instruction = typeof(LoadRegister8Instruction) },
             new OpcodeDefinition { X = 1, Z = 0, Y = 4, Mnemonic = "LD H, B", Cycles = new[] { 4 }, Instruction = typeof(LoadRegister8Instruction) },
             new OpcodeDefinition { X = 1, Z = 0, Y = 5, Mnemonic = "LD L, B", Cycles = new[] { 4 }, Instruction = typeof(LoadRegister8Instruction) },
-            new OpcodeDefinition { X = 1, Z = 0, Y = 6, Mnemonic = "LD (HL), B", Cycles = new[] { 4, 3 } },
+            new OpcodeDefinition { X = 1, Z = 0, Y = 6, Mnemonic = "LD (HL), B", Cycles = new[] { 4, 3 }, Instruction = typeof(WriteIndirectRegisterInstruction) },
             new OpcodeDefinition { X = 1, Z = 0, Y = 7, Mnemonic = "LD A, B", Cycles = new[] { 4 }, Instruction = typeof(LoadRegister8Instruction) },
 
             new OpcodeDefinition { X = 1, Z = 1, Y = 0, Mnemonic = "LD B, C", Cycles = new[] { 4 }, Instruction = typeof(LoadRegister8Instruction) },
@@ -97,7 +97,7 @@ namespace Jacobi.Zim80.Components.CpuZ80.Opcodes
             new OpcodeDefinition { X = 1, Z = 1, Y = 3, Mnemonic = "LD E, C", Cycles = new[] { 4 }, Instruction = typeof(LoadRegister8Instruction) },
             new OpcodeDefinition { X = 1, Z = 1, Y = 4, Mnemonic = "LD H, C", Cycles = new[] { 4 }, Instruction = typeof(LoadRegister8Instruction) },
             new OpcodeDefinition { X = 1, Z = 1, Y = 5, Mnemonic = "LD L, C", Cycles = new[] { 4 }, Instruction = typeof(LoadRegister8Instruction) },
-            new OpcodeDefinition { X = 1, Z = 1, Y = 6, Mnemonic = "LD (HL), C", Cycles = new[] { 4, 3 } },
+            new OpcodeDefinition { X = 1, Z = 1, Y = 6, Mnemonic = "LD (HL), C", Cycles = new[] { 4, 3 }, Instruction = typeof(WriteIndirectRegisterInstruction) },
             new OpcodeDefinition { X = 1, Z = 1, Y = 7, Mnemonic = "LD A, C", Cycles = new[] { 4 }, Instruction = typeof(LoadRegister8Instruction) },
 
             new OpcodeDefinition { X = 1, Z = 2, Y = 0, Mnemonic = "LD B, D", Cycles = new[] { 4 }, Instruction = typeof(LoadRegister8Instruction) },
@@ -106,7 +106,7 @@ namespace Jacobi.Zim80.Components.CpuZ80.Opcodes
             new OpcodeDefinition { X = 1, Z = 2, Y = 3, Mnemonic = "LD E, D", Cycles = new[] { 4 }, Instruction = typeof(LoadRegister8Instruction) },
             new OpcodeDefinition { X = 1, Z = 2, Y = 4, Mnemonic = "LD H, D", Cycles = new[] { 4 }, Instruction = typeof(LoadRegister8Instruction) },
             new OpcodeDefinition { X = 1, Z = 2, Y = 5, Mnemonic = "LD L, D", Cycles = new[] { 4 }, Instruction = typeof(LoadRegister8Instruction) },
-            new OpcodeDefinition { X = 1, Z = 2, Y = 6, Mnemonic = "LD (HL), D", Cycles = new[] { 4, 3 } },
+            new OpcodeDefinition { X = 1, Z = 2, Y = 6, Mnemonic = "LD (HL), D", Cycles = new[] { 4, 3 }, Instruction = typeof(WriteIndirectRegisterInstruction) },
             new OpcodeDefinition { X = 1, Z = 2, Y = 7, Mnemonic = "LD A, D", Cycles = new[] { 4 }, Instruction = typeof(LoadRegister8Instruction) },
 
             new OpcodeDefinition { X = 1, Z = 3, Y = 0, Mnemonic = "LD B, E", Cycles = new[] { 4 }, Instruction = typeof(LoadRegister8Instruction) },
@@ -115,7 +115,7 @@ namespace Jacobi.Zim80.Components.CpuZ80.Opcodes
             new OpcodeDefinition { X = 1, Z = 3, Y = 3, Mnemonic = "LD E, E", Cycles = new[] { 4 }, Instruction = typeof(LoadRegister8Instruction) },
             new OpcodeDefinition { X = 1, Z = 3, Y = 4, Mnemonic = "LD H, E", Cycles = new[] { 4 }, Instruction = typeof(LoadRegister8Instruction) },
             new OpcodeDefinition { X = 1, Z = 3, Y = 5, Mnemonic = "LD L, E", Cycles = new[] { 4 }, Instruction = typeof(LoadRegister8Instruction) },
-            new OpcodeDefinition { X = 1, Z = 3, Y = 6, Mnemonic = "LD (HL), E", Cycles = new[] { 4, 3 } },
+            new OpcodeDefinition { X = 1, Z = 3, Y = 6, Mnemonic = "LD (HL), E", Cycles = new[] { 4, 3 }, Instruction = typeof(WriteIndirectRegisterInstruction) },
             new OpcodeDefinition { X = 1, Z = 3, Y = 7, Mnemonic = "LD A, E", Cycles = new[] { 4 }, Instruction = typeof(LoadRegister8Instruction) },
 
             new OpcodeDefinition { X = 1, Z = 4, Y = 0, Mnemonic = "LD B, H", Cycles = new[] { 4 }, Instruction = typeof(LoadRegister8Instruction) },
@@ -124,7 +124,7 @@ namespace Jacobi.Zim80.Components.CpuZ80.Opcodes
             new OpcodeDefinition { X = 1, Z = 4, Y = 3, Mnemonic = "LD E, H", Cycles = new[] { 4 }, Instruction = typeof(LoadRegister8Instruction) },
             new OpcodeDefinition { X = 1, Z = 4, Y = 4, Mnemonic = "LD H, H", Cycles = new[] { 4 }, Instruction = typeof(LoadRegister8Instruction) },
             new OpcodeDefinition { X = 1, Z = 4, Y = 5, Mnemonic = "LD L, H", Cycles = new[] { 4 }, Instruction = typeof(LoadRegister8Instruction) },
-            new OpcodeDefinition { X = 1, Z = 4, Y = 6, Mnemonic = "LD (HL), H", Cycles = new[] { 4, 3 } },
+            new OpcodeDefinition { X = 1, Z = 4, Y = 6, Mnemonic = "LD (HL), H", Cycles = new[] { 4, 3 }, Instruction = typeof(WriteIndirectRegisterInstruction) },
             new OpcodeDefinition { X = 1, Z = 4, Y = 7, Mnemonic = "LD A, H", Cycles = new[] { 4 }, Instruction = typeof(LoadRegister8Instruction) },
 
             new OpcodeDefinition { X = 1, Z = 5, Y = 0, Mnemonic = "LD B, L", Cycles = new[] { 4 }, Instruction = typeof(LoadRegister8Instruction) },
@@ -133,7 +133,7 @@ namespace Jacobi.Zim80.Components.CpuZ80.Opcodes
             new OpcodeDefinition { X = 1, Z = 5, Y = 3, Mnemonic = "LD E, L", Cycles = new[] { 4 }, Instruction = typeof(LoadRegister8Instruction) },
             new OpcodeDefinition { X = 1, Z = 5, Y = 4, Mnemonic = "LD H, L", Cycles = new[] { 4 }, Instruction = typeof(LoadRegister8Instruction) },
             new OpcodeDefinition { X = 1, Z = 5, Y = 5, Mnemonic = "LD L, L", Cycles = new[] { 4 }, Instruction = typeof(LoadRegister8Instruction) },
-            new OpcodeDefinition { X = 1, Z = 5, Y = 6, Mnemonic = "LD (HL), L", Cycles = new[] { 4, 3 } },
+            new OpcodeDefinition { X = 1, Z = 5, Y = 6, Mnemonic = "LD (HL), L", Cycles = new[] { 4, 3 }, Instruction = typeof(WriteIndirectRegisterInstruction) },
             new OpcodeDefinition { X = 1, Z = 5, Y = 7, Mnemonic = "LD A, L", Cycles = new[] { 4 }, Instruction = typeof(LoadRegister8Instruction) },
 
             new OpcodeDefinition { X = 1, Z = 6, Y = 0, Mnemonic = "LD B, (HL)", Cycles = new[] { 4, 3 }, Instruction = typeof(ReadIndirectRegisterInstruction) },
@@ -151,7 +151,7 @@ namespace Jacobi.Zim80.Components.CpuZ80.Opcodes
             new OpcodeDefinition { X = 1, Z = 7, Y = 3, Mnemonic = "LD E, A", Cycles = new[] { 4 }, Instruction = typeof(LoadRegister8Instruction) },
             new OpcodeDefinition { X = 1, Z = 7, Y = 4, Mnemonic = "LD H, A", Cycles = new[] { 4 }, Instruction = typeof(LoadRegister8Instruction) },
             new OpcodeDefinition { X = 1, Z = 7, Y = 5, Mnemonic = "LD L, A", Cycles = new[] { 4 }, Instruction = typeof(LoadRegister8Instruction) },
-            new OpcodeDefinition { X = 1, Z = 7, Y = 6, Mnemonic = "LD (HL), A", Cycles = new[] { 4, 3 } },
+            new OpcodeDefinition { X = 1, Z = 7, Y = 6, Mnemonic = "LD (HL), A", Cycles = new[] { 4, 3 }, Instruction = typeof(WriteIndirectRegisterInstruction) },
             new OpcodeDefinition { X = 1, Z = 7, Y = 7, Mnemonic = "LD A, A", Cycles = new[] { 4 }, Instruction = typeof(LoadRegister8Instruction) },
             #endregion
 
@@ -719,12 +719,12 @@ namespace Jacobi.Zim80.Components.CpuZ80.Opcodes
             #endregion
 
             #region X= 1
-            new OpcodeDefinition { X = 1, Z = 0, Y = 6, Mnemonic = "LD (IX{0}), B", Ext1 = 0xDD, d = true, Cycles = new[] { 4, 4, 3 } },   // cycles?
-            new OpcodeDefinition { X = 1, Z = 1, Y = 6, Mnemonic = "LD (IX{0}), C", Ext1 = 0xDD, d = true, Cycles = new[] { 4, 4, 3 } },    // cycles?
-            new OpcodeDefinition { X = 1, Z = 2, Y = 6, Mnemonic = "LD (IX{0}), D", Ext1 = 0xDD, d = true, Cycles = new[] { 4, 4, 3 } },    // cycles?
-            new OpcodeDefinition { X = 1, Z = 3, Y = 6, Mnemonic = "LD (IX{0}), E", Ext1 = 0xDD, d = true, Cycles = new[] { 4, 4, 3 } },    // cycles?
-            new OpcodeDefinition { X = 1, Z = 4, Y = 6, Mnemonic = "LD (IX{0}), H", Ext1 = 0xDD, d = true, Cycles = new[] { 4, 4, 3 } },    // cycles?
-            new OpcodeDefinition { X = 1, Z = 5, Y = 6, Mnemonic = "LD (IX{0}), L", Ext1 = 0xDD, d = true, Cycles = new[] { 4, 4, 3 } },    // cycles?
+            new OpcodeDefinition { X = 1, Z = 0, Y = 6, Mnemonic = "LD (IX{0}), B", Ext1 = 0xDD, d = true, Cycles = new[] { 4, 4, 3, 5, 3 }, Instruction = typeof(WriteIndirectRegisterInstruction) },
+            new OpcodeDefinition { X = 1, Z = 1, Y = 6, Mnemonic = "LD (IX{0}), C", Ext1 = 0xDD, d = true, Cycles = new[] { 4, 4, 3, 5, 3 }, Instruction = typeof(WriteIndirectRegisterInstruction) },
+            new OpcodeDefinition { X = 1, Z = 2, Y = 6, Mnemonic = "LD (IX{0}), D", Ext1 = 0xDD, d = true, Cycles = new[] { 4, 4, 3, 5, 3 }, Instruction = typeof(WriteIndirectRegisterInstruction) },
+            new OpcodeDefinition { X = 1, Z = 3, Y = 6, Mnemonic = "LD (IX{0}), E", Ext1 = 0xDD, d = true, Cycles = new[] { 4, 4, 3, 5, 3 }, Instruction = typeof(WriteIndirectRegisterInstruction) },
+            new OpcodeDefinition { X = 1, Z = 4, Y = 6, Mnemonic = "LD (IX{0}), H", Ext1 = 0xDD, d = true, Cycles = new[] { 4, 4, 3, 5, 3 }, Instruction = typeof(WriteIndirectRegisterInstruction) },
+            new OpcodeDefinition { X = 1, Z = 5, Y = 6, Mnemonic = "LD (IX{0}), L", Ext1 = 0xDD, d = true, Cycles = new[] { 4, 4, 3, 5, 3 }, Instruction = typeof(WriteIndirectRegisterInstruction) },
 
             new OpcodeDefinition { X = 1, Z = 6, Y = 0, Mnemonic = "LD B, (IX{0})", Ext1 = 0xDD, d = true, Cycles = new[] { 4, 4, 3, 5, 3 }, Instruction = typeof(ReadIndirectRegisterInstruction) },
             new OpcodeDefinition { X = 1, Z = 6, Y = 1, Mnemonic = "LD C, (IX{0})", Ext1 = 0xDD, d = true, Cycles = new[] { 4, 4, 3, 5, 3 }, Instruction = typeof(ReadIndirectRegisterInstruction) },
@@ -734,7 +734,7 @@ namespace Jacobi.Zim80.Components.CpuZ80.Opcodes
             new OpcodeDefinition { X = 1, Z = 6, Y = 5, Mnemonic = "LD L, (IX{0})", Ext1 = 0xDD, d = true, Cycles = new[] { 4, 4, 3, 5, 3 }, Instruction = typeof(ReadIndirectRegisterInstruction) },
             new OpcodeDefinition { X = 1, Z = 6, Y = 7, Mnemonic = "LD A, (IX{0})", Ext1 = 0xDD, d = true, Cycles = new[] { 4, 4, 3, 5, 3 }, Instruction = typeof(ReadIndirectRegisterInstruction) },
 
-            new OpcodeDefinition { X = 1, Z = 7, Y = 6, Mnemonic = "LD (IX{0}), A", Ext1 = 0xDD, d = true, Cycles = new[] { 4, 4, 3 } },    // cycles?
+            new OpcodeDefinition { X = 1, Z = 7, Y = 6, Mnemonic = "LD (IX{0}), A", Ext1 = 0xDD, d = true, Cycles = new[] { 4, 4, 3, 5, 3 }, Instruction = typeof(WriteIndirectRegisterInstruction) },
             #endregion
 
             #region X = 2
@@ -782,12 +782,12 @@ namespace Jacobi.Zim80.Components.CpuZ80.Opcodes
             #endregion
 
             #region X= 1
-            new OpcodeDefinition { X = 1, Z = 0, Y = 6, Mnemonic = "LD (IY{0}), B", Ext1 = 0xFD, d = true, Cycles = new[] { 4, 4, 3 } },   // cycles?
-            new OpcodeDefinition { X = 1, Z = 1, Y = 6, Mnemonic = "LD (IY{0}), C", Ext1 = 0xFD, d = true, Cycles = new[] { 4, 4, 3 } },    // cycles?
-            new OpcodeDefinition { X = 1, Z = 2, Y = 6, Mnemonic = "LD (IY{0}), D", Ext1 = 0xFD, d = true, Cycles = new[] { 4, 4, 3 } },    // cycles?
-            new OpcodeDefinition { X = 1, Z = 3, Y = 6, Mnemonic = "LD (IY{0}), E", Ext1 = 0xFD, d = true, Cycles = new[] { 4, 4, 3 } },    // cycles?
-            new OpcodeDefinition { X = 1, Z = 4, Y = 6, Mnemonic = "LD (IY{0}), H", Ext1 = 0xFD, d = true, Cycles = new[] { 4, 4, 3 } },    // cycles?
-            new OpcodeDefinition { X = 1, Z = 5, Y = 6, Mnemonic = "LD (IY{0}), L", Ext1 = 0xFD, d = true, Cycles = new[] { 4, 4, 3 } },    // cycles?
+            new OpcodeDefinition { X = 1, Z = 0, Y = 6, Mnemonic = "LD (IY{0}), B", Ext1 = 0xFD, d = true, Cycles = new[] { 4, 4, 3, 5, 3 }, Instruction = typeof(WriteIndirectRegisterInstruction) },
+            new OpcodeDefinition { X = 1, Z = 1, Y = 6, Mnemonic = "LD (IY{0}), C", Ext1 = 0xFD, d = true, Cycles = new[] { 4, 4, 3, 5, 3 }, Instruction = typeof(WriteIndirectRegisterInstruction) },
+            new OpcodeDefinition { X = 1, Z = 2, Y = 6, Mnemonic = "LD (IY{0}), D", Ext1 = 0xFD, d = true, Cycles = new[] { 4, 4, 3, 5, 3 }, Instruction = typeof(WriteIndirectRegisterInstruction) },
+            new OpcodeDefinition { X = 1, Z = 3, Y = 6, Mnemonic = "LD (IY{0}), E", Ext1 = 0xFD, d = true, Cycles = new[] { 4, 4, 3, 5, 3 }, Instruction = typeof(WriteIndirectRegisterInstruction) },
+            new OpcodeDefinition { X = 1, Z = 4, Y = 6, Mnemonic = "LD (IY{0}), H", Ext1 = 0xFD, d = true, Cycles = new[] { 4, 4, 3, 5, 3 }, Instruction = typeof(WriteIndirectRegisterInstruction) },
+            new OpcodeDefinition { X = 1, Z = 5, Y = 6, Mnemonic = "LD (IY{0}), L", Ext1 = 0xFD, d = true, Cycles = new[] { 4, 4, 3, 5, 3 }, Instruction = typeof(WriteIndirectRegisterInstruction) },
 
             new OpcodeDefinition { X = 1, Z = 6, Y = 0, Mnemonic = "LD B, (IY{0})", Ext1 = 0xFD, d = true, Cycles = new[] { 4, 4, 3, 5, 3 }, Instruction = typeof(ReadIndirectRegisterInstruction) },
             new OpcodeDefinition { X = 1, Z = 6, Y = 1, Mnemonic = "LD C, (IY{0})", Ext1 = 0xFD, d = true, Cycles = new[] { 4, 4, 3, 5, 3 }, Instruction = typeof(ReadIndirectRegisterInstruction) },
@@ -797,7 +797,7 @@ namespace Jacobi.Zim80.Components.CpuZ80.Opcodes
             new OpcodeDefinition { X = 1, Z = 6, Y = 5, Mnemonic = "LD L, (IY{0})", Ext1 = 0xFD, d = true, Cycles = new[] { 4, 4, 3, 5, 3 }, Instruction = typeof(ReadIndirectRegisterInstruction) },
             new OpcodeDefinition { X = 1, Z = 6, Y = 7, Mnemonic = "LD A, (IY{0})", Ext1 = 0xFD, d = true, Cycles = new[] { 4, 4, 3, 5, 3 }, Instruction = typeof(ReadIndirectRegisterInstruction) },
 
-            new OpcodeDefinition { X = 1, Z = 7, Y = 6, Mnemonic = "LD (IY{0}), A", Ext1 = 0xFD, d = true, Cycles = new[] { 4, 4, 3 } },    // cycles?
+            new OpcodeDefinition { X = 1, Z = 7, Y = 6, Mnemonic = "LD (IY{0}), A", Ext1 = 0xFD, d = true, Cycles = new[] { 4, 4, 3, 5, 3 }, Instruction = typeof(WriteIndirectRegisterInstruction) },
             #endregion
 
             #region X = 2

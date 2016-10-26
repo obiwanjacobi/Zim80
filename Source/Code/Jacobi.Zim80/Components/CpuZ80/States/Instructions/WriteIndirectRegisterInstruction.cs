@@ -15,8 +15,20 @@ namespace Jacobi.Zim80.Components.CpuZ80.States.Instructions
             switch (machineCycle)
             {
                 case MachineCycleNames.M2:
-                    _instructionPart = new WriteT3InstructionPart(Die, machineCycle, GetAddress());
-                    return _instructionPart;
+                    if (!ExecutionEngine.Opcode.Definition.HasExtension)
+                        return CreateWriteAddressInstructionPart(machineCycle);
+
+                    return base.GetInstructionPart(machineCycle);
+                case MachineCycleNames.M3:
+                    if (!ExecutionEngine.Opcode.Definition.HasExtension)
+                        throw Errors.InvalidMachineCycle(machineCycle);
+                    // z80 does the IX+d arithemtic
+                    return new AutoCompleteInstructionPart(Die, machineCycle);
+                case MachineCycleNames.M4:
+                    if (!ExecutionEngine.Opcode.Definition.HasExtension)
+                        throw Errors.InvalidMachineCycle(machineCycle);
+
+                    return CreateWriteAddressInstructionPart(machineCycle);
                 default:
                     throw Errors.InvalidMachineCycle(machineCycle);
             }
@@ -24,7 +36,13 @@ namespace Jacobi.Zim80.Components.CpuZ80.States.Instructions
 
         protected override void OnFirstCycleLastM()
         {
-            _instructionPart.Data = new OpcodeByte(Registers.PrimarySet.A);
+            _instructionPart.Data = new OpcodeByte(GetValue());
+        }
+
+        private WriteT3InstructionPart CreateWriteAddressInstructionPart(MachineCycleNames machineCycle)
+        {
+            _instructionPart = new WriteT3InstructionPart(Die, machineCycle, GetAddress());
+            return _instructionPart;
         }
     }
 }

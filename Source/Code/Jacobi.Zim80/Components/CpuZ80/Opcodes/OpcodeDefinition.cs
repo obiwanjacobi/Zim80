@@ -1,5 +1,6 @@
 ﻿using Jacobi.Zim80.Components.CpuZ80.States.Instructions;
 using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 
@@ -121,13 +122,8 @@ namespace Jacobi.Zim80.Components.CpuZ80.Opcodes
         public bool HasExtension { get { return Ext1 != 0; } }
         public byte Ext1 { get; private set; }
         public byte Ext2 { get; private set; }
-        public bool IsIX { get { return IsShifted(0xDD); } }
-        public bool IsIY { get { return IsShifted(0xFD); } }
-
-        private bool IsShifted(byte opcode)
-        {
-            return Ext1 == opcode;
-        }
+        public bool IsIX { get { return Ext1 == 0xDD; } }
+        public bool IsIY { get { return Ext1 == 0xFD; } }
 
         // T-cycle counts per machine cycle
         public int[] Cycles { get; private set; }
@@ -161,13 +157,25 @@ namespace Jacobi.Zim80.Components.CpuZ80.Opcodes
         public static OpcodeDefinition Find(OpcodeByte opcode,
             OpcodeByte ext1 = null, OpcodeByte ext2 = null)
         {
-            var result = (from od in Defintions
-                          where (ext1 == null && od.Ext1 == 0) || ext1 != null && od.Ext1 == ext1.Value
-                          where (ext2 == null && od.Ext2 == 0) || ext2 != null && od.Ext2 == ext2.Value
-                          where od.IsEqualTo(opcode)
-                          select od);
+            var result = FindInternal(opcode, ext1, ext2);
+
+            if (!result.Any() && 
+                ext1 != null && ext1.Value != 0)
+            {
+                // shift extensions 
+                result = FindInternal(opcode, ext2, OpcodeByte.Empty);
+            }
 
             return result.SingleOrDefault();
+        }
+
+        private static IEnumerable<OpcodeDefinition> FindInternal(OpcodeByte opcode, OpcodeByte ext1, OpcodeByte ext2)
+        {
+            return (from od in Defintions
+                    where (ext1 == null && od.Ext1 == 0) || ext1 != null && od.Ext1 == ext1.Value
+                    where (ext2 == null && od.Ext2 == 0) || ext2 != null && od.Ext2 == ext2.Value
+                    where od.IsEqualTo(opcode)
+                    select od);
         }
 
         // interrupt definitions

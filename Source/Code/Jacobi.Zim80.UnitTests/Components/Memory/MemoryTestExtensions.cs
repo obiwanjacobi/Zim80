@@ -9,7 +9,7 @@ namespace Jacobi.Zim80.Components.Memory.UnitTests
                 ushort address, byte expected)
         {
             var actual = memory[address];
-            actual.ToByte().Should().Be(expected);
+            actual.ToByte().Should().Be(expected, "at address:" + address);
         }
 
         public static MemoryRom<BusData16, BusData8> NewRom(byte[] buffer)
