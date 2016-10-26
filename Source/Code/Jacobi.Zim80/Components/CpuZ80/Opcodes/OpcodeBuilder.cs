@@ -34,7 +34,7 @@ namespace Jacobi.Zim80.Components.CpuZ80.Opcodes
                     _opcodeDef = OpcodeDefinition.Find(opcodeByte, _ext1, _ext2);
 
                     if (_opcodeDef == null)
-                        throw new NotSupportedException("Illegal opcode:" + opcodeByte.Value);
+                        throw new NotSupportedException("Illegal opcode:" + opcodeByte.ToString());
 
                     if (!_opcodeDef.HasParameters)
                     {

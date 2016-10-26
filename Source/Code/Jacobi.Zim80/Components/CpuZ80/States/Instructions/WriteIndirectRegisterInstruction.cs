@@ -1,9 +1,8 @@
 ﻿using Jacobi.Zim80.Components.CpuZ80.Opcodes;
-using System;
 
 namespace Jacobi.Zim80.Components.CpuZ80.States.Instructions
 {
-    internal class WriteIndirectRegisterInstruction : IndirectRegisterInstruction
+    internal class WriteIndirectRegisterInstruction : WriteIndirectInstruction
     {
         private WriteT3InstructionPart _instructionPart;
 

@@ -75,5 +75,10 @@ namespace Jacobi.Zim80.Components.CpuZ80.Opcodes
         {
             return (UInt16)((msb.Value << 8) | lsb.Value);
         }
+
+        public override string ToString()
+        {
+            return string.Format("{0} ({0:X}h) X={1}, Z={3}, Y={2}, Q={4}, P={5}", Value, X, Y, Z, P, Q);
+        }
     }
 }

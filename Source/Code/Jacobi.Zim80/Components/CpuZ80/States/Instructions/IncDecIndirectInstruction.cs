@@ -2,7 +2,7 @@
 
 namespace Jacobi.Zim80.Components.CpuZ80.States.Instructions
 {
-    internal class IncDecIndirectInstruction : IndirectRegisterInstruction
+    internal class IncDecIndirectInstruction : ReadIndirectInstruction
     {
         public IncDecIndirectInstruction(Die die) 
             : base(die)

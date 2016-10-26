@@ -11,7 +11,7 @@ namespace Jacobi.Zim80.Components.CpuZ80.States.Instructions
 
         public static Exception InvalidMachineCycle(MachineCycleNames machineCycle)
         {
-            return new InvalidOperationException("Invalid machine cycle: " + machineCycle);
+            return new InvalidOperationException("The implementation of the instruction does not expect this machine cycle. Invalid machine cycle: " + machineCycle);
         }
 
         public static Exception NoParameters()

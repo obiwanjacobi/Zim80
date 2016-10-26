@@ -1,6 +1,8 @@
-﻿namespace Jacobi.Zim80.Components.CpuZ80.States.Instructions
+﻿using Jacobi.Zim80.Components.CpuZ80.Opcodes;
+
+namespace Jacobi.Zim80.Components.CpuZ80.States.Instructions
 {
-    internal class ReadIndirectRegisterInstruction : IndirectRegisterInstruction
+    internal class ReadIndirectRegisterInstruction : ReadIndirectInstruction
     {
         private ReadT3InstructionPart _instructionPart;
 
@@ -13,22 +15,45 @@
             switch (machineCycle)
             {
                 case MachineCycleNames.M2:
-                    _instructionPart = new ReadT3InstructionPart(Die, machineCycle, GetAddress());
-                    return _instructionPart;
+                    if (!ExecutionEngine.Opcode.Definition.HasExtension)
+                        return CreateReadAddressInstructionPart(machineCycle);
+                    // read d param
+                    return base.GetInstructionPart(machineCycle);
+                case MachineCycleNames.M3:
+                    if (!ExecutionEngine.Opcode.Definition.HasExtension)
+                        throw Errors.InvalidMachineCycle(machineCycle);
+                    // z80 does the IX+d arithemtic
+                    return new AutoCompleteInstructionPart(Die, machineCycle);
+                case MachineCycleNames.M4:
+                    if (!ExecutionEngine.Opcode.Definition.HasExtension)
+                        throw Errors.InvalidMachineCycle(machineCycle);
+
+                    return CreateReadAddressInstructionPart(machineCycle);
                 default:
                     throw Errors.InvalidMachineCycle(machineCycle);
             }
         }
 
+        private ReadT3InstructionPart CreateReadAddressInstructionPart(MachineCycleNames machineCycle)
+        {
+            _instructionPart = new ReadT3InstructionPart(Die, machineCycle, GetAddress());
+            return _instructionPart;
+        }
+
         protected override void OnLastCycleLastM()
         {
+            var x = ExecutionEngine.Opcode.Definition.X;
             var z = ExecutionEngine.Opcode.Definition.Z;
-            var q = ExecutionEngine.Opcode.Definition.Q;
-            var p = ExecutionEngine.Opcode.Definition.P;
 
-            // TODO: check z -for other instructions
+            var reg = Register8Table.A;
 
-            Registers.PrimarySet.A = _instructionPart.Data.Value;
+            if (x == 1 && z == 6)
+            {
+                reg = ExecutionEngine.Opcode.Definition.Register8FromY;
+                if (reg == Register8Table.HL) throw Errors.AssignedToIllegalOpcode(); // halt
+            }
+
+            Registers.PrimarySet[reg] = _instructionPart.Data.Value;
         }
     }
 }
