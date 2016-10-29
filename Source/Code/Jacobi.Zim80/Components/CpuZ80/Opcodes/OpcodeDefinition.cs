@@ -138,6 +138,7 @@ namespace Jacobi.Zim80.Components.CpuZ80.Opcodes
         public Register8Table Register8FromY { get { return (Register8Table)Y; } }
         public Register8Table Register8FromZ { get { return (Register8Table)Z; } }
         public MathOperations MathOperationFromY { get { return (MathOperations)Y; } }
+        public ShiftRotateOperations ShiftRotateFromY { get { return (ShiftRotateOperations)Y; } }
 
         public byte Value
         {

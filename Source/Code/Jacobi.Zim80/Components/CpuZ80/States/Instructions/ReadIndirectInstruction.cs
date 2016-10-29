@@ -28,10 +28,13 @@
                 }
             }
 
+            var isCB = ExecutionEngine.Opcode.Definition.Ext1 == 0xCB ||
+                       ExecutionEngine.Opcode.Definition.Ext2 == 0xCB;
+
             // See OpcodeDefinition.Definitions
             if ( ((y == 6 && (z == 4 || z == 5 || z == 6) || x == 1)) ||
-                 ((x == 1 || x == 2) && z == 6)
-                 // CB: (x == 0 || x == 1 || x== 2 || x== 3) && z == 6
+                 ((x == 1 || x == 2) && z == 6) ||
+                 (isCB && (x == 0 && z == 6))
                  )
             {
                 if (ExecutionEngine.Opcode.Definition.IsIX)

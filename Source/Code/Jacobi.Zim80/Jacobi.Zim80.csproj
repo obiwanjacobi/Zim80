@@ -66,6 +66,7 @@
     <Compile Include="Components\CpuZ80\Opcodes\OpcodeDefinition.Definitions.cs" />
     <Compile Include="Components\CpuZ80\Opcodes\Register16Table.cs" />
     <Compile Include="Components\CpuZ80\Opcodes\Register8Table.cs" />
+    <Compile Include="Components\CpuZ80\Opcodes\ShiftRotateOperations.cs" />
     <Compile Include="Components\CpuZ80\RegisterExtensions.cs" />
     <Compile Include="Components\CpuZ80\States\CpuInterrupt.cs" />
     <Compile Include="Components\CpuZ80\States\Instructions\AddRegister16Instruction.cs" />
@@ -92,6 +93,7 @@
     <Compile Include="Components\CpuZ80\States\Instructions\IncDecIndirectInstruction.cs" />
     <Compile Include="Components\CpuZ80\States\Instructions\IndirectBitSetResInstruction.cs" />
     <Compile Include="Components\CpuZ80\States\Instructions\MathIndirectInstruction.cs" />
+    <Compile Include="Components\CpuZ80\States\Instructions\ShiftRotateIndirectInstruction.cs" />
     <Compile Include="Components\CpuZ80\States\Instructions\WriteIndirectInstruction.cs" />
     <Compile Include="Components\CpuZ80\States\Instructions\ReadIndirectInstruction.cs" />
     <Compile Include="Components\CpuZ80\States\Instructions\Instruction.cs" />

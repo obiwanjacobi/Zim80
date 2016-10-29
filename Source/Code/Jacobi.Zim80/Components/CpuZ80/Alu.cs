@@ -247,6 +247,44 @@ namespace Jacobi.Zim80.Components.CpuZ80
             }
         }
 
+        // rrd
+        public byte RotateRightNibblesA(byte value)
+        {
+            var loNibble = (byte)(value & 0x0F);
+            var newValue = (byte)(value >> 4);
+
+            newValue |= (byte)((_primarySet.A & 0x0F) << 4);
+            _primarySet.A &= 0xF0;
+            _primarySet.A |= loNibble;
+
+            Flags.S = IsNegative(_primarySet.A);
+            Flags.Z = (_primarySet.A == 0);
+            Flags.H = false;
+            Flags.PV = IsParityEven(_primarySet.A);
+            Flags.N = false;
+
+            return newValue;
+        }
+
+        // rld
+        public byte RotateLeftNibblesA(byte value)
+        {
+            var hiNibble = (byte)((value & 0xF0) >> 4);
+            var newValue = (byte)(value << 4);
+
+            newValue |= (byte)(_primarySet.A & 0x0F);
+            _primarySet.A &= 0xF0;
+            _primarySet.A |= hiNibble;
+
+            Flags.S = IsNegative(_primarySet.A);
+            Flags.Z = (_primarySet.A == 0);
+            Flags.H = false;
+            Flags.PV = IsParityEven(_primarySet.A);
+            Flags.N = false;
+
+            return newValue;
+        }
+
         // rlca
         public byte RotateLeftCarryA(byte acc)
         {
@@ -373,6 +411,37 @@ namespace Jacobi.Zim80.Components.CpuZ80
             SetShiftRotateFlags(newValue);
 
             return newValue;
+        }
+
+        public void DoShiftRotate(ShiftRotateOperations shiftRotate, Register8Table reg)
+        {
+            switch (shiftRotate)
+            {
+                case ShiftRotateOperations.RotateLeftCarry:
+                    _primarySet[reg] = RotateLeftCarry(_primarySet[reg]);
+                    break;
+                case ShiftRotateOperations.RotateRightCarry:
+                    _primarySet[reg] = RotateRightCarry(_primarySet[reg]);
+                    break;
+                case ShiftRotateOperations.RotateLeft:
+                    _primarySet[reg] = RotateLeft(_primarySet[reg]);
+                    break;
+                case ShiftRotateOperations.RotateRight:
+                    _primarySet[reg] = RotateRight(_primarySet[reg]);
+                    break;
+                case ShiftRotateOperations.ShiftLeftArithmetic:
+                    _primarySet[reg] = ShiftLeftArithmetic(_primarySet[reg]);
+                    break;
+                case ShiftRotateOperations.ShiftRightArithmetic:
+                    _primarySet[reg] = ShiftRightArithmetic(_primarySet[reg]);
+                    break;
+                case ShiftRotateOperations.ShiftLeftLogical:
+                    _primarySet[reg] = ShiftLeftLogical(_primarySet[reg]);
+                    break;
+                case ShiftRotateOperations.ShiftRightLogical:
+                    _primarySet[reg] = ShiftRightLogical(_primarySet[reg]);
+                    break;
+            }
         }
 
         private void SetShiftRotateFlags(byte newValue)
