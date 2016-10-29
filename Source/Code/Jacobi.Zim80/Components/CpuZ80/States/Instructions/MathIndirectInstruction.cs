@@ -2,47 +2,49 @@
 
 namespace Jacobi.Zim80.Components.CpuZ80.States.Instructions
 {
-    internal class WriteIndirectRegisterInstruction : WriteIndirectInstruction
+    internal class MathIndirectInstruction : ReadIndirectInstruction
     {
-        private WriteT3InstructionPart _instructionPart;
+        private ReadT3InstructionPart _instructionPart;
 
-        public WriteIndirectRegisterInstruction(Die die)
+        public MathIndirectInstruction(Die die) 
             : base(die)
         { }
 
         protected override CpuState GetInstructionPart(MachineCycleNames machineCycle)
         {
             var hasExtension = ExecutionEngine.Opcode.Definition.HasExtension;
+
             switch (machineCycle)
             {
                 case MachineCycleNames.M2:
                     if (!hasExtension)
-                        return CreateWriteAddressInstructionPart(machineCycle);
-
+                        return CreateReadIndirectValueInstructionPart(machineCycle);
+                    
+                    // read d param
                     return base.GetInstructionPart(machineCycle);
                 case MachineCycleNames.M3:
                     if (!hasExtension)
                         throw Errors.InvalidMachineCycle(machineCycle);
-                    // z80 does the IX+d arithemtic
+                    // z80 does the IX+d arithmetic
                     return new AutoCompleteInstructionPart(Die, machineCycle);
                 case MachineCycleNames.M4:
                     if (!hasExtension)
                         throw Errors.InvalidMachineCycle(machineCycle);
 
-                    return CreateWriteAddressInstructionPart(machineCycle);
+                    return CreateReadIndirectValueInstructionPart(machineCycle);
                 default:
                     throw Errors.InvalidMachineCycle(machineCycle);
             }
         }
 
-        protected override void OnFirstCycleLastM()
+        protected override void OnLastCycleLastM()
         {
-            _instructionPart.Data = new OpcodeByte(GetValue());
+            Die.Alu.DoAccumulatorMath(ExecutionEngine.Opcode.Definition.MathOperationFromY, _instructionPart.Data.Value);
         }
 
-        private WriteT3InstructionPart CreateWriteAddressInstructionPart(MachineCycleNames machineCycle)
+        private CpuState CreateReadIndirectValueInstructionPart(MachineCycleNames machineCycle)
         {
-            _instructionPart = new WriteT3InstructionPart(Die, machineCycle, GetAddress());
+            _instructionPart = new ReadT3InstructionPart(Die, machineCycle, GetAddress());
             return _instructionPart;
         }
     }

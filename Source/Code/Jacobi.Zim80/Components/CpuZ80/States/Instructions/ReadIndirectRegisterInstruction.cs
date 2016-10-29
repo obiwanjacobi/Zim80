@@ -12,20 +12,22 @@ namespace Jacobi.Zim80.Components.CpuZ80.States.Instructions
 
         protected override CpuState GetInstructionPart(MachineCycleNames machineCycle)
         {
+            var hasExtension = ExecutionEngine.Opcode.Definition.HasExtension;
+
             switch (machineCycle)
             {
                 case MachineCycleNames.M2:
-                    if (!ExecutionEngine.Opcode.Definition.HasExtension)
+                    if (!hasExtension)
                         return CreateReadAddressInstructionPart(machineCycle);
                     // read d param
                     return base.GetInstructionPart(machineCycle);
                 case MachineCycleNames.M3:
-                    if (!ExecutionEngine.Opcode.Definition.HasExtension)
+                    if (!hasExtension)
                         throw Errors.InvalidMachineCycle(machineCycle);
-                    // z80 does the IX+d arithemtic
+                    // z80 does the IX+d arithmetic
                     return new AutoCompleteInstructionPart(Die, machineCycle);
                 case MachineCycleNames.M4:
-                    if (!ExecutionEngine.Opcode.Definition.HasExtension)
+                    if (!hasExtension)
                         throw Errors.InvalidMachineCycle(machineCycle);
 
                     return CreateReadAddressInstructionPart(machineCycle);

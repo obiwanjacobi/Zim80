@@ -61,6 +61,7 @@
     <Compile Include="Components\CpuZ80\InstructionExecutedEventArgs.cs" />
     <Compile Include="Components\CpuZ80\InterruptManager.cs" />
     <Compile Include="Components\CpuZ80\InterruptTypes.cs" />
+    <Compile Include="Components\CpuZ80\Opcodes\MathOperations.cs" />
     <Compile Include="Components\CpuZ80\Opcodes\Mnemonic.cs" />
     <Compile Include="Components\CpuZ80\Opcodes\OpcodeDefinition.Definitions.cs" />
     <Compile Include="Components\CpuZ80\Opcodes\Register16Table.cs" />
@@ -90,6 +91,7 @@
     <Compile Include="Components\CpuZ80\States\Instructions\IncDecShiftedIndirectInstruction.cs" />
     <Compile Include="Components\CpuZ80\States\Instructions\IncDecIndirectInstruction.cs" />
     <Compile Include="Components\CpuZ80\States\Instructions\IndirectBitSetResInstruction.cs" />
+    <Compile Include="Components\CpuZ80\States\Instructions\MathIndirectInstruction.cs" />
     <Compile Include="Components\CpuZ80\States\Instructions\WriteIndirectInstruction.cs" />
     <Compile Include="Components\CpuZ80\States\Instructions\ReadIndirectInstruction.cs" />
     <Compile Include="Components\CpuZ80\States\Instructions\Instruction.cs" />

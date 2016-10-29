@@ -99,6 +99,7 @@
     <Compile Include="Components\CpuZ80\Instructions\LoadImmediate8InstructionTest.cs" />
     <Compile Include="Components\CpuZ80\Instructions\LoadImmediateIndirectInstructionTest.cs" />
     <Compile Include="Components\CpuZ80\Instructions\LoadRegister8Instruction.cs" />
+    <Compile Include="Components\CpuZ80\Instructions\MathIndirectInstructionTest.cs" />
     <Compile Include="Components\CpuZ80\Instructions\MathRegister8InstructionTest.cs" />
     <Compile Include="Components\CpuZ80\Instructions\NopInstructionTest.cs" />
     <Compile Include="Components\CpuZ80\Instructions\PopInstructionTest.cs" />

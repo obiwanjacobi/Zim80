@@ -215,6 +215,38 @@ namespace Jacobi.Zim80.Components.CpuZ80
             return (byte)newValue;
         }
 
+        public void DoAccumulatorMath(MathOperations operation, byte value)
+        {
+            switch (operation)
+            {
+                case MathOperations.Add:
+                    _primarySet.A = Add8(_primarySet.A, value);
+                    break;
+                case MathOperations.AddWithCarry:
+                    _primarySet.A = Add8(_primarySet.A, value, addCarry: true);
+                    break;
+                case MathOperations.Subtract:
+                    _primarySet.A = Sub8(_primarySet.A, value);
+                    break;
+                case MathOperations.SubtractWithCarry:
+                    _primarySet.A = Sub8(_primarySet.A, value, subCarry: true);
+                    break;
+                case MathOperations.And:
+                    _primarySet.A = And8(_primarySet.A, value);
+                    break;
+                case MathOperations.ExlusiveOr:
+                    _primarySet.A = Xor8(_primarySet.A, value);
+                    break;
+                case MathOperations.Or:
+                    _primarySet.A = Or8(_primarySet.A, value);
+                    break;
+                case MathOperations.Compare:
+                    // compare is sub without storing the result
+                    Sub8(_primarySet.A, value);
+                    break;
+            }
+        }
+
         // rlca
         public byte RotateLeftCarryA(byte acc)
         {

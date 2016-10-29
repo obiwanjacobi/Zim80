@@ -210,14 +210,14 @@ namespace Jacobi.Zim80.Components.CpuZ80.Opcodes
             new OpcodeDefinition { X = 2, Z = 5, Y = 6, Mnemonic = "OR A, L", Cycles = new[] { 4 }, Instruction = typeof(MathRegister8Instruction) },
             new OpcodeDefinition { X = 2, Z = 5, Y = 7, Mnemonic = "CP A, L", Cycles = new[] { 4 }, Instruction = typeof(MathRegister8Instruction) },
 
-            new OpcodeDefinition { X = 2, Z = 6, Y = 0, Mnemonic = "ADD A, (HL)", Cycles = new[] { 4, 3 } },
-            new OpcodeDefinition { X = 2, Z = 6, Y = 1, Mnemonic = "ADC A, (HL)", Cycles = new[] { 4, 3 } },
-            new OpcodeDefinition { X = 2, Z = 6, Y = 2, Mnemonic = "SUB A, (HL)", Cycles = new[] { 4, 3 } },
-            new OpcodeDefinition { X = 2, Z = 6, Y = 3, Mnemonic = "SBC A, (HL)", Cycles = new[] { 4, 3 } },
-            new OpcodeDefinition { X = 2, Z = 6, Y = 4, Mnemonic = "AND A, (HL)", Cycles = new[] { 4, 3 } },
-            new OpcodeDefinition { X = 2, Z = 6, Y = 5, Mnemonic = "XOR A, (HL)", Cycles = new[] { 4, 3 } },
-            new OpcodeDefinition { X = 2, Z = 6, Y = 6, Mnemonic = "OR A, (HL)", Cycles = new[] { 4, 3 } },
-            new OpcodeDefinition { X = 2, Z = 6, Y = 7, Mnemonic = "CP A, (HL)", Cycles = new[] { 4, 3 } },
+            new OpcodeDefinition { X = 2, Z = 6, Y = 0, Mnemonic = "ADD A, (HL)", Cycles = new[] { 4, 3 }, Instruction = typeof(MathIndirectInstruction) },
+            new OpcodeDefinition { X = 2, Z = 6, Y = 1, Mnemonic = "ADC A, (HL)", Cycles = new[] { 4, 3 }, Instruction = typeof(MathIndirectInstruction) },
+            new OpcodeDefinition { X = 2, Z = 6, Y = 2, Mnemonic = "SUB A, (HL)", Cycles = new[] { 4, 3 }, Instruction = typeof(MathIndirectInstruction) },
+            new OpcodeDefinition { X = 2, Z = 6, Y = 3, Mnemonic = "SBC A, (HL)", Cycles = new[] { 4, 3 }, Instruction = typeof(MathIndirectInstruction) },
+            new OpcodeDefinition { X = 2, Z = 6, Y = 4, Mnemonic = "AND A, (HL)", Cycles = new[] { 4, 3 }, Instruction = typeof(MathIndirectInstruction) },
+            new OpcodeDefinition { X = 2, Z = 6, Y = 5, Mnemonic = "XOR A, (HL)", Cycles = new[] { 4, 3 }, Instruction = typeof(MathIndirectInstruction) },
+            new OpcodeDefinition { X = 2, Z = 6, Y = 6, Mnemonic = "OR A, (HL)", Cycles = new[] { 4, 3 }, Instruction = typeof(MathIndirectInstruction) },
+            new OpcodeDefinition { X = 2, Z = 6, Y = 7, Mnemonic = "CP A, (HL)", Cycles = new[] { 4, 3 }, Instruction = typeof(MathIndirectInstruction) },
 
             new OpcodeDefinition { X = 2, Z = 7, Y = 0, Mnemonic = "ADD A, A", Cycles = new[] { 4 }, Instruction = typeof(MathRegister8Instruction) },
             new OpcodeDefinition { X = 2, Z = 7, Y = 1, Mnemonic = "ADC A, A", Cycles = new[] { 4 }, Instruction = typeof(MathRegister8Instruction) },
@@ -738,14 +738,14 @@ namespace Jacobi.Zim80.Components.CpuZ80.Opcodes
             #endregion
 
             #region X = 2
-            new OpcodeDefinition { X = 2, Z = 6, Y = 0, Mnemonic = "ADD A, (IX{0})", Ext1 = 0xDD, d = true, Cycles = new[] { 4, 4, 3, 5, 3 } },
-            new OpcodeDefinition { X = 2, Z = 6, Y = 1, Mnemonic = "ADC A, (IX{0})", Ext1 = 0xDD, d = true, Cycles = new[] { 4, 4, 3, 5, 3 } },
-            new OpcodeDefinition { X = 2, Z = 6, Y = 2, Mnemonic = "SUB A, (IX{0})", Ext1 = 0xDD, d = true, Cycles = new[] { 4, 4, 3, 5, 3 } },
-            new OpcodeDefinition { X = 2, Z = 6, Y = 3, Mnemonic = "SBC A, (IX{0})", Ext1 = 0xDD, d = true, Cycles = new[] { 4, 4, 3, 5, 3 } },
-            new OpcodeDefinition { X = 2, Z = 6, Y = 4, Mnemonic = "AND A, (IX{0})", Ext1 = 0xDD, d = true, Cycles = new[] { 4, 4, 3, 5, 3 } },
-            new OpcodeDefinition { X = 2, Z = 6, Y = 5, Mnemonic = "XOR A, (IX{0})", Ext1 = 0xDD, d = true, Cycles = new[] { 4, 4, 3, 5, 3 } },
-            new OpcodeDefinition { X = 2, Z = 6, Y = 6, Mnemonic = "OR A, (IX{0})",  Ext1 = 0xDD, d = true, Cycles = new[] { 4, 4, 3, 5, 3 } },
-            new OpcodeDefinition { X = 2, Z = 6, Y = 7, Mnemonic = "CP A, (IX{0})",  Ext1 = 0xDD, d = true, Cycles = new[] { 4, 4, 3, 5, 3 } },
+            new OpcodeDefinition { X = 2, Z = 6, Y = 0, Mnemonic = "ADD A, (IX{0})", Ext1 = 0xDD, d = true, Cycles = new[] { 4, 4, 3, 5, 3 }, Instruction = typeof(MathIndirectInstruction) },
+            new OpcodeDefinition { X = 2, Z = 6, Y = 1, Mnemonic = "ADC A, (IX{0})", Ext1 = 0xDD, d = true, Cycles = new[] { 4, 4, 3, 5, 3 }, Instruction = typeof(MathIndirectInstruction) },
+            new OpcodeDefinition { X = 2, Z = 6, Y = 2, Mnemonic = "SUB A, (IX{0})", Ext1 = 0xDD, d = true, Cycles = new[] { 4, 4, 3, 5, 3 }, Instruction = typeof(MathIndirectInstruction) },
+            new OpcodeDefinition { X = 2, Z = 6, Y = 3, Mnemonic = "SBC A, (IX{0})", Ext1 = 0xDD, d = true, Cycles = new[] { 4, 4, 3, 5, 3 }, Instruction = typeof(MathIndirectInstruction) },
+            new OpcodeDefinition { X = 2, Z = 6, Y = 4, Mnemonic = "AND A, (IX{0})", Ext1 = 0xDD, d = true, Cycles = new[] { 4, 4, 3, 5, 3 }, Instruction = typeof(MathIndirectInstruction) },
+            new OpcodeDefinition { X = 2, Z = 6, Y = 5, Mnemonic = "XOR A, (IX{0})", Ext1 = 0xDD, d = true, Cycles = new[] { 4, 4, 3, 5, 3 }, Instruction = typeof(MathIndirectInstruction) },
+            new OpcodeDefinition { X = 2, Z = 6, Y = 6, Mnemonic = "OR A, (IX{0})",  Ext1 = 0xDD, d = true, Cycles = new[] { 4, 4, 3, 5, 3 }, Instruction = typeof(MathIndirectInstruction) },
+            new OpcodeDefinition { X = 2, Z = 6, Y = 7, Mnemonic = "CP A, (IX{0})",  Ext1 = 0xDD, d = true, Cycles = new[] { 4, 4, 3, 5, 3 }, Instruction = typeof(MathIndirectInstruction) },
             #endregion
 
             #region X = 3
@@ -801,14 +801,14 @@ namespace Jacobi.Zim80.Components.CpuZ80.Opcodes
             #endregion
 
             #region X = 2
-            new OpcodeDefinition { X = 2, Z = 6, Y = 0, Mnemonic = "ADD A, (IY{0})", Ext1 = 0xFD, d = true, Cycles = new[] { 4, 4, 3, 5, 3 } },
-            new OpcodeDefinition { X = 2, Z = 6, Y = 1, Mnemonic = "ADC A, (IY{0})", Ext1 = 0xFD, d = true, Cycles = new[] { 4, 4, 3, 5, 3 } },
-            new OpcodeDefinition { X = 2, Z = 6, Y = 2, Mnemonic = "SUB A, (IY{0})", Ext1 = 0xFD, d = true, Cycles = new[] { 4, 4, 3, 5, 3 } },
-            new OpcodeDefinition { X = 2, Z = 6, Y = 3, Mnemonic = "SBC A, (IY{0})", Ext1 = 0xFD, d = true, Cycles = new[] { 4, 4, 3, 5, 3 } },
-            new OpcodeDefinition { X = 2, Z = 6, Y = 4, Mnemonic = "AND A, (IY{0})", Ext1 = 0xFD, d = true, Cycles = new[] { 4, 4, 3, 5, 3 } },
-            new OpcodeDefinition { X = 2, Z = 6, Y = 5, Mnemonic = "XOR A, (IY{0})", Ext1 = 0xFD, d = true, Cycles = new[] { 4, 4, 3, 5, 3 } },
-            new OpcodeDefinition { X = 2, Z = 6, Y = 6, Mnemonic = "OR A, (IY{0})",  Ext1 = 0xFD, d = true, Cycles = new[] { 4, 4, 3, 5, 3 } },
-            new OpcodeDefinition { X = 2, Z = 6, Y = 7, Mnemonic = "CP A, (IY{0})",  Ext1 = 0xFD, d = true, Cycles = new[] { 4, 4, 3, 5, 3 } },
+            new OpcodeDefinition { X = 2, Z = 6, Y = 0, Mnemonic = "ADD A, (IY{0})", Ext1 = 0xFD, d = true, Cycles = new[] { 4, 4, 3, 5, 3 }, Instruction = typeof(MathIndirectInstruction) },
+            new OpcodeDefinition { X = 2, Z = 6, Y = 1, Mnemonic = "ADC A, (IY{0})", Ext1 = 0xFD, d = true, Cycles = new[] { 4, 4, 3, 5, 3 }, Instruction = typeof(MathIndirectInstruction) },
+            new OpcodeDefinition { X = 2, Z = 6, Y = 2, Mnemonic = "SUB A, (IY{0})", Ext1 = 0xFD, d = true, Cycles = new[] { 4, 4, 3, 5, 3 }, Instruction = typeof(MathIndirectInstruction) },
+            new OpcodeDefinition { X = 2, Z = 6, Y = 3, Mnemonic = "SBC A, (IY{0})", Ext1 = 0xFD, d = true, Cycles = new[] { 4, 4, 3, 5, 3 }, Instruction = typeof(MathIndirectInstruction) },
+            new OpcodeDefinition { X = 2, Z = 6, Y = 4, Mnemonic = "AND A, (IY{0})", Ext1 = 0xFD, d = true, Cycles = new[] { 4, 4, 3, 5, 3 }, Instruction = typeof(MathIndirectInstruction) },
+            new OpcodeDefinition { X = 2, Z = 6, Y = 5, Mnemonic = "XOR A, (IY{0})", Ext1 = 0xFD, d = true, Cycles = new[] { 4, 4, 3, 5, 3 }, Instruction = typeof(MathIndirectInstruction) },
+            new OpcodeDefinition { X = 2, Z = 6, Y = 6, Mnemonic = "OR A, (IY{0})",  Ext1 = 0xFD, d = true, Cycles = new[] { 4, 4, 3, 5, 3 }, Instruction = typeof(MathIndirectInstruction) },
+            new OpcodeDefinition { X = 2, Z = 6, Y = 7, Mnemonic = "CP A, (IY{0})",  Ext1 = 0xFD, d = true, Cycles = new[] { 4, 4, 3, 5, 3 }, Instruction = typeof(MathIndirectInstruction) },
             #endregion
 
             #region X = 3

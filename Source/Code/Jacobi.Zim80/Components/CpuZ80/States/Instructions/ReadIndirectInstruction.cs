@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace Jacobi.Zim80.Components.CpuZ80.States.Instructions
+﻿namespace Jacobi.Zim80.Components.CpuZ80.States.Instructions
 {
     internal abstract class ReadIndirectInstruction : ReadParametersInstruction
     {
@@ -8,7 +6,7 @@ namespace Jacobi.Zim80.Components.CpuZ80.States.Instructions
             : base(die)
         { }
 
-        protected UInt16 GetAddress()
+        protected ushort GetAddress()
         {
             var z = ExecutionEngine.Opcode.Definition.Z;
             var y = ExecutionEngine.Opcode.Definition.Y;
@@ -32,7 +30,7 @@ namespace Jacobi.Zim80.Components.CpuZ80.States.Instructions
 
             // See OpcodeDefinition.Definitions
             if ( ((y == 6 && (z == 4 || z == 5 || z == 6) || x == 1)) ||
-                  (x == 1 && z == 6)
+                 ((x == 1 || x == 2) && z == 6)
                  // CB: (x == 0 || x == 1 || x== 2 || x== 3) && z == 6
                  )
             {

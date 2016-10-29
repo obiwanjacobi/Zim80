@@ -12,25 +12,13 @@ namespace Jacobi.Zim80.Components.CpuZ80.Instructions.UnitTests
     {
         private const byte Value = 0x55;
 
-        private enum MathOperation
-        {
-            Add,
-            Adc,
-            Sub,
-            Sbc,
-            And,
-            Xor,
-            Or,
-            Cp
-        };
-
         [TestMethod]
         public void Add_reg()
         {
             var expectedValue = (byte)(CpuZ80TestExtensions.MagicValue + Value);
             var expectedValueA = (byte)(Value + Value);
 
-            TestMathOperation(MathOperation.Add, expectedValue, expectedValueA,
+            TestMathOperation(MathOperations.Add, expectedValue, expectedValueA,
                 (flags, reg) => 
                 {
                     flags.S.Should().Be(reg == Register8Table.A);
@@ -48,7 +36,7 @@ namespace Jacobi.Zim80.Components.CpuZ80.Instructions.UnitTests
             var expectedValue = (byte)(CpuZ80TestExtensions.MagicValue + Value);
             var expectedValueA = (byte)(Value + Value);
 
-            TestMathOperation(MathOperation.Adc, expectedValue, expectedValueA,
+            TestMathOperation(MathOperations.AddWithCarry, expectedValue, expectedValueA,
                 (flags, reg) =>
                 {
                     flags.S.Should().Be(reg == Register8Table.A);
@@ -66,7 +54,7 @@ namespace Jacobi.Zim80.Components.CpuZ80.Instructions.UnitTests
             var expectedValue = (byte)(CpuZ80TestExtensions.MagicValue + Value + 1);
             var expectedValueA = (byte)(Value + Value + 1);
 
-            TestMathOperation(MathOperation.Adc, expectedValue, expectedValueA,
+            TestMathOperation(MathOperations.AddWithCarry, expectedValue, expectedValueA,
                 (flags, reg) =>
                 {
                     flags.S.Should().BeTrue();
@@ -84,7 +72,7 @@ namespace Jacobi.Zim80.Components.CpuZ80.Instructions.UnitTests
             var expectedValue = unchecked ((byte)(CpuZ80TestExtensions.MagicValue - Value));
             var expectedValueA = (byte)0;
 
-            TestMathOperation(MathOperation.Sub, expectedValue, expectedValueA,
+            TestMathOperation(MathOperations.Subtract, expectedValue, expectedValueA,
                 (flags, reg) => 
                 {
                     bool isA = reg == Register8Table.A;
@@ -100,12 +88,12 @@ namespace Jacobi.Zim80.Components.CpuZ80.Instructions.UnitTests
         }
 
         [TestMethod]
-        public void Scb_reg_nc()
+        public void Sbc_reg_nc()
         {
             var expectedValue = unchecked((byte)(CpuZ80TestExtensions.MagicValue - Value));
             var expectedValueA = (byte)0;
 
-            TestMathOperation(MathOperation.Sbc, expectedValue, expectedValueA,
+            TestMathOperation(MathOperations.SubtractWithCarry, expectedValue, expectedValueA,
                 (flags, reg) =>
                 {
                     bool isA = reg == Register8Table.A;
@@ -121,12 +109,12 @@ namespace Jacobi.Zim80.Components.CpuZ80.Instructions.UnitTests
         }
 
         [TestMethod]
-        public void Scb_reg_c()
+        public void Sbc_reg_c()
         {
             var expectedValue = unchecked((byte)(CpuZ80TestExtensions.MagicValue - Value - 1));
             var expectedValueA = (byte)0xFF;
 
-            TestMathOperation(MathOperation.Sbc, expectedValue, expectedValueA,
+            TestMathOperation(MathOperations.SubtractWithCarry, expectedValue, expectedValueA,
                 (flags, reg) =>
                 {
                     flags.S.Should().BeTrue();
@@ -145,7 +133,7 @@ namespace Jacobi.Zim80.Components.CpuZ80.Instructions.UnitTests
             var expectedValue = (byte)(CpuZ80TestExtensions.MagicValue & Value);
             var expectedValueA = (byte)(Value & Value);
 
-            TestMathOperation(MathOperation.And, expectedValue, expectedValueA,
+            TestMathOperation(MathOperations.And, expectedValue, expectedValueA,
                 (flags, reg) =>
                 {
                     flags.S.Should().BeFalse();
@@ -164,7 +152,7 @@ namespace Jacobi.Zim80.Components.CpuZ80.Instructions.UnitTests
             var expectedValue = (byte)(CpuZ80TestExtensions.MagicValue ^ Value);
             var expectedValueA = (byte)(Value ^ Value);
 
-            TestMathOperation(MathOperation.Xor, expectedValue, expectedValueA,
+            TestMathOperation(MathOperations.ExlusiveOr, expectedValue, expectedValueA,
                 (flags, reg) =>
                 {
                     var isA = reg == Register8Table.A;
@@ -184,7 +172,7 @@ namespace Jacobi.Zim80.Components.CpuZ80.Instructions.UnitTests
             var expectedValue = (byte)(CpuZ80TestExtensions.MagicValue | Value);
             var expectedValueA = (byte)(Value | Value);
 
-            TestMathOperation(MathOperation.Or, expectedValue, expectedValueA,
+            TestMathOperation(MathOperations.Or, expectedValue, expectedValueA,
                 (flags, reg) =>
                 {
                     flags.S.Should().BeFalse();
@@ -203,7 +191,7 @@ namespace Jacobi.Zim80.Components.CpuZ80.Instructions.UnitTests
             var expectedValue = CpuZ80TestExtensions.MagicValue;
             var expectedValueA = Value;
 
-            TestMathOperation(MathOperation.Cp, expectedValue, expectedValueA,
+            TestMathOperation(MathOperations.Compare, expectedValue, expectedValueA,
                 (flags, reg) =>
                 {
                     bool isA = reg == Register8Table.A;
@@ -218,7 +206,7 @@ namespace Jacobi.Zim80.Components.CpuZ80.Instructions.UnitTests
                 }, carry: false);
         }
 
-        private void TestMathOperation(MathOperation mathOp, byte expectedValue, 
+        private void TestMathOperation(MathOperations mathOp, byte expectedValue, 
             byte expectedValueA, Action<Registers.Flags, Register8Table> assertFlags, bool carry)
         {
             for (Register8Table reg = Register8Table.B; reg <= Register8Table.A; reg++)
@@ -246,7 +234,7 @@ namespace Jacobi.Zim80.Components.CpuZ80.Instructions.UnitTests
             }
         }
 
-        private static CpuZ80 ExecuteTest(MathOperation mathOp, Register8Table register, Action<SimulationModel> fnPreTest)
+        private static CpuZ80 ExecuteTest(MathOperations mathOp, Register8Table register, Action<SimulationModel> fnPreTest)
         {
             var ob = OpcodeByte.New(x: 2, z: (byte)register, y: (byte)mathOp);
             return ExecuteTest(ob, fnPreTest);
