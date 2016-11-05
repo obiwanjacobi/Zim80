@@ -56,7 +56,7 @@ namespace Jacobi.Zim80.Components.CpuZ80.Opcodes
         {
             if (_opcodeDef == null)
             {
-                if (opcodeByte.IsExtension)
+                if (opcodeByte.IsExtension && !HasReversedOffsetParameterOrder)
                 {
                     SetExtension(opcodeByte);
                 }

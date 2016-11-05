@@ -33,13 +33,13 @@ namespace Jacobi.Zim80.Components.CpuZ80.Instructions.UnitTests
         }
 
         [TestMethod]
-        public void TestAllZ()
+        public void TestAll_z()
         {
             TestAll(false);
         }
 
         [TestMethod]
-        public void TestAllNZ()
+        public void TestAll_nz()
         {
             TestAll(true);
         }

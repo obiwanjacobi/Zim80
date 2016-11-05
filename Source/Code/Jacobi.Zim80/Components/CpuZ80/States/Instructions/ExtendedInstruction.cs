@@ -46,6 +46,11 @@ namespace Jacobi.Zim80.Components.CpuZ80.States.Instructions
             get { return ExecutionEngine.Opcode.Definition.Register8FromZ; }
         }
 
+        protected byte GetValue()
+        {
+            return _readPart.Data.Value;
+        }
+
         private ReadT3InstructionPart CreateReadAddressInstructionPart(MachineCycleNames machineCycle)
         {
             _readPart = new ReadT3InstructionPart(Die, machineCycle, GetAddress());
@@ -56,7 +61,7 @@ namespace Jacobi.Zim80.Components.CpuZ80.States.Instructions
         {
             _writePart = new WriteT3InstructionPart(Die, machineCycle, GetAddress())
             {
-                Data = new OpcodeByte(GetValueToWriteBack(_readPart.Data.Value))
+                Data = new OpcodeByte(GetValueToWriteBack(GetValue()))
             };
             return _writePart;
         }

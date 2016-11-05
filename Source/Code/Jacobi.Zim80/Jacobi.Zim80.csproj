@@ -72,6 +72,7 @@
     <Compile Include="Components\CpuZ80\States\CpuInterrupt.cs" />
     <Compile Include="Components\CpuZ80\States\Instructions\AddRegister16Instruction.cs" />
     <Compile Include="Components\CpuZ80\States\Instructions\BitInstruction.cs" />
+    <Compile Include="Components\CpuZ80\States\Instructions\BitSetResExtendedInstruction.cs" />
     <Compile Include="Components\CpuZ80\States\Instructions\CallInstruction.cs" />
     <Compile Include="Components\CpuZ80\States\Instructions\CarryFlagInstruction.cs" />
     <Compile Include="Components\CpuZ80\States\Instructions\Dec8Instruction.cs" />

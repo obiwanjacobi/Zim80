@@ -161,12 +161,12 @@ namespace Jacobi.Zim80.Components.CpuZ80.Opcodes
         {
             var result = FindInternal(opcode, ext1, ext2);
 
-            if (!result.Any() && 
-                ext1 != null && ext1.Value != 0)
-            {
-                // shift extensions 
-                result = FindInternal(opcode, ext2, OpcodeByte.Empty);
-            }
+            //if (!result.Any() && 
+            //    ext1 != null && ext1.Value != 0)
+            //{
+            //    // shift extensions 
+            //    result = FindInternal(opcode, ext2, OpcodeByte.Empty);
+            //}
 
             return result.SingleOrDefault();
         }
