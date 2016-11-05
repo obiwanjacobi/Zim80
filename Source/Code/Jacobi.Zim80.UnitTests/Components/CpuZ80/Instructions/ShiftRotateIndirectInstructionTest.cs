@@ -356,7 +356,7 @@ namespace Jacobi.Zim80.Components.CpuZ80.Instructions.UnitTests
                 cpu.Registers.PrimarySet.HL = Address;
             });
 
-            model.Memory.Assert(Address, ExpectedValue1L);
+            model.Memory.Assert(Address, ExpectedValue1L | 0x01);
             model.Cpu.Registers.PrimarySet.Flags.S.Should().Be(true);
             model.Cpu.Registers.PrimarySet.Flags.Z.Should().Be(false);
             model.Cpu.Registers.PrimarySet.Flags.C.Should().Be(false);
@@ -373,7 +373,7 @@ namespace Jacobi.Zim80.Components.CpuZ80.Instructions.UnitTests
                 cpu.Registers.PrimarySet.HL = Address;
             });
 
-            model.Memory.Assert(Address, ExpectedValue2L);
+            model.Memory.Assert(Address, ExpectedValue2L | 0x01);
             model.Cpu.Registers.PrimarySet.Flags.S.Should().Be(false);
             model.Cpu.Registers.PrimarySet.Flags.Z.Should().Be(false);
             model.Cpu.Registers.PrimarySet.Flags.C.Should().Be(true);

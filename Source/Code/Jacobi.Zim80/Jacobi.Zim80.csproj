@@ -68,6 +68,7 @@
     <Compile Include="Components\CpuZ80\Opcodes\Register8Table.cs" />
     <Compile Include="Components\CpuZ80\Opcodes\ShiftRotateOperations.cs" />
     <Compile Include="Components\CpuZ80\RegisterExtensions.cs" />
+    <Compile Include="Components\CpuZ80\States\CpuReadParameterThenExecute.cs" />
     <Compile Include="Components\CpuZ80\States\CpuInterrupt.cs" />
     <Compile Include="Components\CpuZ80\States\Instructions\AddRegister16Instruction.cs" />
     <Compile Include="Components\CpuZ80\States\Instructions\BitInstruction.cs" />
@@ -87,12 +88,14 @@
     <Compile Include="Components\CpuZ80\CycleCounter.cs" />
     <Compile Include="Components\CpuZ80\Registers.cs" />
     <Compile Include="Components\CpuZ80\States\Instructions\Dec16Instruction.cs" />
+    <Compile Include="Components\CpuZ80\States\Instructions\ExtendedInstruction.cs" />
     <Compile Include="Components\CpuZ80\States\Instructions\Inc16Instruction.cs" />
     <Compile Include="Components\CpuZ80\States\Instructions\Inc8Instruction.cs" />
     <Compile Include="Components\CpuZ80\States\Instructions\IncDecShiftedIndirectInstruction.cs" />
     <Compile Include="Components\CpuZ80\States\Instructions\IncDecIndirectInstruction.cs" />
     <Compile Include="Components\CpuZ80\States\Instructions\IndirectBitSetResInstruction.cs" />
     <Compile Include="Components\CpuZ80\States\Instructions\MathIndirectInstruction.cs" />
+    <Compile Include="Components\CpuZ80\States\Instructions\ShiftRotateExtendedInstruction.cs" />
     <Compile Include="Components\CpuZ80\States\Instructions\ShiftRotateIndirectInstruction.cs" />
     <Compile Include="Components\CpuZ80\States\Instructions\WriteIndirectInstruction.cs" />
     <Compile Include="Components\CpuZ80\States\Instructions\ReadIndirectInstruction.cs" />
@@ -126,6 +129,7 @@
     <Compile Include="Components\CpuZ80\States\Instructions\WriteImmediateRegisterInstruction.cs" />
     <Compile Include="Components\CpuZ80\States\Instructions\WriteIndirectRegisterInstruction.cs" />
     <Compile Include="Components\CpuZ80\States\Instructions\WriteT3InstructionPart.cs" />
+    <Compile Include="Components\Generators\DigitalLevelCycle.cs" />
     <Compile Include="Components\Generators\Randomizer.cs" />
     <Compile Include="Components\Generators\SignalGenerator.cs" />
     <Compile Include="Components\CpuZ80\CpuZ80.cs" />

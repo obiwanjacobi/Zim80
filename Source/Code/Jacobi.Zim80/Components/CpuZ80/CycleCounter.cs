@@ -23,8 +23,11 @@ namespace Jacobi.Zim80.Components.CpuZ80
         {
             get
             {
-                if (_cycles != null)
+                if (_opcodeCycles != null)
                     return GetCycle(MachineCycle) == CycleName;
+
+                if (_continueCount > 0)
+                    return _continueCycles == 0;
 
                 // opcode fetch
                 return CycleName == CycleNames.T4;
@@ -35,9 +38,9 @@ namespace Jacobi.Zim80.Components.CpuZ80
         {
             get
             {
-                if (_cycles == null) return false;
+                if (_opcodeCycles == null) return false;
 
-                return MachineCycleToIndex(MachineCycle) == _cycles.Length - 1;
+                return MachineCycleToIndex(MachineCycle) == _opcodeCycles.Length - 1;
             }
         }
 
@@ -57,9 +60,9 @@ namespace Jacobi.Zim80.Components.CpuZ80
                 _opcodeDefinition = value;
 
                 if (_opcodeDefinition != null)
-                    _cycles = _opcodeDefinition.Cycles;
+                    _opcodeCycles = _opcodeDefinition.Cycles;
                 else
-                    _cycles = null;
+                    _opcodeCycles = null;
             }
         }
 
@@ -71,31 +74,54 @@ namespace Jacobi.Zim80.Components.CpuZ80
                 throw new InvalidOperationException("No Opcode set or Opcode does not have Alternate Cycles.");
             }
 
-            _cycles = _opcodeDefinition.AltCycles;
+            _opcodeCycles = _opcodeDefinition.AltCycles;
         }
 
+        // use after instruction has completed
         public void Reset()
         {
+            _continueCycles = 0;
+            _continueCount = 0;
             _opcodeDefinition = null;
-            _cycles = null;
+            _opcodeCycles = null;
+            CycleName = CycleNames.NotInitialized;
+            MachineCycle = MachineCycleNames.M1;
+        }
+
+        // use to keep reading without opcode
+        public void Continue(int cycles = 4)
+        {
+            _continueCycles = cycles;
+            _continueCount++;
+
             CycleName = CycleNames.NotInitialized;
             MachineCycle = MachineCycleNames.M1;
         }
 
         #region private
-        private int[] _cycles;
+        private int _continueCount;
+        private int _continueCycles;
+        private int[] _opcodeCycles;
 
         private void IncrementCycle()
         {
             CycleName++;
 
-            if (_cycles != null &&
+            if (_opcodeCycles != null &&
                 GetCycle(MachineCycle) < CycleName)
             {
                 NextMachineCycle();
 
-                if ((int)MachineCycle > _cycles.Length)
+                if ((int)MachineCycle > _opcodeCycles.Length)
                     throw new InvalidOperationException("Too many machine cycles.");
+            }
+            else if(_opcodeCycles == null &&
+                    _continueCount > 0)
+            {
+                if (_continueCycles == 0)
+                    throw new InvalidOperationException("Too many T-cycles (Continue).");
+
+                _continueCycles--;
             }
             else if (CycleName > CycleNames.T6)
                 throw new InvalidOperationException("Too many T-cycles.");
@@ -109,17 +135,17 @@ namespace Jacobi.Zim80.Components.CpuZ80
 
         private CycleNames GetCycle(MachineCycleNames machineCycle)
         {
-            if (_cycles != null)
+            if (_opcodeCycles != null)
             {
                 var index = MachineCycleToIndex(machineCycle);
 
-                if (index >= _cycles.Length)
+                if (index >= _opcodeCycles.Length)
                 {
                     throw new InvalidOperationException(
-                        string.Format("The instuction {0} did not signal complete within its declared cycles.", OpcodeDefinition));
+                        string.Format("The instuction {0} did not signal complete within its declared machine cycles.", OpcodeDefinition));
                 }
 
-                return (CycleNames)_cycles[(int)index];
+                return (CycleNames)_opcodeCycles[(int)index];
             }
 
             return CycleNames.NotInitialized;
@@ -128,15 +154,16 @@ namespace Jacobi.Zim80.Components.CpuZ80
         private int MachineCycleToIndex(MachineCycleNames machineCycle)
         {
             int index = (int)machineCycle;
+            index += _continueCount;
 
-            if (OpcodeDefinition != null &&
-                OpcodeDefinition.Ext1 != 0)
-            {
-                index++;
+            //if (OpcodeDefinition != null &&
+            //    OpcodeDefinition.Ext1 != 0)
+            //{
+            //    index++;
 
-                if (OpcodeDefinition.Ext2 != 0)
-                    index++;
-            }
+            //    if (OpcodeDefinition.Ext2 != 0)
+            //        index++;
+            //}
 
             return index;
         }

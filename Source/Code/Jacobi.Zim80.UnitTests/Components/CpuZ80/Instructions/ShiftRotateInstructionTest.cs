@@ -585,7 +585,7 @@ namespace Jacobi.Zim80.Components.CpuZ80.Instructions.UnitTests
                     cpuZ80.Registers.PrimarySet[reg] = Value1;
                 }, 0xCB);
 
-                cpu.Registers.PrimarySet[reg].Should().Be(ExpectedValue1L);
+                cpu.Registers.PrimarySet[reg].Should().Be(ExpectedValue1L | 0x01);
                 cpu.Registers.PrimarySet.Flags.S.Should().BeTrue();
                 cpu.Registers.PrimarySet.Flags.Z.Should().BeFalse();
                 cpu.Registers.PrimarySet.Flags.C.Should().BeFalse();
@@ -605,7 +605,7 @@ namespace Jacobi.Zim80.Components.CpuZ80.Instructions.UnitTests
                     cpuZ80.Registers.PrimarySet[reg] = Value2;
                 }, 0xCB);
 
-                cpu.Registers.PrimarySet[reg].Should().Be(ExpectedValue2L);
+                cpu.Registers.PrimarySet[reg].Should().Be(ExpectedValue2L | 0x01);
                 cpu.Registers.PrimarySet.Flags.S.Should().BeFalse();
                 cpu.Registers.PrimarySet.Flags.Z.Should().BeFalse();
                 cpu.Registers.PrimarySet.Flags.C.Should().BeTrue();

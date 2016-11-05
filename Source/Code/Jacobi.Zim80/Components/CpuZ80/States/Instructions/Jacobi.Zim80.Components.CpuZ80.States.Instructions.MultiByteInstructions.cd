@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <ClassDiagram MajorVersion="1" MinorVersion="1">
   <Class Name="Jacobi.Zim80.Components.CpuZ80.States.Instructions.LoadImmediate8Instruction" Collapsed="true">
-    <Position X="6.5" Y="7" Width="2.25" />
+    <Position X="9.25" Y="13" Width="2.25" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAABAAAAAAAAAAAAAQCAAAAA=</HashCode>
       <FileName>Components\CpuZ80\States\Instructions\LoadImmediate8Instruction.cs</FileName>
@@ -36,26 +36,36 @@
     </ShowAsAssociation>
   </Class>
   <Class Name="Jacobi.Zim80.Components.CpuZ80.States.Instructions.LoadImmediate16Instruction" Collapsed="true">
-    <Position X="9.25" Y="7" Width="2.25" />
+    <Position X="12" Y="13" Width="2.25" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAEAAAAAAAAAAAAAAACAAAAA=</HashCode>
       <FileName>Components\CpuZ80\States\Instructions\LoadImmediate16Instruction.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="Jacobi.Zim80.Components.CpuZ80.States.Instructions.ReadIndirectRegisterInstruction" Collapsed="true">
-    <Position X="12.75" Y="3.75" Width="2.5" />
+    <Position X="13" Y="7" Width="2.5" />
+    <InheritanceLine Type="Jacobi.Zim80.Components.CpuZ80.States.Instructions.ReadIndirectInstruction" ManuallyRouted="true">
+      <Path>
+        <Point X="10.25" Y="4.941" />
+        <Point X="10.25" Y="5.792" />
+        <Point X="12.792" Y="5.792" Type="JumpStart" />
+        <Point X="12.958" Y="5.792" Type="JumpEnd" />
+        <Point X="14.25" Y="5.792" />
+        <Point X="14.25" Y="7" />
+      </Path>
+    </InheritanceLine>
     <AssociationLine Name="_instructionPart" Type="Jacobi.Zim80.Components.CpuZ80.States.Instructions.ReadT3InstructionPart" ManuallyRouted="true" FixedFromPoint="true" FixedToPoint="true">
       <Path>
-        <Point X="14.125" Y="4.441" />
-        <Point X="14.125" Y="5.316" />
-        <Point X="15.917" Y="5.316" Type="JumpStart" />
-        <Point X="16.083" Y="5.316" Type="JumpEnd" />
-        <Point X="17.75" Y="5.316" />
+        <Point X="14.375" Y="7.691" />
+        <Point X="14.375" Y="8.066" />
+        <Point X="15.917" Y="8.066" Type="JumpStart" />
+        <Point X="16.083" Y="8.066" Type="JumpEnd" />
+        <Point X="17.75" Y="8.066" />
         <Point X="17.75" Y="4.941" />
       </Path>
     </AssociationLine>
     <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAAAAAAQAAAAAAAAAAAAAAAAAACAAAAQ=</HashCode>
+      <HashCode>AAAAAAAAAAAAAAAAAAQAAAAAAAAAAAAAAAAAACAgAAQ=</HashCode>
       <FileName>Components\CpuZ80\States\Instructions\ReadIndirectRegisterInstruction.cs</FileName>
     </TypeIdentifier>
     <ShowAsAssociation>
@@ -90,30 +100,17 @@
       <FileName>Components\CpuZ80\States\Instructions\WriteT3InstructionPart.cs</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="Jacobi.Zim80.Components.CpuZ80.States.Instructions.IndirectRegisterInstruction" Collapsed="true">
-    <Position X="10.25" Y="2" Width="2" />
+  <Class Name="Jacobi.Zim80.Components.CpuZ80.States.Instructions.ReadIndirectInstruction" Collapsed="true">
+    <Position X="9.25" Y="4.25" Width="2" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACAAAAAAAAAAA=</HashCode>
-      <FileName>Components\CpuZ80\States\Instructions\IndirectRegisterInstruction.cs</FileName>
+      <FileName>Components\CpuZ80\States\Instructions\ReadIndirectInstruction.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="Jacobi.Zim80.Components.CpuZ80.States.Instructions.WriteIndirectRegisterInstruction" Collapsed="true">
-    <Position X="10" Y="3.75" Width="2.5" />
-    <AssociationLine Name="_instructionPart" Type="Jacobi.Zim80.Components.CpuZ80.States.Instructions.WriteT3InstructionPart" ManuallyRouted="true" FixedFromPoint="true" FixedToPoint="true">
-      <Path>
-        <Point X="11.25" Y="4.441" />
-        <Point X="11.25" Y="5.742" />
-        <Point X="15.917" Y="5.742" Type="JumpStart" />
-        <Point X="16.083" Y="5.742" Type="JumpEnd" />
-        <Point X="20.812" Y="5.742" />
-        <Point X="20.812" Y="4.941" />
-      </Path>
-      <MemberNameLabel ManuallyPlaced="true">
-        <Position X="-0.291" Y="-1.195" />
-      </MemberNameLabel>
-    </AssociationLine>
+    <Position X="10" Y="7" Width="2.5" />
     <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAAAAAAQAAAAABAAAAAAAAAAAAAAAAAQ=</HashCode>
+      <HashCode>AAAAAAAAAAAAAAAAAAQAAAAABAEAAAAAAAAAAAAAAAQ=</HashCode>
       <FileName>Components\CpuZ80\States\Instructions\WriteIndirectRegisterInstruction.cs</FileName>
     </TypeIdentifier>
     <ShowAsAssociation>
@@ -121,7 +118,7 @@
     </ShowAsAssociation>
   </Class>
   <Class Name="Jacobi.Zim80.Components.CpuZ80.States.Instructions.DjnzInstruction" Collapsed="true">
-    <Position X="14" Y="8.5" Width="2" />
+    <Position X="16.75" Y="14.5" Width="2" />
     <TypeIdentifier>
       <HashCode>AEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAEAAAA=</HashCode>
       <FileName>Components\CpuZ80\States\Instructions\DjnzInstruction.cs</FileName>
@@ -162,7 +159,7 @@
     </TypeIdentifier>
   </Class>
   <Class Name="Jacobi.Zim80.Components.CpuZ80.States.Instructions.JumpRelativeInstruction" Collapsed="true">
-    <Position X="14" Y="7" Width="2" />
+    <Position X="16.75" Y="13" Width="2" />
     <TypeIdentifier>
       <HashCode>AEAAAAAAAAAAAAAAAAQAAAAAAAAAAAAAAAAAACEAAAA=</HashCode>
       <FileName>Components\CpuZ80\States\Instructions\JumpRelativeInstruction.cs</FileName>
@@ -176,14 +173,22 @@
     </TypeIdentifier>
   </Class>
   <Class Name="Jacobi.Zim80.Components.CpuZ80.States.Instructions.IncDecIndirectInstruction" Collapsed="true">
-    <Position X="7.5" Y="3.75" Width="2" />
+    <Position X="6.25" Y="7" Width="2" />
+    <InheritanceLine Type="Jacobi.Zim80.Components.CpuZ80.States.Instructions.ReadIndirectInstruction" ManuallyRouted="true">
+      <Path>
+        <Point X="10.25" Y="4.941" />
+        <Point X="10.25" Y="5.825" />
+        <Point X="7.25" Y="5.825" />
+        <Point X="7.25" Y="7" />
+      </Path>
+    </InheritanceLine>
     <TypeIdentifier>
       <HashCode>AABAAAAAAAAAAAAAAAQACAAAAAAAAAAAAAAAIAAAAAA=</HashCode>
       <FileName>Components\CpuZ80\States\Instructions\IncDecIndirectInstruction.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="Jacobi.Zim80.Components.CpuZ80.States.Instructions.IncDecShiftedIndirectInstruction" Collapsed="true">
-    <Position X="7.25" Y="5" Width="2.5" />
+    <Position X="6" Y="8.25" Width="2.5" />
     <TypeIdentifier>
       <HashCode>AABAIAAAAAAAAQAAAAQAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Components\CpuZ80\States\Instructions\IncDecShiftedIndirectInstruction.cs</FileName>
@@ -197,24 +202,31 @@
     </TypeIdentifier>
   </Class>
   <Class Name="Jacobi.Zim80.Components.CpuZ80.States.Instructions.CallInstruction" Collapsed="true">
-    <Position X="12" Y="7" Width="1.5" />
+    <Position X="14.75" Y="13" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AEAAAAAAAAAAAIAAAAQAAAAAAAAAAAAQAAAAAAQAAAA=</HashCode>
       <FileName>Components\CpuZ80\States\Instructions\CallInstruction.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="Jacobi.Zim80.Components.CpuZ80.States.Instructions.ReadImmediateRegisterInstruction" Collapsed="true">
-    <Position X="16.5" Y="7" Width="2.5" />
+    <Position X="19.25" Y="13" Width="2.5" />
     <TypeIdentifier>
       <HashCode>AAAAIAAAAAAAAQAAAAQAAAAAAAAAAAACAAAAACAAAAA=</HashCode>
       <FileName>Components\CpuZ80\States\Instructions\ReadImmediateRegisterInstruction.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="Jacobi.Zim80.Components.CpuZ80.States.Instructions.WriteImmediateRegisterInstruction" Collapsed="true">
-    <Position X="19.5" Y="7" Width="2.75" />
+    <Position X="22.25" Y="13" Width="2.75" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAQAQBAAAAAAAAACAAAAAAAAAAA=</HashCode>
       <FileName>Components\CpuZ80\States\Instructions\WriteImmediateRegisterInstruction.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Jacobi.Zim80.Components.CpuZ80.States.Instructions.WriteIndirectInstruction" Collapsed="true">
+    <Position X="12" Y="4.25" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAIAAAAAAAAAAAAAAAAAAAAAACAAAAAAAAAAA=</HashCode>
+      <FileName>Components\CpuZ80\States\Instructions\WriteIndirectInstruction.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Font Name="Segoe UI" Size="9" />

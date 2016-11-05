@@ -1,36 +1,36 @@
 ﻿using Jacobi.Zim80.Components.CpuZ80.States.Instructions;
-using System;
 
 namespace Jacobi.Zim80.Components.CpuZ80.States
 {
     internal class CpuExecute : CpuRefresh
     {
-        private readonly Instruction _instruction;
+        private Instruction _instruction;
 
-        public CpuExecute(Die die)
+        public CpuExecute(Die die, bool createInstruction = true)
             : base(die)
         {
-            if (ExecutionEngine.Cycles.OpcodeDefinition == null)
-                throw new InvalidOperationException("There is no active OpcodeDefinition.");
-            if (ExecutionEngine.Cycles.OpcodeDefinition.Instruction == null)
-                throw new InvalidOperationException("The active OpcodeDefinition has no associated Instruction: " 
-                    + ExecutionEngine.Cycles.OpcodeDefinition.ToString());
-
-            _instruction = (Instruction)Activator.CreateInstance(
-                ExecutionEngine.Cycles.OpcodeDefinition.Instruction, Die);
+            if (createInstruction)
+                CreateInstruction();
         }
 
         public override void OnClock(DigitalLevel level)
         {
             base.OnClock(level);
-            _instruction.OnClock(level);
+
+            if (_instruction != null)
+                _instruction.OnClock(level);
 
             HandleInstructionCompletion();
         }
 
+        protected void CreateInstruction()
+        {
+            _instruction = Instruction.Create<Instruction>(Die, ExecutionEngine.Opcode.Definition);
+        }
+
         private void HandleInstructionCompletion()
         {
-            if (IsComplete) return;
+            if (IsComplete || _instruction == null) return;
 
             IsComplete = _instruction.IsComplete;
 

@@ -37,20 +37,7 @@
                  (isCB && (x == 0 && z == 6))
                  )
             {
-                if (ExecutionEngine.Opcode.Definition.IsIX)
-                {
-                    if (ExecutionEngine.Opcode.Definition.d)
-                        return Alu.Add(Registers.IX, (sbyte)ExecutionEngine.MultiCycleOpcode.GetParameter(0).Value);
-                    return Registers.IX;
-                }
-                if (ExecutionEngine.Opcode.Definition.IsIY)
-                {
-                    if (ExecutionEngine.Opcode.Definition.d)
-                        return Alu.Add(Registers.IY, (sbyte)ExecutionEngine.MultiCycleOpcode.GetParameter(0).Value);
-                    return Registers.IY;
-                }
-
-                return Registers.PrimarySet.HL;
+                return GetHLOrIXIY();
             }
 
             throw Errors.AssignedToIllegalOpcode();

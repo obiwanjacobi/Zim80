@@ -1,6 +1,4 @@
-﻿using Jacobi.Zim80.Components.CpuZ80.Opcodes;
-
-namespace Jacobi.Zim80.Components.CpuZ80.States.Instructions
+﻿namespace Jacobi.Zim80.Components.CpuZ80.States.Instructions
 {
     internal class MathIndirectInstruction : ReadIndirectInstruction
     {

@@ -1,6 +1,8 @@
 ﻿using System.Linq;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using FluentAssertions;
+using Jacobi.Zim80.Components.CpuZ80.States.Instructions;
+using System;
 
 namespace Jacobi.Zim80.Components.CpuZ80.Opcodes.UnitTests
 {
@@ -87,11 +89,32 @@ namespace Jacobi.Zim80.Components.CpuZ80.Opcodes.UnitTests
         }
 
         [TestMethod]
+        public void OpcodeDefinition_CanCreateInstruction()
+        {
+            var die = new Die();
+
+            foreach (var od in OpcodeDefinition.Defintions)
+            {
+                if (od.Instruction == null) continue;
+
+                var mnemonic = string.Format(od.Mnemonic, "{0}", "{1}");
+                TestContext.WriteLine("{0}\t\t\t{1}", mnemonic, od.Instruction.Name);
+
+                Action create = () => Instruction.Create<Instruction>(die, od);
+                create.ShouldNotThrow(od.ToString());
+
+            }
+        }
+
+        [TestMethod]
         public void OpcodeDefinition_MustHaveInstruction()
         {
             var implInstructions = OpcodeDefinition.Defintions
                                         .Where(od => od.Instruction != null);
-            TestContext.WriteLine("{0} Implemented Opcode Definitions.", implInstructions.Count());
+            TestContext.WriteLine("{0} Implemented Opcode Definitions out of {1} ({2}%).", 
+                implInstructions.Count(), 
+                OpcodeDefinition.Defintions.Length, 
+                ((float)implInstructions.Count()/ OpcodeDefinition.Defintions.Length) * 100);
 
             var missingInstructions = OpcodeDefinition.Defintions
                                         .Where(od => od.Instruction == null);

@@ -11,7 +11,7 @@ namespace Jacobi.Zim80.Components.CpuZ80
         private CpuInterrupt _pendingNMI;
         private CpuInterrupt _pendingINT;
 
-        public InterruptManager(Die die) 
+        public InterruptManager(Die die)
             : base(die)
         {
             // NMI is edge triggered
@@ -71,12 +71,12 @@ namespace Jacobi.Zim80.Components.CpuZ80
             return null;
         }
 
-            private static CpuInterrupt Clear(ref CpuInterrupt cpuInterrupt)
-            {
-                var interrupt = cpuInterrupt;
-                cpuInterrupt = null;
-                return interrupt;
-            }
+        private static CpuInterrupt Clear(ref CpuInterrupt cpuInterrupt)
+        {
+            var interrupt = cpuInterrupt;
+            cpuInterrupt = null;
+            return interrupt;
+        }
 
         internal void ReleaseInterrupts()
         {

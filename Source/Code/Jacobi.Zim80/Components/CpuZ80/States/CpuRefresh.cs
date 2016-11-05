@@ -4,11 +4,20 @@
     {
         public CpuRefresh(Die die)
             : base(die)
-        { }
+        {
+            RefreshEnabled = true;
+        }
+
+        protected bool RefreshEnabled { get; set; }
+
+        protected bool IsEnabled
+        {
+            get { return RefreshEnabled && ExecutionEngine.Cycles.IsMachineCycle1; }
+        }
 
         protected override void OnClockPos()
         {
-            if (!ExecutionEngine.Cycles.IsMachineCycle1) return;
+            if (!IsEnabled) return;
 
             switch (ExecutionEngine.Cycles.CycleName)
             {
@@ -25,7 +34,7 @@
 
         protected override void OnClockNeg()
         {
-            if (!ExecutionEngine.Cycles.IsMachineCycle1) return;
+            if (!IsEnabled) return;
 
             switch (ExecutionEngine.Cycles.CycleName)
             {

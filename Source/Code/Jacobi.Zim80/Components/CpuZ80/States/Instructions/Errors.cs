@@ -14,6 +14,11 @@ namespace Jacobi.Zim80.Components.CpuZ80.States.Instructions
             return new InvalidOperationException("The implementation of the instruction does not expect this machine cycle. Invalid machine cycle: " + machineCycle);
         }
 
+        public static Exception ParametersNotFound()
+        {
+            return new InvalidOperationException("Expected parameters were not found on MultiCycleOpcode.");
+        }
+
         public static Exception NoParameters()
         {
             return new InvalidOperationException("Use a SingleByteInstruction base class for parameter-less instructions.");

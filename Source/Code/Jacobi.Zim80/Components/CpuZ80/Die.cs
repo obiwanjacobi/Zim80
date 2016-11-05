@@ -44,6 +44,10 @@
             Initialize();
         }
 
+        // for test only
+        internal Die()
+        { }
+
         public BusMaster<BusData16> AddressBus
         { get { return _addressBus; } }
         public DigitalSignalProvider BusAcknowledge

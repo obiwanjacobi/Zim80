@@ -1,5 +1,6 @@
 ﻿using Jacobi.Zim80.Components.CpuZ80.Opcodes;
 using Jacobi.Zim80.Components.CpuZ80.States;
+using Jacobi.Zim80.Components.CpuZ80.States.Instructions;
 using System;
 
 namespace Jacobi.Zim80.Components.CpuZ80
@@ -131,8 +132,17 @@ namespace Jacobi.Zim80.Components.CpuZ80
             if (_cycles.IsLastCycle &&
                 _cycles.OpcodeDefinition == null)
             {
-                _state = new CpuFetch(_die);
-                _cycles.Reset();
+                if (_opcodeBuilder.HasReversedOffsetParameterOrder)
+                {
+                    _state = new CpuReadParameterThenExecute(_die);
+                    _currentState = CpuStates.Execute;
+                    _cycles.Continue(3);
+                }
+                else
+                {
+                    _state = new CpuFetch(_die);
+                    _cycles.Continue();
+                }
                 return true;
             }
 
@@ -168,6 +178,7 @@ namespace Jacobi.Zim80.Components.CpuZ80
             Fetch,
             Execute,
             Interrupt,
+            Wait,
             BusRequest,
             Reset,
         }

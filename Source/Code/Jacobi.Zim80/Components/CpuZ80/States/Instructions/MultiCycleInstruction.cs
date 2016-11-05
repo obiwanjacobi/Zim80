@@ -72,6 +72,38 @@
         protected virtual void OnLastCycleLastM()
         { }
 
+        protected ushort GetHLOrIXIY(bool useOffset = true)
+        {
+            if (ExecutionEngine.Opcode.Definition.IsIX)
+            {
+                if (ExecutionEngine.Opcode.Definition.d && useOffset)
+                {
+                    ThrowIfNoParametersFound();
+                    return Alu.Add(Registers.IX, (sbyte)ExecutionEngine.MultiCycleOpcode.GetParameter(0).Value);
+                }
+                return Registers.IX;
+            }
+            if (ExecutionEngine.Opcode.Definition.IsIY)
+            {
+                if (ExecutionEngine.Opcode.Definition.d && useOffset)
+                {
+                    ThrowIfNoParametersFound();
+                    return Alu.Add(Registers.IY, (sbyte)ExecutionEngine.MultiCycleOpcode.GetParameter(0).Value);
+                }
+                return Registers.IY;
+            }
+
+            return Registers.PrimarySet.HL;
+        }
+
+        protected void ThrowIfNoParametersFound()
+        {
+            if (ExecutionEngine.MultiCycleOpcode == null)
+                throw Errors.AssignedToIllegalOpcode();
+            if (ExecutionEngine.MultiCycleOpcode.ParameterCount == 0)
+                throw Errors.ParametersNotFound();
+        }
+
         private void SetNextInstructionPart()
         {
             _currentPart = GetInstructionPart(ExecutionEngine.Cycles.MachineCycle + 1);

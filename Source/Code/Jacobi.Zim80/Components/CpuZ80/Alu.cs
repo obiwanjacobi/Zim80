@@ -396,7 +396,8 @@ namespace Jacobi.Zim80.Components.CpuZ80
         // sll
         public byte ShiftLeftLogical(byte value)
         {
-            var newValue = ShiftValueLeftCarry(value);
+            // sets bit0
+            var newValue = (byte)(ShiftValueLeftCarry(value) | 0x01);
 
             SetShiftRotateFlags(newValue);
 
@@ -413,35 +414,34 @@ namespace Jacobi.Zim80.Components.CpuZ80
             return newValue;
         }
 
-        public void DoShiftRotate(ShiftRotateOperations shiftRotate, Register8Table reg)
+        public byte DoShiftRotate(ShiftRotateOperations shiftRotate, byte value)
         {
             switch (shiftRotate)
             {
                 case ShiftRotateOperations.RotateLeftCarry:
-                    _primarySet[reg] = RotateLeftCarry(_primarySet[reg]);
-                    break;
+                    return RotateLeftCarry(value);
                 case ShiftRotateOperations.RotateRightCarry:
-                    _primarySet[reg] = RotateRightCarry(_primarySet[reg]);
-                    break;
+                    return RotateRightCarry(value);
                 case ShiftRotateOperations.RotateLeft:
-                    _primarySet[reg] = RotateLeft(_primarySet[reg]);
-                    break;
+                    return RotateLeft(value);
                 case ShiftRotateOperations.RotateRight:
-                    _primarySet[reg] = RotateRight(_primarySet[reg]);
-                    break;
+                    return RotateRight(value);
                 case ShiftRotateOperations.ShiftLeftArithmetic:
-                    _primarySet[reg] = ShiftLeftArithmetic(_primarySet[reg]);
-                    break;
+                    return ShiftLeftArithmetic(value);
                 case ShiftRotateOperations.ShiftRightArithmetic:
-                    _primarySet[reg] = ShiftRightArithmetic(_primarySet[reg]);
-                    break;
+                    return ShiftRightArithmetic(value);
                 case ShiftRotateOperations.ShiftLeftLogical:
-                    _primarySet[reg] = ShiftLeftLogical(_primarySet[reg]);
-                    break;
+                    return ShiftLeftLogical(value);
                 case ShiftRotateOperations.ShiftRightLogical:
-                    _primarySet[reg] = ShiftRightLogical(_primarySet[reg]);
-                    break;
+                    return ShiftRightLogical(value);
             }
+
+            throw new NotSupportedException("Unknown Shift/Rotate operation.");
+        }
+
+        public void DoShiftRotate(ShiftRotateOperations shiftRotate, Register8Table reg)
+        {
+            _primarySet[reg] = DoShiftRotate(shiftRotate, _primarySet[reg]);
         }
 
         private void SetShiftRotateFlags(byte newValue)
