@@ -83,6 +83,7 @@
     <Compile Include="Components\CpuZ80\States\Instructions\DecimalAdjustInstruction.cs" />
     <Compile Include="Components\CpuZ80\States\Instructions\DjnzInstruction.cs" />
     <Compile Include="Components\CpuZ80\States\Instructions\Errors.cs" />
+    <Compile Include="Components\CpuZ80\States\Instructions\ExchangeIndirectInstruction.cs" />
     <Compile Include="Components\CpuZ80\States\Instructions\ExchangeInstruction.cs" />
     <Compile Include="Components\CpuZ80\States\CpuExecute.cs" />
     <Compile Include="Components\CpuZ80\States\CpuFetch.cs" />
