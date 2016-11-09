@@ -630,14 +630,14 @@ namespace Jacobi.Zim80.Components.CpuZ80.Opcodes
             new OpcodeDefinition { X = 1, Z = 2, Q = 1, P = 2, Mnemonic = "ADC HL, HL", Ext1 = 0xED, Cycles = new[] { 4, 4, 4, 3 }, Instruction = typeof(AddRegister16Instruction) },
             new OpcodeDefinition { X = 1, Z = 2, Q = 1, P = 3, Mnemonic = "ADC HL, SP", Ext1 = 0xED, Cycles = new[] { 4, 4, 4, 3 }, Instruction = typeof(AddRegister16Instruction) },
 
-            new OpcodeDefinition { X = 1, Z = 3, Q = 0, P = 0, Mnemonic = "LD ({0}), BC", nn = true, Ext1 = 0xED, Cycles = new[] { 4, 4, 3, 3, 3, 3 } },
-            new OpcodeDefinition { X = 1, Z = 3, Q = 0, P = 1, Mnemonic = "LD ({0}), DE", nn = true, Ext1 = 0xED, Cycles = new[] { 4, 4, 3, 3, 3, 3 } },
-            new OpcodeDefinition { X = 1, Z = 3, Q = 0, P = 2, Mnemonic = "LD ({0}), HL", nn = true, Ext1 = 0xED, Cycles = new[] { 4, 4, 3, 3, 3, 3 } },
-            new OpcodeDefinition { X = 1, Z = 3, Q = 0, P = 3, Mnemonic = "LD ({0}), SP", nn = true, Ext1 = 0xED, Cycles = new[] { 4, 4, 3, 3, 3, 3 } },
-            new OpcodeDefinition { X = 1, Z = 3, Q = 1, P = 0, Mnemonic = "LD BC, ({0})", nn = true, Ext1 = 0xED, Cycles = new[] { 4, 4, 3, 3, 3, 3 } },
-            new OpcodeDefinition { X = 1, Z = 3, Q = 1, P = 1, Mnemonic = "LD DE, ({0})", nn = true, Ext1 = 0xED, Cycles = new[] { 4, 4, 3, 3, 3, 3 } },
-            new OpcodeDefinition { X = 1, Z = 3, Q = 1, P = 2, Mnemonic = "LD HL, ({0})", nn = true, Ext1 = 0xED, Cycles = new[] { 4, 4, 3, 3, 3, 3 } },
-            new OpcodeDefinition { X = 1, Z = 3, Q = 1, P = 3, Mnemonic = "LD SP, ({0})", nn = true, Ext1 = 0xED, Cycles = new[] { 4, 4, 3, 3, 3, 3 } },
+            new OpcodeDefinition { X = 1, Z = 3, Q = 0, P = 0, Mnemonic = "LD ({0}), BC", nn = true, Ext1 = 0xED, Cycles = new[] { 4, 4, 3, 3, 3, 3 }, Instruction = typeof(LoadImmediateIndirect16Instruction) },
+            new OpcodeDefinition { X = 1, Z = 3, Q = 0, P = 1, Mnemonic = "LD ({0}), DE", nn = true, Ext1 = 0xED, Cycles = new[] { 4, 4, 3, 3, 3, 3 }, Instruction = typeof(LoadImmediateIndirect16Instruction) },
+            new OpcodeDefinition { X = 1, Z = 3, Q = 0, P = 2, Mnemonic = "LD ({0}), HL", nn = true, Ext1 = 0xED, Cycles = new[] { 4, 4, 3, 3, 3, 3 }, Instruction = typeof(LoadImmediateIndirect16Instruction) },
+            new OpcodeDefinition { X = 1, Z = 3, Q = 0, P = 3, Mnemonic = "LD ({0}), SP", nn = true, Ext1 = 0xED, Cycles = new[] { 4, 4, 3, 3, 3, 3 }, Instruction = typeof(LoadImmediateIndirect16Instruction) },
+            new OpcodeDefinition { X = 1, Z = 3, Q = 1, P = 0, Mnemonic = "LD BC, ({0})", nn = true, Ext1 = 0xED, Cycles = new[] { 4, 4, 3, 3, 3, 3 }, Instruction = typeof(LoadImmediateIndirect16Instruction) },
+            new OpcodeDefinition { X = 1, Z = 3, Q = 1, P = 1, Mnemonic = "LD DE, ({0})", nn = true, Ext1 = 0xED, Cycles = new[] { 4, 4, 3, 3, 3, 3 }, Instruction = typeof(LoadImmediateIndirect16Instruction) },
+            new OpcodeDefinition { X = 1, Z = 3, Q = 1, P = 2, Mnemonic = "LD HL, ({0})", nn = true, Ext1 = 0xED, Cycles = new[] { 4, 4, 3, 3, 3, 3 }, Instruction = typeof(LoadImmediateIndirect16Instruction) },
+            new OpcodeDefinition { X = 1, Z = 3, Q = 1, P = 3, Mnemonic = "LD SP, ({0})", nn = true, Ext1 = 0xED, Cycles = new[] { 4, 4, 3, 3, 3, 3 }, Instruction = typeof(LoadImmediateIndirect16Instruction) },
 
             new OpcodeDefinition { X = 1, Z = 4, Y = 0, Mnemonic = "NEG", Ext1 = 0xED, Cycles = new[] { 4, 4 } },
 
