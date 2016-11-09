@@ -602,6 +602,80 @@ namespace Jacobi.Zim80.Components.CpuZ80.Opcodes
             #endregion // CB
 
             #region ED prefixed
+            #region X = 0
+            new OpcodeDefinition { X = 0, Z = 0, Y = 0, Mnemonic = "NOP*", Ext1 = 0xED, Cycles = new[] { 4, 4 }, Instruction = typeof(NopInstruction) },
+            new OpcodeDefinition { X = 0, Z = 0, Y = 1, Mnemonic = "NOP*", Ext1 = 0xED, Cycles = new[] { 4, 4 }, Instruction = typeof(NopInstruction) },
+            new OpcodeDefinition { X = 0, Z = 0, Y = 2, Mnemonic = "NOP*", Ext1 = 0xED, Cycles = new[] { 4, 4 }, Instruction = typeof(NopInstruction) },
+            new OpcodeDefinition { X = 0, Z = 0, Y = 3, Mnemonic = "NOP*", Ext1 = 0xED, Cycles = new[] { 4, 4 }, Instruction = typeof(NopInstruction) },
+            new OpcodeDefinition { X = 0, Z = 0, Y = 4, Mnemonic = "NOP*", Ext1 = 0xED, Cycles = new[] { 4, 4 }, Instruction = typeof(NopInstruction) },
+            new OpcodeDefinition { X = 0, Z = 0, Y = 5, Mnemonic = "NOP*", Ext1 = 0xED, Cycles = new[] { 4, 4 }, Instruction = typeof(NopInstruction) },
+            new OpcodeDefinition { X = 0, Z = 0, Y = 6, Mnemonic = "NOP*", Ext1 = 0xED, Cycles = new[] { 4, 4 }, Instruction = typeof(NopInstruction) },
+            new OpcodeDefinition { X = 0, Z = 0, Y = 7, Mnemonic = "NOP*", Ext1 = 0xED, Cycles = new[] { 4, 4 }, Instruction = typeof(NopInstruction) },
+
+            new OpcodeDefinition { X = 0, Z = 1, Y = 0, Mnemonic = "NOP*", Ext1 = 0xED, Cycles = new[] { 4, 4 }, Instruction = typeof(NopInstruction) },
+            new OpcodeDefinition { X = 0, Z = 1, Y = 1, Mnemonic = "NOP*", Ext1 = 0xED, Cycles = new[] { 4, 4 }, Instruction = typeof(NopInstruction) },
+            new OpcodeDefinition { X = 0, Z = 1, Y = 2, Mnemonic = "NOP*", Ext1 = 0xED, Cycles = new[] { 4, 4 }, Instruction = typeof(NopInstruction) },
+            new OpcodeDefinition { X = 0, Z = 1, Y = 3, Mnemonic = "NOP*", Ext1 = 0xED, Cycles = new[] { 4, 4 }, Instruction = typeof(NopInstruction) },
+            new OpcodeDefinition { X = 0, Z = 1, Y = 4, Mnemonic = "NOP*", Ext1 = 0xED, Cycles = new[] { 4, 4 }, Instruction = typeof(NopInstruction) },
+            new OpcodeDefinition { X = 0, Z = 1, Y = 5, Mnemonic = "NOP*", Ext1 = 0xED, Cycles = new[] { 4, 4 }, Instruction = typeof(NopInstruction) },
+            new OpcodeDefinition { X = 0, Z = 1, Y = 6, Mnemonic = "NOP*", Ext1 = 0xED, Cycles = new[] { 4, 4 }, Instruction = typeof(NopInstruction) },
+            new OpcodeDefinition { X = 0, Z = 1, Y = 7, Mnemonic = "NOP*", Ext1 = 0xED, Cycles = new[] { 4, 4 }, Instruction = typeof(NopInstruction) },
+
+            new OpcodeDefinition { X = 0, Z = 2, Y = 0, Mnemonic = "NOP*", Ext1 = 0xED, Cycles = new[] { 4, 4 }, Instruction = typeof(NopInstruction) },
+            new OpcodeDefinition { X = 0, Z = 2, Y = 1, Mnemonic = "NOP*", Ext1 = 0xED, Cycles = new[] { 4, 4 }, Instruction = typeof(NopInstruction) },
+            new OpcodeDefinition { X = 0, Z = 2, Y = 2, Mnemonic = "NOP*", Ext1 = 0xED, Cycles = new[] { 4, 4 }, Instruction = typeof(NopInstruction) },
+            new OpcodeDefinition { X = 0, Z = 2, Y = 3, Mnemonic = "NOP*", Ext1 = 0xED, Cycles = new[] { 4, 4 }, Instruction = typeof(NopInstruction) },
+            new OpcodeDefinition { X = 0, Z = 2, Y = 4, Mnemonic = "NOP*", Ext1 = 0xED, Cycles = new[] { 4, 4 }, Instruction = typeof(NopInstruction) },
+            new OpcodeDefinition { X = 0, Z = 2, Y = 5, Mnemonic = "NOP*", Ext1 = 0xED, Cycles = new[] { 4, 4 }, Instruction = typeof(NopInstruction) },
+            new OpcodeDefinition { X = 0, Z = 2, Y = 6, Mnemonic = "NOP*", Ext1 = 0xED, Cycles = new[] { 4, 4 }, Instruction = typeof(NopInstruction) },
+            new OpcodeDefinition { X = 0, Z = 2, Y = 7, Mnemonic = "NOP*", Ext1 = 0xED, Cycles = new[] { 4, 4 }, Instruction = typeof(NopInstruction) },
+
+            new OpcodeDefinition { X = 0, Z = 3, Y = 0, Mnemonic = "NOP*", Ext1 = 0xED, Cycles = new[] { 4, 4 }, Instruction = typeof(NopInstruction) },
+            new OpcodeDefinition { X = 0, Z = 3, Y = 1, Mnemonic = "NOP*", Ext1 = 0xED, Cycles = new[] { 4, 4 }, Instruction = typeof(NopInstruction) },
+            new OpcodeDefinition { X = 0, Z = 3, Y = 2, Mnemonic = "NOP*", Ext1 = 0xED, Cycles = new[] { 4, 4 }, Instruction = typeof(NopInstruction) },
+            new OpcodeDefinition { X = 0, Z = 3, Y = 3, Mnemonic = "NOP*", Ext1 = 0xED, Cycles = new[] { 4, 4 }, Instruction = typeof(NopInstruction) },
+            new OpcodeDefinition { X = 0, Z = 3, Y = 4, Mnemonic = "NOP*", Ext1 = 0xED, Cycles = new[] { 4, 4 }, Instruction = typeof(NopInstruction) },
+            new OpcodeDefinition { X = 0, Z = 3, Y = 5, Mnemonic = "NOP*", Ext1 = 0xED, Cycles = new[] { 4, 4 }, Instruction = typeof(NopInstruction) },
+            new OpcodeDefinition { X = 0, Z = 3, Y = 6, Mnemonic = "NOP*", Ext1 = 0xED, Cycles = new[] { 4, 4 }, Instruction = typeof(NopInstruction) },
+            new OpcodeDefinition { X = 0, Z = 3, Y = 7, Mnemonic = "NOP*", Ext1 = 0xED, Cycles = new[] { 4, 4 }, Instruction = typeof(NopInstruction) },
+
+            new OpcodeDefinition { X = 0, Z = 4, Y = 0, Mnemonic = "NOP*", Ext1 = 0xED, Cycles = new[] { 4, 4 }, Instruction = typeof(NopInstruction) },
+            new OpcodeDefinition { X = 0, Z = 4, Y = 1, Mnemonic = "NOP*", Ext1 = 0xED, Cycles = new[] { 4, 4 }, Instruction = typeof(NopInstruction) },
+            new OpcodeDefinition { X = 0, Z = 4, Y = 2, Mnemonic = "NOP*", Ext1 = 0xED, Cycles = new[] { 4, 4 }, Instruction = typeof(NopInstruction) },
+            new OpcodeDefinition { X = 0, Z = 4, Y = 3, Mnemonic = "NOP*", Ext1 = 0xED, Cycles = new[] { 4, 4 }, Instruction = typeof(NopInstruction) },
+            new OpcodeDefinition { X = 0, Z = 4, Y = 4, Mnemonic = "NOP*", Ext1 = 0xED, Cycles = new[] { 4, 4 }, Instruction = typeof(NopInstruction) },
+            new OpcodeDefinition { X = 0, Z = 4, Y = 5, Mnemonic = "NOP*", Ext1 = 0xED, Cycles = new[] { 4, 4 }, Instruction = typeof(NopInstruction) },
+            new OpcodeDefinition { X = 0, Z = 4, Y = 6, Mnemonic = "NOP*", Ext1 = 0xED, Cycles = new[] { 4, 4 }, Instruction = typeof(NopInstruction) },
+            new OpcodeDefinition { X = 0, Z = 4, Y = 7, Mnemonic = "NOP*", Ext1 = 0xED, Cycles = new[] { 4, 4 }, Instruction = typeof(NopInstruction) },
+
+            new OpcodeDefinition { X = 0, Z = 5, Y = 0, Mnemonic = "NOP*", Ext1 = 0xED, Cycles = new[] { 4, 4 }, Instruction = typeof(NopInstruction) },
+            new OpcodeDefinition { X = 0, Z = 5, Y = 1, Mnemonic = "NOP*", Ext1 = 0xED, Cycles = new[] { 4, 4 }, Instruction = typeof(NopInstruction) },
+            new OpcodeDefinition { X = 0, Z = 5, Y = 2, Mnemonic = "NOP*", Ext1 = 0xED, Cycles = new[] { 4, 4 }, Instruction = typeof(NopInstruction) },
+            new OpcodeDefinition { X = 0, Z = 5, Y = 3, Mnemonic = "NOP*", Ext1 = 0xED, Cycles = new[] { 4, 4 }, Instruction = typeof(NopInstruction) },
+            new OpcodeDefinition { X = 0, Z = 5, Y = 4, Mnemonic = "NOP*", Ext1 = 0xED, Cycles = new[] { 4, 4 }, Instruction = typeof(NopInstruction) },
+            new OpcodeDefinition { X = 0, Z = 5, Y = 5, Mnemonic = "NOP*", Ext1 = 0xED, Cycles = new[] { 4, 4 }, Instruction = typeof(NopInstruction) },
+            new OpcodeDefinition { X = 0, Z = 5, Y = 6, Mnemonic = "NOP*", Ext1 = 0xED, Cycles = new[] { 4, 4 }, Instruction = typeof(NopInstruction) },
+            new OpcodeDefinition { X = 0, Z = 5, Y = 7, Mnemonic = "NOP*", Ext1 = 0xED, Cycles = new[] { 4, 4 }, Instruction = typeof(NopInstruction) },
+
+            new OpcodeDefinition { X = 0, Z = 6, Y = 0, Mnemonic = "NOP*", Ext1 = 0xED, Cycles = new[] { 4, 4 }, Instruction = typeof(NopInstruction) },
+            new OpcodeDefinition { X = 0, Z = 6, Y = 1, Mnemonic = "NOP*", Ext1 = 0xED, Cycles = new[] { 4, 4 }, Instruction = typeof(NopInstruction) },
+            new OpcodeDefinition { X = 0, Z = 6, Y = 2, Mnemonic = "NOP*", Ext1 = 0xED, Cycles = new[] { 4, 4 }, Instruction = typeof(NopInstruction) },
+            new OpcodeDefinition { X = 0, Z = 6, Y = 3, Mnemonic = "NOP*", Ext1 = 0xED, Cycles = new[] { 4, 4 }, Instruction = typeof(NopInstruction) },
+            new OpcodeDefinition { X = 0, Z = 6, Y = 4, Mnemonic = "NOP*", Ext1 = 0xED, Cycles = new[] { 4, 4 }, Instruction = typeof(NopInstruction) },
+            new OpcodeDefinition { X = 0, Z = 6, Y = 5, Mnemonic = "NOP*", Ext1 = 0xED, Cycles = new[] { 4, 4 }, Instruction = typeof(NopInstruction) },
+            new OpcodeDefinition { X = 0, Z = 6, Y = 6, Mnemonic = "NOP*", Ext1 = 0xED, Cycles = new[] { 4, 4 }, Instruction = typeof(NopInstruction) },
+            new OpcodeDefinition { X = 0, Z = 6, Y = 7, Mnemonic = "NOP*", Ext1 = 0xED, Cycles = new[] { 4, 4 }, Instruction = typeof(NopInstruction) },
+
+            new OpcodeDefinition { X = 0, Z = 7, Y = 0, Mnemonic = "NOP*", Ext1 = 0xED, Cycles = new[] { 4, 4 }, Instruction = typeof(NopInstruction) },
+            new OpcodeDefinition { X = 0, Z = 7, Y = 1, Mnemonic = "NOP*", Ext1 = 0xED, Cycles = new[] { 4, 4 }, Instruction = typeof(NopInstruction) },
+            new OpcodeDefinition { X = 0, Z = 7, Y = 2, Mnemonic = "NOP*", Ext1 = 0xED, Cycles = new[] { 4, 4 }, Instruction = typeof(NopInstruction) },
+            new OpcodeDefinition { X = 0, Z = 7, Y = 3, Mnemonic = "NOP*", Ext1 = 0xED, Cycles = new[] { 4, 4 }, Instruction = typeof(NopInstruction) },
+            new OpcodeDefinition { X = 0, Z = 7, Y = 4, Mnemonic = "NOP*", Ext1 = 0xED, Cycles = new[] { 4, 4 }, Instruction = typeof(NopInstruction) },
+            new OpcodeDefinition { X = 0, Z = 7, Y = 5, Mnemonic = "NOP*", Ext1 = 0xED, Cycles = new[] { 4, 4 }, Instruction = typeof(NopInstruction) },
+            new OpcodeDefinition { X = 0, Z = 7, Y = 6, Mnemonic = "NOP*", Ext1 = 0xED, Cycles = new[] { 4, 4 }, Instruction = typeof(NopInstruction) },
+            new OpcodeDefinition { X = 0, Z = 7, Y = 7, Mnemonic = "NOP*", Ext1 = 0xED, Cycles = new[] { 4, 4 }, Instruction = typeof(NopInstruction) },
+            #endregion
+
             #region X = 1
             new OpcodeDefinition { X = 1, Z = 0, Y = 0, Mnemonic = "IN B, (C)", Ext1 = 0xED, Cycles = new[] { 4, 4, 4 } },
             new OpcodeDefinition { X = 1, Z = 0, Y = 1, Mnemonic = "IN C, (C)", Ext1 = 0xED, Cycles = new[] { 4, 4, 4 } },
@@ -609,7 +683,7 @@ namespace Jacobi.Zim80.Components.CpuZ80.Opcodes
             new OpcodeDefinition { X = 1, Z = 0, Y = 3, Mnemonic = "IN E, (C)", Ext1 = 0xED, Cycles = new[] { 4, 4, 4 } },
             new OpcodeDefinition { X = 1, Z = 0, Y = 4, Mnemonic = "IN H, (C)", Ext1 = 0xED, Cycles = new[] { 4, 4, 4 } },
             new OpcodeDefinition { X = 1, Z = 0, Y = 5, Mnemonic = "IN L, (C)", Ext1 = 0xED, Cycles = new[] { 4, 4, 4 } },
-            new OpcodeDefinition { X = 1, Z = 0, Y = 6, Mnemonic = "IN (C)", Ext1 = 0xED, Cycles = new[] { 4, 4 } },    // cycles?
+            new OpcodeDefinition { X = 1, Z = 0, Y = 6, Mnemonic = "IN (C)", Ext1 = 0xED, Cycles = new[] { 4, 4, 4 } },
             new OpcodeDefinition { X = 1, Z = 0, Y = 7, Mnemonic = "IN A, (C)", Ext1 = 0xED, Cycles = new[] { 4, 4, 4 } },
 
             new OpcodeDefinition { X = 1, Z = 1, Y = 0, Mnemonic = "OUT (C), B", Ext1 = 0xED, Cycles = new[] { 4, 4, 4 } },
@@ -618,7 +692,7 @@ namespace Jacobi.Zim80.Components.CpuZ80.Opcodes
             new OpcodeDefinition { X = 1, Z = 1, Y = 3, Mnemonic = "OUT (C), E", Ext1 = 0xED, Cycles = new[] { 4, 4, 4 } },
             new OpcodeDefinition { X = 1, Z = 1, Y = 4, Mnemonic = "OUT (C), H", Ext1 = 0xED, Cycles = new[] { 4, 4, 4 } },
             new OpcodeDefinition { X = 1, Z = 1, Y = 5, Mnemonic = "OUT (C), L", Ext1 = 0xED, Cycles = new[] { 4, 4, 4 } },
-            new OpcodeDefinition { X = 1, Z = 1, Y = 6, Mnemonic = "OUT (C), 0", Ext1 = 0xED, Cycles = new[] { 4, 4 } },    // cycles?
+            new OpcodeDefinition { X = 1, Z = 1, Y = 6, Mnemonic = "OUT (C), 0", Ext1 = 0xED, Cycles = new[] { 4, 4, 4 } },
             new OpcodeDefinition { X = 1, Z = 1, Y = 7, Mnemonic = "OUT (C), A", Ext1 = 0xED, Cycles = new[] { 4, 4, 4 } },
 
             new OpcodeDefinition { X = 1, Z = 2, Q = 0, P = 0, Mnemonic = "SBC HL, BC", Ext1 = 0xED, Cycles = new[] { 4, 4, 4, 3 }, Instruction = typeof(SubRegister16Instruction) },
@@ -640,6 +714,13 @@ namespace Jacobi.Zim80.Components.CpuZ80.Opcodes
             new OpcodeDefinition { X = 1, Z = 3, Q = 1, P = 3, Mnemonic = "LD SP, ({0})", nn = true, Ext1 = 0xED, Cycles = new[] { 4, 4, 3, 3, 3, 3 }, Instruction = typeof(LoadImmediateIndirect16Instruction) },
 
             new OpcodeDefinition { X = 1, Z = 4, Y = 0, Mnemonic = "NEG", Ext1 = 0xED, Cycles = new[] { 4, 4 } },
+            new OpcodeDefinition { X = 1, Z = 4, Y = 1, Mnemonic = "NEG", Ext1 = 0xED, Cycles = new[] { 4, 4 } },
+            new OpcodeDefinition { X = 1, Z = 4, Y = 2, Mnemonic = "NEG", Ext1 = 0xED, Cycles = new[] { 4, 4 } },
+            new OpcodeDefinition { X = 1, Z = 4, Y = 3, Mnemonic = "NEG", Ext1 = 0xED, Cycles = new[] { 4, 4 } },
+            new OpcodeDefinition { X = 1, Z = 4, Y = 4, Mnemonic = "NEG", Ext1 = 0xED, Cycles = new[] { 4, 4 } },
+            new OpcodeDefinition { X = 1, Z = 4, Y = 5, Mnemonic = "NEG", Ext1 = 0xED, Cycles = new[] { 4, 4 } },
+            new OpcodeDefinition { X = 1, Z = 4, Y = 6, Mnemonic = "NEG", Ext1 = 0xED, Cycles = new[] { 4, 4 } },
+            new OpcodeDefinition { X = 1, Z = 4, Y = 7, Mnemonic = "NEG", Ext1 = 0xED, Cycles = new[] { 4, 4 } },
 
             new OpcodeDefinition { X = 1, Z = 5, Y = 0, Mnemonic = "RETN", Ext1 = 0xED, Cycles = new[] { 4, 4, 3, 3 } },
             new OpcodeDefinition { X = 1, Z = 5, Y = 1, Mnemonic = "RETI", Ext1 = 0xED, Cycles = new[] { 4, 4, 3, 3 } },
@@ -650,11 +731,11 @@ namespace Jacobi.Zim80.Components.CpuZ80.Opcodes
             new OpcodeDefinition { X = 1, Z = 5, Y = 6, Mnemonic = "RETN", Ext1 = 0xED, Cycles = new[] { 4, 4, 3, 3 } },
 
             new OpcodeDefinition { X = 1, Z = 6, Y = 0, Mnemonic = "IM 0", Ext1 = 0xED, Cycles = new[] { 4, 4 }, Instruction = typeof(IntModeInstruction) },
-            new OpcodeDefinition { X = 1, Z = 6, Y = 1, Mnemonic = "IM 0/1", Ext1 = 0xED, Cycles = new[] { 4, 4 } },
+            new OpcodeDefinition { X = 1, Z = 6, Y = 1, Mnemonic = "IM 0", Ext1 = 0xED, Cycles = new[] { 4, 4 }, Instruction = typeof(IntModeInstruction) },
             new OpcodeDefinition { X = 1, Z = 6, Y = 2, Mnemonic = "IM 1", Ext1 = 0xED, Cycles = new[] { 4, 4 }, Instruction = typeof(IntModeInstruction) },
             new OpcodeDefinition { X = 1, Z = 6, Y = 3, Mnemonic = "IM 2", Ext1 = 0xED, Cycles = new[] { 4, 4 }, Instruction = typeof(IntModeInstruction) },
             new OpcodeDefinition { X = 1, Z = 6, Y = 4, Mnemonic = "IM 0", Ext1 = 0xED, Cycles = new[] { 4, 4 }, Instruction = typeof(IntModeInstruction) },
-            new OpcodeDefinition { X = 1, Z = 6, Y = 5, Mnemonic = "IM 0/1", Ext1 = 0xED, Cycles = new[] { 4, 4 } },
+            new OpcodeDefinition { X = 1, Z = 6, Y = 5, Mnemonic = "IM 0", Ext1 = 0xED, Cycles = new[] { 4, 4 }, Instruction = typeof(IntModeInstruction) },
             new OpcodeDefinition { X = 1, Z = 6, Y = 6, Mnemonic = "IM 1", Ext1 = 0xED, Cycles = new[] { 4, 4 }, Instruction = typeof(IntModeInstruction) },
             new OpcodeDefinition { X = 1, Z = 6, Y = 7, Mnemonic = "IM 2", Ext1 = 0xED, Cycles = new[] { 4, 4 }, Instruction = typeof(IntModeInstruction) },
 
@@ -664,26 +745,42 @@ namespace Jacobi.Zim80.Components.CpuZ80.Opcodes
             new OpcodeDefinition { X = 1, Z = 7, Y = 3, Mnemonic = "LD A, R", Ext1 = 0xED, Cycles = new[] { 4, 5 } },
             new OpcodeDefinition { X = 1, Z = 7, Y = 4, Mnemonic = "RRD", Ext1 = 0xED, Cycles = new[] { 4, 4, 3, 4, 3 }, Instruction = typeof(ShiftRotateIndirectInstruction) },
             new OpcodeDefinition { X = 1, Z = 7, Y = 5, Mnemonic = "RLD", Ext1 = 0xED, Cycles = new[] { 4, 4, 3, 4, 3 }, Instruction = typeof(ShiftRotateIndirectInstruction) },
-            new OpcodeDefinition { X = 1, Z = 7, Y = 6, Mnemonic = "NOP*", Ext1 = 0xED, Cycles = new[] { 4, 4 } },
-            new OpcodeDefinition { X = 1, Z = 7, Y = 7, Mnemonic = "NOP*", Ext1 = 0xED, Cycles = new[] { 4, 4 } },
+            new OpcodeDefinition { X = 1, Z = 7, Y = 6, Mnemonic = "NOP*", Ext1 = 0xED, Cycles = new[] { 4, 4 }, Instruction = typeof(NopInstruction) },
+            new OpcodeDefinition { X = 1, Z = 7, Y = 7, Mnemonic = "NOP*", Ext1 = 0xED, Cycles = new[] { 4, 4 }, Instruction = typeof(NopInstruction) },
             #endregion
 
             #region X = 2
+            new OpcodeDefinition { X = 2, Z = 0, Y = 0, Mnemonic = "NOP*", Ext1 = 0xED, Cycles = new[] { 4, 4 }, Instruction = typeof(NopInstruction) },
+            new OpcodeDefinition { X = 2, Z = 0, Y = 1, Mnemonic = "NOP*", Ext1 = 0xED, Cycles = new[] { 4, 4 }, Instruction = typeof(NopInstruction) },
+            new OpcodeDefinition { X = 2, Z = 0, Y = 2, Mnemonic = "NOP*", Ext1 = 0xED, Cycles = new[] { 4, 4 }, Instruction = typeof(NopInstruction) },
+            new OpcodeDefinition { X = 2, Z = 0, Y = 3, Mnemonic = "NOP*", Ext1 = 0xED, Cycles = new[] { 4, 4 }, Instruction = typeof(NopInstruction) },
             new OpcodeDefinition { X = 2, Z = 0, Y = 4, Mnemonic = "LDI", Ext1 = 0xED, Cycles = new[] { 4, 4, 3, 5 } },
             new OpcodeDefinition { X = 2, Z = 0, Y = 5, Mnemonic = "LDD", Ext1 = 0xED, Cycles = new[] { 4, 4, 3, 5 } },
             new OpcodeDefinition { X = 2, Z = 0, Y = 6, Mnemonic = "LDIR", Ext1 = 0xED, Cycles = new[] { 4, 4, 3, 5, 5 } },
             new OpcodeDefinition { X = 2, Z = 0, Y = 7, Mnemonic = "LDDR", Ext1 = 0xED, Cycles = new[] { 4, 4, 3, 5, 5 } },
 
+            new OpcodeDefinition { X = 2, Z = 1, Y = 0, Mnemonic = "NOP*", Ext1 = 0xED, Cycles = new[] { 4, 4 }, Instruction = typeof(NopInstruction) },
+            new OpcodeDefinition { X = 2, Z = 1, Y = 1, Mnemonic = "NOP*", Ext1 = 0xED, Cycles = new[] { 4, 4 }, Instruction = typeof(NopInstruction) },
+            new OpcodeDefinition { X = 2, Z = 1, Y = 2, Mnemonic = "NOP*", Ext1 = 0xED, Cycles = new[] { 4, 4 }, Instruction = typeof(NopInstruction) },
+            new OpcodeDefinition { X = 2, Z = 1, Y = 3, Mnemonic = "NOP*", Ext1 = 0xED, Cycles = new[] { 4, 4 }, Instruction = typeof(NopInstruction) },
             new OpcodeDefinition { X = 2, Z = 1, Y = 4, Mnemonic = "CPI", Ext1 = 0xED, Cycles = new[] { 4, 4, 3, 5 } },
             new OpcodeDefinition { X = 2, Z = 1, Y = 5, Mnemonic = "CPD", Ext1 = 0xED, Cycles = new[] { 4, 4, 3, 5 } },
             new OpcodeDefinition { X = 2, Z = 1, Y = 6, Mnemonic = "CPIR", Ext1 = 0xED, Cycles = new[] { 4, 4, 3, 5, 5 }, AltCycles = new[] { 4, 4, 3, 5 } },
             new OpcodeDefinition { X = 2, Z = 1, Y = 7, Mnemonic = "CPDR", Ext1 = 0xED, Cycles = new[] { 4, 4, 3, 5, 5 }, AltCycles = new[] { 4, 4, 3, 5 } },
 
+            new OpcodeDefinition { X = 2, Z = 2, Y = 0, Mnemonic = "NOP*", Ext1 = 0xED, Cycles = new[] { 4, 4 }, Instruction = typeof(NopInstruction) },
+            new OpcodeDefinition { X = 2, Z = 2, Y = 1, Mnemonic = "NOP*", Ext1 = 0xED, Cycles = new[] { 4, 4 }, Instruction = typeof(NopInstruction) },
+            new OpcodeDefinition { X = 2, Z = 2, Y = 2, Mnemonic = "NOP*", Ext1 = 0xED, Cycles = new[] { 4, 4 }, Instruction = typeof(NopInstruction) },
+            new OpcodeDefinition { X = 2, Z = 2, Y = 3, Mnemonic = "NOP*", Ext1 = 0xED, Cycles = new[] { 4, 4 }, Instruction = typeof(NopInstruction) },
             new OpcodeDefinition { X = 2, Z = 2, Y = 4, Mnemonic = "INI", Ext1 = 0xED, Cycles = new[] { 4, 5, 3, 4 } },
             new OpcodeDefinition { X = 2, Z = 2, Y = 5, Mnemonic = "IND", Ext1 = 0xED, Cycles = new[] { 4, 5, 3, 4 } },
             new OpcodeDefinition { X = 2, Z = 2, Y = 6, Mnemonic = "INIR", Ext1 = 0xED, Cycles = new[] { 4, 5, 3, 4, 5 }, AltCycles = new[] { 4, 5, 3, 4 } },
             new OpcodeDefinition { X = 2, Z = 2, Y = 7, Mnemonic = "INDR", Ext1 = 0xED, Cycles = new[] { 4, 5, 3, 4, 5 }, AltCycles = new[] { 4, 5, 3, 4 } },
 
+            new OpcodeDefinition { X = 2, Z = 3, Y = 0, Mnemonic = "NOP*", Ext1 = 0xED, Cycles = new[] { 4, 4 }, Instruction = typeof(NopInstruction) },
+            new OpcodeDefinition { X = 2, Z = 3, Y = 1, Mnemonic = "NOP*", Ext1 = 0xED, Cycles = new[] { 4, 4 }, Instruction = typeof(NopInstruction) },
+            new OpcodeDefinition { X = 2, Z = 3, Y = 2, Mnemonic = "NOP*", Ext1 = 0xED, Cycles = new[] { 4, 4 }, Instruction = typeof(NopInstruction) },
+            new OpcodeDefinition { X = 2, Z = 3, Y = 3, Mnemonic = "NOP*", Ext1 = 0xED, Cycles = new[] { 4, 4 }, Instruction = typeof(NopInstruction) },
             new OpcodeDefinition { X = 2, Z = 3, Y = 4, Mnemonic = "OUTI", Ext1 = 0xED, Cycles = new[] { 4, 5, 3, 4 } },
             new OpcodeDefinition { X = 2, Z = 3, Y = 5, Mnemonic = "OUTD", Ext1 = 0xED, Cycles = new[] { 4, 5, 3, 4 } },
             new OpcodeDefinition { X = 2, Z = 3, Y = 6, Mnemonic = "OUTIR", Ext1 = 0xED, Cycles = new[] { 4, 5, 3, 4, 5 }, AltCycles = new[] { 4, 5, 3, 4 } },

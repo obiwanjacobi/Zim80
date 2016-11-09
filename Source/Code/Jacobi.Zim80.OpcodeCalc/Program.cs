@@ -1,5 +1,6 @@
 ﻿using Jacobi.Zim80.Components.CpuZ80.Opcodes;
 using System;
+using System.Globalization;
 
 namespace Jacobi.Zim80.OpcodeCalc
 {
@@ -85,7 +86,8 @@ namespace Jacobi.Zim80.OpcodeCalc
         {
             ulong sprite = 0;
 
-            if (!ulong.TryParse(_currentLine, out sprite))
+            var ns = _displayHex ? NumberStyles.HexNumber : NumberStyles.Integer;
+            if (!ulong.TryParse(_currentLine, ns, CultureInfo.CurrentCulture, out sprite))
             {
                 PrintSyntaxError();
                 return;
