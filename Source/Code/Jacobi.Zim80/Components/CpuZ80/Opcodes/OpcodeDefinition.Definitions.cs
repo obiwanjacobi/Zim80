@@ -621,10 +621,10 @@ namespace Jacobi.Zim80.Components.CpuZ80.Opcodes
             new OpcodeDefinition { X = 1, Z = 1, Y = 6, Mnemonic = "OUT (C), 0", Ext1 = 0xED, Cycles = new[] { 4, 4 } },    // cycles?
             new OpcodeDefinition { X = 1, Z = 1, Y = 7, Mnemonic = "OUT (C), A", Ext1 = 0xED, Cycles = new[] { 4, 4, 4 } },
 
-            new OpcodeDefinition { X = 1, Z = 2, Q = 0, P = 0, Mnemonic = "SBC HL, BC", Ext1 = 0xED, Cycles = new[] { 4, 4, 4, 3 } },
-            new OpcodeDefinition { X = 1, Z = 2, Q = 0, P = 1, Mnemonic = "SBC HL, DE", Ext1 = 0xED, Cycles = new[] { 4, 4, 4, 3 } },
-            new OpcodeDefinition { X = 1, Z = 2, Q = 0, P = 2, Mnemonic = "SBC HL, HL", Ext1 = 0xED, Cycles = new[] { 4, 4, 4, 3 } },
-            new OpcodeDefinition { X = 1, Z = 2, Q = 0, P = 3, Mnemonic = "SBC HL, SP", Ext1 = 0xED, Cycles = new[] { 4, 4, 4, 3 } },
+            new OpcodeDefinition { X = 1, Z = 2, Q = 0, P = 0, Mnemonic = "SBC HL, BC", Ext1 = 0xED, Cycles = new[] { 4, 4, 4, 3 }, Instruction = typeof(SubRegister16Instruction) },
+            new OpcodeDefinition { X = 1, Z = 2, Q = 0, P = 1, Mnemonic = "SBC HL, DE", Ext1 = 0xED, Cycles = new[] { 4, 4, 4, 3 }, Instruction = typeof(SubRegister16Instruction) },
+            new OpcodeDefinition { X = 1, Z = 2, Q = 0, P = 2, Mnemonic = "SBC HL, HL", Ext1 = 0xED, Cycles = new[] { 4, 4, 4, 3 }, Instruction = typeof(SubRegister16Instruction) },
+            new OpcodeDefinition { X = 1, Z = 2, Q = 0, P = 3, Mnemonic = "SBC HL, SP", Ext1 = 0xED, Cycles = new[] { 4, 4, 4, 3 }, Instruction = typeof(SubRegister16Instruction) },
             new OpcodeDefinition { X = 1, Z = 2, Q = 1, P = 0, Mnemonic = "ADC HL, BC", Ext1 = 0xED, Cycles = new[] { 4, 4, 4, 3 }, Instruction = typeof(AddRegister16Instruction) },
             new OpcodeDefinition { X = 1, Z = 2, Q = 1, P = 1, Mnemonic = "ADC HL, DE", Ext1 = 0xED, Cycles = new[] { 4, 4, 4, 3 }, Instruction = typeof(AddRegister16Instruction) },
             new OpcodeDefinition { X = 1, Z = 2, Q = 1, P = 2, Mnemonic = "ADC HL, HL", Ext1 = 0xED, Cycles = new[] { 4, 4, 4, 3 }, Instruction = typeof(AddRegister16Instruction) },

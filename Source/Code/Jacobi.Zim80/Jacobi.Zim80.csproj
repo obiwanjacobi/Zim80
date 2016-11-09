@@ -106,6 +106,7 @@
     <Compile Include="Components\CpuZ80\States\Instructions\MathIndirectInstruction.cs" />
     <Compile Include="Components\CpuZ80\States\Instructions\ShiftRotateExtendedInstruction.cs" />
     <Compile Include="Components\CpuZ80\States\Instructions\ShiftRotateIndirectInstruction.cs" />
+    <Compile Include="Components\CpuZ80\States\Instructions\SubRegister16Instruction.cs" />
     <Compile Include="Components\CpuZ80\States\Instructions\WriteIndirectInstruction.cs" />
     <Compile Include="Components\CpuZ80\States\Instructions\ReadIndirectInstruction.cs" />
     <Compile Include="Components\CpuZ80\States\Instructions\Instruction.cs" />

@@ -117,6 +117,7 @@
     <Compile Include="Components\CpuZ80\Instructions\ShiftRotateExtendedInstructionTest.cs" />
     <Compile Include="Components\CpuZ80\Instructions\ShiftRotateIndirectInstructionTest.cs" />
     <Compile Include="Components\CpuZ80\Instructions\ShiftRotateInstructionTest.cs" />
+    <Compile Include="Components\CpuZ80\Instructions\SubRegister16InstructionTest.cs" />
     <Compile Include="Components\CpuZ80\Instructions\WriteImmediateRegisterInstructionTest.cs" />
     <Compile Include="Components\CpuZ80\Instructions\WriteIndirectRegisterInstructionTest.cs" />
     <Compile Include="Components\CpuZ80\Instructions\ReadIndirectRegisterInstructionTest.cs" />

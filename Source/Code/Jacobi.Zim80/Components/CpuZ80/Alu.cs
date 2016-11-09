@@ -143,6 +143,22 @@ namespace Jacobi.Zim80.Components.CpuZ80
             return (ushort)newValue;
         }
 
+        public ushort Sub16(ushort acc, ushort value, bool subCarry)
+        {
+            int newValue = (int)acc - (int)value;
+
+            if (subCarry && Flags.C) newValue--;
+
+            Flags.S = (newValue & 0x8000) > 0;
+            Flags.Z = newValue == 0;
+            Flags.C = (newValue & 0xF0000) > 0;
+            Flags.H = HalfCarryFromHi((byte)(acc >> 8), (byte)(newValue >> 8));
+            Flags.N = true;
+            //Flags.PV = IsOverflow(); TODO
+
+            return (ushort)newValue;
+        }
+
         public byte Add8(byte acc, byte value, bool addCarry = false)
         {
             var newValue = acc + value;
