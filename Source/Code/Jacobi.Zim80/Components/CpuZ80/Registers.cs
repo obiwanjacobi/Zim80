@@ -1,18 +1,15 @@
 ﻿using System;
 using Jacobi.Zim80.Components.CpuZ80.Opcodes;
-using System.Collections.Generic;
 
 namespace Jacobi.Zim80.Components.CpuZ80
 {
-    public class Registers
+    public class Registers : RegisterSet
     {
         internal Registers()
         {
-            PrimarySet = new RegisterSet();
             AlternateSet = new RegisterSet();
         }
 
-        public RegisterSet PrimarySet { get; private set; }
         public RegisterSet AlternateSet { get; private set; }
 
         private readonly Register16 _pc = new Register16();
@@ -66,308 +63,47 @@ namespace Jacobi.Zim80.Components.CpuZ80
             set { _ir.SetLo(value); }
         }
 
+        public ushort this[Register16Table register]
+        {
+            get
+            {
+                switch (register)
+                {
+                    case Register16Table.BC:
+                        return BC;
+                    case Register16Table.DE:
+                        return DE;
+                    case Register16Table.HL:
+                        return HL;
+                    case Register16Table.SP:
+                        return SP;
+                }
+
+                throw new ArgumentException();
+            }
+            set
+            {
+                switch (register)
+                {
+                    case Register16Table.BC:
+                        BC = value;
+                        break;
+                    case Register16Table.DE:
+                        DE = value;
+                        break;
+                    case Register16Table.HL:
+                        HL = value;
+                        break;
+                    case Register16Table.SP:
+                        SP = value;
+                        break;
+                }
+            }
+        }
+
         private readonly InterruptRegisters _interrupt = new InterruptRegisters();
+
         public InterruptRegisters Interrupt
         { get { return _interrupt; } }
-        
-
-        public class RegisterSet
-        {
-            private Register16 _af = new Register16();
-            private Register16 _bc = new Register16();
-            private Register16 _de = new Register16();
-            private Register16 _hl = new Register16();
-
-            private readonly Flags _flags;
-
-            public RegisterSet()
-            {
-                _flags = new Flags(_af);
-            }
-
-            public byte A
-            {
-                get { return _af.GetHi(); }
-                set { _af.SetHi(value); }
-            }
-            public byte B
-            {
-                get { return _bc.GetHi(); }
-                set { _bc.SetHi(value); }
-            }
-            public byte C
-            {
-                get { return _bc.GetLo(); }
-                set { _bc.SetLo(value); }
-            }
-            public byte D
-            {
-                get { return _de.GetHi(); }
-                set { _de.SetHi(value); }
-            }
-            public byte E
-            {
-                get { return _de.GetLo(); }
-                set { _de.SetLo(value); }
-            }
-            public byte F
-            {
-                get { return _af.GetLo(); }
-                set { _af.SetLo(value); }
-            }
-            public byte H
-            {
-                get { return _hl.GetHi(); }
-                set { _hl.SetHi(value); }
-            }
-            public byte L
-            {
-                get { return _hl.GetLo(); }
-                set { _hl.SetLo(value); }
-            }
-
-            public UInt16 AF
-            {
-                get { return _af.Value; }
-                set { _af.Value = value; }
-            }
-            public UInt16 BC
-            {
-                get { return _bc.Value; }
-                set { _bc.Value = value; }
-            }
-            public UInt16 DE
-            {
-                get { return _de.Value; }
-                set { _de.Value = value; }
-            }
-            public UInt16 HL
-            {
-                get { return _hl.Value; }
-                set { _hl.Value = value; }
-            }
-
-            public Flags Flags
-            {
-                get { return _flags; }
-            }
-
-            public byte this[Register8Table register]
-            {
-                get
-                {
-                    switch (register)
-                    {
-                        case Register8Table.B:
-                            return B;
-                        case Register8Table.C:
-                            return C;
-                        case Register8Table.D:
-                            return D;
-                        case Register8Table.E:
-                            return E;
-                        case Register8Table.H:
-                            return H;
-                        case Register8Table.L:
-                            return L;
-                        case Register8Table.A:
-                            return A;
-                        default:
-                            throw new InvalidOperationException();
-                    }
-                }
-                set
-                {
-                    switch (register)
-                    {
-                        case Register8Table.B:
-                            B = value;
-                            break;
-                        case Register8Table.C:
-                            C = value;
-                            break;
-                        case Register8Table.D:
-                            D = value;
-                            break;
-                        case Register8Table.E:
-                            E = value;
-                            break;
-                        case Register8Table.H:
-                            H = value;
-                            break;
-                        case Register8Table.L:
-                            L = value;
-                            break;
-                        case Register8Table.A:
-                            A = value;
-                            break;
-                        default:
-                            throw new InvalidOperationException("Invalid Register index.");
-                    }
-                }
-            }
-
-            public ushort this[Register16Table register]
-            {
-                get
-                {
-                    switch (register)
-                    {
-                        case Register16Table.BC:
-                            return BC;
-                        case Register16Table.DE:
-                            return DE;
-                        case Register16Table.HL:
-                            return HL;
-                    }
-
-                    throw new InvalidOperationException();
-                }
-                set
-                {
-                    switch (register)
-                    {
-                        case Register16Table.BC:
-                            BC = value;
-                            break;
-                        case Register16Table.DE:
-                            DE = value;
-                            break;
-                        case Register16Table.HL:
-                            HL = value;
-                            break;
-                        default:
-                            throw new InvalidOperationException();
-                    }
-                }
-            }
-        }
-        
-        public class InterruptRegisters
-        {
-            public InterruptRegisters()
-            {
-                _interruptMode = InterruptModes.InterruptMode0;
-            }
-
-            private InterruptModes _interruptMode;
-            public InterruptModes InterruptMode
-            {
-                get { return _interruptMode; }
-                set { _interruptMode = value; }
-            }
-
-            public bool IsEnabled
-            {
-                get { return IFF1 && !IsSuspended; }
-            }
-
-            // interrupt mode flags
-            public bool IFF1 { get; set; }
-            public bool IFF2 { get; set; }
-            public bool IsSuspended { get; internal set; }
-        }
-
-        public class Flags
-        {
-            private readonly Register16 _af;
-            internal Flags(Register16 af)
-            {
-                _af = af;
-            }
-
-            // sign
-            public bool S
-            {
-                get { return IsBitSet(7); }
-                set { SetBit(7, value); }
-            }
-
-            // zero
-            public bool Z
-            {
-                get { return IsBitSet(6); }
-                set { SetBit(6, value); }
-            }
-
-            // undocumented: copy of bit5 of result
-            public bool Y
-            {
-                get { return IsBitSet(5); }
-                set { SetBit(5, value); }
-            }
-
-            // half-carry
-            public bool H
-            {
-                get { return IsBitSet(4); }
-                set { SetBit(4, value); }
-            }
-
-            // undocumented: copy of bit3 of result
-            public bool X
-            {
-                get { return IsBitSet(3); }
-                set { SetBit(3, value); }
-            }
-
-            // parity/overflow
-            public bool PV
-            {
-                get { return IsBitSet(2); }
-                set { SetBit(2, value); }
-            }
-
-            // negative
-            public bool N
-            {
-                get { return IsBitSet(1); }
-                set { SetBit(1, value); }
-            }
-
-            // carry
-            public bool C
-            {
-                get { return IsBitSet(0); }
-                set { SetBit(0, value); }
-            }
-
-            private bool IsBitSet(int bitNo)
-            {
-                return (_af.GetLo() & (1 << bitNo)) > 0;
-            }
-            private void SetBit(int bitNo, bool value)
-            {
-                var flags = _af.GetLo();
-                var mask = (1 << bitNo);
-
-                if (value)
-                    flags |= (byte)mask;
-                else
-                    flags &= (byte)~mask;
-
-                _af.SetLo(flags);
-            }
-        }
-
-        public class Register16
-        {
-            private UInt16 _val16;
-            public UInt16 Value
-            {
-                get { return _val16; }
-                set { _val16 = value; }
-            }
-
-            public void SetLo(byte value)
-            { _val16 = (UInt16)((_val16 & 0xFF00) | value); }
-            public byte GetLo()
-            { return (byte)(_val16 & 0x00FF); }
-
-            public void SetHi(byte value)
-            { _val16 = (UInt16)((_val16 & 0x00FF) | ((int)value << 8) ); }
-            public byte GetHi()
-            { return (byte)((_val16 & 0xFF00) >> 8); }
-        }
     }
 }

@@ -93,7 +93,7 @@
                 return Registers.IY;
             }
 
-            return Registers.PrimarySet.HL;
+            return Registers.HL;
         }
 
         protected void ThrowIfNoParametersFound()

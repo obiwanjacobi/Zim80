@@ -25,8 +25,8 @@
             }
             else
             {
-                Registers.PrimarySet[register] =
-                        Die.Alu.Dec8(Registers.PrimarySet[register]);
+                Registers[register] =
+                        Die.Alu.Dec8(Registers[register]);
             }
         }
 

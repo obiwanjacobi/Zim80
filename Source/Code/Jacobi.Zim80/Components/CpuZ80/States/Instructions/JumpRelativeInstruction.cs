@@ -44,13 +44,13 @@
                 case 3: // jr d
                     return true;
                 case 4: // jr nz, d
-                    return !Registers.PrimarySet.Flags.Z;
+                    return !Registers.Flags.Z;
                 case 5: // jr z, d
-                    return Registers.PrimarySet.Flags.Z;
+                    return Registers.Flags.Z;
                 case 6: // jr nc, d
-                    return !Registers.PrimarySet.Flags.C;
+                    return !Registers.Flags.C;
                 case 7: // jr c, d
-                    return Registers.PrimarySet.Flags.C;
+                    return Registers.Flags.C;
                 default:
                     throw Errors.AssignedToIllegalOpcode();
             }

@@ -5,14 +5,14 @@ namespace Jacobi.Zim80.Components.CpuZ80
 {
     internal class Alu
     {
-        private readonly Registers.RegisterSet _primarySet;
+        private readonly RegisterSet _primarySet;
 
-        public Alu(Registers.RegisterSet primarySet)
+        public Alu(RegisterSet primarySet)
         {
             _primarySet = primarySet;
         }
 
-        private Registers.Flags Flags
+        private RegisterFlags Flags
         {
             get { return _primarySet.Flags; }
         }

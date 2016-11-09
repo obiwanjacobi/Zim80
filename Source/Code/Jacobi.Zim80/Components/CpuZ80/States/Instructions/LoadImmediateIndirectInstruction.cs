@@ -12,7 +12,7 @@
             {
                 case MachineCycleNames.M3:
                     if (IsHL)
-                        return new WriteT3InstructionPart(Die, machineCycle, Registers.PrimarySet.HL)
+                        return new WriteT3InstructionPart(Die, machineCycle, Registers.HL)
                         {
                             Data = InstructionM2.Data
                         };

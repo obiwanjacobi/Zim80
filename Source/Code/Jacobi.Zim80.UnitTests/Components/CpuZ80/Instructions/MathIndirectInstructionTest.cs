@@ -39,7 +39,7 @@ namespace Jacobi.Zim80.Components.CpuZ80.Instructions.UnitTests
 
             var cpu = TestMathOperation(ob, expectedValue, carry: false, extension: extension);
 
-            var flags = cpu.Registers.PrimarySet.Flags;
+            var flags = cpu.Registers.Flags;
             flags.S.Should().Be(true);
             flags.Z.Should().BeFalse();
             flags.C.Should().BeFalse();
@@ -92,7 +92,7 @@ namespace Jacobi.Zim80.Components.CpuZ80.Instructions.UnitTests
 
             var cpu = TestMathOperation(ob, expectedValue, carry: carry, extension: extension);
 
-            var flags = cpu.Registers.PrimarySet.Flags;
+            var flags = cpu.Registers.Flags;
             flags.S.Should().Be(true);
             flags.Z.Should().BeFalse();
             flags.C.Should().BeFalse();
@@ -126,7 +126,7 @@ namespace Jacobi.Zim80.Components.CpuZ80.Instructions.UnitTests
 
             var cpu = TestMathOperation(ob, expectedValue, carry: false, extension: extension);
 
-            var flags = cpu.Registers.PrimarySet.Flags;
+            var flags = cpu.Registers.Flags;
             flags.S.Should().Be(true);
             flags.Z.Should().Be(false);
             flags.C.Should().Be(true);
@@ -179,7 +179,7 @@ namespace Jacobi.Zim80.Components.CpuZ80.Instructions.UnitTests
 
             var cpu = TestMathOperation(ob, expectedValue, carry: carry, extension: extension);
 
-            var flags = cpu.Registers.PrimarySet.Flags;
+            var flags = cpu.Registers.Flags;
             flags.S.Should().Be(!carry);
             flags.Z.Should().BeFalse();
             flags.C.Should().Be(true);
@@ -213,7 +213,7 @@ namespace Jacobi.Zim80.Components.CpuZ80.Instructions.UnitTests
 
             var cpu = TestMathOperation(ob, expectedValue, carry: false, extension: extension);
 
-            var flags = cpu.Registers.PrimarySet.Flags;
+            var flags = cpu.Registers.Flags;
             flags.S.Should().Be(false);
             flags.Z.Should().BeFalse();
             flags.C.Should().Be(false);
@@ -247,7 +247,7 @@ namespace Jacobi.Zim80.Components.CpuZ80.Instructions.UnitTests
 
             var cpu = TestMathOperation(ob, expectedValue, carry: false, extension: extension);
 
-            var flags = cpu.Registers.PrimarySet.Flags;
+            var flags = cpu.Registers.Flags;
             flags.S.Should().Be(true);
             flags.Z.Should().BeFalse();
             flags.C.Should().Be(false);
@@ -281,7 +281,7 @@ namespace Jacobi.Zim80.Components.CpuZ80.Instructions.UnitTests
 
             var cpu = TestMathOperation(ob, expectedValue, carry: false, extension: extension);
 
-            var flags = cpu.Registers.PrimarySet.Flags;
+            var flags = cpu.Registers.Flags;
             flags.S.Should().Be(true);
             flags.Z.Should().BeFalse();
             flags.C.Should().Be(false);
@@ -315,7 +315,7 @@ namespace Jacobi.Zim80.Components.CpuZ80.Instructions.UnitTests
 
             var cpu = TestMathOperation(ob, expectedValue, carry: false, extension: extension);
 
-            var flags = cpu.Registers.PrimarySet.Flags;
+            var flags = cpu.Registers.Flags;
             flags.S.Should().Be(true);
             flags.Z.Should().BeFalse();
             flags.C.Should().Be(true);
@@ -328,16 +328,16 @@ namespace Jacobi.Zim80.Components.CpuZ80.Instructions.UnitTests
         {
             var cpu = ExecuteTest(ob,
                 (cpuZ80) => {
-                    cpuZ80.Registers.PrimarySet.Flags.C = carry;
-                    //cpuZ80.Registers.PrimarySet.A = Value;
+                    cpuZ80.Registers.Flags.C = carry;
+                    //cpuZ80.Registers.A = Value;
 
-                    if (extension == 0) cpuZ80.Registers.PrimarySet.HL = Address;
+                    if (extension == 0) cpuZ80.Registers.HL = Address;
                     if (extension == 0xDD) cpuZ80.Registers.IX = Address;
                     if (extension == 0xFD) cpuZ80.Registers.IY = Address;
 
                 }, extension);
 
-            cpu.Registers.PrimarySet.A.Should().Be(expectedValue);
+            cpu.Registers.A.Should().Be(expectedValue);
 
             return cpu;
         }

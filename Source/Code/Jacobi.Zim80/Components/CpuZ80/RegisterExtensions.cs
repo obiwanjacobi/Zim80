@@ -4,7 +4,7 @@ namespace Jacobi.Zim80.Components.CpuZ80
 {
     internal static class RegisterExtensions
     {
-        public static bool FlagFromOpcodeY(this Registers.RegisterSet regSet, byte y)
+        public static bool FlagFromOpcodeY(this RegisterSet regSet, byte y)
         {
             switch (y)
             {

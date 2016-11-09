@@ -41,7 +41,7 @@ namespace Jacobi.Zim80.Components.CpuZ80.States.Instructions
 
             if (regA)
             {
-                return Registers.PrimarySet.A;
+                return Registers.A;
             }
             else if (ExecutionEngine.Opcode.Definition.IsIX)
             {
@@ -53,7 +53,7 @@ namespace Jacobi.Zim80.Components.CpuZ80.States.Instructions
             }
             else
             {
-                return Registers.PrimarySet.L;
+                return Registers.L;
             }
         }
 
@@ -69,7 +69,7 @@ namespace Jacobi.Zim80.Components.CpuZ80.States.Instructions
             }
             else
             {
-                return Registers.PrimarySet.H;
+                return Registers.H;
             }
         }
     }

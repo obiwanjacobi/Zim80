@@ -72,7 +72,7 @@ namespace Jacobi.Zim80.Components.CpuZ80.States.Instructions
 
             var reg = ActingRegister;
             if (reg != Register8Table.HL)
-                Registers.PrimarySet[reg] = newValue;
+                Registers[reg] = newValue;
 
             return newValue;
         }

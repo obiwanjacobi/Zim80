@@ -20,7 +20,7 @@ namespace Jacobi.Zim80.Components.CpuZ80.Instructions.UnitTests
         public void Ld_nn_A()
         {
             var ob = OpcodeByte.New(z: 2, q: 0, p: 3);
-            var model = ExecuteTest(ob, (cpu) => cpu.Registers.PrimarySet.A = ValueLo);
+            var model = ExecuteTest(ob, (cpu) => cpu.Registers.A = ValueLo);
 
             model.Cpu.AssertRegisters(a: ValueLo);
             model.Memory.Assert(AddressLo, ValueLo);
@@ -32,8 +32,8 @@ namespace Jacobi.Zim80.Components.CpuZ80.Instructions.UnitTests
             var ob = OpcodeByte.New(z: 2, q: 0, p: 2);
             var model = ExecuteTest(ob, (cpu) =>
                 {
-                    cpu.Registers.PrimarySet.L = ValueLo;
-                    cpu.Registers.PrimarySet.H = ValueHi;
+                    cpu.Registers.L = ValueLo;
+                    cpu.Registers.H = ValueHi;
                 });
 
             model.Cpu.AssertRegisters(hl: (ValueHi << 8) | ValueLo);

@@ -23,14 +23,14 @@
 
         private void DecimalAdjustAccumulator()
         {
-            Registers.PrimarySet.A = Die.Alu.DecimalAdjust(Registers.PrimarySet.A);
+            Registers.A = Die.Alu.DecimalAdjust(Registers.A);
         }
 
         private void ComplementAccumulator()
         {
-            Registers.PrimarySet.A = (byte)~Registers.PrimarySet.A;
-            Registers.PrimarySet.Flags.H = true;
-            Registers.PrimarySet.Flags.N = true;
+            Registers.A = (byte)~Registers.A;
+            Registers.Flags.H = true;
+            Registers.Flags.N = true;
         }
     }
 }

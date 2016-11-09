@@ -11,7 +11,7 @@
             var bit = ExecutionEngine.Opcode.Definition.Y;
             var reg = ExecutionEngine.Opcode.Definition.Register8FromZ;
 
-            Registers.PrimarySet[reg] = Die.Alu.ResetBit(bit, Registers.PrimarySet[reg]);
+            Registers[reg] = Die.Alu.ResetBit(bit, Registers[reg]);
         }
     }
 }

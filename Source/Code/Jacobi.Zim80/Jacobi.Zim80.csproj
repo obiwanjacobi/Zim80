@@ -60,6 +60,7 @@
     <Compile Include="Components\CpuZ80\Alu.cs" />
     <Compile Include="Components\CpuZ80\InstructionExecutedEventArgs.cs" />
     <Compile Include="Components\CpuZ80\InterruptManager.cs" />
+    <Compile Include="Components\CpuZ80\InterruptRegisters.cs" />
     <Compile Include="Components\CpuZ80\InterruptTypes.cs" />
     <Compile Include="Components\CpuZ80\Opcodes\MathOperations.cs" />
     <Compile Include="Components\CpuZ80\Opcodes\Mnemonic.cs" />
@@ -67,7 +68,10 @@
     <Compile Include="Components\CpuZ80\Opcodes\Register16Table.cs" />
     <Compile Include="Components\CpuZ80\Opcodes\Register8Table.cs" />
     <Compile Include="Components\CpuZ80\Opcodes\ShiftRotateOperations.cs" />
+    <Compile Include="Components\CpuZ80\Register16.cs" />
     <Compile Include="Components\CpuZ80\RegisterExtensions.cs" />
+    <Compile Include="Components\CpuZ80\RegisterFlags.cs" />
+    <Compile Include="Components\CpuZ80\RegisterSet.cs" />
     <Compile Include="Components\CpuZ80\States\CpuReadParameterThenExecute.cs" />
     <Compile Include="Components\CpuZ80\States\CpuInterrupt.cs" />
     <Compile Include="Components\CpuZ80\States\Instructions\AddRegister16Instruction.cs" />

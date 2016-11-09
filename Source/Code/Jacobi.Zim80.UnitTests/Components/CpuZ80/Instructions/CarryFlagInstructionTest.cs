@@ -15,7 +15,7 @@ namespace Jacobi.Zim80.Components.CpuZ80.Instructions.UnitTests
             var cpu = ExecuteTest(ob, carry: false);
 
             cpu.AssertRegisters();
-            cpu.Registers.PrimarySet.Flags.C.Should().Be(true);
+            cpu.Registers.Flags.C.Should().Be(true);
         }
 
         [TestMethod]
@@ -25,7 +25,7 @@ namespace Jacobi.Zim80.Components.CpuZ80.Instructions.UnitTests
             var cpu = ExecuteTest(ob, carry: true);
 
             cpu.AssertRegisters();
-            cpu.Registers.PrimarySet.Flags.C.Should().Be(true);
+            cpu.Registers.Flags.C.Should().Be(true);
         }
 
         [TestMethod]
@@ -35,7 +35,7 @@ namespace Jacobi.Zim80.Components.CpuZ80.Instructions.UnitTests
             var cpu = ExecuteTest(ob, carry: false);
 
             cpu.AssertRegisters();
-            cpu.Registers.PrimarySet.Flags.C.Should().Be(true);
+            cpu.Registers.Flags.C.Should().Be(true);
         }
 
         [TestMethod]
@@ -45,7 +45,7 @@ namespace Jacobi.Zim80.Components.CpuZ80.Instructions.UnitTests
             var cpu = ExecuteTest(ob, carry: true);
 
             cpu.AssertRegisters();
-            cpu.Registers.PrimarySet.Flags.C.Should().Be(false);
+            cpu.Registers.Flags.C.Should().Be(false);
         }
 
         private static CpuZ80 ExecuteTest(OpcodeByte ob, bool carry)
@@ -55,7 +55,7 @@ namespace Jacobi.Zim80.Components.CpuZ80.Instructions.UnitTests
             var model = cpuZ80.Initialize(buffer);
 
             cpuZ80.FillRegisters();
-            cpuZ80.Registers.PrimarySet.Flags.C = carry;
+            cpuZ80.Registers.Flags.C = carry;
 
             model.ClockGen.BlockWave(4);
 

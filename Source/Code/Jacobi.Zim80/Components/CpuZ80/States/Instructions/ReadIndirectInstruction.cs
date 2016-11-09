@@ -20,9 +20,9 @@
                 switch (p)
                 {
                     case 0:
-                        return Registers.PrimarySet.BC;
+                        return Registers.BC;
                     case 1:
-                        return Registers.PrimarySet.DE;
+                        return Registers.DE;
                     default:
                         throw Errors.AssignedToIllegalOpcode();
                 }

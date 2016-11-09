@@ -16,7 +16,7 @@ namespace Jacobi.Zim80.Components.CpuZ80.Instructions.UnitTests
             var ob = OpcodeByte.New(x: 3, z: 1, q: 1, p: 2);
 
             var cpu = ExecuteTest(ob, (r) => {
-                r.PrimarySet.HL = JumpAddress;
+                r.HL = JumpAddress;
             });
 
             cpu.AssertRegisters(pc: JumpAddress, hl: JumpAddress);

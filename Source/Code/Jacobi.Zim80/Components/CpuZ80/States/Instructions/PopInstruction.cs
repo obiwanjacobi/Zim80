@@ -42,17 +42,17 @@
             switch (ExecutionEngine.Opcode.Definition.P)
             {
                 case 0:
-                    Registers.PrimarySet.B = value;
+                    Registers.B = value;
                     break;
                 case 1:
-                    Registers.PrimarySet.D = value;
+                    Registers.D = value;
                     break;
                 case 2:
                     if (!ExecuteShiftedInstructionHi(value))
-                        Registers.PrimarySet.H = value;
+                        Registers.H = value;
                     break;
                 case 3:
-                    Registers.PrimarySet.A = value;
+                    Registers.A = value;
                     break;
             }
         }
@@ -62,17 +62,17 @@
             switch (ExecutionEngine.Opcode.Definition.P)
             {
                 case 0:
-                    Registers.PrimarySet.C = value;
+                    Registers.C = value;
                     break;
                 case 1:
-                    Registers.PrimarySet.E = value;
+                    Registers.E = value;
                     break;
                 case 2:
                     if (!ExecuteShiftedInstructionLo(value))
-                        Registers.PrimarySet.L = value;
+                        Registers.L = value;
                     break;
                 case 3:
-                    Registers.PrimarySet.F = value;
+                    Registers.F = value;
                     break;
             }
         }

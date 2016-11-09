@@ -16,7 +16,7 @@ namespace Jacobi.Zim80.Components.CpuZ80.Instructions.UnitTests
         {
             var call = OpcodeByte.New(x: 3, z: 4, y: 0);
 
-            var cpu = ExecuteTest(call, (r) => r.PrimarySet.Flags.Z = false, alt: false);
+            var cpu = ExecuteTest(call, (r) => r.Flags.Z = false, alt: false);
 
             cpu.AssertRegisters(pc: 0xAA55, sp: CpuZ80TestExtensions.MagicValue - 2);
         }
@@ -26,7 +26,7 @@ namespace Jacobi.Zim80.Components.CpuZ80.Instructions.UnitTests
         {
             var call = OpcodeByte.New(x: 3, z: 4, y: 0);
             
-            var cpu = ExecuteTest(call, (r) => r.PrimarySet.Flags.Z = true, alt: true);
+            var cpu = ExecuteTest(call, (r) => r.Flags.Z = true, alt: true);
 
             cpu.AssertRegisters(pc: 3, sp: CpuZ80TestExtensions.MagicValue);
         }
@@ -36,7 +36,7 @@ namespace Jacobi.Zim80.Components.CpuZ80.Instructions.UnitTests
         {
             var call = OpcodeByte.New(x: 3, z: 4, y: 1);
 
-            var cpu = ExecuteTest(call, (r) => r.PrimarySet.Flags.Z = true, alt: false);
+            var cpu = ExecuteTest(call, (r) => r.Flags.Z = true, alt: false);
 
             cpu.AssertRegisters(pc: 0xAA55, sp: CpuZ80TestExtensions.MagicValue - 2);
         }
@@ -46,7 +46,7 @@ namespace Jacobi.Zim80.Components.CpuZ80.Instructions.UnitTests
         {
             var call = OpcodeByte.New(x: 3, z: 4, y: 1);
 
-            var cpu = ExecuteTest(call, (r) => r.PrimarySet.Flags.Z = false, alt: true);
+            var cpu = ExecuteTest(call, (r) => r.Flags.Z = false, alt: true);
 
             cpu.AssertRegisters(pc: 3, sp: CpuZ80TestExtensions.MagicValue);
         }
@@ -56,7 +56,7 @@ namespace Jacobi.Zim80.Components.CpuZ80.Instructions.UnitTests
         {
             var call = OpcodeByte.New(x: 3, z: 4, y: 2);
 
-            var cpu = ExecuteTest(call, (r) => r.PrimarySet.Flags.C = false, alt: false);
+            var cpu = ExecuteTest(call, (r) => r.Flags.C = false, alt: false);
 
             cpu.AssertRegisters(pc: 0xAA55, sp: CpuZ80TestExtensions.MagicValue - 2);
         }
@@ -66,7 +66,7 @@ namespace Jacobi.Zim80.Components.CpuZ80.Instructions.UnitTests
         {
             var call = OpcodeByte.New(x: 3, z: 4, y: 2);
 
-            var cpu = ExecuteTest(call, (r) => r.PrimarySet.Flags.C = true, alt: true);
+            var cpu = ExecuteTest(call, (r) => r.Flags.C = true, alt: true);
 
             cpu.AssertRegisters(pc: 3, sp: CpuZ80TestExtensions.MagicValue);
         }
@@ -76,7 +76,7 @@ namespace Jacobi.Zim80.Components.CpuZ80.Instructions.UnitTests
         {
             var call = OpcodeByte.New(x: 3, z: 4, y: 3);
 
-            var cpu = ExecuteTest(call, (r) => r.PrimarySet.Flags.C = true, alt: false);
+            var cpu = ExecuteTest(call, (r) => r.Flags.C = true, alt: false);
 
             cpu.AssertRegisters(pc: 0xAA55, sp: CpuZ80TestExtensions.MagicValue - 2);
         }
@@ -86,7 +86,7 @@ namespace Jacobi.Zim80.Components.CpuZ80.Instructions.UnitTests
         {
             var call = OpcodeByte.New(x: 3, z: 4, y: 3);
 
-            var cpu = ExecuteTest(call, (r) => r.PrimarySet.Flags.C = false, alt: true);
+            var cpu = ExecuteTest(call, (r) => r.Flags.C = false, alt: true);
 
             cpu.AssertRegisters(pc: 3, sp: CpuZ80TestExtensions.MagicValue);
         }
@@ -96,7 +96,7 @@ namespace Jacobi.Zim80.Components.CpuZ80.Instructions.UnitTests
         {
             var call = OpcodeByte.New(x: 3, z: 4, y: 4);
 
-            var cpu = ExecuteTest(call, (r) => r.PrimarySet.Flags.PV = false, alt: false);
+            var cpu = ExecuteTest(call, (r) => r.Flags.PV = false, alt: false);
 
             cpu.AssertRegisters(pc: 0xAA55, sp: CpuZ80TestExtensions.MagicValue - 2);
         }
@@ -106,7 +106,7 @@ namespace Jacobi.Zim80.Components.CpuZ80.Instructions.UnitTests
         {
             var call = OpcodeByte.New(x: 3, z: 4, y: 4);
 
-            var cpu = ExecuteTest(call, (r) => r.PrimarySet.Flags.PV = true, alt: true);
+            var cpu = ExecuteTest(call, (r) => r.Flags.PV = true, alt: true);
 
             cpu.AssertRegisters(pc: 3, sp: CpuZ80TestExtensions.MagicValue);
         }
@@ -116,7 +116,7 @@ namespace Jacobi.Zim80.Components.CpuZ80.Instructions.UnitTests
         {
             var call = OpcodeByte.New(x: 3, z: 4, y: 5);
 
-            var cpu = ExecuteTest(call, (r) => r.PrimarySet.Flags.PV = true, alt: false);
+            var cpu = ExecuteTest(call, (r) => r.Flags.PV = true, alt: false);
 
             cpu.AssertRegisters(pc: 0xAA55, sp: CpuZ80TestExtensions.MagicValue - 2);
         }
@@ -126,7 +126,7 @@ namespace Jacobi.Zim80.Components.CpuZ80.Instructions.UnitTests
         {
             var call = OpcodeByte.New(x: 3, z: 4, y: 5);
 
-            var cpu = ExecuteTest(call, (r) => r.PrimarySet.Flags.PV = false, alt: true);
+            var cpu = ExecuteTest(call, (r) => r.Flags.PV = false, alt: true);
 
             cpu.AssertRegisters(pc: 3, sp: CpuZ80TestExtensions.MagicValue);
         }
@@ -136,7 +136,7 @@ namespace Jacobi.Zim80.Components.CpuZ80.Instructions.UnitTests
         {
             var call = OpcodeByte.New(x: 3, z: 4, y: 6);
 
-            var cpu = ExecuteTest(call, (r) => r.PrimarySet.Flags.S = false, alt: false);
+            var cpu = ExecuteTest(call, (r) => r.Flags.S = false, alt: false);
 
             cpu.AssertRegisters(pc: 0xAA55, sp: CpuZ80TestExtensions.MagicValue - 2);
         }
@@ -146,7 +146,7 @@ namespace Jacobi.Zim80.Components.CpuZ80.Instructions.UnitTests
         {
             var call = OpcodeByte.New(x: 3, z: 4, y: 6);
 
-            var cpu = ExecuteTest(call, (r) => r.PrimarySet.Flags.S = true, alt: true);
+            var cpu = ExecuteTest(call, (r) => r.Flags.S = true, alt: true);
 
             cpu.AssertRegisters(pc: 3, sp: CpuZ80TestExtensions.MagicValue);
         }
@@ -156,7 +156,7 @@ namespace Jacobi.Zim80.Components.CpuZ80.Instructions.UnitTests
         {
             var call = OpcodeByte.New(x: 3, z: 4, y: 7);
 
-            var cpu = ExecuteTest(call, (r) => r.PrimarySet.Flags.S = true, alt: false);
+            var cpu = ExecuteTest(call, (r) => r.Flags.S = true, alt: false);
 
             cpu.AssertRegisters(pc: 0xAA55, sp: CpuZ80TestExtensions.MagicValue - 2);
         }
@@ -166,7 +166,7 @@ namespace Jacobi.Zim80.Components.CpuZ80.Instructions.UnitTests
         {
             var call = OpcodeByte.New(x: 3, z: 4, y: 7);
 
-            var cpu = ExecuteTest(call, (r) => r.PrimarySet.Flags.S = false, alt: true);
+            var cpu = ExecuteTest(call, (r) => r.Flags.S = false, alt: true);
 
             cpu.AssertRegisters(pc: 3, sp: CpuZ80TestExtensions.MagicValue);
         }

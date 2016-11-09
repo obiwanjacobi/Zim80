@@ -29,17 +29,17 @@ namespace Jacobi.Zim80.Components.CpuZ80.States.Instructions
             switch (ExecutionEngine.Opcode.Definition.P)
             {
                 case 0:
-                    return Registers.PrimarySet.B;
+                    return Registers.B;
                 case 1:
-                    return Registers.PrimarySet.D;
+                    return Registers.D;
                 case 2:
                     if (ExecutionEngine.Opcode.Definition.IsIX)
                         return Registers.GetIX().GetHi();
                     if (ExecutionEngine.Opcode.Definition.IsIY)
                         return Registers.GetIY().GetHi();
-                    return Registers.PrimarySet.H;
+                    return Registers.H;
                 case 3:
-                    return Registers.PrimarySet.A;
+                    return Registers.A;
             }
 
             throw new InvalidOperationException("Invalid OpcodeDefinition.P value.");
@@ -50,17 +50,17 @@ namespace Jacobi.Zim80.Components.CpuZ80.States.Instructions
             switch (ExecutionEngine.Opcode.Definition.P)
             {
                 case 0:
-                    return Registers.PrimarySet.C;
+                    return Registers.C;
                 case 1:
-                    return Registers.PrimarySet.E;
+                    return Registers.E;
                 case 2:
                     if (ExecutionEngine.Opcode.Definition.IsIX)
                         return Registers.GetIX().GetLo();
                     if (ExecutionEngine.Opcode.Definition.IsIY)
                         return Registers.GetIY().GetLo();
-                    return Registers.PrimarySet.L;
+                    return Registers.L;
                 case 3:
-                    return Registers.PrimarySet.F;
+                    return Registers.F;
             }
 
             throw new InvalidOperationException("Invalid OpcodeDefinition.P value.");

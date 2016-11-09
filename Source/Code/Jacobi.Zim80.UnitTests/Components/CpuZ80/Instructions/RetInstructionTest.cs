@@ -26,7 +26,7 @@ namespace Jacobi.Zim80.Components.CpuZ80.Instructions.UnitTests
         public void RETnz_Z()
         {
             var ret = OpcodeByte.New(x: 3, z: 0, y: 0);
-            var model = ExecuteTest(ret, (m) => m.Cpu.Registers.PrimarySet.Flags.Z = true, conditionMet: false);
+            var model = ExecuteTest(ret, (m) => m.Cpu.Registers.Flags.Z = true, conditionMet: false);
 
             model.Cpu.AssertRegisters(sp: Stack, pc: 1);
         }
@@ -35,7 +35,7 @@ namespace Jacobi.Zim80.Components.CpuZ80.Instructions.UnitTests
         public void RETnz_NZ()
         {
             var ret = OpcodeByte.New(x: 3, z: 0, y: 0);
-            var model = ExecuteTest(ret, (m) => m.Cpu.Registers.PrimarySet.Flags.Z = false, conditionMet: true);
+            var model = ExecuteTest(ret, (m) => m.Cpu.Registers.Flags.Z = false, conditionMet: true);
 
             model.Cpu.AssertRegisters(sp: Stack + 2, pc: 0xAA55);
         }
@@ -44,7 +44,7 @@ namespace Jacobi.Zim80.Components.CpuZ80.Instructions.UnitTests
         public void RETz_NZ()
         {
             var ret = OpcodeByte.New(x: 3, z: 0, y: 1);
-            var model = ExecuteTest(ret, (m) => m.Cpu.Registers.PrimarySet.Flags.Z = false, conditionMet: false);
+            var model = ExecuteTest(ret, (m) => m.Cpu.Registers.Flags.Z = false, conditionMet: false);
 
             model.Cpu.AssertRegisters(sp: Stack, pc: 1);
         }
@@ -53,7 +53,7 @@ namespace Jacobi.Zim80.Components.CpuZ80.Instructions.UnitTests
         public void RETz_Z()
         {
             var ret = OpcodeByte.New(x: 3, z: 0, y: 1);
-            var model = ExecuteTest(ret, (m) => m.Cpu.Registers.PrimarySet.Flags.Z = true, conditionMet: true);
+            var model = ExecuteTest(ret, (m) => m.Cpu.Registers.Flags.Z = true, conditionMet: true);
 
             model.Cpu.AssertRegisters(sp: Stack + 2, pc: 0xAA55);
         }
@@ -62,7 +62,7 @@ namespace Jacobi.Zim80.Components.CpuZ80.Instructions.UnitTests
         public void RETnc_C()
         {
             var ret = OpcodeByte.New(x: 3, z: 0, y: 2);
-            var model = ExecuteTest(ret, (m) => m.Cpu.Registers.PrimarySet.Flags.C = true, conditionMet: false);
+            var model = ExecuteTest(ret, (m) => m.Cpu.Registers.Flags.C = true, conditionMet: false);
 
             model.Cpu.AssertRegisters(sp: Stack, pc: 1);
         }
@@ -71,7 +71,7 @@ namespace Jacobi.Zim80.Components.CpuZ80.Instructions.UnitTests
         public void RETnc_NC()
         {
             var ret = OpcodeByte.New(x: 3, z: 0, y: 2);
-            var model = ExecuteTest(ret, (m) => m.Cpu.Registers.PrimarySet.Flags.C = false, conditionMet: true);
+            var model = ExecuteTest(ret, (m) => m.Cpu.Registers.Flags.C = false, conditionMet: true);
 
             model.Cpu.AssertRegisters(sp: Stack + 2, pc: 0xAA55);
         }
@@ -80,7 +80,7 @@ namespace Jacobi.Zim80.Components.CpuZ80.Instructions.UnitTests
         public void RETc_NC()
         {
             var ret = OpcodeByte.New(x: 3, z: 0, y: 3);
-            var model = ExecuteTest(ret, (m) => m.Cpu.Registers.PrimarySet.Flags.C = false, conditionMet: false);
+            var model = ExecuteTest(ret, (m) => m.Cpu.Registers.Flags.C = false, conditionMet: false);
 
             model.Cpu.AssertRegisters(sp: Stack, pc: 1);
         }
@@ -89,7 +89,7 @@ namespace Jacobi.Zim80.Components.CpuZ80.Instructions.UnitTests
         public void RETc_C()
         {
             var ret = OpcodeByte.New(x: 3, z: 0, y: 3);
-            var model = ExecuteTest(ret, (m) => m.Cpu.Registers.PrimarySet.Flags.C = true, conditionMet: true);
+            var model = ExecuteTest(ret, (m) => m.Cpu.Registers.Flags.C = true, conditionMet: true);
 
             model.Cpu.AssertRegisters(sp: Stack + 2, pc: 0xAA55);
         }
@@ -98,7 +98,7 @@ namespace Jacobi.Zim80.Components.CpuZ80.Instructions.UnitTests
         public void RETpo_NP()
         {
             var ret = OpcodeByte.New(x: 3, z: 0, y: 4);
-            var model = ExecuteTest(ret, (m) => m.Cpu.Registers.PrimarySet.Flags.PV = true, conditionMet: false);
+            var model = ExecuteTest(ret, (m) => m.Cpu.Registers.Flags.PV = true, conditionMet: false);
 
             model.Cpu.AssertRegisters(sp: Stack, pc: 1);
         }
@@ -107,7 +107,7 @@ namespace Jacobi.Zim80.Components.CpuZ80.Instructions.UnitTests
         public void RETpo_P()
         {
             var ret = OpcodeByte.New(x: 3, z: 0, y: 4);
-            var model = ExecuteTest(ret, (m) => m.Cpu.Registers.PrimarySet.Flags.PV = false, conditionMet: true);
+            var model = ExecuteTest(ret, (m) => m.Cpu.Registers.Flags.PV = false, conditionMet: true);
 
             model.Cpu.AssertRegisters(sp: Stack + 2, pc: 0xAA55);
         }
@@ -116,7 +116,7 @@ namespace Jacobi.Zim80.Components.CpuZ80.Instructions.UnitTests
         public void RETpe_P()
         {
             var ret = OpcodeByte.New(x: 3, z: 0, y: 5);
-            var model = ExecuteTest(ret, (m) => m.Cpu.Registers.PrimarySet.Flags.PV = false, conditionMet: false);
+            var model = ExecuteTest(ret, (m) => m.Cpu.Registers.Flags.PV = false, conditionMet: false);
 
             model.Cpu.AssertRegisters(sp: Stack, pc: 1);
         }
@@ -125,7 +125,7 @@ namespace Jacobi.Zim80.Components.CpuZ80.Instructions.UnitTests
         public void RETpe_NP()
         {
             var ret = OpcodeByte.New(x: 3, z: 0, y: 5);
-            var model = ExecuteTest(ret, (m) => m.Cpu.Registers.PrimarySet.Flags.PV = true, conditionMet: true);
+            var model = ExecuteTest(ret, (m) => m.Cpu.Registers.Flags.PV = true, conditionMet: true);
 
             model.Cpu.AssertRegisters(sp: Stack + 2, pc: 0xAA55);
         }
@@ -134,7 +134,7 @@ namespace Jacobi.Zim80.Components.CpuZ80.Instructions.UnitTests
         public void RETp_NS()
         {
             var ret = OpcodeByte.New(x: 3, z: 0, y: 6);
-            var model = ExecuteTest(ret, (m) => m.Cpu.Registers.PrimarySet.Flags.S = true, conditionMet: false);
+            var model = ExecuteTest(ret, (m) => m.Cpu.Registers.Flags.S = true, conditionMet: false);
 
             model.Cpu.AssertRegisters(sp: Stack, pc: 1);
         }
@@ -143,7 +143,7 @@ namespace Jacobi.Zim80.Components.CpuZ80.Instructions.UnitTests
         public void RETp_S()
         {
             var ret = OpcodeByte.New(x: 3, z: 0, y: 6);
-            var model = ExecuteTest(ret, (m) => m.Cpu.Registers.PrimarySet.Flags.S = false, conditionMet: true);
+            var model = ExecuteTest(ret, (m) => m.Cpu.Registers.Flags.S = false, conditionMet: true);
 
             model.Cpu.AssertRegisters(sp: Stack + 2, pc: 0xAA55);
         }
@@ -152,7 +152,7 @@ namespace Jacobi.Zim80.Components.CpuZ80.Instructions.UnitTests
         public void RETm_S()
         {
             var ret = OpcodeByte.New(x: 3, z: 0, y: 7);
-            var model = ExecuteTest(ret, (m) => m.Cpu.Registers.PrimarySet.Flags.S = false, conditionMet: false);
+            var model = ExecuteTest(ret, (m) => m.Cpu.Registers.Flags.S = false, conditionMet: false);
 
             model.Cpu.AssertRegisters(sp: Stack, pc: 1);
         }
@@ -161,7 +161,7 @@ namespace Jacobi.Zim80.Components.CpuZ80.Instructions.UnitTests
         public void RETm_NS()
         {
             var ret = OpcodeByte.New(x: 3, z: 0, y: 7);
-            var model = ExecuteTest(ret, (m) => m.Cpu.Registers.PrimarySet.Flags.S = true, conditionMet: true);
+            var model = ExecuteTest(ret, (m) => m.Cpu.Registers.Flags.S = true, conditionMet: true);
 
             model.Cpu.AssertRegisters(sp: Stack + 2, pc: 0xAA55);
         }

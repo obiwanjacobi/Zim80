@@ -31,7 +31,7 @@ namespace Jacobi.Zim80.Components.CpuZ80.States.Instructions
 
         protected override void OnLastCycleFirstM()
         {
-            _address = Registers.PrimarySet.HL;
+            _address = Registers.HL;
 
             base.OnLastCycleFirstM();
         }

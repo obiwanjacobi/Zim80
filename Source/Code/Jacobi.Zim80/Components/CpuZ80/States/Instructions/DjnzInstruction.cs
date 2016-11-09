@@ -9,15 +9,15 @@
         protected override void OnLastCycleFirstM()
         {
             // NOTE: docs say no flags are affected...
-            Registers.PrimarySet.B =
-                Die.Alu.Dec8(Registers.PrimarySet.B);
+            Registers.B =
+                Die.Alu.Dec8(Registers.B);
 
             base.OnLastCycleFirstM();
         }
 
         protected override bool IsConditionMet()
         {
-            return !Registers.PrimarySet.Flags.Z;
+            return !Registers.Flags.Z;
         }
     }
 }

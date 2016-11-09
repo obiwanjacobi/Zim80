@@ -18,7 +18,7 @@
         {
             if (ExecutionEngine.Opcode.Definition.Z == 0)
             {
-                return Registers.PrimarySet.FlagFromOpcodeY(ExecutionEngine.Opcode.Definition.Y);
+                return Registers.FlagFromOpcodeY(ExecutionEngine.Opcode.Definition.Y);
             }
             else if (ExecutionEngine.Opcode.Definition.Z == 1)
             {

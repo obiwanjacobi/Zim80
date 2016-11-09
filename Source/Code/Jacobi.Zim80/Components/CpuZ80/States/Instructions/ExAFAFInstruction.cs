@@ -11,8 +11,8 @@
             // swap AF/AF'
             var af = Registers.AlternateSet.AF;
             Registers.AlternateSet.AF = 
-                Registers.PrimarySet.AF;
-            Registers.PrimarySet.AF = af;
+                Registers.AF;
+            Registers.AF = af;
         }
     }
 }

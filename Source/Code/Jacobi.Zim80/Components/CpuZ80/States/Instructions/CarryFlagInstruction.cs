@@ -23,16 +23,16 @@
 
         private void ComplementCarryFlag()
         {
-            Registers.PrimarySet.Flags.H = Registers.PrimarySet.Flags.C;
-            Registers.PrimarySet.Flags.C = !Registers.PrimarySet.Flags.C;
-            Registers.PrimarySet.Flags.N = false;
+            Registers.Flags.H = Registers.Flags.C;
+            Registers.Flags.C = !Registers.Flags.C;
+            Registers.Flags.N = false;
         }
 
         private void SetCarryFlag()
         {
-            Registers.PrimarySet.Flags.C = true;
-            Registers.PrimarySet.Flags.H = false;
-            Registers.PrimarySet.Flags.N = false;
+            Registers.Flags.C = true;
+            Registers.Flags.H = false;
+            Registers.Flags.N = false;
         }
     }
 }

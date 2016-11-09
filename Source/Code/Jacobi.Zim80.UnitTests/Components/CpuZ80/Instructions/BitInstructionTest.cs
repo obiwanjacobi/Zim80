@@ -55,7 +55,7 @@ namespace Jacobi.Zim80.Components.CpuZ80.Instructions.UnitTests
                     var cpu = ExecuteTest(bit, reg, (m) => FillRegister(m.Cpu, reg, value));
 
                     AssertRegisters(cpu, reg, value);
-                    cpu.Registers.PrimarySet.Flags.Z.Should().Be(!bitValue);
+                    cpu.Registers.Flags.Z.Should().Be(!bitValue);
                 }
             }
         }

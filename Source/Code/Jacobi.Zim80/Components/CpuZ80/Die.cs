@@ -39,7 +39,7 @@
 
             _execEngine = new ExecutionEngine(this);
             _registers = new Registers();
-            _alu = new Alu(_registers.PrimarySet);
+            _alu = new Alu(_registers);
 
             Initialize();
         }

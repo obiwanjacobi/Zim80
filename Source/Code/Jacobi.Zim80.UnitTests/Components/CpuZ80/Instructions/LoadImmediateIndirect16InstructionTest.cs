@@ -1,5 +1,4 @@
-﻿using System;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Jacobi.Zim80.Components.CpuZ80.Opcodes;
 using Jacobi.Zim80.Model;
 using Jacobi.Zim80.Components.CpuZ80.UnitTests;
@@ -106,7 +105,7 @@ namespace Jacobi.Zim80.Components.CpuZ80.Instructions.UnitTests
                 if (reg == Register16Table.SP)
                     cpuZ80.Registers.SP = Expected;
                 else
-                    cpuZ80.Registers.PrimarySet[reg] = Expected;
+                    cpuZ80.Registers[reg] = Expected;
             }
 
             model.ClockGen.BlockWave(20);

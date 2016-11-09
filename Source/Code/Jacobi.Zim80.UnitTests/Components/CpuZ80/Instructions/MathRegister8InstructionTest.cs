@@ -207,7 +207,7 @@ namespace Jacobi.Zim80.Components.CpuZ80.Instructions.UnitTests
         }
 
         private void TestMathOperation(MathOperations mathOp, byte expectedValue, 
-            byte expectedValueA, Action<Registers.Flags, Register8Table> assertFlags, bool carry)
+            byte expectedValueA, Action<RegisterFlags, Register8Table> assertFlags, bool carry)
         {
             for (Register8Table reg = Register8Table.B; reg <= Register8Table.A; reg++)
             {
@@ -216,21 +216,21 @@ namespace Jacobi.Zim80.Components.CpuZ80.Instructions.UnitTests
                 var cpu = ExecuteTest(mathOp, reg,
                     (m) =>
                     {
-                        m.Cpu.Registers.PrimarySet.Flags.C = carry;
-                        m.Cpu.Registers.PrimarySet[reg] = Value;
+                        m.Cpu.Registers.Flags.C = carry;
+                        m.Cpu.Registers[reg] = Value;
                     });
 
                 if (reg == Register8Table.A)
                 {
-                    cpu.Registers.PrimarySet.A.Should().Be(expectedValueA);
+                    cpu.Registers.A.Should().Be(expectedValueA);
                 }
                 else
                 {
-                    cpu.Registers.PrimarySet.A.Should().Be(expectedValue);
-                    cpu.Registers.PrimarySet[reg].Should().Be(Value);
+                    cpu.Registers.A.Should().Be(expectedValue);
+                    cpu.Registers[reg].Should().Be(Value);
                 }
 
-                assertFlags(cpu.Registers.PrimarySet.Flags, reg);
+                assertFlags(cpu.Registers.Flags, reg);
             }
         }
 

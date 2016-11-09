@@ -19,7 +19,7 @@ namespace Jacobi.Zim80.Components.CpuZ80.Instructions.UnitTests
         {
             var ob = OpcodeByte.New(z: 2, q: 1, p: 0);
 
-            var cpu = ExecuteTest(ob, (cpuZ80) => cpuZ80.Registers.PrimarySet.BC = Address);
+            var cpu = ExecuteTest(ob, (cpuZ80) => cpuZ80.Registers.BC = Address);
 
             cpu.AssertRegisters(a: ExpectedValue, bc: Address);
         }
@@ -29,7 +29,7 @@ namespace Jacobi.Zim80.Components.CpuZ80.Instructions.UnitTests
         {
             var ob = OpcodeByte.New(z: 2, q: 1, p: 1);
 
-            var cpu = ExecuteTest(ob, (cpuZ80) => cpuZ80.Registers.PrimarySet.DE = Address);
+            var cpu = ExecuteTest(ob, (cpuZ80) => cpuZ80.Registers.DE = Address);
 
             cpu.AssertRegisters(a: ExpectedValue, de: Address);
         }
@@ -39,7 +39,7 @@ namespace Jacobi.Zim80.Components.CpuZ80.Instructions.UnitTests
         {
             var ob = OpcodeByte.New(x: 1, z: 6, y: 0);
 
-            var cpu = ExecuteTest(ob, (cpuZ80) => cpuZ80.Registers.PrimarySet.HL = Address);
+            var cpu = ExecuteTest(ob, (cpuZ80) => cpuZ80.Registers.HL = Address);
 
             cpu.AssertRegisters(bc: ExpectedValueHi, hl: Address);
         }
@@ -49,7 +49,7 @@ namespace Jacobi.Zim80.Components.CpuZ80.Instructions.UnitTests
         {
             var ob = OpcodeByte.New(x: 1, z: 6, y: 1);
 
-            var cpu = ExecuteTest(ob, (cpuZ80) => cpuZ80.Registers.PrimarySet.HL = Address);
+            var cpu = ExecuteTest(ob, (cpuZ80) => cpuZ80.Registers.HL = Address);
 
             cpu.AssertRegisters(bc: ExpectedValue, hl: Address);
         }
@@ -59,7 +59,7 @@ namespace Jacobi.Zim80.Components.CpuZ80.Instructions.UnitTests
         {
             var ob = OpcodeByte.New(x: 1, z: 6, y: 2);
 
-            var cpu = ExecuteTest(ob, (cpuZ80) => cpuZ80.Registers.PrimarySet.HL = Address);
+            var cpu = ExecuteTest(ob, (cpuZ80) => cpuZ80.Registers.HL = Address);
 
             cpu.AssertRegisters(de: ExpectedValueHi, hl: Address);
         }
@@ -69,7 +69,7 @@ namespace Jacobi.Zim80.Components.CpuZ80.Instructions.UnitTests
         {
             var ob = OpcodeByte.New(x: 1, z: 6, y: 3);
 
-            var cpu = ExecuteTest(ob, (cpuZ80) => cpuZ80.Registers.PrimarySet.HL = Address);
+            var cpu = ExecuteTest(ob, (cpuZ80) => cpuZ80.Registers.HL = Address);
 
             cpu.AssertRegisters(de: ExpectedValue, hl: Address);
         }
@@ -79,7 +79,7 @@ namespace Jacobi.Zim80.Components.CpuZ80.Instructions.UnitTests
         {
             var ob = OpcodeByte.New(x: 1, z: 6, y: 4);
 
-            var cpu = ExecuteTest(ob, (cpuZ80) => cpuZ80.Registers.PrimarySet.HL = Address);
+            var cpu = ExecuteTest(ob, (cpuZ80) => cpuZ80.Registers.HL = Address);
 
             cpu.AssertRegisters(hl: (ExpectedValue << 8) | Address);
         }
@@ -89,7 +89,7 @@ namespace Jacobi.Zim80.Components.CpuZ80.Instructions.UnitTests
         {
             var ob = OpcodeByte.New(x: 1, z: 6, y: 5);
 
-            var cpu = ExecuteTest(ob, (cpuZ80) => cpuZ80.Registers.PrimarySet.HL = Address);
+            var cpu = ExecuteTest(ob, (cpuZ80) => cpuZ80.Registers.HL = Address);
 
             cpu.AssertRegisters(hl: ExpectedValue);
         }
@@ -99,7 +99,7 @@ namespace Jacobi.Zim80.Components.CpuZ80.Instructions.UnitTests
         {
             var ob = OpcodeByte.New(x: 1, z: 6, y: 0);
 
-            var cpu = ExecuteTest(ob, (cpuZ80) => cpuZ80.Registers.PrimarySet.HL = Address);
+            var cpu = ExecuteTest(ob, (cpuZ80) => cpuZ80.Registers.HL = Address);
 
             cpu.AssertRegisters(bc: ExpectedValueHi, hl: Address);
         }

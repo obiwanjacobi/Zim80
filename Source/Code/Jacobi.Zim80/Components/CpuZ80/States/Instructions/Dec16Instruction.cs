@@ -1,6 +1,4 @@
-﻿using Jacobi.Zim80.Components.CpuZ80.Opcodes;
-
-namespace Jacobi.Zim80.Components.CpuZ80.States.Instructions
+﻿namespace Jacobi.Zim80.Components.CpuZ80.States.Instructions
 {
     internal class Dec16Instruction : SingleCycleInstruction
     {
@@ -12,34 +10,12 @@ namespace Jacobi.Zim80.Components.CpuZ80.States.Instructions
         {
             var register = ExecutionEngine.Opcode.Definition.Register16FromP;
 
-            if (register == Register16Table.SP)
-            {
-                Registers.SP = Die.Alu.Dec16(Registers.SP);
-            }
-            else if (!ExecuteShiftedInstruction())
-            {
-                Registers.PrimarySet[register] =
-                        Die.Alu.Dec16(Registers.PrimarySet[register]);
-            }
-        }
-
-        private bool ExecuteShiftedInstruction()
-        {
             if (ExecutionEngine.Opcode.Definition.IsIX)
-            {
-                // ix
                 Registers.IX = Die.Alu.Dec16(Registers.IX);
-                return true;
-            }
-
-            if (ExecutionEngine.Opcode.Definition.IsIY)
-            {
-                // iy
+            else if (ExecutionEngine.Opcode.Definition.IsIY)
                 Registers.IY = Die.Alu.Dec16(Registers.IY);
-                return true;
-            }
-
-            return false;
+            else
+                Registers[register] = Die.Alu.Dec16(Registers[register]);
         }
     }
 }

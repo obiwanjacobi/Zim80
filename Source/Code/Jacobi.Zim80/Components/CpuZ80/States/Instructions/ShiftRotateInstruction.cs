@@ -18,16 +18,16 @@ namespace Jacobi.Zim80.Components.CpuZ80.States.Instructions
                 switch (ExecutionEngine.Opcode.Definition.ShiftRotateFromY)
                 {
                     case ShiftRotateOperations.RotateLeftCarry:
-                        Registers.PrimarySet.A = Die.Alu.RotateLeftCarryA(Registers.PrimarySet.A);
+                        Registers.A = Die.Alu.RotateLeftCarryA(Registers.A);
                         break;
                     case ShiftRotateOperations.RotateRightCarry:
-                        Registers.PrimarySet.A = Die.Alu.RotateRightCarryA(Registers.PrimarySet.A);
+                        Registers.A = Die.Alu.RotateRightCarryA(Registers.A);
                         break;
                     case ShiftRotateOperations.RotateLeft:
-                        Registers.PrimarySet.A = Die.Alu.RotateLeftA(Registers.PrimarySet.A);
+                        Registers.A = Die.Alu.RotateLeftA(Registers.A);
                         break;
                     case ShiftRotateOperations.RotateRight:
-                        Registers.PrimarySet.A = Die.Alu.RotateRightA(Registers.PrimarySet.A);
+                        Registers.A = Die.Alu.RotateRightA(Registers.A);
                         break;
                     default:
                         throw Errors.AssignedToIllegalOpcode();

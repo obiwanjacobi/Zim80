@@ -43,31 +43,19 @@ namespace Jacobi.Zim80.Components.CpuZ80.States.Instructions
 
             if (!IsWrite)
             {
-                var reg = AffectedRegisters;
                 var val16 = OpcodeByte.MakeUInt16(_readInstructionLo.Data, _readInstructionHi.Data);
-                if (reg == Register16Table.SP)
-                    Registers.SP = val16;
-                else
-                    Registers.PrimarySet[AffectedRegisters] = val16;
+                Registers[AffectedRegisters] = val16;
             }
         }
 
         private byte GetValueLo()
         {
-            var reg = AffectedRegisters;
-            if (reg == Register16Table.SP)
-                return (byte)(Registers.SP & 0xFF);
-
-            return (byte)(Registers.PrimarySet[AffectedRegisters] & 0xFF);
+            return (byte)(Registers[AffectedRegisters] & 0xFF);
         }
 
         private byte GetValueHi()
         {
-            var reg = AffectedRegisters;
-            if (reg == Register16Table.SP)
-                return (byte)((Registers.SP & 0xFF00) >> 8);
-
-            return (byte)((Registers.PrimarySet[AffectedRegisters] & 0xFF00) >> 8);
+            return (byte)((Registers[AffectedRegisters] & 0xFF00) >> 8);
         }
 
         private ushort GetAddress()

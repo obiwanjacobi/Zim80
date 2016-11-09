@@ -19,7 +19,7 @@ namespace Jacobi.Zim80.Components.CpuZ80.Instructions.UnitTests
 
             var cpu = TestMathOperation(MathOperations.Add, Value1, expected, false);
 
-            cpu.Registers.PrimarySet.Flags.C.Should().Be(false);
+            cpu.Registers.Flags.C.Should().Be(false);
         }
 
         [TestMethod]
@@ -29,7 +29,7 @@ namespace Jacobi.Zim80.Components.CpuZ80.Instructions.UnitTests
 
             var cpu = TestMathOperation(MathOperations.Add, Value1, expected, true);
 
-            cpu.Registers.PrimarySet.Flags.C.Should().Be(false);
+            cpu.Registers.Flags.C.Should().Be(false);
         }
 
         [TestMethod]
@@ -39,7 +39,7 @@ namespace Jacobi.Zim80.Components.CpuZ80.Instructions.UnitTests
 
             var cpu = TestMathOperation(MathOperations.Add, Value2, expected, false);
 
-            cpu.Registers.PrimarySet.Flags.C.Should().Be(true);
+            cpu.Registers.Flags.C.Should().Be(true);
         }
 
         [TestMethod]
@@ -49,7 +49,7 @@ namespace Jacobi.Zim80.Components.CpuZ80.Instructions.UnitTests
 
             var cpu = TestMathOperation(MathOperations.Add, Value2, expected, true);
 
-            cpu.Registers.PrimarySet.Flags.C.Should().Be(true);
+            cpu.Registers.Flags.C.Should().Be(true);
         }
 
         [TestMethod]
@@ -59,7 +59,7 @@ namespace Jacobi.Zim80.Components.CpuZ80.Instructions.UnitTests
 
             var cpu = TestMathOperation(MathOperations.AddWithCarry, Value1, expected, false);
 
-            cpu.Registers.PrimarySet.Flags.C.Should().Be(false);
+            cpu.Registers.Flags.C.Should().Be(false);
         }
 
         [TestMethod]
@@ -69,7 +69,7 @@ namespace Jacobi.Zim80.Components.CpuZ80.Instructions.UnitTests
 
             var cpu = TestMathOperation(MathOperations.AddWithCarry, Value1, expected, true);
 
-            cpu.Registers.PrimarySet.Flags.C.Should().Be(false);
+            cpu.Registers.Flags.C.Should().Be(false);
         }
 
         [TestMethod]
@@ -79,7 +79,7 @@ namespace Jacobi.Zim80.Components.CpuZ80.Instructions.UnitTests
 
             var cpu = TestMathOperation(MathOperations.AddWithCarry, Value2, expected, false);
 
-            cpu.Registers.PrimarySet.Flags.C.Should().Be(true);
+            cpu.Registers.Flags.C.Should().Be(true);
         }
 
         [TestMethod]
@@ -89,7 +89,7 @@ namespace Jacobi.Zim80.Components.CpuZ80.Instructions.UnitTests
 
             var cpu = TestMathOperation(MathOperations.AddWithCarry, Value2, expected, true);
 
-            cpu.Registers.PrimarySet.Flags.C.Should().Be(true);
+            cpu.Registers.Flags.C.Should().Be(true);
         }
 
         [TestMethod]
@@ -99,7 +99,7 @@ namespace Jacobi.Zim80.Components.CpuZ80.Instructions.UnitTests
 
             var cpu = TestMathOperation(MathOperations.Subtract, Value1, expected, false);
 
-            cpu.Registers.PrimarySet.Flags.C.Should().Be(true);
+            cpu.Registers.Flags.C.Should().Be(true);
         }
 
         [TestMethod]
@@ -109,7 +109,7 @@ namespace Jacobi.Zim80.Components.CpuZ80.Instructions.UnitTests
 
             var cpu = TestMathOperation(MathOperations.Subtract, Value1, expected, true);
 
-            cpu.Registers.PrimarySet.Flags.C.Should().Be(true);
+            cpu.Registers.Flags.C.Should().Be(true);
         }
 
         [TestMethod]
@@ -119,7 +119,7 @@ namespace Jacobi.Zim80.Components.CpuZ80.Instructions.UnitTests
 
             var cpu = TestMathOperation(MathOperations.Subtract, Value2, expected, false);
 
-            cpu.Registers.PrimarySet.Flags.C.Should().Be(true);
+            cpu.Registers.Flags.C.Should().Be(true);
         }
 
         [TestMethod]
@@ -129,7 +129,7 @@ namespace Jacobi.Zim80.Components.CpuZ80.Instructions.UnitTests
 
             var cpu = TestMathOperation(MathOperations.Subtract, Value2, expected, true);
 
-            cpu.Registers.PrimarySet.Flags.C.Should().Be(true);
+            cpu.Registers.Flags.C.Should().Be(true);
         }
 
         [TestMethod]
@@ -139,7 +139,7 @@ namespace Jacobi.Zim80.Components.CpuZ80.Instructions.UnitTests
 
             var cpu = TestMathOperation(MathOperations.SubtractWithCarry, Value1, expected, false);
 
-            cpu.Registers.PrimarySet.Flags.C.Should().Be(true);
+            cpu.Registers.Flags.C.Should().Be(true);
         }
 
         [TestMethod]
@@ -149,7 +149,7 @@ namespace Jacobi.Zim80.Components.CpuZ80.Instructions.UnitTests
 
             var cpu = TestMathOperation(MathOperations.SubtractWithCarry, Value1, expected, true);
 
-            cpu.Registers.PrimarySet.Flags.C.Should().Be(true);
+            cpu.Registers.Flags.C.Should().Be(true);
         }
 
         [TestMethod]
@@ -159,7 +159,7 @@ namespace Jacobi.Zim80.Components.CpuZ80.Instructions.UnitTests
 
             var cpu = TestMathOperation(MathOperations.SubtractWithCarry, Value2, expected, false);
 
-            cpu.Registers.PrimarySet.Flags.C.Should().Be(true);
+            cpu.Registers.Flags.C.Should().Be(true);
         }
 
         [TestMethod]
@@ -169,7 +169,7 @@ namespace Jacobi.Zim80.Components.CpuZ80.Instructions.UnitTests
 
             var cpu = TestMathOperation(MathOperations.SubtractWithCarry, Value2, expected, true);
 
-            cpu.Registers.PrimarySet.Flags.C.Should().Be(true);
+            cpu.Registers.Flags.C.Should().Be(true);
         }
 
         [TestMethod]
@@ -179,7 +179,7 @@ namespace Jacobi.Zim80.Components.CpuZ80.Instructions.UnitTests
 
             var cpu = TestMathOperation(MathOperations.And, Value1, expected, false);
 
-            cpu.Registers.PrimarySet.Flags.C.Should().Be(false);
+            cpu.Registers.Flags.C.Should().Be(false);
         }
 
         [TestMethod]
@@ -189,7 +189,7 @@ namespace Jacobi.Zim80.Components.CpuZ80.Instructions.UnitTests
 
             var cpu = TestMathOperation(MathOperations.And, Value1, expected, true);
 
-            cpu.Registers.PrimarySet.Flags.C.Should().Be(false);
+            cpu.Registers.Flags.C.Should().Be(false);
         }
 
         [TestMethod]
@@ -199,7 +199,7 @@ namespace Jacobi.Zim80.Components.CpuZ80.Instructions.UnitTests
 
             var cpu = TestMathOperation(MathOperations.And, Value2, expected, false);
 
-            cpu.Registers.PrimarySet.Flags.C.Should().Be(false);
+            cpu.Registers.Flags.C.Should().Be(false);
         }
 
         [TestMethod]
@@ -209,7 +209,7 @@ namespace Jacobi.Zim80.Components.CpuZ80.Instructions.UnitTests
 
             var cpu = TestMathOperation(MathOperations.And, Value2, expected, true);
 
-            cpu.Registers.PrimarySet.Flags.C.Should().Be(false);
+            cpu.Registers.Flags.C.Should().Be(false);
         }
 
         [TestMethod]
@@ -219,7 +219,7 @@ namespace Jacobi.Zim80.Components.CpuZ80.Instructions.UnitTests
 
             var cpu = TestMathOperation(MathOperations.ExlusiveOr, Value1, expected, false);
 
-            cpu.Registers.PrimarySet.Flags.C.Should().Be(false);
+            cpu.Registers.Flags.C.Should().Be(false);
         }
 
         [TestMethod]
@@ -229,7 +229,7 @@ namespace Jacobi.Zim80.Components.CpuZ80.Instructions.UnitTests
 
             var cpu = TestMathOperation(MathOperations.ExlusiveOr, Value1, expected, true);
 
-            cpu.Registers.PrimarySet.Flags.C.Should().Be(false);
+            cpu.Registers.Flags.C.Should().Be(false);
         }
 
         [TestMethod]
@@ -239,7 +239,7 @@ namespace Jacobi.Zim80.Components.CpuZ80.Instructions.UnitTests
 
             var cpu = TestMathOperation(MathOperations.ExlusiveOr, Value2, expected, false);
 
-            cpu.Registers.PrimarySet.Flags.C.Should().Be(false);
+            cpu.Registers.Flags.C.Should().Be(false);
         }
 
         [TestMethod]
@@ -249,7 +249,7 @@ namespace Jacobi.Zim80.Components.CpuZ80.Instructions.UnitTests
 
             var cpu = TestMathOperation(MathOperations.ExlusiveOr, Value2, expected, true);
 
-            cpu.Registers.PrimarySet.Flags.C.Should().Be(false);
+            cpu.Registers.Flags.C.Should().Be(false);
         }
 
         [TestMethod]
@@ -259,7 +259,7 @@ namespace Jacobi.Zim80.Components.CpuZ80.Instructions.UnitTests
 
             var cpu = TestMathOperation(MathOperations.Or, Value1, expected, false);
 
-            cpu.Registers.PrimarySet.Flags.C.Should().Be(false);
+            cpu.Registers.Flags.C.Should().Be(false);
         }
 
         [TestMethod]
@@ -269,7 +269,7 @@ namespace Jacobi.Zim80.Components.CpuZ80.Instructions.UnitTests
 
             var cpu = TestMathOperation(MathOperations.Or, Value1, expected, true);
 
-            cpu.Registers.PrimarySet.Flags.C.Should().Be(false);
+            cpu.Registers.Flags.C.Should().Be(false);
         }
 
         [TestMethod]
@@ -279,7 +279,7 @@ namespace Jacobi.Zim80.Components.CpuZ80.Instructions.UnitTests
 
             var cpu = TestMathOperation(MathOperations.Or, Value2, expected, false);
 
-            cpu.Registers.PrimarySet.Flags.C.Should().Be(false);
+            cpu.Registers.Flags.C.Should().Be(false);
         }
 
         [TestMethod]
@@ -289,7 +289,7 @@ namespace Jacobi.Zim80.Components.CpuZ80.Instructions.UnitTests
 
             var cpu = TestMathOperation(MathOperations.Or, Value2, expected, true);
 
-            cpu.Registers.PrimarySet.Flags.C.Should().Be(false);
+            cpu.Registers.Flags.C.Should().Be(false);
         }
 
 
@@ -298,7 +298,7 @@ namespace Jacobi.Zim80.Components.CpuZ80.Instructions.UnitTests
         {
             var cpu = TestMathOperation(MathOperations.Compare, Value1, null, false);
 
-            cpu.Registers.PrimarySet.Flags.C.Should().Be(true);
+            cpu.Registers.Flags.C.Should().Be(true);
         }
 
         [TestMethod]
@@ -306,8 +306,8 @@ namespace Jacobi.Zim80.Components.CpuZ80.Instructions.UnitTests
         {
             var cpu = TestMathOperation(MathOperations.Compare, Value1, null, true);
 
-            cpu.Registers.PrimarySet.Flags.C.Should().Be(true);
-            cpu.Registers.PrimarySet.Flags.Z.Should().Be(false);
+            cpu.Registers.Flags.C.Should().Be(true);
+            cpu.Registers.Flags.Z.Should().Be(false);
         }
 
         [TestMethod]
@@ -315,8 +315,8 @@ namespace Jacobi.Zim80.Components.CpuZ80.Instructions.UnitTests
         {
             var cpu = TestMathOperation(MathOperations.Compare, Value2, null, false);
 
-            cpu.Registers.PrimarySet.Flags.C.Should().Be(true);
-            cpu.Registers.PrimarySet.Flags.Z.Should().Be(false);
+            cpu.Registers.Flags.C.Should().Be(true);
+            cpu.Registers.Flags.Z.Should().Be(false);
         }
 
         [TestMethod]
@@ -324,8 +324,8 @@ namespace Jacobi.Zim80.Components.CpuZ80.Instructions.UnitTests
         {
             var cpu = TestMathOperation(MathOperations.Compare, Value2, null, true);
 
-            cpu.Registers.PrimarySet.Flags.C.Should().Be(true);
-            cpu.Registers.PrimarySet.Flags.Z.Should().Be(false);
+            cpu.Registers.Flags.C.Should().Be(true);
+            cpu.Registers.Flags.Z.Should().Be(false);
         }
 
         [TestMethod]
@@ -333,7 +333,7 @@ namespace Jacobi.Zim80.Components.CpuZ80.Instructions.UnitTests
         {
             var cpu = TestMathOperation(MathOperations.Compare, CpuZ80TestExtensions.MagicValue, null, true);
 
-            cpu.Registers.PrimarySet.Flags.Z.Should().Be(true);
+            cpu.Registers.Flags.Z.Should().Be(true);
         }
 
 
@@ -345,7 +345,7 @@ namespace Jacobi.Zim80.Components.CpuZ80.Instructions.UnitTests
             var model = ExecuteTest(ob, value, carry);
 
             if (expectedValue.HasValue)
-                model.Cpu.Registers.PrimarySet.A.Should().Be(expectedValue);
+                model.Cpu.Registers.A.Should().Be(expectedValue);
 
             return model.Cpu;
         }
@@ -353,7 +353,7 @@ namespace Jacobi.Zim80.Components.CpuZ80.Instructions.UnitTests
         private static SimulationModel ExecuteTest(OpcodeByte ob, byte value, bool carry)
         {
             var cpuZ80 = new CpuZ80();
-            cpuZ80.Registers.PrimarySet.Flags.C = carry;
+            cpuZ80.Registers.Flags.C = carry;
 
             byte[] buffer = new byte[] { ob.Value, value };
             var model = cpuZ80.Initialize(buffer);

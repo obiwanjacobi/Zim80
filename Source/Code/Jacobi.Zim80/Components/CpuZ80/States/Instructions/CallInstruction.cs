@@ -54,7 +54,7 @@ namespace Jacobi.Zim80.Components.CpuZ80.States.Instructions
         {
             if (ExecutionEngine.Opcode.Definition.Z == 4)
             {
-                return Registers.PrimarySet.FlagFromOpcodeY(ExecutionEngine.Opcode.Definition.Y);
+                return Registers.FlagFromOpcodeY(ExecutionEngine.Opcode.Definition.Y);
             }
             else if (ExecutionEngine.Opcode.Definition.Z == 5)
             {

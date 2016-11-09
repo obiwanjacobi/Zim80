@@ -13,7 +13,7 @@
             else if (ExecutionEngine.Opcode.Definition.IsIY)
                 Registers.PC = Registers.IY;
             else
-                Registers.PC = Registers.PrimarySet.HL;
+                Registers.PC = Registers.HL;
         }
     }
 }

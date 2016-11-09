@@ -18,9 +18,9 @@
                 switch (p)
                 {
                     case 0:
-                        return Registers.PrimarySet.BC;
+                        return Registers.BC;
                     case 1:
-                        return Registers.PrimarySet.DE;
+                        return Registers.DE;
                 }
             }
 
@@ -37,12 +37,12 @@
             var y = ExecutionEngine.Opcode.Definition.Y;
             var x = ExecutionEngine.Opcode.Definition.X;
 
-            var value = Registers.PrimarySet.A;
+            var value = Registers.A;
 
             if (x == 1 && y == 6)
             {
                 var reg = ExecutionEngine.Opcode.Definition.Register8FromZ;
-                value = Registers.PrimarySet[reg];
+                value = Registers[reg];
             }
 
             return value;

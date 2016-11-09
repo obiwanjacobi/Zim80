@@ -29,7 +29,7 @@ namespace Jacobi.Zim80.Components.CpuZ80.States.Instructions
             }
             else
             {
-                Registers.PrimarySet[register] = ob.Value;
+                Registers[register] = ob.Value;
             }
         }
 

@@ -24,10 +24,10 @@ namespace Jacobi.Zim80.Components.CpuZ80.Instructions.UnitTests
             var ob = OpcodeByte.New(z: 7, y: 5);
             var cpu = ExecuteTest(ob, (cpuZ80) =>
                 {
-                    cpuZ80.Registers.PrimarySet.A = Value1;
+                    cpuZ80.Registers.A = Value1;
                 });
 
-            cpu.Registers.PrimarySet.A.Should().Be(unchecked((byte)~Value1));
+            cpu.Registers.A.Should().Be(unchecked((byte)~Value1));
         }
 
         [TestMethod]
@@ -36,10 +36,10 @@ namespace Jacobi.Zim80.Components.CpuZ80.Instructions.UnitTests
             var ob = OpcodeByte.New(z: 7, y: 4);
             var cpu = ExecuteTest(ob, (cpuZ80) =>
             {
-                cpuZ80.Registers.PrimarySet.A = Value1;
+                cpuZ80.Registers.A = Value1;
             });
 
-            cpu.Registers.PrimarySet.A.Should().Be(Value1);
+            cpu.Registers.A.Should().Be(Value1);
         }
 
         [TestMethod]
@@ -48,15 +48,15 @@ namespace Jacobi.Zim80.Components.CpuZ80.Instructions.UnitTests
             var ob = OpcodeByte.New(z: 7, y: 4);
             var cpu = ExecuteTest(ob, (cpuZ80) =>
             {
-                cpuZ80.Registers.PrimarySet.A = LoOverflow;
+                cpuZ80.Registers.A = LoOverflow;
             });
 
-            cpu.Registers.PrimarySet.A.Should().Be(LoOverflow + LoCorrection);
-            cpu.Registers.PrimarySet.Flags.C.Should().Be(false);
-            cpu.Registers.PrimarySet.Flags.H.Should().Be(true);
-            cpu.Registers.PrimarySet.Flags.N.Should().Be(false);
-            cpu.Registers.PrimarySet.Flags.Z.Should().Be(false);
-            cpu.Registers.PrimarySet.Flags.S.Should().Be(false);
+            cpu.Registers.A.Should().Be(LoOverflow + LoCorrection);
+            cpu.Registers.Flags.C.Should().Be(false);
+            cpu.Registers.Flags.H.Should().Be(true);
+            cpu.Registers.Flags.N.Should().Be(false);
+            cpu.Registers.Flags.Z.Should().Be(false);
+            cpu.Registers.Flags.S.Should().Be(false);
         }
 
         [TestMethod]
@@ -65,16 +65,16 @@ namespace Jacobi.Zim80.Components.CpuZ80.Instructions.UnitTests
             var ob = OpcodeByte.New(z: 7, y: 4);
             var cpu = ExecuteTest(ob, (cpuZ80) =>
             {
-                cpuZ80.Registers.PrimarySet.A = LoOverflow;
-                cpuZ80.Registers.PrimarySet.Flags.N = true;
+                cpuZ80.Registers.A = LoOverflow;
+                cpuZ80.Registers.Flags.N = true;
             });
 
-            cpu.Registers.PrimarySet.A.Should().Be(LoOverflow - LoCorrection);
-            cpu.Registers.PrimarySet.Flags.C.Should().Be(false);
-            cpu.Registers.PrimarySet.Flags.H.Should().Be(false);
-            cpu.Registers.PrimarySet.Flags.N.Should().Be(true);
-            cpu.Registers.PrimarySet.Flags.Z.Should().Be(false);
-            cpu.Registers.PrimarySet.Flags.S.Should().Be(false);
+            cpu.Registers.A.Should().Be(LoOverflow - LoCorrection);
+            cpu.Registers.Flags.C.Should().Be(false);
+            cpu.Registers.Flags.H.Should().Be(false);
+            cpu.Registers.Flags.N.Should().Be(true);
+            cpu.Registers.Flags.Z.Should().Be(false);
+            cpu.Registers.Flags.S.Should().Be(false);
         }
 
         [TestMethod]
@@ -83,16 +83,16 @@ namespace Jacobi.Zim80.Components.CpuZ80.Instructions.UnitTests
             var ob = OpcodeByte.New(z: 7, y: 4);
             var cpu = ExecuteTest(ob, (cpuZ80) =>
             {
-                cpuZ80.Registers.PrimarySet.A = Value1;
-                cpuZ80.Registers.PrimarySet.Flags.H = true;
+                cpuZ80.Registers.A = Value1;
+                cpuZ80.Registers.Flags.H = true;
             });
 
-            cpu.Registers.PrimarySet.A.Should().Be(Value1 + LoCorrection);
-            cpu.Registers.PrimarySet.Flags.C.Should().Be(false);
-            cpu.Registers.PrimarySet.Flags.H.Should().Be(true);
-            cpu.Registers.PrimarySet.Flags.N.Should().Be(false);
-            cpu.Registers.PrimarySet.Flags.Z.Should().Be(false);
-            cpu.Registers.PrimarySet.Flags.S.Should().Be(false);
+            cpu.Registers.A.Should().Be(Value1 + LoCorrection);
+            cpu.Registers.Flags.C.Should().Be(false);
+            cpu.Registers.Flags.H.Should().Be(true);
+            cpu.Registers.Flags.N.Should().Be(false);
+            cpu.Registers.Flags.Z.Should().Be(false);
+            cpu.Registers.Flags.S.Should().Be(false);
         }
 
         [TestMethod]
@@ -101,15 +101,15 @@ namespace Jacobi.Zim80.Components.CpuZ80.Instructions.UnitTests
             var ob = OpcodeByte.New(z: 7, y: 4);
             var cpu = ExecuteTest(ob, (cpuZ80) =>
             {
-                cpuZ80.Registers.PrimarySet.A = HiOverflow;
+                cpuZ80.Registers.A = HiOverflow;
             });
 
-            cpu.Registers.PrimarySet.A.Should().Be(unchecked((byte)(HiOverflow + HiCorrection)));
-            cpu.Registers.PrimarySet.Flags.C.Should().Be(true);
-            cpu.Registers.PrimarySet.Flags.H.Should().Be(true);
-            cpu.Registers.PrimarySet.Flags.N.Should().Be(false);
-            cpu.Registers.PrimarySet.Flags.Z.Should().Be(false);
-            cpu.Registers.PrimarySet.Flags.S.Should().Be(false);
+            cpu.Registers.A.Should().Be(unchecked((byte)(HiOverflow + HiCorrection)));
+            cpu.Registers.Flags.C.Should().Be(true);
+            cpu.Registers.Flags.H.Should().Be(true);
+            cpu.Registers.Flags.N.Should().Be(false);
+            cpu.Registers.Flags.Z.Should().Be(false);
+            cpu.Registers.Flags.S.Should().Be(false);
         }
 
         private static CpuZ80 ExecuteTest(OpcodeByte ob, Action<CpuZ80> preTest)

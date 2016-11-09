@@ -9,7 +9,7 @@
         protected override void OnLastCycleFirstM()
         {
             var reg = ExecutionEngine.Opcode.Definition.Register8FromZ;
-            Die.Alu.DoAccumulatorMath(ExecutionEngine.Opcode.Definition.MathOperationFromY, Registers.PrimarySet[reg]);
+            Die.Alu.DoAccumulatorMath(ExecutionEngine.Opcode.Definition.MathOperationFromY, Registers[reg]);
         }
     }
 }

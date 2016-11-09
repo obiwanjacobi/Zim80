@@ -341,19 +341,19 @@ namespace Jacobi.Zim80.Components.CpuZ80.Instructions.UnitTests
                     if (extension == 0xFD)
                         cpu.Registers.IY = Address;
 
-                    cpu.Registers.PrimarySet.Flags.C = carry;
+                    cpu.Registers.Flags.C = carry;
 
                 }, extension);
 
                 if (reg != Register8Table.HL)
-                    model.Cpu.Registers.PrimarySet[reg].Should().Be(expectedValue);
+                    model.Cpu.Registers[reg].Should().Be(expectedValue);
 
                 model.Memory.Assert(ExpectedAddress, expectedValue);
-                model.Cpu.Registers.PrimarySet.Flags.S.Should().Be(expectedSigned);
-                model.Cpu.Registers.PrimarySet.Flags.Z.Should().Be(false);
-                model.Cpu.Registers.PrimarySet.Flags.C.Should().Be(expectedCarry);
-                model.Cpu.Registers.PrimarySet.Flags.N.Should().Be(false);
-                model.Cpu.Registers.PrimarySet.Flags.H.Should().Be(false);
+                model.Cpu.Registers.Flags.S.Should().Be(expectedSigned);
+                model.Cpu.Registers.Flags.Z.Should().Be(false);
+                model.Cpu.Registers.Flags.C.Should().Be(expectedCarry);
+                model.Cpu.Registers.Flags.N.Should().Be(false);
+                model.Cpu.Registers.Flags.H.Should().Be(false);
             });
         }
 

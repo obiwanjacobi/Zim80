@@ -11,7 +11,7 @@
             var bit = ExecutionEngine.Opcode.Definition.Y;
             var reg = ExecutionEngine.Opcode.Definition.Register8FromZ;
 
-            var regValue = Registers.PrimarySet[reg];
+            var regValue = Registers[reg];
 
             Die.Alu.TestBit(bit, regValue);
         }

@@ -55,7 +55,7 @@ namespace Jacobi.Zim80.Components.CpuZ80.States.Instructions
                 if (reg == Register8Table.HL) throw Errors.AssignedToIllegalOpcode(); // halt
             }
 
-            Registers.PrimarySet[reg] = _instructionPart.Data.Value;
+            Registers[reg] = _instructionPart.Data.Value;
         }
     }
 }

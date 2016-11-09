@@ -35,7 +35,7 @@ namespace Jacobi.Zim80.Components.CpuZ80.States.Instructions
 
             if (regA)
             {
-                Registers.PrimarySet.A = _instructionM4.Data.Value;
+                Registers.A = _instructionM4.Data.Value;
             }
             else if (ExecutionEngine.Opcode.Definition.IsIX)
             {
@@ -49,8 +49,8 @@ namespace Jacobi.Zim80.Components.CpuZ80.States.Instructions
             }
             else
             {
-                Registers.PrimarySet.L = _instructionM4.Data.Value;
-                Registers.PrimarySet.H = _instructionM5.Data.Value;
+                Registers.L = _instructionM4.Data.Value;
+                Registers.H = _instructionM5.Data.Value;
             }
 
             base.OnLastCycleLastM();

@@ -96,8 +96,8 @@ namespace Jacobi.Zim80.Components.CpuZ80.Instructions.UnitTests
             var cpuZ80 = new CpuZ80();
             var model = cpuZ80.Initialize(new byte[] { ob.Value, d });
 
-            cpuZ80.Registers.PrimarySet.Flags.Z = z;
-            cpuZ80.Registers.PrimarySet.Flags.C = c;
+            cpuZ80.Registers.Flags.Z = z;
+            cpuZ80.Registers.Flags.C = c;
 
             cpuZ80.FillRegisters();
 

@@ -17,7 +17,7 @@ namespace Jacobi.Zim80.Components.CpuZ80.Instructions.UnitTests
                 pc: 0,
                 bc: (ushort)((1 << 8) | CpuZ80TestExtensions.MagicValue));
 
-            cpu.Registers.PrimarySet.Flags.Z.Should().BeFalse();
+            cpu.Registers.Flags.Z.Should().BeFalse();
         }
 
         [TestMethod]
@@ -29,7 +29,7 @@ namespace Jacobi.Zim80.Components.CpuZ80.Instructions.UnitTests
                 pc: 2,
                 bc: CpuZ80TestExtensions.MagicValue);
 
-            cpu.Registers.PrimarySet.Flags.Z.Should().BeTrue();
+            cpu.Registers.Flags.Z.Should().BeTrue();
         }
 
         [TestMethod]
@@ -41,7 +41,7 @@ namespace Jacobi.Zim80.Components.CpuZ80.Instructions.UnitTests
                 pc: 2,
                 bc: CpuZ80TestExtensions.MagicValue);
 
-            cpu.Registers.PrimarySet.Flags.Z.Should().BeTrue();
+            cpu.Registers.Flags.Z.Should().BeTrue();
         }
 
         private static CpuZ80 ExecuteTest(byte b, long cycles)

@@ -24,17 +24,17 @@ namespace Jacobi.Zim80.Components.CpuZ80.Instructions.UnitTests
             var ob = OpcodeByte.New(z: 7, y: 0);
             var cpu = ExecuteTest(ob, (cpuZ80) =>
                 {
-                    cpuZ80.Registers.PrimarySet.A = Value1;
-                    cpuZ80.Registers.PrimarySet.Flags.Z = true;
-                    cpuZ80.Registers.PrimarySet.Flags.S = true;
+                    cpuZ80.Registers.A = Value1;
+                    cpuZ80.Registers.Flags.Z = true;
+                    cpuZ80.Registers.Flags.S = true;
                 });
 
             cpu.AssertRegisters(a: ExpectedValue1L);
-            cpu.Registers.PrimarySet.Flags.S.Should().BeTrue();
-            cpu.Registers.PrimarySet.Flags.Z.Should().BeTrue();
-            cpu.Registers.PrimarySet.Flags.C.Should().BeFalse();
-            cpu.Registers.PrimarySet.Flags.N.Should().BeFalse();
-            cpu.Registers.PrimarySet.Flags.H.Should().BeFalse();
+            cpu.Registers.Flags.S.Should().BeTrue();
+            cpu.Registers.Flags.Z.Should().BeTrue();
+            cpu.Registers.Flags.C.Should().BeFalse();
+            cpu.Registers.Flags.N.Should().BeFalse();
+            cpu.Registers.Flags.H.Should().BeFalse();
         }
 
         [TestMethod]
@@ -43,17 +43,17 @@ namespace Jacobi.Zim80.Components.CpuZ80.Instructions.UnitTests
             var ob = OpcodeByte.New(z: 7, y: 0);
             var cpu = ExecuteTest(ob, (cpuZ80) =>
             {
-                cpuZ80.Registers.PrimarySet.A = Value2;
-                cpuZ80.Registers.PrimarySet.Flags.Z = false;
-                cpuZ80.Registers.PrimarySet.Flags.S = true;
+                cpuZ80.Registers.A = Value2;
+                cpuZ80.Registers.Flags.Z = false;
+                cpuZ80.Registers.Flags.S = true;
             });
 
             cpu.AssertRegisters(a: ExpectedValue2L | 0x01);
-            cpu.Registers.PrimarySet.Flags.S.Should().BeTrue();
-            cpu.Registers.PrimarySet.Flags.Z.Should().BeFalse();
-            cpu.Registers.PrimarySet.Flags.C.Should().BeTrue();
-            cpu.Registers.PrimarySet.Flags.N.Should().BeFalse();
-            cpu.Registers.PrimarySet.Flags.H.Should().BeFalse();
+            cpu.Registers.Flags.S.Should().BeTrue();
+            cpu.Registers.Flags.Z.Should().BeFalse();
+            cpu.Registers.Flags.C.Should().BeTrue();
+            cpu.Registers.Flags.N.Should().BeFalse();
+            cpu.Registers.Flags.H.Should().BeFalse();
         }
 
         [TestMethod]
@@ -62,17 +62,17 @@ namespace Jacobi.Zim80.Components.CpuZ80.Instructions.UnitTests
             var ob = OpcodeByte.New(z: 7, y: 1);
             var cpu = ExecuteTest(ob, (cpuZ80) =>
             {
-                cpuZ80.Registers.PrimarySet.A = Value1;
-                cpuZ80.Registers.PrimarySet.Flags.Z = true;
-                cpuZ80.Registers.PrimarySet.Flags.S = false;
+                cpuZ80.Registers.A = Value1;
+                cpuZ80.Registers.Flags.Z = true;
+                cpuZ80.Registers.Flags.S = false;
             });
 
             cpu.AssertRegisters(a: ExpectedValue1R);
-            cpu.Registers.PrimarySet.Flags.S.Should().BeFalse();
-            cpu.Registers.PrimarySet.Flags.Z.Should().BeTrue();
-            cpu.Registers.PrimarySet.Flags.C.Should().BeFalse();
-            cpu.Registers.PrimarySet.Flags.N.Should().BeFalse();
-            cpu.Registers.PrimarySet.Flags.H.Should().BeFalse();
+            cpu.Registers.Flags.S.Should().BeFalse();
+            cpu.Registers.Flags.Z.Should().BeTrue();
+            cpu.Registers.Flags.C.Should().BeFalse();
+            cpu.Registers.Flags.N.Should().BeFalse();
+            cpu.Registers.Flags.H.Should().BeFalse();
         }
 
         [TestMethod]
@@ -81,17 +81,17 @@ namespace Jacobi.Zim80.Components.CpuZ80.Instructions.UnitTests
             var ob = OpcodeByte.New(z: 7, y: 1);
             var cpu = ExecuteTest(ob, (cpuZ80) =>
             {
-                cpuZ80.Registers.PrimarySet.A = Value2;
-                cpuZ80.Registers.PrimarySet.Flags.Z = true;
-                cpuZ80.Registers.PrimarySet.Flags.S = false;
+                cpuZ80.Registers.A = Value2;
+                cpuZ80.Registers.Flags.Z = true;
+                cpuZ80.Registers.Flags.S = false;
             });
 
             cpu.AssertRegisters(a: ExpectedValue2R | 0x80);
-            cpu.Registers.PrimarySet.Flags.S.Should().BeFalse();
-            cpu.Registers.PrimarySet.Flags.Z.Should().BeTrue();
-            cpu.Registers.PrimarySet.Flags.C.Should().BeTrue();
-            cpu.Registers.PrimarySet.Flags.N.Should().BeFalse();
-            cpu.Registers.PrimarySet.Flags.H.Should().BeFalse();
+            cpu.Registers.Flags.S.Should().BeFalse();
+            cpu.Registers.Flags.Z.Should().BeTrue();
+            cpu.Registers.Flags.C.Should().BeTrue();
+            cpu.Registers.Flags.N.Should().BeFalse();
+            cpu.Registers.Flags.H.Should().BeFalse();
         }
 
         [TestMethod]
@@ -100,17 +100,17 @@ namespace Jacobi.Zim80.Components.CpuZ80.Instructions.UnitTests
             var ob = OpcodeByte.New(z: 7, y: 2);
             var cpu = ExecuteTest(ob, (cpuZ80) =>
             {
-                cpuZ80.Registers.PrimarySet.A = Value1;
-                cpuZ80.Registers.PrimarySet.Flags.Z = false;
-                cpuZ80.Registers.PrimarySet.Flags.S = true;
+                cpuZ80.Registers.A = Value1;
+                cpuZ80.Registers.Flags.Z = false;
+                cpuZ80.Registers.Flags.S = true;
             });
 
             cpu.AssertRegisters(a: ExpectedValue1L);
-            cpu.Registers.PrimarySet.Flags.S.Should().BeTrue();
-            cpu.Registers.PrimarySet.Flags.Z.Should().BeFalse();
-            cpu.Registers.PrimarySet.Flags.C.Should().BeFalse();
-            cpu.Registers.PrimarySet.Flags.N.Should().BeFalse();
-            cpu.Registers.PrimarySet.Flags.H.Should().BeFalse();
+            cpu.Registers.Flags.S.Should().BeTrue();
+            cpu.Registers.Flags.Z.Should().BeFalse();
+            cpu.Registers.Flags.C.Should().BeFalse();
+            cpu.Registers.Flags.N.Should().BeFalse();
+            cpu.Registers.Flags.H.Should().BeFalse();
         }
 
         [TestMethod]
@@ -119,18 +119,18 @@ namespace Jacobi.Zim80.Components.CpuZ80.Instructions.UnitTests
             var ob = OpcodeByte.New(z: 7, y: 2);
             var cpu = ExecuteTest(ob, (cpuZ80) =>
             {
-                cpuZ80.Registers.PrimarySet.A = Value1;
-                cpuZ80.Registers.PrimarySet.Flags.Z = false;
-                cpuZ80.Registers.PrimarySet.Flags.S = true;
-                cpuZ80.Registers.PrimarySet.Flags.C = true;
+                cpuZ80.Registers.A = Value1;
+                cpuZ80.Registers.Flags.Z = false;
+                cpuZ80.Registers.Flags.S = true;
+                cpuZ80.Registers.Flags.C = true;
             });
 
             cpu.AssertRegisters(a: ExpectedValue1L | 0x01);
-            cpu.Registers.PrimarySet.Flags.S.Should().BeTrue();
-            cpu.Registers.PrimarySet.Flags.Z.Should().BeFalse();
-            cpu.Registers.PrimarySet.Flags.C.Should().BeFalse();
-            cpu.Registers.PrimarySet.Flags.N.Should().BeFalse();
-            cpu.Registers.PrimarySet.Flags.H.Should().BeFalse();
+            cpu.Registers.Flags.S.Should().BeTrue();
+            cpu.Registers.Flags.Z.Should().BeFalse();
+            cpu.Registers.Flags.C.Should().BeFalse();
+            cpu.Registers.Flags.N.Should().BeFalse();
+            cpu.Registers.Flags.H.Should().BeFalse();
         }
 
         [TestMethod]
@@ -139,17 +139,17 @@ namespace Jacobi.Zim80.Components.CpuZ80.Instructions.UnitTests
             var ob = OpcodeByte.New(z: 7, y: 2);
             var cpu = ExecuteTest(ob, (cpuZ80) =>
             {
-                cpuZ80.Registers.PrimarySet.A = Value2;
-                cpuZ80.Registers.PrimarySet.Flags.Z = false;
-                cpuZ80.Registers.PrimarySet.Flags.S = true;
+                cpuZ80.Registers.A = Value2;
+                cpuZ80.Registers.Flags.Z = false;
+                cpuZ80.Registers.Flags.S = true;
             });
 
             cpu.AssertRegisters(a: ExpectedValue2L);
-            cpu.Registers.PrimarySet.Flags.S.Should().BeTrue();
-            cpu.Registers.PrimarySet.Flags.Z.Should().BeFalse();
-            cpu.Registers.PrimarySet.Flags.C.Should().BeTrue();
-            cpu.Registers.PrimarySet.Flags.N.Should().BeFalse();
-            cpu.Registers.PrimarySet.Flags.H.Should().BeFalse();
+            cpu.Registers.Flags.S.Should().BeTrue();
+            cpu.Registers.Flags.Z.Should().BeFalse();
+            cpu.Registers.Flags.C.Should().BeTrue();
+            cpu.Registers.Flags.N.Should().BeFalse();
+            cpu.Registers.Flags.H.Should().BeFalse();
         }
 
         [TestMethod]
@@ -158,18 +158,18 @@ namespace Jacobi.Zim80.Components.CpuZ80.Instructions.UnitTests
             var ob = OpcodeByte.New(z: 7, y: 2);
             var cpu = ExecuteTest(ob, (cpuZ80) =>
             {
-                cpuZ80.Registers.PrimarySet.A = Value2;
-                cpuZ80.Registers.PrimarySet.Flags.Z = false;
-                cpuZ80.Registers.PrimarySet.Flags.S = true;
-                cpuZ80.Registers.PrimarySet.Flags.C = true;
+                cpuZ80.Registers.A = Value2;
+                cpuZ80.Registers.Flags.Z = false;
+                cpuZ80.Registers.Flags.S = true;
+                cpuZ80.Registers.Flags.C = true;
             });
 
             cpu.AssertRegisters(a: ExpectedValue2L | 0x01);
-            cpu.Registers.PrimarySet.Flags.S.Should().BeTrue();
-            cpu.Registers.PrimarySet.Flags.Z.Should().BeFalse();
-            cpu.Registers.PrimarySet.Flags.C.Should().BeTrue();
-            cpu.Registers.PrimarySet.Flags.N.Should().BeFalse();
-            cpu.Registers.PrimarySet.Flags.H.Should().BeFalse();
+            cpu.Registers.Flags.S.Should().BeTrue();
+            cpu.Registers.Flags.Z.Should().BeFalse();
+            cpu.Registers.Flags.C.Should().BeTrue();
+            cpu.Registers.Flags.N.Should().BeFalse();
+            cpu.Registers.Flags.H.Should().BeFalse();
         }
 
         [TestMethod]
@@ -178,17 +178,17 @@ namespace Jacobi.Zim80.Components.CpuZ80.Instructions.UnitTests
             var ob = OpcodeByte.New(z: 7, y: 3);
             var cpu = ExecuteTest(ob, (cpuZ80) =>
             {
-                cpuZ80.Registers.PrimarySet.A = Value1;
-                cpuZ80.Registers.PrimarySet.Flags.Z = false;
-                cpuZ80.Registers.PrimarySet.Flags.S = true;
+                cpuZ80.Registers.A = Value1;
+                cpuZ80.Registers.Flags.Z = false;
+                cpuZ80.Registers.Flags.S = true;
             });
 
             cpu.AssertRegisters(a: ExpectedValue1R);
-            cpu.Registers.PrimarySet.Flags.S.Should().BeTrue();
-            cpu.Registers.PrimarySet.Flags.Z.Should().BeFalse();
-            cpu.Registers.PrimarySet.Flags.C.Should().BeFalse();
-            cpu.Registers.PrimarySet.Flags.N.Should().BeFalse();
-            cpu.Registers.PrimarySet.Flags.H.Should().BeFalse();
+            cpu.Registers.Flags.S.Should().BeTrue();
+            cpu.Registers.Flags.Z.Should().BeFalse();
+            cpu.Registers.Flags.C.Should().BeFalse();
+            cpu.Registers.Flags.N.Should().BeFalse();
+            cpu.Registers.Flags.H.Should().BeFalse();
         }
 
         [TestMethod]
@@ -197,18 +197,18 @@ namespace Jacobi.Zim80.Components.CpuZ80.Instructions.UnitTests
             var ob = OpcodeByte.New(z: 7, y: 3);
             var cpu = ExecuteTest(ob, (cpuZ80) =>
             {
-                cpuZ80.Registers.PrimarySet.A = Value1;
-                cpuZ80.Registers.PrimarySet.Flags.Z = false;
-                cpuZ80.Registers.PrimarySet.Flags.S = true;
-                cpuZ80.Registers.PrimarySet.Flags.C = true;
+                cpuZ80.Registers.A = Value1;
+                cpuZ80.Registers.Flags.Z = false;
+                cpuZ80.Registers.Flags.S = true;
+                cpuZ80.Registers.Flags.C = true;
             });
 
             cpu.AssertRegisters(a: ExpectedValue1R | 0x80);
-            cpu.Registers.PrimarySet.Flags.S.Should().BeTrue();
-            cpu.Registers.PrimarySet.Flags.Z.Should().BeFalse();
-            cpu.Registers.PrimarySet.Flags.C.Should().BeFalse();
-            cpu.Registers.PrimarySet.Flags.N.Should().BeFalse();
-            cpu.Registers.PrimarySet.Flags.H.Should().BeFalse();
+            cpu.Registers.Flags.S.Should().BeTrue();
+            cpu.Registers.Flags.Z.Should().BeFalse();
+            cpu.Registers.Flags.C.Should().BeFalse();
+            cpu.Registers.Flags.N.Should().BeFalse();
+            cpu.Registers.Flags.H.Should().BeFalse();
         }
 
         [TestMethod]
@@ -217,17 +217,17 @@ namespace Jacobi.Zim80.Components.CpuZ80.Instructions.UnitTests
             var ob = OpcodeByte.New(z: 7, y: 3);
             var cpu = ExecuteTest(ob, (cpuZ80) =>
             {
-                cpuZ80.Registers.PrimarySet.A = Value2;
-                cpuZ80.Registers.PrimarySet.Flags.Z = false;
-                cpuZ80.Registers.PrimarySet.Flags.S = true;
+                cpuZ80.Registers.A = Value2;
+                cpuZ80.Registers.Flags.Z = false;
+                cpuZ80.Registers.Flags.S = true;
             });
 
             cpu.AssertRegisters(a: ExpectedValue2R);
-            cpu.Registers.PrimarySet.Flags.S.Should().BeTrue();
-            cpu.Registers.PrimarySet.Flags.Z.Should().BeFalse();
-            cpu.Registers.PrimarySet.Flags.C.Should().BeTrue();
-            cpu.Registers.PrimarySet.Flags.N.Should().BeFalse();
-            cpu.Registers.PrimarySet.Flags.H.Should().BeFalse();
+            cpu.Registers.Flags.S.Should().BeTrue();
+            cpu.Registers.Flags.Z.Should().BeFalse();
+            cpu.Registers.Flags.C.Should().BeTrue();
+            cpu.Registers.Flags.N.Should().BeFalse();
+            cpu.Registers.Flags.H.Should().BeFalse();
         }
 
         [TestMethod]
@@ -236,18 +236,18 @@ namespace Jacobi.Zim80.Components.CpuZ80.Instructions.UnitTests
             var ob = OpcodeByte.New(z: 7, y: 3);
             var cpu = ExecuteTest(ob, (cpuZ80) =>
             {
-                cpuZ80.Registers.PrimarySet.A = Value2;
-                cpuZ80.Registers.PrimarySet.Flags.Z = false;
-                cpuZ80.Registers.PrimarySet.Flags.S = true;
-                cpuZ80.Registers.PrimarySet.Flags.C = true;
+                cpuZ80.Registers.A = Value2;
+                cpuZ80.Registers.Flags.Z = false;
+                cpuZ80.Registers.Flags.S = true;
+                cpuZ80.Registers.Flags.C = true;
             });
 
             cpu.AssertRegisters(a: ExpectedValue2R | 0x80);
-            cpu.Registers.PrimarySet.Flags.S.Should().BeTrue();
-            cpu.Registers.PrimarySet.Flags.Z.Should().BeFalse();
-            cpu.Registers.PrimarySet.Flags.C.Should().BeTrue();
-            cpu.Registers.PrimarySet.Flags.N.Should().BeFalse();
-            cpu.Registers.PrimarySet.Flags.H.Should().BeFalse();
+            cpu.Registers.Flags.S.Should().BeTrue();
+            cpu.Registers.Flags.Z.Should().BeFalse();
+            cpu.Registers.Flags.C.Should().BeTrue();
+            cpu.Registers.Flags.N.Should().BeFalse();
+            cpu.Registers.Flags.H.Should().BeFalse();
         }
 
         [TestMethod]
@@ -258,15 +258,15 @@ namespace Jacobi.Zim80.Components.CpuZ80.Instructions.UnitTests
                 var ob = OpcodeByte.New(z: (byte)reg, y: 0);
                 var cpu = ExecuteTest(ob, (cpuZ80) =>
                 {
-                    cpuZ80.Registers.PrimarySet[reg] = Value1;
+                    cpuZ80.Registers[reg] = Value1;
                 }, 0xCB);
 
-                cpu.Registers.PrimarySet[reg].Should().Be(ExpectedValue1L);
-                cpu.Registers.PrimarySet.Flags.S.Should().BeTrue();
-                cpu.Registers.PrimarySet.Flags.Z.Should().BeFalse();
-                cpu.Registers.PrimarySet.Flags.C.Should().BeFalse();
-                cpu.Registers.PrimarySet.Flags.N.Should().BeFalse();
-                cpu.Registers.PrimarySet.Flags.H.Should().BeFalse();
+                cpu.Registers[reg].Should().Be(ExpectedValue1L);
+                cpu.Registers.Flags.S.Should().BeTrue();
+                cpu.Registers.Flags.Z.Should().BeFalse();
+                cpu.Registers.Flags.C.Should().BeFalse();
+                cpu.Registers.Flags.N.Should().BeFalse();
+                cpu.Registers.Flags.H.Should().BeFalse();
             });
         }
 
@@ -278,15 +278,15 @@ namespace Jacobi.Zim80.Components.CpuZ80.Instructions.UnitTests
                 var ob = OpcodeByte.New(z: (byte)reg, y: 0);
                 var cpu = ExecuteTest(ob, (cpuZ80) =>
                 {
-                    cpuZ80.Registers.PrimarySet[reg] = Value2;
+                    cpuZ80.Registers[reg] = Value2;
                 }, 0xCB);
 
-                cpu.Registers.PrimarySet[reg].Should().Be(ExpectedValue2L | 0x01);
-                cpu.Registers.PrimarySet.Flags.S.Should().BeFalse();
-                cpu.Registers.PrimarySet.Flags.Z.Should().BeFalse();
-                cpu.Registers.PrimarySet.Flags.C.Should().BeTrue();
-                cpu.Registers.PrimarySet.Flags.N.Should().BeFalse();
-                cpu.Registers.PrimarySet.Flags.H.Should().BeFalse();
+                cpu.Registers[reg].Should().Be(ExpectedValue2L | 0x01);
+                cpu.Registers.Flags.S.Should().BeFalse();
+                cpu.Registers.Flags.Z.Should().BeFalse();
+                cpu.Registers.Flags.C.Should().BeTrue();
+                cpu.Registers.Flags.N.Should().BeFalse();
+                cpu.Registers.Flags.H.Should().BeFalse();
             });
         }
 
@@ -298,15 +298,15 @@ namespace Jacobi.Zim80.Components.CpuZ80.Instructions.UnitTests
                 var ob = OpcodeByte.New(z: (byte)reg, y: 1);
                 var cpu = ExecuteTest(ob, (cpuZ80) =>
                 {
-                    cpuZ80.Registers.PrimarySet[reg] = Value1;
+                    cpuZ80.Registers[reg] = Value1;
                 }, 0xCB);
 
-                cpu.Registers.PrimarySet[reg].Should().Be(ExpectedValue1R);
-                cpu.Registers.PrimarySet.Flags.S.Should().BeFalse();
-                cpu.Registers.PrimarySet.Flags.Z.Should().BeFalse();
-                cpu.Registers.PrimarySet.Flags.C.Should().BeFalse();
-                cpu.Registers.PrimarySet.Flags.N.Should().BeFalse();
-                cpu.Registers.PrimarySet.Flags.H.Should().BeFalse();
+                cpu.Registers[reg].Should().Be(ExpectedValue1R);
+                cpu.Registers.Flags.S.Should().BeFalse();
+                cpu.Registers.Flags.Z.Should().BeFalse();
+                cpu.Registers.Flags.C.Should().BeFalse();
+                cpu.Registers.Flags.N.Should().BeFalse();
+                cpu.Registers.Flags.H.Should().BeFalse();
             });
         }
 
@@ -318,15 +318,15 @@ namespace Jacobi.Zim80.Components.CpuZ80.Instructions.UnitTests
                 var ob = OpcodeByte.New(z: (byte)reg, y: 1);
                 var cpu = ExecuteTest(ob, (cpuZ80) =>
                 {
-                    cpuZ80.Registers.PrimarySet[reg] = Value2;
+                    cpuZ80.Registers[reg] = Value2;
                 }, 0xCB);
 
-                cpu.Registers.PrimarySet[reg].Should().Be(ExpectedValue2R | 0x80);
-                cpu.Registers.PrimarySet.Flags.S.Should().BeTrue();
-                cpu.Registers.PrimarySet.Flags.Z.Should().BeFalse();
-                cpu.Registers.PrimarySet.Flags.C.Should().BeTrue();
-                cpu.Registers.PrimarySet.Flags.N.Should().BeFalse();
-                cpu.Registers.PrimarySet.Flags.H.Should().BeFalse();
+                cpu.Registers[reg].Should().Be(ExpectedValue2R | 0x80);
+                cpu.Registers.Flags.S.Should().BeTrue();
+                cpu.Registers.Flags.Z.Should().BeFalse();
+                cpu.Registers.Flags.C.Should().BeTrue();
+                cpu.Registers.Flags.N.Should().BeFalse();
+                cpu.Registers.Flags.H.Should().BeFalse();
             });
         }
 
@@ -338,15 +338,15 @@ namespace Jacobi.Zim80.Components.CpuZ80.Instructions.UnitTests
                 var ob = OpcodeByte.New(z: (byte)reg, y: 2);
                 var cpu = ExecuteTest(ob, (cpuZ80) =>
                 {
-                    cpuZ80.Registers.PrimarySet[reg] = Value1;
+                    cpuZ80.Registers[reg] = Value1;
                 }, 0xCB);
 
-                cpu.Registers.PrimarySet[reg].Should().Be(ExpectedValue1L);
-                cpu.Registers.PrimarySet.Flags.S.Should().BeTrue();
-                cpu.Registers.PrimarySet.Flags.Z.Should().BeFalse();
-                cpu.Registers.PrimarySet.Flags.C.Should().BeFalse();
-                cpu.Registers.PrimarySet.Flags.N.Should().BeFalse();
-                cpu.Registers.PrimarySet.Flags.H.Should().BeFalse();
+                cpu.Registers[reg].Should().Be(ExpectedValue1L);
+                cpu.Registers.Flags.S.Should().BeTrue();
+                cpu.Registers.Flags.Z.Should().BeFalse();
+                cpu.Registers.Flags.C.Should().BeFalse();
+                cpu.Registers.Flags.N.Should().BeFalse();
+                cpu.Registers.Flags.H.Should().BeFalse();
             });
         }
 
@@ -358,15 +358,15 @@ namespace Jacobi.Zim80.Components.CpuZ80.Instructions.UnitTests
                 var ob = OpcodeByte.New(z: (byte)reg, y: 2);
                 var cpu = ExecuteTest(ob, (cpuZ80) =>
                 {
-                    cpuZ80.Registers.PrimarySet[reg] = Value2;
+                    cpuZ80.Registers[reg] = Value2;
                 }, 0xCB);
 
-                cpu.Registers.PrimarySet[reg].Should().Be(ExpectedValue2L);
-                cpu.Registers.PrimarySet.Flags.S.Should().BeFalse();
-                cpu.Registers.PrimarySet.Flags.Z.Should().BeFalse();
-                cpu.Registers.PrimarySet.Flags.C.Should().BeTrue();
-                cpu.Registers.PrimarySet.Flags.N.Should().BeFalse();
-                cpu.Registers.PrimarySet.Flags.H.Should().BeFalse();
+                cpu.Registers[reg].Should().Be(ExpectedValue2L);
+                cpu.Registers.Flags.S.Should().BeFalse();
+                cpu.Registers.Flags.Z.Should().BeFalse();
+                cpu.Registers.Flags.C.Should().BeTrue();
+                cpu.Registers.Flags.N.Should().BeFalse();
+                cpu.Registers.Flags.H.Should().BeFalse();
             });
         }
 
@@ -378,16 +378,16 @@ namespace Jacobi.Zim80.Components.CpuZ80.Instructions.UnitTests
                 var ob = OpcodeByte.New(z: (byte)reg, y: 2);
                 var cpu = ExecuteTest(ob, (cpuZ80) =>
                 {
-                    cpuZ80.Registers.PrimarySet[reg] = Value1;
-                    cpuZ80.Registers.PrimarySet.Flags.C = true;
+                    cpuZ80.Registers[reg] = Value1;
+                    cpuZ80.Registers.Flags.C = true;
                 }, 0xCB);
 
-                cpu.Registers.PrimarySet[reg].Should().Be(ExpectedValue1L | 0x01);
-                cpu.Registers.PrimarySet.Flags.S.Should().BeTrue();
-                cpu.Registers.PrimarySet.Flags.Z.Should().BeFalse();
-                cpu.Registers.PrimarySet.Flags.C.Should().BeFalse();
-                cpu.Registers.PrimarySet.Flags.N.Should().BeFalse();
-                cpu.Registers.PrimarySet.Flags.H.Should().BeFalse();
+                cpu.Registers[reg].Should().Be(ExpectedValue1L | 0x01);
+                cpu.Registers.Flags.S.Should().BeTrue();
+                cpu.Registers.Flags.Z.Should().BeFalse();
+                cpu.Registers.Flags.C.Should().BeFalse();
+                cpu.Registers.Flags.N.Should().BeFalse();
+                cpu.Registers.Flags.H.Should().BeFalse();
             });
         }
 
@@ -399,16 +399,16 @@ namespace Jacobi.Zim80.Components.CpuZ80.Instructions.UnitTests
                 var ob = OpcodeByte.New(z: (byte)reg, y: 2);
                 var cpu = ExecuteTest(ob, (cpuZ80) =>
                 {
-                    cpuZ80.Registers.PrimarySet[reg] = Value2;
-                    cpuZ80.Registers.PrimarySet.Flags.C = true;
+                    cpuZ80.Registers[reg] = Value2;
+                    cpuZ80.Registers.Flags.C = true;
                 }, 0xCB);
 
-                cpu.Registers.PrimarySet[reg].Should().Be(ExpectedValue2L | 0x01);
-                cpu.Registers.PrimarySet.Flags.S.Should().BeFalse();
-                cpu.Registers.PrimarySet.Flags.Z.Should().BeFalse();
-                cpu.Registers.PrimarySet.Flags.C.Should().BeTrue();
-                cpu.Registers.PrimarySet.Flags.N.Should().BeFalse();
-                cpu.Registers.PrimarySet.Flags.H.Should().BeFalse();
+                cpu.Registers[reg].Should().Be(ExpectedValue2L | 0x01);
+                cpu.Registers.Flags.S.Should().BeFalse();
+                cpu.Registers.Flags.Z.Should().BeFalse();
+                cpu.Registers.Flags.C.Should().BeTrue();
+                cpu.Registers.Flags.N.Should().BeFalse();
+                cpu.Registers.Flags.H.Should().BeFalse();
             });
         }
 
@@ -420,15 +420,15 @@ namespace Jacobi.Zim80.Components.CpuZ80.Instructions.UnitTests
                 var ob = OpcodeByte.New(z: (byte)reg, y: 3);
                 var cpu = ExecuteTest(ob, (cpuZ80) =>
                 {
-                    cpuZ80.Registers.PrimarySet[reg] = Value1;
+                    cpuZ80.Registers[reg] = Value1;
                 }, 0xCB);
 
-                cpu.Registers.PrimarySet[reg].Should().Be(ExpectedValue1R);
-                cpu.Registers.PrimarySet.Flags.S.Should().BeFalse();
-                cpu.Registers.PrimarySet.Flags.Z.Should().BeFalse();
-                cpu.Registers.PrimarySet.Flags.C.Should().BeFalse();
-                cpu.Registers.PrimarySet.Flags.N.Should().BeFalse();
-                cpu.Registers.PrimarySet.Flags.H.Should().BeFalse();
+                cpu.Registers[reg].Should().Be(ExpectedValue1R);
+                cpu.Registers.Flags.S.Should().BeFalse();
+                cpu.Registers.Flags.Z.Should().BeFalse();
+                cpu.Registers.Flags.C.Should().BeFalse();
+                cpu.Registers.Flags.N.Should().BeFalse();
+                cpu.Registers.Flags.H.Should().BeFalse();
             });
         }
 
@@ -440,15 +440,15 @@ namespace Jacobi.Zim80.Components.CpuZ80.Instructions.UnitTests
                 var ob = OpcodeByte.New(z: (byte)reg, y: 3);
                 var cpu = ExecuteTest(ob, (cpuZ80) =>
                 {
-                    cpuZ80.Registers.PrimarySet[reg] = Value2;
+                    cpuZ80.Registers[reg] = Value2;
                 }, 0xCB);
 
-                cpu.Registers.PrimarySet[reg].Should().Be(ExpectedValue2R);
-                cpu.Registers.PrimarySet.Flags.S.Should().BeFalse();
-                cpu.Registers.PrimarySet.Flags.Z.Should().BeFalse();
-                cpu.Registers.PrimarySet.Flags.C.Should().BeTrue();
-                cpu.Registers.PrimarySet.Flags.N.Should().BeFalse();
-                cpu.Registers.PrimarySet.Flags.H.Should().BeFalse();
+                cpu.Registers[reg].Should().Be(ExpectedValue2R);
+                cpu.Registers.Flags.S.Should().BeFalse();
+                cpu.Registers.Flags.Z.Should().BeFalse();
+                cpu.Registers.Flags.C.Should().BeTrue();
+                cpu.Registers.Flags.N.Should().BeFalse();
+                cpu.Registers.Flags.H.Should().BeFalse();
             });
         }
 
@@ -460,16 +460,16 @@ namespace Jacobi.Zim80.Components.CpuZ80.Instructions.UnitTests
                 var ob = OpcodeByte.New(z: (byte)reg, y: 3);
                 var cpu = ExecuteTest(ob, (cpuZ80) =>
                 {
-                    cpuZ80.Registers.PrimarySet[reg] = Value1;
-                    cpuZ80.Registers.PrimarySet.Flags.C = true;
+                    cpuZ80.Registers[reg] = Value1;
+                    cpuZ80.Registers.Flags.C = true;
                 }, 0xCB);
 
-                cpu.Registers.PrimarySet[reg].Should().Be(ExpectedValue1R | 0x80);
-                cpu.Registers.PrimarySet.Flags.S.Should().BeTrue();
-                cpu.Registers.PrimarySet.Flags.Z.Should().BeFalse();
-                cpu.Registers.PrimarySet.Flags.C.Should().BeFalse();
-                cpu.Registers.PrimarySet.Flags.N.Should().BeFalse();
-                cpu.Registers.PrimarySet.Flags.H.Should().BeFalse();
+                cpu.Registers[reg].Should().Be(ExpectedValue1R | 0x80);
+                cpu.Registers.Flags.S.Should().BeTrue();
+                cpu.Registers.Flags.Z.Should().BeFalse();
+                cpu.Registers.Flags.C.Should().BeFalse();
+                cpu.Registers.Flags.N.Should().BeFalse();
+                cpu.Registers.Flags.H.Should().BeFalse();
             });
         }
 
@@ -481,16 +481,16 @@ namespace Jacobi.Zim80.Components.CpuZ80.Instructions.UnitTests
                 var ob = OpcodeByte.New(z: (byte)reg, y: 3);
                 var cpu = ExecuteTest(ob, (cpuZ80) =>
                 {
-                    cpuZ80.Registers.PrimarySet[reg] = Value2;
-                    cpuZ80.Registers.PrimarySet.Flags.C = true;
+                    cpuZ80.Registers[reg] = Value2;
+                    cpuZ80.Registers.Flags.C = true;
                 }, 0xCB);
 
-                cpu.Registers.PrimarySet[reg].Should().Be(ExpectedValue2R | 0x80);
-                cpu.Registers.PrimarySet.Flags.S.Should().BeTrue();
-                cpu.Registers.PrimarySet.Flags.Z.Should().BeFalse();
-                cpu.Registers.PrimarySet.Flags.C.Should().BeTrue();
-                cpu.Registers.PrimarySet.Flags.N.Should().BeFalse();
-                cpu.Registers.PrimarySet.Flags.H.Should().BeFalse();
+                cpu.Registers[reg].Should().Be(ExpectedValue2R | 0x80);
+                cpu.Registers.Flags.S.Should().BeTrue();
+                cpu.Registers.Flags.Z.Should().BeFalse();
+                cpu.Registers.Flags.C.Should().BeTrue();
+                cpu.Registers.Flags.N.Should().BeFalse();
+                cpu.Registers.Flags.H.Should().BeFalse();
             });
         }
 
@@ -502,15 +502,15 @@ namespace Jacobi.Zim80.Components.CpuZ80.Instructions.UnitTests
                 var ob = OpcodeByte.New(z: (byte)reg, y: 4);
                 var cpu = ExecuteTest(ob, (cpuZ80) =>
                 {
-                    cpuZ80.Registers.PrimarySet[reg] = Value1;
+                    cpuZ80.Registers[reg] = Value1;
                 }, 0xCB);
 
-                cpu.Registers.PrimarySet[reg].Should().Be(ExpectedValue1L);
-                cpu.Registers.PrimarySet.Flags.S.Should().BeTrue();
-                cpu.Registers.PrimarySet.Flags.Z.Should().BeFalse();
-                cpu.Registers.PrimarySet.Flags.C.Should().BeFalse();
-                cpu.Registers.PrimarySet.Flags.N.Should().BeFalse();
-                cpu.Registers.PrimarySet.Flags.H.Should().BeFalse();
+                cpu.Registers[reg].Should().Be(ExpectedValue1L);
+                cpu.Registers.Flags.S.Should().BeTrue();
+                cpu.Registers.Flags.Z.Should().BeFalse();
+                cpu.Registers.Flags.C.Should().BeFalse();
+                cpu.Registers.Flags.N.Should().BeFalse();
+                cpu.Registers.Flags.H.Should().BeFalse();
             });
         }
 
@@ -522,15 +522,15 @@ namespace Jacobi.Zim80.Components.CpuZ80.Instructions.UnitTests
                 var ob = OpcodeByte.New(z: (byte)reg, y: 4);
                 var cpu = ExecuteTest(ob, (cpuZ80) =>
                 {
-                    cpuZ80.Registers.PrimarySet[reg] = Value2;
+                    cpuZ80.Registers[reg] = Value2;
                 }, 0xCB);
 
-                cpu.Registers.PrimarySet[reg].Should().Be(ExpectedValue2L);
-                cpu.Registers.PrimarySet.Flags.S.Should().BeFalse();
-                cpu.Registers.PrimarySet.Flags.Z.Should().BeFalse();
-                cpu.Registers.PrimarySet.Flags.C.Should().BeTrue();
-                cpu.Registers.PrimarySet.Flags.N.Should().BeFalse();
-                cpu.Registers.PrimarySet.Flags.H.Should().BeFalse();
+                cpu.Registers[reg].Should().Be(ExpectedValue2L);
+                cpu.Registers.Flags.S.Should().BeFalse();
+                cpu.Registers.Flags.Z.Should().BeFalse();
+                cpu.Registers.Flags.C.Should().BeTrue();
+                cpu.Registers.Flags.N.Should().BeFalse();
+                cpu.Registers.Flags.H.Should().BeFalse();
             });
         }
 
@@ -542,15 +542,15 @@ namespace Jacobi.Zim80.Components.CpuZ80.Instructions.UnitTests
                 var ob = OpcodeByte.New(z: (byte)reg, y: 5);
                 var cpu = ExecuteTest(ob, (cpuZ80) =>
                 {
-                    cpuZ80.Registers.PrimarySet[reg] = Value1;
+                    cpuZ80.Registers[reg] = Value1;
                 }, 0xCB);
 
-                cpu.Registers.PrimarySet[reg].Should().Be(ExpectedValue1R);
-                cpu.Registers.PrimarySet.Flags.S.Should().BeFalse();
-                cpu.Registers.PrimarySet.Flags.Z.Should().BeFalse();
-                cpu.Registers.PrimarySet.Flags.C.Should().BeFalse();
-                cpu.Registers.PrimarySet.Flags.N.Should().BeFalse();
-                cpu.Registers.PrimarySet.Flags.H.Should().BeFalse();
+                cpu.Registers[reg].Should().Be(ExpectedValue1R);
+                cpu.Registers.Flags.S.Should().BeFalse();
+                cpu.Registers.Flags.Z.Should().BeFalse();
+                cpu.Registers.Flags.C.Should().BeFalse();
+                cpu.Registers.Flags.N.Should().BeFalse();
+                cpu.Registers.Flags.H.Should().BeFalse();
             });
         }
 
@@ -562,15 +562,15 @@ namespace Jacobi.Zim80.Components.CpuZ80.Instructions.UnitTests
                 var ob = OpcodeByte.New(z: (byte)reg, y: 5);
                 var cpu = ExecuteTest(ob, (cpuZ80) =>
                 {
-                    cpuZ80.Registers.PrimarySet[reg] = Value2;
+                    cpuZ80.Registers[reg] = Value2;
                 }, 0xCB);
 
-                cpu.Registers.PrimarySet[reg].Should().Be(ExpectedValue2R | 0x80);
-                cpu.Registers.PrimarySet.Flags.S.Should().BeTrue();
-                cpu.Registers.PrimarySet.Flags.Z.Should().BeFalse();
-                cpu.Registers.PrimarySet.Flags.C.Should().BeTrue();
-                cpu.Registers.PrimarySet.Flags.N.Should().BeFalse();
-                cpu.Registers.PrimarySet.Flags.H.Should().BeFalse();
+                cpu.Registers[reg].Should().Be(ExpectedValue2R | 0x80);
+                cpu.Registers.Flags.S.Should().BeTrue();
+                cpu.Registers.Flags.Z.Should().BeFalse();
+                cpu.Registers.Flags.C.Should().BeTrue();
+                cpu.Registers.Flags.N.Should().BeFalse();
+                cpu.Registers.Flags.H.Should().BeFalse();
             });
         }
 
@@ -582,15 +582,15 @@ namespace Jacobi.Zim80.Components.CpuZ80.Instructions.UnitTests
                 var ob = OpcodeByte.New(z: (byte)reg, y: 6);
                 var cpu = ExecuteTest(ob, (cpuZ80) =>
                 {
-                    cpuZ80.Registers.PrimarySet[reg] = Value1;
+                    cpuZ80.Registers[reg] = Value1;
                 }, 0xCB);
 
-                cpu.Registers.PrimarySet[reg].Should().Be(ExpectedValue1L | 0x01);
-                cpu.Registers.PrimarySet.Flags.S.Should().BeTrue();
-                cpu.Registers.PrimarySet.Flags.Z.Should().BeFalse();
-                cpu.Registers.PrimarySet.Flags.C.Should().BeFalse();
-                cpu.Registers.PrimarySet.Flags.N.Should().BeFalse();
-                cpu.Registers.PrimarySet.Flags.H.Should().BeFalse();
+                cpu.Registers[reg].Should().Be(ExpectedValue1L | 0x01);
+                cpu.Registers.Flags.S.Should().BeTrue();
+                cpu.Registers.Flags.Z.Should().BeFalse();
+                cpu.Registers.Flags.C.Should().BeFalse();
+                cpu.Registers.Flags.N.Should().BeFalse();
+                cpu.Registers.Flags.H.Should().BeFalse();
             });
         }
 
@@ -602,15 +602,15 @@ namespace Jacobi.Zim80.Components.CpuZ80.Instructions.UnitTests
                 var ob = OpcodeByte.New(z: (byte)reg, y: 6);
                 var cpu = ExecuteTest(ob, (cpuZ80) =>
                 {
-                    cpuZ80.Registers.PrimarySet[reg] = Value2;
+                    cpuZ80.Registers[reg] = Value2;
                 }, 0xCB);
 
-                cpu.Registers.PrimarySet[reg].Should().Be(ExpectedValue2L | 0x01);
-                cpu.Registers.PrimarySet.Flags.S.Should().BeFalse();
-                cpu.Registers.PrimarySet.Flags.Z.Should().BeFalse();
-                cpu.Registers.PrimarySet.Flags.C.Should().BeTrue();
-                cpu.Registers.PrimarySet.Flags.N.Should().BeFalse();
-                cpu.Registers.PrimarySet.Flags.H.Should().BeFalse();
+                cpu.Registers[reg].Should().Be(ExpectedValue2L | 0x01);
+                cpu.Registers.Flags.S.Should().BeFalse();
+                cpu.Registers.Flags.Z.Should().BeFalse();
+                cpu.Registers.Flags.C.Should().BeTrue();
+                cpu.Registers.Flags.N.Should().BeFalse();
+                cpu.Registers.Flags.H.Should().BeFalse();
             });
         }
 
@@ -622,15 +622,15 @@ namespace Jacobi.Zim80.Components.CpuZ80.Instructions.UnitTests
                 var ob = OpcodeByte.New(z: (byte)reg, y: 7);
                 var cpu = ExecuteTest(ob, (cpuZ80) =>
                 {
-                    cpuZ80.Registers.PrimarySet[reg] = Value1;
+                    cpuZ80.Registers[reg] = Value1;
                 }, 0xCB);
 
-                cpu.Registers.PrimarySet[reg].Should().Be(ExpectedValue1R);
-                cpu.Registers.PrimarySet.Flags.S.Should().BeFalse();
-                cpu.Registers.PrimarySet.Flags.Z.Should().BeFalse();
-                cpu.Registers.PrimarySet.Flags.C.Should().BeFalse();
-                cpu.Registers.PrimarySet.Flags.N.Should().BeFalse();
-                cpu.Registers.PrimarySet.Flags.H.Should().BeFalse();
+                cpu.Registers[reg].Should().Be(ExpectedValue1R);
+                cpu.Registers.Flags.S.Should().BeFalse();
+                cpu.Registers.Flags.Z.Should().BeFalse();
+                cpu.Registers.Flags.C.Should().BeFalse();
+                cpu.Registers.Flags.N.Should().BeFalse();
+                cpu.Registers.Flags.H.Should().BeFalse();
             });
         }
 
@@ -642,15 +642,15 @@ namespace Jacobi.Zim80.Components.CpuZ80.Instructions.UnitTests
                 var ob = OpcodeByte.New(z: (byte)reg, y: 7);
                 var cpu = ExecuteTest(ob, (cpuZ80) =>
                 {
-                    cpuZ80.Registers.PrimarySet[reg] = Value2;
+                    cpuZ80.Registers[reg] = Value2;
                 }, 0xCB);
 
-                cpu.Registers.PrimarySet[reg].Should().Be(ExpectedValue2R);
-                cpu.Registers.PrimarySet.Flags.S.Should().BeFalse();
-                cpu.Registers.PrimarySet.Flags.Z.Should().BeFalse();
-                cpu.Registers.PrimarySet.Flags.C.Should().BeTrue();
-                cpu.Registers.PrimarySet.Flags.N.Should().BeFalse();
-                cpu.Registers.PrimarySet.Flags.H.Should().BeFalse();
+                cpu.Registers[reg].Should().Be(ExpectedValue2R);
+                cpu.Registers.Flags.S.Should().BeFalse();
+                cpu.Registers.Flags.Z.Should().BeFalse();
+                cpu.Registers.Flags.C.Should().BeTrue();
+                cpu.Registers.Flags.N.Should().BeFalse();
+                cpu.Registers.Flags.H.Should().BeFalse();
             });
         }
 

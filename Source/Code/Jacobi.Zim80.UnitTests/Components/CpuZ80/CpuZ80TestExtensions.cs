@@ -66,10 +66,10 @@ namespace Jacobi.Zim80.Components.CpuZ80.UnitTests
             registers.IY = iy;
             registers.I = i;
             registers.R = r;
-            registers.PrimarySet.A = a;
-            registers.PrimarySet.BC = bc;
-            registers.PrimarySet.DE = de;
-            registers.PrimarySet.HL = hl;
+            registers.A = a;
+            registers.BC = bc;
+            registers.DE = de;
+            registers.HL = hl;
             registers.AlternateSet.A = a_a;
             registers.AlternateSet.BC = a_bc;
             registers.AlternateSet.DE = a_de;
@@ -94,10 +94,10 @@ namespace Jacobi.Zim80.Components.CpuZ80.UnitTests
                 cpu.Registers.I.Should().Be(i, "i");
             if (r != 0)
                 cpu.Registers.R.Should().Be(r, "r");
-            cpu.Registers.PrimarySet.A.Should().Be(a, "a");
-            cpu.Registers.PrimarySet.BC.Should().Be(bc, "bc");
-            cpu.Registers.PrimarySet.DE.Should().Be(de, "de");
-            cpu.Registers.PrimarySet.HL.Should().Be(hl, "hl");
+            cpu.Registers.A.Should().Be(a, "a");
+            cpu.Registers.BC.Should().Be(bc, "bc");
+            cpu.Registers.DE.Should().Be(de, "de");
+            cpu.Registers.HL.Should().Be(hl, "hl");
             cpu.Registers.AlternateSet.A.Should().Be(a_a, "a'");
             cpu.Registers.AlternateSet.BC.Should().Be(a_bc, "bc'");
             cpu.Registers.AlternateSet.DE.Should().Be(a_de, "de'");

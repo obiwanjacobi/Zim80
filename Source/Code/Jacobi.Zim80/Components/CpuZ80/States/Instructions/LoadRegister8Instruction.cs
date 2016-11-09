@@ -11,7 +11,7 @@
             var srcReg = ExecutionEngine.Opcode.Definition.Register8FromZ;
             var trgReg = ExecutionEngine.Opcode.Definition.Register8FromY;
 
-            Registers.PrimarySet[trgReg] = Registers.PrimarySet[srcReg];
+            Registers[trgReg] = Registers[srcReg];
         }
     }
 }

@@ -120,11 +120,11 @@ namespace Jacobi.Zim80.Components.CpuZ80.Instructions.UnitTests
             var expectedValue = calcExpected(reg, (byte)bit);
 
             if (reg != Register8Table.HL && x != 1 /*bit*/)
-                model.Cpu.Registers.PrimarySet[reg].Should().Be(expectedValue,
+                model.Cpu.Registers[reg].Should().Be(expectedValue,
                     "bit: " + bit + " reg: " + reg.ToString());
 
             model.Memory.Assert(ExpectedAddress, expectedValue);
-            model.Cpu.Registers.PrimarySet.Flags.Z.Should().Be(expectedZero);
+            model.Cpu.Registers.Flags.Z.Should().Be(expectedZero);
         }
 
         private static void ForEachRegister(Action<Register8Table> action)

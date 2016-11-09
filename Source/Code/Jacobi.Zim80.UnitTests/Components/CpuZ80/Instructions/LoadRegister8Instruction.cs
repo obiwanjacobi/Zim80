@@ -35,9 +35,9 @@ namespace Jacobi.Zim80.Components.CpuZ80.Instructions.UnitTests
         private void LD_Test(Register8Table trgReg, Register8Table srcReg)
         {
             var ob = OpcodeByte.New(x: 1, z: (byte)srcReg, y: (byte)trgReg);
-            var cpuZ80 = ExecuteTest(ob, (cpu) => cpu.Registers.PrimarySet[srcReg] = Value);
+            var cpuZ80 = ExecuteTest(ob, (cpu) => cpu.Registers[srcReg] = Value);
 
-            cpuZ80.Registers.PrimarySet[trgReg].Should().Be(Value);
+            cpuZ80.Registers[trgReg].Should().Be(Value);
         }
 
         private CpuZ80 ExecuteTest(OpcodeByte ob, Action<CpuZ80> preTest)
