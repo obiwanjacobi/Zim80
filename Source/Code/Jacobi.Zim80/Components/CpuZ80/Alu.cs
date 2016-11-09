@@ -51,6 +51,20 @@ namespace Jacobi.Zim80.Components.CpuZ80
             return (byte)(value | (1 << bit));
         }
 
+        public byte Negate(byte acc)
+        {
+            byte newValue = (byte)~acc;
+
+            Flags.S = IsNegative(newValue);
+            Flags.Z = newValue == 0;
+            Flags.H = HalfCarryFromHi(acc, newValue);
+            Flags.PV = acc == 0x80;
+            Flags.N = true;
+            Flags.C = acc != 0;
+
+            return newValue;
+        }
+
         /* http://z80-heaven.wikidot.com/instructions-set:daa
          * if the least significant four bits of A contain a non-BCD digit 
          * (i. e. it is greater than 9) or the H flag is set, then $06 is 

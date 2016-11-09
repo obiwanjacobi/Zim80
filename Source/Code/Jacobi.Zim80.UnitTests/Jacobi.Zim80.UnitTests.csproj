@@ -107,6 +107,7 @@
     <Compile Include="Components\CpuZ80\Instructions\MathDirectInstructionTest.cs" />
     <Compile Include="Components\CpuZ80\Instructions\MathIndirectInstructionTest.cs" />
     <Compile Include="Components\CpuZ80\Instructions\MathRegister8InstructionTest.cs" />
+    <Compile Include="Components\CpuZ80\Instructions\NegateInstructionTest.cs" />
     <Compile Include="Components\CpuZ80\Instructions\NopInstructionTest.cs" />
     <Compile Include="Components\CpuZ80\Instructions\PopInstructionTest.cs" />
     <Compile Include="Components\CpuZ80\Instructions\PushInstructionTest.cs" />
