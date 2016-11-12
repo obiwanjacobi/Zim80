@@ -33,22 +33,19 @@ namespace Jacobi.Zim80.Components.CpuZ80
         // nmi
         internal void PushNmi()
         {
+            // TODO: do not do this when NMI is already active
             Die.Registers.Interrupt.IFF2 = Die.Registers.Interrupt.IFF1;
             Die.Registers.Interrupt.IFF1 = false;
-        }
-        // retn
-        internal void PopNmi()
-        {
-            Die.Registers.Interrupt.IFF1 = Die.Registers.Interrupt.IFF2;
         }
         // int
         internal void PushInt()
         {
             DisableInterrupt();
         }
-        // reti (ret)
+        // reti/retn (ret?)
         internal void PopInt()
         {
+            Die.Registers.Interrupt.IFF1 = Die.Registers.Interrupt.IFF2;
         }
 
         // number of instructions the interrupts remain disabled.

@@ -28,5 +28,15 @@ namespace Jacobi.Zim80.Components.CpuZ80
 
             throw new InvalidOperationException("Invalid Opcode.Y value.");
         }
+
+        public static void IncrementR(this Registers regs)
+        {
+            var r = (byte)(regs.R + 1);
+            if (r > 127)
+                r = 0;
+
+            regs.R &= 0x80;
+            regs.R |= r;
+        }
     }
 }

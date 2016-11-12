@@ -73,10 +73,7 @@ namespace Jacobi.Zim80.Components.CpuZ80
         {
             SetAddressBus(_die.Registers.IR);
 
-            _die.Registers.R++;
-            // bit 7 is not used
-            if (_die.Registers.R > 127)
-                _die.Registers.R = 0;
+            _die.Registers.IncrementR();
         }
 
         public void SetAddressBus(UInt16 address)
@@ -179,6 +176,7 @@ namespace Jacobi.Zim80.Components.CpuZ80
             Execute,
             Interrupt,
             Wait,
+            Halt,
             BusRequest,
             Reset,
         }
