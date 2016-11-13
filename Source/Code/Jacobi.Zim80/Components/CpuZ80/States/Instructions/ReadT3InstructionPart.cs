@@ -56,7 +56,7 @@ namespace Jacobi.Zim80.Components.CpuZ80.States.Instructions
 
         private void Read()
         {
-            Data = new OpcodeByte(Die.DataBus.ToSlave().Value.ToByte());
+            Data = new OpcodeByte(Die.DataBus.Slave.Value.ToByte());
 
             if (!_address.HasValue)
                 ExecutionEngine.AddOpcodeByte(Data);

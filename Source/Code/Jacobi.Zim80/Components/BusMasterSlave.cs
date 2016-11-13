@@ -11,9 +11,9 @@
             _slave = new BusSlave<T>();
         }
 
-        public BusSlave<T> ToSlave()
+        public BusSlave<T> Slave
         {
-            return _slave;
+            get { return _slave; }
         }
     }
 }

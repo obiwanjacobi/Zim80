@@ -47,8 +47,8 @@
 
             bus.Connect(ms2);
             bus.Connect(ms1);
-            bus.Connect(ms2.ToSlave());
-            bus.Connect(ms1.ToSlave());
+            bus.Connect(ms2.Slave);
+            bus.Connect(ms1.Slave);
 
             return bus;
         }

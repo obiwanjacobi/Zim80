@@ -17,7 +17,7 @@ namespace Jacobi.Zim80.Components.UnitTests
 
             ms1.IsEnabled = true;
             ms1.Write(value);
-            ms2.ToSlave().Value.Should().Be(value);
+            ms2.Slave.Value.Should().Be(value);
         }
 
         [TestMethod]
@@ -31,7 +31,7 @@ namespace Jacobi.Zim80.Components.UnitTests
 
             ms2.IsEnabled = true;
             ms2.Write(value);
-            ms1.ToSlave().Value.Should().Be(value);
+            ms1.Slave.Value.Should().Be(value);
         }
     }
 }

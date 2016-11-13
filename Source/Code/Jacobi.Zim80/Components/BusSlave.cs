@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 
 namespace Jacobi.Zim80.Components
 {
@@ -13,6 +10,7 @@ namespace Jacobi.Zim80.Components
         {
             Value = new T();
         }
+
         public event EventHandler<BusChangedEventArgs<T>> OnChanged;
 
         private T _value;
@@ -21,8 +19,11 @@ namespace Jacobi.Zim80.Components
             get { return _value; }
             set
             {
-                _value = value;
-                NotifyChange();
+                if (_value != value)
+                {
+                    _value = value;
+                    NotifyChange();
+                }
             }
         }
 

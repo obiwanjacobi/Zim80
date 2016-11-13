@@ -46,7 +46,7 @@ namespace Jacobi.Zim80.Components.CpuZ80.States
 
         private void Read()
         {
-            var ob = new OpcodeByte(Die.DataBus.ToSlave().Value.ToByte());
+            var ob = new OpcodeByte(Die.DataBus.Slave.Value.ToByte());
 
             if (ExecutionEngine.AddOpcodeByte(ob))
                 IsComplete = true;

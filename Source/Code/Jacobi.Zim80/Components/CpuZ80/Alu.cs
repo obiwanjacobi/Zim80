@@ -56,7 +56,7 @@ namespace Jacobi.Zim80.Components.CpuZ80
             byte newValue = (byte)~acc;
 
             Flags.S = IsNegative(newValue);
-            Flags.Z = newValue == 0;
+            Flags.Z = IsZero(newValue);
             Flags.H = HalfCarryFromHi(acc, newValue);
             Flags.PV = acc == 0x80;
             Flags.N = true;
@@ -103,7 +103,7 @@ namespace Jacobi.Zim80.Components.CpuZ80
                 !(Flags.N && !Flags.H) ||
                 (Flags.N && Flags.H && (acc & 0x0F) <= 0x05);
 
-            Flags.Z = newValue == 0;
+            Flags.Z = IsZero(newValue);
             Flags.S = (newValue & 0x80) > 0;
 
             return newValue;
@@ -124,7 +124,7 @@ namespace Jacobi.Zim80.Components.CpuZ80
 
             Flags.S = IsNegative(newValue);
             Flags.PV = (value == 0x7E);
-            Flags.Z = (newValue == 0);
+            Flags.Z = IsZero(newValue);
             Flags.H = HalfCarryFromLo(value, newValue);
             Flags.N = false;
 
@@ -137,7 +137,7 @@ namespace Jacobi.Zim80.Components.CpuZ80
 
             Flags.S = IsNegative(newValue);
             Flags.PV = (value == 0x80);
-            Flags.Z = (newValue == 0);
+            Flags.Z = IsZero(newValue);
             Flags.H = HalfCarryFromHi(value, newValue);
             Flags.N = true;
 
@@ -164,7 +164,7 @@ namespace Jacobi.Zim80.Components.CpuZ80
             if (subCarry && Flags.C) newValue--;
 
             Flags.S = (newValue & 0x8000) > 0;
-            Flags.Z = newValue == 0;
+            Flags.Z = IsZero(newValue);
             Flags.C = (newValue & 0xF0000) > 0;
             Flags.H = HalfCarryFromHi((byte)(acc >> 8), (byte)(newValue >> 8));
             Flags.N = true;
@@ -179,7 +179,7 @@ namespace Jacobi.Zim80.Components.CpuZ80
             if (addCarry && Flags.C) newValue++;
 
             Flags.S = IsNegative((byte)newValue);
-            Flags.Z = newValue == 0;
+            Flags.Z = IsZero(newValue);
             Flags.H = HalfCarryFromLo(acc, (byte)newValue);
             Flags.PV = IsOverflow(acc, value, newValue);
             Flags.N = false;
@@ -194,7 +194,7 @@ namespace Jacobi.Zim80.Components.CpuZ80
             if (subCarry && Flags.C) newValue--;
 
             Flags.S = IsNegative((byte)newValue);
-            Flags.Z = newValue == 0;
+            Flags.Z = IsZero(newValue);
             Flags.H = HalfCarryFromHi(acc, (byte)newValue);
             Flags.PV = IsOverflow(acc, value, newValue);
             Flags.N = true;
@@ -208,7 +208,7 @@ namespace Jacobi.Zim80.Components.CpuZ80
             var newValue = acc & value;
 
             Flags.S = IsNegative((byte)newValue);
-            Flags.Z = newValue == 0;
+            Flags.Z = IsZero(newValue);
             Flags.H = true;
             Flags.PV = IsOverflow(acc, value, newValue);
             Flags.N = false;
@@ -222,7 +222,7 @@ namespace Jacobi.Zim80.Components.CpuZ80
             var newValue = acc ^ value;
 
             Flags.S = IsNegative((byte)newValue);
-            Flags.Z = newValue == 0;
+            Flags.Z = IsZero(newValue);
             Flags.H = false;
             Flags.PV = IsParityEven((byte)newValue);
             Flags.N = false;
@@ -236,7 +236,7 @@ namespace Jacobi.Zim80.Components.CpuZ80
             var newValue = acc | value;
 
             Flags.S = IsNegative((byte)newValue);
-            Flags.Z = newValue == 0;
+            Flags.Z = IsZero(newValue);
             Flags.H = false;
             Flags.PV = IsOverflow(acc, value, newValue);
             Flags.N = false;
@@ -288,7 +288,7 @@ namespace Jacobi.Zim80.Components.CpuZ80
             _primarySet.A |= loNibble;
 
             Flags.S = IsNegative(_primarySet.A);
-            Flags.Z = (_primarySet.A == 0);
+            Flags.Z = IsZero(_primarySet.A);
             Flags.H = false;
             Flags.PV = IsParityEven(_primarySet.A);
             Flags.N = false;
@@ -307,7 +307,7 @@ namespace Jacobi.Zim80.Components.CpuZ80
             _primarySet.A |= hiNibble;
 
             Flags.S = IsNegative(_primarySet.A);
-            Flags.Z = (_primarySet.A == 0);
+            Flags.Z = IsZero(_primarySet.A);
             Flags.H = false;
             Flags.PV = IsParityEven(_primarySet.A);
             Flags.N = false;
@@ -477,7 +477,7 @@ namespace Jacobi.Zim80.Components.CpuZ80
         private void SetShiftRotateFlags(byte newValue)
         {
             Flags.S = IsNegative(newValue);
-            Flags.Z = newValue == 0;
+            Flags.Z = IsZero(newValue);
             Flags.PV = IsParityEven(newValue);
             Flags.H = false;
             Flags.N = false;
@@ -537,7 +537,7 @@ namespace Jacobi.Zim80.Components.CpuZ80
             return (byte)newValue;
         }
 
-        private static bool IsParityEven(byte value)
+        internal static bool IsParityEven(byte value)
         {
             bool oddParity = false;
 
@@ -565,7 +565,12 @@ namespace Jacobi.Zim80.Components.CpuZ80
             return false;
         }
 
-        private static bool IsNegative(byte value)
+        internal static bool IsZero(int value)
+        {
+            return value == 0;
+        }
+
+        internal static bool IsNegative(byte value)
         {
             return (value & 0x80) > 0;
         }

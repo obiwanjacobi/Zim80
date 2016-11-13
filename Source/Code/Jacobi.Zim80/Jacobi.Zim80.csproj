@@ -100,12 +100,14 @@
     <Compile Include="Components\CpuZ80\States\Instructions\IncDecShiftedIndirectInstruction.cs" />
     <Compile Include="Components\CpuZ80\States\Instructions\IncDecIndirectInstruction.cs" />
     <Compile Include="Components\CpuZ80\States\Instructions\IndirectBitSetResInstruction.cs" />
+    <Compile Include="Components\CpuZ80\States\Instructions\InInstruction.cs" />
     <Compile Include="Components\CpuZ80\States\Instructions\JumpRegister16Instruction.cs" />
     <Compile Include="Components\CpuZ80\States\Instructions\JumpInstruction.cs" />
     <Compile Include="Components\CpuZ80\States\Instructions\LoadImmediateIndirect16Instruction.cs" />
     <Compile Include="Components\CpuZ80\States\Instructions\MathDirectInstruction.cs" />
     <Compile Include="Components\CpuZ80\States\Instructions\MathIndirectInstruction.cs" />
     <Compile Include="Components\CpuZ80\States\Instructions\NegateInstruction.cs" />
+    <Compile Include="Components\CpuZ80\States\Instructions\OutInstruction.cs" />
     <Compile Include="Components\CpuZ80\States\Instructions\RetIntInstruction.cs" />
     <Compile Include="Components\CpuZ80\States\Instructions\ShiftRotateExtendedInstruction.cs" />
     <Compile Include="Components\CpuZ80\States\Instructions\ShiftRotateIndirectInstruction.cs" />
@@ -154,6 +156,8 @@
     <Compile Include="Components\CpuZ80\Opcodes\SingleByteOpcode.cs" />
     <Compile Include="Components\Logic\GlueLogic.cs" />
     <Compile Include="Components\Memory\IDirectMemoryAccess.cs" />
+    <Compile Include="Components\Memory\IMemoryAccessNotification.cs" />
+    <Compile Include="Components\Memory\Memory.cs" />
     <Compile Include="Components\Memory\MemoryRom.cs" />
     <Compile Include="Components\Memory\MemoryRam.cs" />
     <Compile Include="Components\Memory\MemoryWriter.cs" />

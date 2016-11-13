@@ -21,20 +21,33 @@ namespace Jacobi.Zim80.Components.CpuZ80.UnitTests
             return clock;
         }
 
-        public static SimulationModel Initialize(this CpuZ80 cpu, byte[] program)
+        public static SimulationModel Initialize(this CpuZ80 cpu, byte[] program, byte[] ioSpace = null)
         {
             new InstructionLogger(cpu);
 
             var model = new SimulationModel();
             model.Cpu = cpu;
-            model.Memory = MemoryTestExtensions.NewRam(program);
             model.ClockGen = new SignalGenerator();
             model.ClockGen.Output.CreateConnection(model.Cpu.Clock);
+
+            model.Memory = MemoryTestExtensions.NewRam(program);
             model.Cpu.MemoryRequest.CreateConnection(model.Memory.ChipEnable);
             model.Cpu.Read.CreateConnection(model.Memory.OutputEnable);
             model.Cpu.Write.CreateConnection(model.Memory.WriteEnable);
             model.Address = cpu.Address.CreateConnection(model.Memory.Address);
             model.Data = cpu.Data.CreateConnection(model.Memory.Data);
+            new MemoryLogger<BusData16, BusData8>().Attach(model.Memory);
+
+            if (ioSpace != null)
+            {
+                model.IoSpace = MemoryTestExtensions.NewRam(ioSpace);
+                model.Cpu.IoRequest.CreateConnection(model.IoSpace.ChipEnable);
+                model.Cpu.Read.CreateConnection(model.IoSpace.OutputEnable);
+                model.Cpu.Write.CreateConnection(model.IoSpace.WriteEnable);
+                cpu.Address.CreateConnection(model.IoSpace.Address);
+                cpu.Data.CreateConnection(model.IoSpace.Data);
+                new MemoryLogger<BusData16, BusData8>("IO").Attach(model.IoSpace);
+            }
 
             return model;
         }

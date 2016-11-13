@@ -89,6 +89,7 @@
     <Compile Include="Components\CpuZ80\Instructions\ExchangeIndirectInstructionTest.cs" />
     <Compile Include="Components\CpuZ80\Instructions\IndirectBitSetResInstructionTest.cs" />
     <Compile Include="Components\CpuZ80\Instructions\IndirectRegisterTest.cs" />
+    <Compile Include="Components\CpuZ80\Instructions\InInstructionTest.cs" />
     <Compile Include="Components\CpuZ80\Instructions\InterruptInstructionTest.cs" />
     <Compile Include="Components\CpuZ80\Instructions\IntModeInstructionTest.cs" />
     <Compile Include="Components\CpuZ80\Instructions\JumpRegister16InstructionTest.cs" />
@@ -109,6 +110,7 @@
     <Compile Include="Components\CpuZ80\Instructions\MathRegister8InstructionTest.cs" />
     <Compile Include="Components\CpuZ80\Instructions\NegateInstructionTest.cs" />
     <Compile Include="Components\CpuZ80\Instructions\NopInstructionTest.cs" />
+    <Compile Include="Components\CpuZ80\Instructions\OutInstructionTest.cs" />
     <Compile Include="Components\CpuZ80\Instructions\PopInstructionTest.cs" />
     <Compile Include="Components\CpuZ80\Instructions\PushInstructionTest.cs" />
     <Compile Include="Components\CpuZ80\Instructions\ReadImmediateRegisterInstructionTest.cs" />
@@ -124,10 +126,12 @@
     <Compile Include="Components\CpuZ80\Instructions\WriteImmediateRegisterInstructionTest.cs" />
     <Compile Include="Components\CpuZ80\Instructions\WriteIndirectRegisterInstructionTest.cs" />
     <Compile Include="Components\CpuZ80\Instructions\ReadIndirectRegisterInstructionTest.cs" />
+    <Compile Include="Components\CpuZ80\MemoryLogger.cs" />
     <Compile Include="Components\CpuZ80\Opcodes\OpcodeDefinitionTest.cs" />
     <Compile Include="Components\CpuZ80\Opcodes\SingleByteOpcodeWithSingleByteParameterTest.cs" />
     <Compile Include="Components\CpuZ80\Opcodes\SingleByteOpcodeWithNoParameterTest.cs" />
     <Compile Include="Components\Generators\SignalGeneratorTest.cs" />
+    <Compile Include="Components\Memory\MemoryRamTest.cs" />
     <Compile Include="Components\Memory\MemoryRomTest.cs" />
     <Compile Include="Components\Memory\MemoryTestExtensions.cs" />
     <Compile Include="DigitalSignalConsumerTest.cs" />

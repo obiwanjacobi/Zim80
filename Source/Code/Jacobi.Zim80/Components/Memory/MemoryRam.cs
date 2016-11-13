@@ -1,35 +1,55 @@
-﻿namespace Jacobi.Zim80.Components.Memory
+﻿using System;
+
+namespace Jacobi.Zim80.Components.Memory
 {
     public class MemoryRam<AddressT, DataT> : MemoryRom<AddressT, DataT>
         where AddressT : BusData, new()
         where DataT : BusData, new()
     {
-        private readonly BusSlave<DataT> _dataSlave;
-
         public MemoryRam()
         {
             WriteEnable = new DigitalSignalConsumer();
             WriteEnable.OnChanged += WriteEnable_OnChanged;
-            _dataSlave = Data.ToSlave();
-            _dataSlave.OnChanged += DataSlave_OnChanged;
         }
 
         public DigitalSignalConsumer WriteEnable { get; private set; }
 
-        private void DataSlave_OnChanged(object sender, BusChangedEventArgs<DataT> e)
+        protected override void OnStateChanged()
         {
-            InputData(e.Value);
+            InputData(Data.Slave.Value);
+            base.OnStateChanged();
+        }
+
+        protected override void OnWriteDataBus(DataT value)
+        {
+            InputData(value);
         }
 
         private void WriteEnable_OnChanged(object sender, DigitalLevelChangedEventArgs e)
         {
-            InputData(Data.Value);
+            OnStateChanged();
+        }
+
+        private bool IsEnabled
+        {
+            get
+            {
+                return ChipEnable.Level == DigitalLevel.Low &&
+                       WriteEnable.Level == DigitalLevel.Low;
+            }
         }
 
         private void InputData(DataT data)
         {
             if (ChipEnable.Level == DigitalLevel.Low &&
-                WriteEnable.Level == DigitalLevel.Low)
+                WriteEnable.Level == DigitalLevel.Low &&
+                OutputEnable.Level == DigitalLevel.Low)
+            {
+                throw new InvalidOperationException(
+                    "Both OutputEnable and WriteEnable are active (Low).");
+            }
+
+            if (IsEnabled)
             {
                 Data.IsEnabled = false;
                 Write(data);
