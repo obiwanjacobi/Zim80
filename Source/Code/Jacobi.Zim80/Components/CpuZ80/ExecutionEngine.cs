@@ -1,6 +1,5 @@
 ﻿using Jacobi.Zim80.Components.CpuZ80.Opcodes;
 using Jacobi.Zim80.Components.CpuZ80.States;
-using Jacobi.Zim80.Components.CpuZ80.States.Instructions;
 using System;
 
 namespace Jacobi.Zim80.Components.CpuZ80

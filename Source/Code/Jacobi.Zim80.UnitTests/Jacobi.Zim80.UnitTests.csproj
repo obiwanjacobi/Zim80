@@ -90,6 +90,7 @@
     <Compile Include="Components\CpuZ80\Instructions\IndirectBitSetResInstructionTest.cs" />
     <Compile Include="Components\CpuZ80\Instructions\IndirectRegisterTest.cs" />
     <Compile Include="Components\CpuZ80\Instructions\InInstructionTest.cs" />
+    <Compile Include="Components\CpuZ80\Instructions\InRepeatInstructionTest.cs" />
     <Compile Include="Components\CpuZ80\Instructions\InterruptInstructionTest.cs" />
     <Compile Include="Components\CpuZ80\Instructions\IntModeInstructionTest.cs" />
     <Compile Include="Components\CpuZ80\Instructions\JumpRegister16InstructionTest.cs" />

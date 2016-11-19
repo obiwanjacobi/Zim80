@@ -131,6 +131,10 @@ namespace Jacobi.Zim80.Components.CpuZ80.Opcodes.UnitTests
 
                 Assert.Inconclusive();
             }
+            else
+            {
+                TestContext.WriteLine("All Opcode Definitions have an assigned Instruction class.");
+            }
         }
     }
 }
