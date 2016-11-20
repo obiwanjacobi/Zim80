@@ -3,12 +3,15 @@
 namespace Jacobi.Zim80.Components
 {
     public class BusChangedEventArgs<T> : EventArgs
-        where T : BusData
+        where T : BusData, new()
     {
-        public BusChangedEventArgs(T value)
+        public BusChangedEventArgs(BusMaster<T> busMaster, T value)
         {
+            BusMaster = busMaster;
             Value = value;
         }
+
+        public BusMaster<T> BusMaster { get; private set; }
 
         public T Value { get; private set; }
     }

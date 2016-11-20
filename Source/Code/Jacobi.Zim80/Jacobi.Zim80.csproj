@@ -147,7 +147,7 @@
     <Compile Include="Components\CpuZ80\States\Instructions\WriteImmediateRegisterInstruction.cs" />
     <Compile Include="Components\CpuZ80\States\Instructions\WriteIndirectRegisterInstruction.cs" />
     <Compile Include="Components\CpuZ80\States\Instructions\WriteT3InstructionPart.cs" />
-    <Compile Include="Components\Generators\DigitalLevelCycle.cs" />
+    <Compile Include="DigitalLevelCycler.cs" />
     <Compile Include="Components\Generators\Randomizer.cs" />
     <Compile Include="Components\Generators\SignalGenerator.cs" />
     <Compile Include="Components\CpuZ80\CpuZ80.cs" />

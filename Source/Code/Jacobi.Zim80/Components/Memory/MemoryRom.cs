@@ -38,8 +38,11 @@ namespace Jacobi.Zim80.Components.Memory
         {
             if (IsEnabled)
             {
-                Data.IsEnabled = true;
-                Data.Write(Read());
+                if (Data.IsConnected)
+                {
+                    Data.IsEnabled = true;
+                    Data.Write(Read());
+                }
             }
             else
             {

@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace Jacobi.Zim80.Components
+﻿namespace Jacobi.Zim80.Components
 {
     public class BusData8 : BusData
     {

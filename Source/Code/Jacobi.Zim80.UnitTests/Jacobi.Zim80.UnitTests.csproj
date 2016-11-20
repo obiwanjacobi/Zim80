@@ -136,6 +136,7 @@
     <Compile Include="Components\Memory\MemoryRomTest.cs" />
     <Compile Include="Components\Memory\MemoryTestExtensions.cs" />
     <Compile Include="DigitalSignalConsumerTest.cs" />
+    <Compile Include="DigitalSignalCyclerTest.cs" />
     <Compile Include="DigitalSignalProviderTest.cs" />
     <Compile Include="DigitalSignalTest.cs" />
     <Compile Include="DigitalSignalTestExtensions.cs" />

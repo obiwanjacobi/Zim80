@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace Jacobi.Zim80.Components
+﻿namespace Jacobi.Zim80.Components
 {
     public class BusData16 : BusData
     {
@@ -10,7 +8,7 @@ namespace Jacobi.Zim80.Components
             : base(BusWidth)
         { }
 
-        public BusData16(UInt16 data)
+        public BusData16(ushort data)
             : base(BusWidth)
         {
             Write(data);

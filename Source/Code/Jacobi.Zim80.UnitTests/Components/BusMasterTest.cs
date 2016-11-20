@@ -11,58 +11,93 @@ namespace Jacobi.Zim80.UnitTests.Components
         [TestMethod]
         public void Ctor_HasLevels()
         {
-            var master = new BusMaster<BusData8>();
-            master.Value.Should().NotBeNull();
+            var uut = new BusMaster<BusData8>();
+            uut.Value.Should().NotBeNull();
         }
 
         [TestMethod]
         public void Ctor_MasterIsDisabled()
         {
-            var master = new BusMaster<BusData8>();
-            master.IsEnabled.Should().BeFalse();
+            var uut = new BusMaster<BusData8>();
+            uut.IsEnabled.Should().BeFalse();
         }
 
         [TestMethod]
         public void Ctor_LevelsAreFloating()
         {
-            var master = new BusMaster<BusData8>();
-            master.Value.AllLevelsAre(DigitalLevel.Floating);
+            var uut = new BusMaster<BusData8>();
+            uut.Value.AllLevelsAre(DigitalLevel.Floating);
         }
 
         [TestMethod]
-        public void Write_DisabledMaster_Error()
+        public void Write_DisabledMaster_Throws()
         {
-            var master = new BusMaster<BusData8>();
+            var uut = new BusMaster<BusData8>();
             var newValue = new BusData8(0);
 
-            Action act = () => master.Write(newValue);
+            Action act = () => uut.Write(newValue);
 
             act.ShouldThrow<InvalidOperationException>();
         }
 
         [TestMethod]
-        public void Write_ChangesLevels()
+        public void Write_Unconnected_DoesNotThrow()
         {
-            var master = new BusMaster<BusData8>();
+            var uut = new BusMaster<BusData8>();
             var newValue = new BusData8(0);
-            master.IsEnabled = true;
+            uut.IsEnabled = true;
 
-            master.Write(newValue);
-
-            master.Value.AllLevelsAre(DigitalLevel.Low);
+            Action test = () => uut.Write(newValue);
+            test.ShouldNotThrow();
         }
 
         [TestMethod]
         public void IsEnabled_ToFalse_ChangesLevelsToFloating()
         {
-            var master = new BusMaster<BusData8>();
+            var uut = new BusMaster<BusData8>();
+            var bus = new Bus<BusData8>();
+            uut.ConnectTo(bus);
+            uut.IsEnabled = true;
+
             var newValue = new BusData8(0);
-            master.IsEnabled = true;
+            uut.Write(newValue);
+            uut.IsEnabled = false;
 
-            master.Write(newValue);
-            master.IsEnabled = false;
+            uut.Value.AllLevelsAre(DigitalLevel.Floating);
+        }
 
-            master.Value.AllLevelsAre(DigitalLevel.Floating);
+        [TestMethod]
+        public void Connect_OneMaster_NoErrors()
+        {
+            var uut = new BusMaster<BusData8>();
+            var bus = new Bus<BusData8>();
+
+            uut.ConnectTo(bus);
+        }
+
+        [TestMethod]
+        public void Connect_MultipleMasters_NoErrors()
+        {
+            var master1 = new BusMaster<BusData8>();
+            var master2 = new BusMaster<BusData8>();
+            var bus = new Bus<BusData8>();
+
+            master1.ConnectTo(bus);
+            master2.ConnectTo(bus);
+        }
+
+        [TestMethod]
+        public void Write_BusValueChanged()
+        {
+            var uut = new BusMaster<BusData8>();
+            var bus = new Bus<BusData8>();
+            uut.ConnectTo(bus);
+            uut.IsEnabled = true;
+
+            var newValue = new BusData8(0);
+            uut.Write(newValue);
+
+            bus.AllLevelsAre(DigitalLevel.Low);
         }
     }
 }

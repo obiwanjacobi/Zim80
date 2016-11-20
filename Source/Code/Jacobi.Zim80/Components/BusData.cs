@@ -1,9 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace Jacobi.Zim80.Components
 {
-    // immutable
+    /// <summary>
+    /// Immutable base class for bus data objects.
+    /// </summary>
     public abstract class BusData
     {
         private readonly List<DigitalLevel> _signals = new List<DigitalLevel>();
@@ -25,6 +28,16 @@ namespace Jacobi.Zim80.Components
         public DigitalLevel this[int index]
         {
             get { return Read(index); }
+        }
+
+        public IEnumerable<DigitalLevel> Signals
+        {
+            get { return _signals; }
+        }
+
+        public bool IsFloating
+        {
+            get { return _signals.All(s => s == DigitalLevel.Floating); }
         }
 
         public DigitalLevel Read(int index)

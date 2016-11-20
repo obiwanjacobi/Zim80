@@ -1,6 +1,7 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Jacobi.Zim80.Components;
 using FluentAssertions;
+using System;
 
 namespace Jacobi.Zim80.UnitTests.Components
 {
@@ -8,17 +9,23 @@ namespace Jacobi.Zim80.UnitTests.Components
     public class BusSlaveTest
     {
         [TestMethod]
-        public void Ctor_HasValue()
+        public void Unconnected_ReadValue_DoesNotThrow()
         {
-            var slave = new BusSlave<BusData8>();
-            slave.Value.Should().NotBeNull();
+            var uut = new BusSlave<BusData8>();
+
+            Action test = () => { var l = uut.Value; };
+
+            test.ShouldNotThrow();
         }
 
         [TestMethod]
-        public void Ctor_AllLevelsAreFloating()
+        public void Connected_AllLevelsAreFloating()
         {
-            var slave = new BusSlave<BusData8>();
-            slave.Value.AllLevelsAre(DigitalLevel.Floating);
+            var uut = new BusSlave<BusData8>();
+            var bus = new Bus<BusData8>();
+            uut.ConnectTo(bus);
+
+            uut.Value.AllLevelsAre(DigitalLevel.Floating);
         }
     }
 }

@@ -42,10 +42,10 @@ namespace Jacobi.Zim80.Components.CpuZ80.UnitTests
             {
                 model.IoSpace = MemoryTestExtensions.NewRam(ioSpace);
                 model.Cpu.IoRequest.CreateConnection(model.IoSpace.ChipEnable);
-                model.Cpu.Read.CreateConnection(model.IoSpace.OutputEnable);
-                model.Cpu.Write.CreateConnection(model.IoSpace.WriteEnable);
-                cpu.Address.CreateConnection(model.IoSpace.Address);
-                cpu.Data.CreateConnection(model.IoSpace.Data);
+                model.IoSpace.OutputEnable.ConnectTo(model.Cpu.Read.DigitalSignal);
+                model.IoSpace.WriteEnable.ConnectTo(model.Cpu.Write.DigitalSignal);
+                model.IoSpace.Address.ConnectTo(cpu.Address.Bus);
+                model.IoSpace.Data.ConnectTo(cpu.Data.Bus);
                 new MemoryLogger<BusData16, BusData8>("IO").Attach(model.IoSpace);
             }
 

@@ -41,37 +41,18 @@ namespace Jacobi.Zim80.UnitTests.Components
         }
 
         [TestMethod]
-        public void Connect_OneMaster_NoErrors()
+        public void Write_EventTriggers()
         {
             var master = new BusMaster<BusData8>();
             var bus = new Bus<BusData8>();
-
-            bus.Connect(master);
-        }
-
-        [TestMethod]
-        public void Connect_MultipleMasters_NoErrors()
-        {
-            var master1 = new BusMaster<BusData8>();
-            var master2 = new BusMaster<BusData8>();
-            var bus = new Bus<BusData8>();
-
-            bus.Connect(master1);
-            bus.Connect(master2);
-        }
-
-        [TestMethod]
-        public void Write_SingleMaster_BusSeesChanges()
-        {
-            var master = new BusMaster<BusData8>();
-            var bus = new Bus<BusData8>();
-            bus.Connect(master);
+            master.ConnectTo(bus);
             master.IsEnabled = true;
+            bus.MonitorEvents();
 
             var newValue = new BusData8(0);
             master.Write(newValue);
 
-            bus.AllLevelsAre(DigitalLevel.Low);
+            bus.ShouldRaise("OnChanged");
         }
 
         [TestMethod]
@@ -80,8 +61,8 @@ namespace Jacobi.Zim80.UnitTests.Components
             var master = new BusMaster<BusData8>();
             var slave = new BusSlave<BusData8>();
             var bus = new Bus<BusData8>();
-            bus.Connect(master);
-            bus.Connect(slave);
+            master.ConnectTo(bus);
+            slave.ConnectTo(bus);
             master.IsEnabled = true;
 
             var newValue = new BusData8(0);
@@ -96,8 +77,8 @@ namespace Jacobi.Zim80.UnitTests.Components
             var master1 = new BusMaster<BusData8>();
             var master2 = new BusMaster<BusData8>();
             var bus = new Bus<BusData8>();
-            bus.Connect(master1);
-            bus.Connect(master2);
+            master1.ConnectTo(bus);
+            master2.ConnectTo(bus);
             master1.IsEnabled = true;
             master2.IsEnabled = true;
 
@@ -117,8 +98,8 @@ namespace Jacobi.Zim80.UnitTests.Components
             var master1 = new BusMaster<BusData8>();
             var master2 = new BusMaster<BusData8>();
             var bus = new Bus<BusData8>();
-            bus.Connect(master1);
-            bus.Connect(master2);
+            master1.ConnectTo(bus);
+            master2.ConnectTo(bus);
             master1.IsEnabled = true;
             master2.IsEnabled = true;
 
@@ -138,9 +119,9 @@ namespace Jacobi.Zim80.UnitTests.Components
             var slave1 = new BusSlave<BusData8>();
             var slave2 = new BusSlave<BusData8>();
             var bus = new Bus<BusData8>();
-            bus.Connect(master);
-            bus.Connect(slave1);
-            bus.Connect(slave2);
+            master.ConnectTo(bus);
+            slave1.ConnectTo(bus);
+            slave2.ConnectTo(bus);
             master.IsEnabled = true;
 
             var newValue = new BusData8(0);

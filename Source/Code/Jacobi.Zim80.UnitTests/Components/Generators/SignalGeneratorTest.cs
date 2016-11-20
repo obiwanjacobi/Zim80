@@ -134,7 +134,9 @@ namespace Jacobi.Zim80.Components.Generators.UnitTests
         private void ExecuteCountTest(int machineCycles, CycleNames toCycle, DigitalLevel toLevel)
         {
             var gen = new SignalGenerator();
-            gen.Output.OnChanged += Output_OnChanged;
+            var ds = new DigitalSignal("GenOut");
+            ds.OnChanged += Output_OnChanged;
+            gen.Output.ConnectTo(ds);
 
             gen.BlockWave(machineCycles, toCycle, toLevel);
         }

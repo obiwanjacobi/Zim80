@@ -33,6 +33,7 @@ namespace Jacobi.Zim80.Components.Memory.UnitTests
         {
             var mem = MemoryTestExtensions.NewRom(new byte[] { Value });
             var addressBus = mem.Address.CreateConnection();
+            addressBus.IsEnabled = true;
             addressBus.Write(new BusData16(0));
         }
 
@@ -49,6 +50,7 @@ namespace Jacobi.Zim80.Components.Memory.UnitTests
             ceProv.Write(DigitalLevel.Low);
             oeProv.Write(DigitalLevel.Low);
             // set address
+            addressBus.IsEnabled = true;
             addressBus.Write(new BusData16(0));
             // read data
             dataBus.Value.Equals(new BusData8(Value)).Should().BeTrue();
@@ -67,6 +69,7 @@ namespace Jacobi.Zim80.Components.Memory.UnitTests
             ceProv.Write(DigitalLevel.Low);
             oeProv.Write(DigitalLevel.Low);
             // set address
+            addressBus.IsEnabled = true;
             addressBus.Write(new BusData16(1));
             // read data
             dataBus.Value.Equals(new BusData8(Value)).Should().BeTrue();
@@ -82,6 +85,7 @@ namespace Jacobi.Zim80.Components.Memory.UnitTests
             var oeProv = mem.OutputEnable.CreateConnection();
 
             // set address
+            addressBus.IsEnabled = true;
             addressBus.Write(new BusData16(0));
 
             // enable chip and output
@@ -105,6 +109,7 @@ namespace Jacobi.Zim80.Components.Memory.UnitTests
             oeProv.Write(DigitalLevel.Low);
 
             // set address
+            addressBus.IsEnabled = true;
             addressBus.Write(new BusData16(0));
 
             // enable chip
@@ -127,6 +132,7 @@ namespace Jacobi.Zim80.Components.Memory.UnitTests
             ceProv.Write(DigitalLevel.High);
             oeProv.Write(DigitalLevel.Low);
             // set address
+            addressBus.IsEnabled = true;
             addressBus.Write(new BusData16(0));
             // read data
             dataBus.Value.Equals(new BusData8()).Should().BeTrue();
@@ -141,14 +147,14 @@ namespace Jacobi.Zim80.Components.Memory.UnitTests
             var ceProv = mem.ChipEnable.CreateConnection();
             var oeProv = mem.OutputEnable.CreateConnection();
             
-            // do not enable chip
             ceProv.Write(DigitalLevel.Low);
             oeProv.Write(DigitalLevel.Low);
             // set address
+            addressBus.IsEnabled = true;
             addressBus.Write(new BusData16(0));
-            // read data
+
             Action fn = () => dataBus.Write(new BusData8(0));
-            fn.ShouldThrow<Exception>();
+            fn.ShouldThrow<InvalidOperationException>();
         }
     }
 }

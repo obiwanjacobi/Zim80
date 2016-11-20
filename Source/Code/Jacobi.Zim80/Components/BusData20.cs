@@ -1,14 +1,17 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
-namespace Jacobi.Zim80.Components
+﻿namespace Jacobi.Zim80.Components
 {
     public class BusData20 : BusData
     {
+        public const int BusWidth = 20;
+
         public BusData20()
-            : base(20)
+            : base(BusWidth)
         { }
+
+        public BusData20(uint data)
+            : base(BusWidth)
+        {
+            Write(data);
+        }
     }
 }

@@ -1,25 +1,30 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 
-namespace Jacobi.Zim80.Components.Generators
+namespace Jacobi.Zim80
 {
-    public class DigitalLevelCycle : IEnumerable<DigitalLevel>
+    public class DigitalLevelCycler : IEnumerable<DigitalLevel>
     {
         private readonly DigitalLevel? _startLevel = null;
         private readonly DigitalLevel? _endLevel = null;
         private bool _abort = false;
         private ulong _cycleCount;
 
-        public DigitalLevelCycle()
+        public DigitalLevelCycler()
         { }
 
-        public DigitalLevelCycle(DigitalLevel startLevel)
+        public DigitalLevelCycler(DigitalLevel startLevel)
         {
             _startLevel = startLevel;
         }
 
-        public DigitalLevelCycle(DigitalLevel startLevel, DigitalLevel endLevel)
+        public DigitalLevelCycler(DigitalLevel startLevel, DigitalLevel endLevel)
         {
+            if (endLevel == DigitalLevel.Floating)
+                throw new ArgumentException(
+                    "Invalid End Level: Floating is not supported.", nameof(endLevel));
+
             _startLevel = startLevel;
             _endLevel = endLevel;
         }
@@ -71,6 +76,20 @@ namespace Jacobi.Zim80.Components.Generators
                     }
                 }
             }
+        }
+
+        public static DigitalLevel NextLevel(DigitalLevel level)
+        {
+            if (level < DigitalLevel.NegEdge)
+            {
+                level++;
+            }
+            else
+            {
+                level = DigitalLevel.Low;
+            }
+
+            return level;
         }
 
         IEnumerator IEnumerable.GetEnumerator()

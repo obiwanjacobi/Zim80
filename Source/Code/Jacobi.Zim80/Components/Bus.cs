@@ -1,43 +1,68 @@
 ﻿using System.Linq;
 using System.Collections.Generic;
+using System;
 
 namespace Jacobi.Zim80.Components
 {
-    public class Bus<T> 
+    public class Bus<T>
         where T : BusData, new()
     {
         private readonly List<BusMaster<T>> _masters = new List<BusMaster<T>>();
-        private readonly List<BusSlave<T>>  _slaves = new List<BusSlave<T>>();
+        private readonly List<BusSlave<T>> _slaves = new List<BusSlave<T>>();
 
         public Bus()
         {
             Value = new T();
         }
 
+        public Bus(string name)
+            : this()
+        {
+            Name = name;
+        }
+
         public string Name { get; set; }
+
         public T Value { get; private set; }
 
-        public void Connect(BusMaster<T> busMaster)
+        public event EventHandler<BusChangedEventArgs<T>> OnChanged;
+
+        
+
+        internal void Attach(BusMaster<T> busMaster)
         {
-            if (!_masters.Contains(busMaster))
+            if (busMaster == null)
+                throw new ArgumentNullException(nameof(busMaster));
+            if (_masters.Contains(busMaster))
+                throw new ArgumentException("Specified BusMaster is already connected.", nameof(busMaster));
+
+            _masters.Add(busMaster);
+        }
+
+        internal void Attach(BusSlave<T> busSlave)
+        {
+            if (busSlave == null)
+                throw new ArgumentNullException(nameof(busSlave));
+            if (_slaves.Contains(busSlave))
+                throw new ArgumentException("Specified BusSlave is already connected.", nameof(busSlave));
+
+            _slaves.Add(busSlave);
+        }
+
+        internal void OnMasterValueChanged(BusMaster<T> busMaster)
+        {
+            ThrowIfMultipleMastersAreActive(busMaster);
+            var value = busMaster.Value;
+            if (!Value.Equals(value))
             {
-                _masters.Add(busMaster);
-                busMaster.OnChanged += MasterOnChanged;
+                Value = value;
+                NotifyChange(busMaster);
             }
         }
 
-        private void MasterOnChanged(object sender, BusChangedEventArgs<T> e)
+        private void NotifyChange(BusMaster<T> busMaster)
         {
-            ThrowIfMultipleMastersAreActive((BusMaster<T>)sender);
-            Value = e.Value;
-            foreach (var slave in _slaves)
-                slave.Value = Value;
-        }
-
-        public void Connect(BusSlave<T> busSlave)
-        {
-            if (busSlave != null)
-                _slaves.Add(busSlave);
+            OnChanged?.Invoke(this, new BusChangedEventArgs<T>(busMaster, Value));
         }
 
         private void ThrowIfMultipleMastersAreActive(BusMaster<T> currentMaster)

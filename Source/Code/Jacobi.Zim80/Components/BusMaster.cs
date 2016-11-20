@@ -11,7 +11,18 @@ namespace Jacobi.Zim80.Components
             Value = new T();
         }
 
-        public event EventHandler<BusChangedEventArgs<T>> OnChanged;
+        public BusMaster(string name)
+            : this()
+        {
+            Name = name;
+        }
+
+        public BusMaster(Bus<T> bus, string name)
+            : this()
+        {
+            Name = name;
+            ConnectTo(bus);
+        }
 
         private bool _isEnabled;
 
@@ -29,26 +40,67 @@ namespace Jacobi.Zim80.Components
             }
         }
 
+        public string Name { get; set; }
+
         public T Value { get; private set; }
+
+        private Bus<T> _bus;
+
+        public Bus<T> Bus
+        {
+            get { return _bus; }
+        }
+
+        public virtual void ConnectTo(Bus<T> bus)
+        {
+            if (_bus != null)
+                throw new InvalidOperationException(
+                    "BusMaster is already connected.");
+
+            _bus = bus;
+            _bus.Attach(this);
+
+            if (!Value.IsFloating)
+            {
+                _bus.OnMasterValueChanged(this);
+            }
+        }
 
         public void Write(T value)
         {
-            if (value == null) throw new ArgumentNullException("value");
-
+            if (value == null)
+                throw new ArgumentNullException(nameof(value));
             ThrowIfNotEnabled();
-            WriteInternal(value);
+
+            if (!IsConnected)
+                Value = value;
+            else
+                WriteInternal(value);
         }
 
-        protected virtual void WriteInternal(T value)
+        public bool IsConnected
+        {
+            get { return _bus != null; }
+        }
+
+        private void WriteInternal(T value)
         {
             Value = value;
-            OnChanged?.Invoke(this, new BusChangedEventArgs<T>(value));
+            _bus.OnMasterValueChanged(this);
+        }
+
+        private void ThrowIfNotConnected()
+        {
+            if (!IsConnected)
+                throw new InvalidOperationException(
+                    "BusMaster is not connected.");
         }
 
         private void ThrowIfNotEnabled()
         {
             if (!IsEnabled)
-                throw new InvalidOperationException("The BusMaster is not enabled.");
+                throw new InvalidOperationException(
+                    "BusMaster is not enabled.");
         }
     }
 }

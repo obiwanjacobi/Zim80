@@ -16,6 +16,8 @@ namespace Jacobi.Zim80.Components.Memory
 
         protected override void OnStateChanged()
         {
+            if (!Data.IsConnected) return;
+
             InputData(Data.Slave.Value);
             base.OnStateChanged();
         }
@@ -41,18 +43,23 @@ namespace Jacobi.Zim80.Components.Memory
 
         private void InputData(DataT data)
         {
+            ThrowIfOutputAndWriteAreActive();
+
+            if (IsEnabled)
+            {
+                Data.IsEnabled = false;
+                Write(data);
+            }
+        }
+
+        private void ThrowIfOutputAndWriteAreActive()
+        {
             if (ChipEnable.Level == DigitalLevel.Low &&
                 WriteEnable.Level == DigitalLevel.Low &&
                 OutputEnable.Level == DigitalLevel.Low)
             {
                 throw new InvalidOperationException(
                     "Both OutputEnable and WriteEnable are active (Low).");
-            }
-
-            if (IsEnabled)
-            {
-                Data.IsEnabled = false;
-                Write(data);
             }
         }
     }
