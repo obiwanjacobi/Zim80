@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 
 namespace Jacobi.Zim80
@@ -7,6 +8,7 @@ namespace Jacobi.Zim80
     /// <summary>
     /// Maintains the state (Level) of a digital signal (net).
     /// </summary>
+    [DebuggerDisplay("{Level} {Name}")]
     public class DigitalSignal
     {
         public DigitalSignal()
@@ -25,6 +27,16 @@ namespace Jacobi.Zim80
         public DigitalLevel Level { get; private set; }
 
         public event EventHandler<DigitalLevelChangedEventArgs> OnChanged;
+
+        public IEnumerable<DigitalSignalConsumer> Consumers
+        {
+            get { return _consumers; }
+        }
+
+        public IEnumerable<DigitalSignalProvider> Providers
+        {
+            get { return _providers; }
+        }
 
         internal void Attach(DigitalSignalConsumer consumer)
         {

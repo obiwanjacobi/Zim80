@@ -43,15 +43,21 @@ namespace Jacobi.Zim80
             _digitalSignal.Attach(this);
 
             _digitalSignal.OnChanged += DigitalSignal_OnChanged;
-
-            if (String.IsNullOrEmpty(Name) &&
-                !String.IsNullOrEmpty(_digitalSignal.Name))
-            {
-                Name = _digitalSignal.Name + " Consumer";
-            }
         }
 
-        public string Name { get; set; }
+        private string _name;
+
+        public string Name
+        {
+            get
+            {
+                if (IsConnected && _name == null)
+                    return _digitalSignal.Name;
+                return _name;
+            }
+            set
+            { _name = value; }
+        }
 
         public DigitalLevel Level
         {

@@ -1,8 +1,10 @@
 ﻿using System;
+using System.Diagnostics;
 
 namespace Jacobi.Zim80.Components
 {
     // writes values to bus signals
+    [DebuggerDisplay("{Value} {Name}")]
     public class BusMaster<T> 
         where T : BusData, new()
     {
@@ -40,7 +42,19 @@ namespace Jacobi.Zim80.Components
             }
         }
 
-        public string Name { get; set; }
+        private string _name;
+
+        public string Name
+        {
+            get
+            {
+                if (IsConnected && _name == null)
+                    return _bus.Name;
+                return _name;
+            }
+            set
+            { _name = value; }
+        }
 
         public T Value { get; private set; }
 

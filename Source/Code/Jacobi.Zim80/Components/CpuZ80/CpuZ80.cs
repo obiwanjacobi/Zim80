@@ -8,27 +8,27 @@ namespace Jacobi.Zim80.Components.CpuZ80
 
         public CpuZ80()
         {
-            Clock = new DigitalSignalConsumer();
+            Clock = new DigitalSignalConsumer("CLK");
 
-            Reset = new DigitalSignalConsumer();
-            Interrupt = new DigitalSignalConsumer();
-            NonMaskableInterrupt = new DigitalSignalConsumer();
-            Wait = new DigitalSignalConsumer();
+            Reset = new DigitalSignalConsumer("RST");
+            Interrupt = new DigitalSignalConsumer("INT");
+            NonMaskableInterrupt = new DigitalSignalConsumer("NMI");
+            Wait = new DigitalSignalConsumer("WAIT");
 
-            BusRequest = new DigitalSignalConsumer();
-            BusAcknowledge = new DigitalSignalProvider();
+            BusRequest = new DigitalSignalConsumer("BREQ");
+            BusAcknowledge = new DigitalSignalProvider("BACK");
 
-            MemoryRequest = new DigitalSignalProvider();
-            IoRequest = new DigitalSignalProvider();
-            Read = new DigitalSignalProvider();
-            Write = new DigitalSignalProvider();
+            MemoryRequest = new DigitalSignalProvider("MREQ");
+            IoRequest = new DigitalSignalProvider("IORQ");
+            Read = new DigitalSignalProvider("RD");
+            Write = new DigitalSignalProvider("WR");
 
-            MachineCycle1 = new DigitalSignalProvider();
-            Refresh = new DigitalSignalProvider();
-            Halt = new DigitalSignalProvider();
+            MachineCycle1 = new DigitalSignalProvider("M1");
+            Refresh = new DigitalSignalProvider("RFSH");
+            Halt = new DigitalSignalProvider("HALT");
 
-            Address = new BusMaster<BusData16>();
-            Data = new BusMasterSlave<BusData8>();
+            Address = new BusMaster<BusData16>("Address");
+            Data = new BusMasterSlave<BusData8>("Data");
 
             // bond wires
             _die = new Die(

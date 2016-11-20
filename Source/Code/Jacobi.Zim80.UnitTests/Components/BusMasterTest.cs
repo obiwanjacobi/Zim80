@@ -26,7 +26,7 @@ namespace Jacobi.Zim80.UnitTests.Components
         public void Ctor_LevelsAreFloating()
         {
             var uut = new BusMaster<BusData8>();
-            uut.Value.AllLevelsAre(DigitalLevel.Floating);
+            uut.Value.AssertAllLevelsAre(DigitalLevel.Floating);
         }
 
         [TestMethod]
@@ -63,7 +63,7 @@ namespace Jacobi.Zim80.UnitTests.Components
             uut.Write(newValue);
             uut.IsEnabled = false;
 
-            uut.Value.AllLevelsAre(DigitalLevel.Floating);
+            uut.Value.AssertAllLevelsAre(DigitalLevel.Floating);
         }
 
         [TestMethod]
@@ -97,7 +97,7 @@ namespace Jacobi.Zim80.UnitTests.Components
             var newValue = new BusData8(0);
             uut.Write(newValue);
 
-            bus.AllLevelsAre(DigitalLevel.Low);
+            bus.AssertAllLevelsAre(DigitalLevel.Low);
         }
     }
 }

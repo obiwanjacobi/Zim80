@@ -127,6 +127,11 @@ namespace Jacobi.Zim80.Components
             return data;
         }
 
+        public override string ToString()
+        {
+            return String.Format("{0:X}", ToUInt32(Width));
+        }
+
         private void ReadBits(int maxWidth, Action<int> write)
         {
             for (int i = 0; i < Width && i < maxWidth; i++)

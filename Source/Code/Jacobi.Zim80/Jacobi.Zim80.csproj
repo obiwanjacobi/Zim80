@@ -13,7 +13,7 @@
     <DefaultLanguage>en-US</DefaultLanguage>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{786C830F-07A1-408B-BD7F-6EE04809D6DB};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
-    <TargetFrameworkProfile>Profile344</TargetFrameworkProfile>
+    <TargetFrameworkProfile>Profile47</TargetFrameworkProfile>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <SccProjectName>SAK</SccProjectName>
     <SccLocalPath>SAK</SccLocalPath>
@@ -43,6 +43,10 @@
     <None Include="Components\CpuZ80\States\Instructions\Jacobi.Zim80.Components.CpuZ80.States.Instructions.MultiByteInstructions.cd" />
     <None Include="Components\CpuZ80\States\Instructions\Jacobi.Zim80.Components.CpuZ80.States.Instructions.SingleByteInstructions.cd" />
     <None Include="Components\CpuZ80\States\Jacobi.Zim80.Components.CpuZ80.States.CpuStates.cd" />
+    <None Include="Diagnostics\Dgml.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Diagnostics\GenerateClasses.cmd" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Components\Bus.cs" />
@@ -147,6 +151,13 @@
     <Compile Include="Components\CpuZ80\States\Instructions\WriteImmediateRegisterInstruction.cs" />
     <Compile Include="Components\CpuZ80\States\Instructions\WriteIndirectRegisterInstruction.cs" />
     <Compile Include="Components\CpuZ80\States\Instructions\WriteT3InstructionPart.cs" />
+    <Compile Include="Diagnostics\GraphicModelBuilder.cs" />
+    <Compile Include="Diagnostics\Dgml.cs">
+      <DependentUpon>Dgml.xsd</DependentUpon>
+    </Compile>
+    <Compile Include="Diagnostics\DgmlModelBuilder.cs" />
+    <Compile Include="Diagnostics\DgmlSerializer.cs" />
+    <Compile Include="Diagnostics\UniqueNameBuilder.cs" />
     <Compile Include="DigitalLevelCycler.cs" />
     <Compile Include="Components\Generators\Randomizer.cs" />
     <Compile Include="Components\Generators\SignalGenerator.cs" />

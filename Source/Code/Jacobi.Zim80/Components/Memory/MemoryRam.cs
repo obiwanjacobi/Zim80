@@ -8,7 +8,7 @@ namespace Jacobi.Zim80.Components.Memory
     {
         public MemoryRam()
         {
-            WriteEnable = new DigitalSignalConsumer();
+            WriteEnable = new DigitalSignalConsumer("WE");
             WriteEnable.OnChanged += WriteEnable_OnChanged;
         }
 

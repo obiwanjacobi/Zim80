@@ -13,7 +13,7 @@ namespace Jacobi.Zim80.UnitTests.Components
         {
             var bus = new Bus<BusData8>();
 
-            bus.AllLevelsAre(DigitalLevel.Floating);
+            bus.AssertAllLevelsAre(DigitalLevel.Floating);
         }
 
         [TestMethod]
@@ -21,7 +21,7 @@ namespace Jacobi.Zim80.UnitTests.Components
         {
             var bus = new Bus<BusData16>();
 
-            bus.AllLevelsAre(DigitalLevel.Floating);
+            bus.AssertAllLevelsAre(DigitalLevel.Floating);
         }
 
         [TestMethod]
@@ -29,7 +29,7 @@ namespace Jacobi.Zim80.UnitTests.Components
         {
             var bus = new Bus<BusData20>();
 
-            bus.AllLevelsAre(DigitalLevel.Floating);
+            bus.AssertAllLevelsAre(DigitalLevel.Floating);
         }
 
         [TestMethod]
@@ -37,7 +37,7 @@ namespace Jacobi.Zim80.UnitTests.Components
         {
             var bus = new Bus<BusData24>();
 
-            bus.AllLevelsAre(DigitalLevel.Floating);
+            bus.AssertAllLevelsAre(DigitalLevel.Floating);
         }
 
         [TestMethod]
@@ -68,7 +68,7 @@ namespace Jacobi.Zim80.UnitTests.Components
             var newValue = new BusData8(0);
             master.Write(newValue);
 
-            slave.Value.AllLevelsAre(DigitalLevel.Low);
+            slave.Value.AssertAllLevelsAre(DigitalLevel.Low);
         }
 
         [TestMethod]
@@ -127,8 +127,8 @@ namespace Jacobi.Zim80.UnitTests.Components
             var newValue = new BusData8(0);
             master.Write(newValue);
 
-            slave1.Value.AllLevelsAre(DigitalLevel.Low);
-            slave2.Value.AllLevelsAre(DigitalLevel.Low);
+            slave1.Value.AssertAllLevelsAre(DigitalLevel.Low);
+            slave2.Value.AssertAllLevelsAre(DigitalLevel.Low);
         }
     }
 }

@@ -8,7 +8,7 @@ namespace Jacobi.Zim80.Components.Memory
     {
         public MemoryRom()
         {
-            OutputEnable = new DigitalSignalConsumer();
+            OutputEnable = new DigitalSignalConsumer("OE");
             OutputEnable.OnChanged += OutputEnable_OnChanged;
         }
 

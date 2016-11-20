@@ -142,6 +142,7 @@
     <Compile Include="DigitalSignalTestExtensions.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Components\CpuZ80\Opcodes\SingleByteOpcodeWithDoubleByteParameterTest.cs" />
+    <Compile Include="TestExtensions.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Jacobi.Zim80\Jacobi.Zim80.csproj">

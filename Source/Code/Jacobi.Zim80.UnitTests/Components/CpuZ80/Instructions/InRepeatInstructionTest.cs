@@ -1,6 +1,7 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Jacobi.Zim80.Components.CpuZ80.Opcodes;
 using Jacobi.Zim80.Model;
+using Jacobi.Zim80.UnitTests;
 using System;
 using Jacobi.Zim80.Components.CpuZ80.UnitTests;
 using Jacobi.Zim80.Components.Memory.UnitTests;
@@ -25,6 +26,8 @@ namespace Jacobi.Zim80.Components.CpuZ80.Instructions.UnitTests
 
                 }, true);
 
+            
+
             model.Cpu.AssertRegisters(hl: Address + 1, bc: 0xFF);
             model.Memory.Assert(Address, Value);
         }
@@ -38,6 +41,9 @@ namespace Jacobi.Zim80.Components.CpuZ80.Instructions.UnitTests
 
             cpu.FillRegisters();
             preTest(cpu);
+
+            var file = model.Save();
+            Console.WriteLine(file);
 
             model.ClockGen.BlockWave(isConditionMet ? 16 : 21);
 

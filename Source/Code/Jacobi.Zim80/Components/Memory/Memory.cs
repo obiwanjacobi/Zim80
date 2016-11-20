@@ -11,9 +11,9 @@ namespace Jacobi.Zim80.Components.Memory
 
         public Memory()
         {
-            ChipEnable = new DigitalSignalConsumer();
-            Address = new BusSlave<AddressT>();
-            Data = new BusMasterSlave<DataT>();
+            ChipEnable = new DigitalSignalConsumer("CE");
+            Address = new BusSlave<AddressT>("Address");
+            Data = new BusMasterSlave<DataT>("Data");
 
             ChipEnable.OnChanged += ChipEnable_OnChanged;
             Address.OnChanged += Address_OnChanged;

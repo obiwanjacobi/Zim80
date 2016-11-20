@@ -27,7 +27,15 @@ namespace Jacobi.Zim80.Components
 
         public event EventHandler<BusChangedEventArgs<T>> OnChanged;
 
-        
+        public IEnumerable<BusMaster<T>> Masters
+        {
+            get { return _masters; }
+        }
+
+        public IEnumerable<BusSlave<T>> Slaves
+        {
+            get { return _slaves; }
+        }
 
         internal void Attach(BusMaster<T> busMaster)
         {

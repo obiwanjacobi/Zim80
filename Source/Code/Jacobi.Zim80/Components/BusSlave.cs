@@ -1,8 +1,10 @@
 ﻿using System;
+using System.Diagnostics;
 
 namespace Jacobi.Zim80.Components
 {
     // reads bus signal values
+    [DebuggerDisplay("{Value} {Name}")]
     public class BusSlave<T> 
         where T : BusData, new()
     {
@@ -22,7 +24,19 @@ namespace Jacobi.Zim80.Components
 
         public event EventHandler<BusChangedEventArgs<T>> OnChanged;
 
-        public string Name { get; set; }
+        private string _name;
+
+        public string Name
+        {
+            get
+            {
+                if (IsConnected && _name == null)
+                    return _bus.Name;
+                return _name;
+            }
+            set
+            { _name = value; }
+        }
 
         public T Value
         {

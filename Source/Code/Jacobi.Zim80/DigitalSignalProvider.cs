@@ -41,12 +41,6 @@ namespace Jacobi.Zim80
             _digitalSignal = digitalSignal;
             _digitalSignal.Attach(this);
 
-            if (String.IsNullOrEmpty(Name) &&
-                !String.IsNullOrEmpty(_digitalSignal.Name))
-            {
-                Name = _digitalSignal.Name + " Provider";
-            }
-
             // catch up with set level value
             if (Level != DigitalLevel.Floating)
             {
@@ -60,7 +54,19 @@ namespace Jacobi.Zim80
             }
         }
 
-        public string Name { get; set; }
+        private string _name;
+
+        public string Name
+        {
+            get
+            {
+                if (IsConnected && _name == null)
+                    return _digitalSignal.Name;
+                return _name;
+            }
+            set
+            { _name = value; }
+        }
 
         // provider level (not signal level)
         public DigitalLevel Level { get; private set; }

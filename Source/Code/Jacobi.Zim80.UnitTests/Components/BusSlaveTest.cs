@@ -25,7 +25,7 @@ namespace Jacobi.Zim80.UnitTests.Components
             var bus = new Bus<BusData8>();
             uut.ConnectTo(bus);
 
-            uut.Value.AllLevelsAre(DigitalLevel.Floating);
+            uut.Value.AssertAllLevelsAre(DigitalLevel.Floating);
         }
     }
 }
