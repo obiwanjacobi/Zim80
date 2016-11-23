@@ -84,6 +84,7 @@
     <Compile Include="Components\CpuZ80\Instructions\BitSetResExtendedInstructionTest.cs" />
     <Compile Include="Components\CpuZ80\Instructions\CallInstructionTest.cs" />
     <Compile Include="Components\CpuZ80\Instructions\CarryFlagInstructionTest.cs" />
+    <Compile Include="Components\CpuZ80\Instructions\CompareRepeatInstructionTest.cs" />
     <Compile Include="Components\CpuZ80\Instructions\Dec16InstructionTest.cs" />
     <Compile Include="Components\CpuZ80\Instructions\DecimalAdjustInstructionTest.cs" />
     <Compile Include="Components\CpuZ80\Instructions\ExchangeIndirectInstructionTest.cs" />

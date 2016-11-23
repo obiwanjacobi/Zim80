@@ -36,9 +36,9 @@
             return new RepeatInstructionPart(Die, machineCycle, -2);
         }
 
-        protected bool IsConditionMet()
+        protected virtual bool IsConditionMet()
         {
-            return IsRepeat && Registers.B == 0;
+            return IsRepeat && Registers.Flags.Z;
         }
 
         protected bool IsDecrement
