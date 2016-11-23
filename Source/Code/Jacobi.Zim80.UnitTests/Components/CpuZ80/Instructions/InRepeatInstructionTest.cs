@@ -1,7 +1,6 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Jacobi.Zim80.Components.CpuZ80.Opcodes;
 using Jacobi.Zim80.Model;
-using Jacobi.Zim80.UnitTests;
 using System;
 using Jacobi.Zim80.Components.CpuZ80.UnitTests;
 using Jacobi.Zim80.Components.Memory.UnitTests;
@@ -29,6 +28,53 @@ namespace Jacobi.Zim80.Components.CpuZ80.Instructions.UnitTests
             model.Cpu.AssertRegisters(hl: Address + 1, bc: 0xFF02);
             model.Memory.Assert(Address, Value);
         }
+
+        [TestMethod]
+        public void IND()
+        {
+            var ob = OpcodeByte.New(x: 2, z: 2, y: 5);
+            var model = ExecuteTest(ob, (cpu) =>
+            {
+                cpu.Registers.HL = Address;
+                cpu.Registers.BC = IoAddress;
+
+            }, true);
+
+            model.Cpu.AssertRegisters(hl: Address - 1, bc: 0xFF02);
+            model.Memory.Assert(Address, Value);
+        }
+
+        [TestMethod]
+        public void INIR()
+        {
+            var ob = OpcodeByte.New(x: 2, z: 2, y: 6);
+            var model = ExecuteTest(ob, (cpu) =>
+            {
+                cpu.Registers.HL = Address;
+                cpu.Registers.BC = IoAddress;
+
+            }, true);
+
+            model.Cpu.AssertRegisters(hl: Address + 1, bc: 0xFF02);
+            model.Memory.Assert(Address, Value);
+        }
+
+        [TestMethod]
+        public void INDR()
+        {
+            var ob = OpcodeByte.New(x: 2, z: 2, y: 7);
+            var model = ExecuteTest(ob, (cpu) =>
+            {
+                cpu.Registers.HL = Address;
+                cpu.Registers.BC = IoAddress;
+
+            }, true);
+
+            model.Cpu.AssertRegisters(hl: Address - 1, bc: 0xFF02);
+            model.Memory.Assert(Address, Value);
+        }
+
+        // TODO: make INIR/INDR tests that actually repeat.
 
         private SimulationModel ExecuteTest(OpcodeByte ob, Action<CpuZ80> preTest, bool isConditionMet)
         {
