@@ -110,12 +110,14 @@
     <Compile Include="Components\CpuZ80\States\Instructions\JumpRegister16Instruction.cs" />
     <Compile Include="Components\CpuZ80\States\Instructions\JumpInstruction.cs" />
     <Compile Include="Components\CpuZ80\States\Instructions\LoadImmediateIndirect16Instruction.cs" />
+    <Compile Include="Components\CpuZ80\States\Instructions\LoadRepeatInstruction.cs" />
     <Compile Include="Components\CpuZ80\States\Instructions\MathDirectInstruction.cs" />
     <Compile Include="Components\CpuZ80\States\Instructions\MathIndirectInstruction.cs" />
     <Compile Include="Components\CpuZ80\States\Instructions\NegateInstruction.cs" />
     <Compile Include="Components\CpuZ80\States\Instructions\OutInstruction.cs" />
     <Compile Include="Components\CpuZ80\States\Instructions\OutputInstructionPart.cs" />
     <Compile Include="Components\CpuZ80\States\Instructions\OutRepeatInstruction.cs" />
+    <Compile Include="Components\CpuZ80\States\Instructions\RepeatInstruction.cs" />
     <Compile Include="Components\CpuZ80\States\Instructions\RepeatInstructionPart.cs" />
     <Compile Include="Components\CpuZ80\States\Instructions\RetIntInstruction.cs" />
     <Compile Include="Components\CpuZ80\States\Instructions\ShiftRotateExtendedInstruction.cs" />

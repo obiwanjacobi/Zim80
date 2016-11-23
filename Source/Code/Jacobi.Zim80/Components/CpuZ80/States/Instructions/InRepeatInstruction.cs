@@ -1,6 +1,6 @@
 ﻿namespace Jacobi.Zim80.Components.CpuZ80.States.Instructions
 {
-    internal class InRepeatInstruction : MultiCycleInstruction
+    internal class InRepeatInstruction : RepeatInstruction
     {
         private InputInstructionPart _inputPart;
         private WriteT3InstructionPart _writePart;
@@ -15,9 +15,6 @@
                 ExecutionEngine.Cycles.MachineCycle == MachineCycleNames.M3)
             {
                 MoveNext();
-
-                if (IsConditionMet())
-                    ExecutionEngine.Cycles.SetAltCycles();
             }
 
             base.OnClockNeg();
@@ -53,38 +50,6 @@
                 Data = _inputPart.Data
             };
             return _writePart;
-        }
-
-        private CpuState CreateRepeatPart(MachineCycleNames machineCycle)
-        {
-            return new RepeatInstructionPart(Die, machineCycle, -2);
-        }
-
-        private bool IsConditionMet()
-        {
-            return IsRepeat && Registers.B == 0;
-        }
-
-        private void MoveNext()
-        {
-            if (IsDecrement)
-                Registers.HL--;
-            else
-                Registers.HL++;
-
-            Registers.B--;
-            Registers.Flags.Z = Alu.IsZero(Registers.B);
-            Registers.Flags.N = true;
-        }
-
-        private bool IsDecrement
-        {
-            get { return ExecutionEngine.Opcode.Definition.Y % 2 == 1; }
-        }
-
-        private bool IsRepeat
-        {
-            get { return ExecutionEngine.Opcode.Definition.Y >= 6; }
         }
     }
 }
