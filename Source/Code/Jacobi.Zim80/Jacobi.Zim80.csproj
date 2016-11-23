@@ -114,6 +114,8 @@
     <Compile Include="Components\CpuZ80\States\Instructions\MathIndirectInstruction.cs" />
     <Compile Include="Components\CpuZ80\States\Instructions\NegateInstruction.cs" />
     <Compile Include="Components\CpuZ80\States\Instructions\OutInstruction.cs" />
+    <Compile Include="Components\CpuZ80\States\Instructions\OutputInstructionPart.cs" />
+    <Compile Include="Components\CpuZ80\States\Instructions\OutRepeatInstruction.cs" />
     <Compile Include="Components\CpuZ80\States\Instructions\RepeatInstructionPart.cs" />
     <Compile Include="Components\CpuZ80\States\Instructions\RetIntInstruction.cs" />
     <Compile Include="Components\CpuZ80\States\Instructions\ShiftRotateExtendedInstruction.cs" />

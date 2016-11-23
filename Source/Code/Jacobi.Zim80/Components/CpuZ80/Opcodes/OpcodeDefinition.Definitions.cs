@@ -781,10 +781,10 @@ namespace Jacobi.Zim80.Components.CpuZ80.Opcodes
             new OpcodeDefinition { X = 2, Z = 3, Y = 1, Mnemonic = "NOP*", Ext1 = 0xED, Cycles = new[] { 4, 4 }, Instruction = typeof(NopInstruction) },
             new OpcodeDefinition { X = 2, Z = 3, Y = 2, Mnemonic = "NOP*", Ext1 = 0xED, Cycles = new[] { 4, 4 }, Instruction = typeof(NopInstruction) },
             new OpcodeDefinition { X = 2, Z = 3, Y = 3, Mnemonic = "NOP*", Ext1 = 0xED, Cycles = new[] { 4, 4 }, Instruction = typeof(NopInstruction) },
-            new OpcodeDefinition { X = 2, Z = 3, Y = 4, Mnemonic = "OUTI", Ext1 = 0xED, Cycles = new[] { 4, 5, 4, 3 } },
-            new OpcodeDefinition { X = 2, Z = 3, Y = 5, Mnemonic = "OUTD", Ext1 = 0xED, Cycles = new[] { 4, 5, 4, 3 } },
-            new OpcodeDefinition { X = 2, Z = 3, Y = 6, Mnemonic = "OUTIR", Ext1 = 0xED, Cycles = new[] { 4, 5, 4, 3, 5 }, AltCycles = new[] { 4, 5, 4, 3 } },
-            new OpcodeDefinition { X = 2, Z = 3, Y = 7, Mnemonic = "OUTDR", Ext1 = 0xED, Cycles = new[] { 4, 5, 4, 3, 5 }, AltCycles = new[] { 4, 5, 4, 3 } },
+            new OpcodeDefinition { X = 2, Z = 3, Y = 4, Mnemonic = "OUTI", Ext1 = 0xED, Cycles = new[] { 4, 5, 3, 4 }, Instruction = typeof(OutRepeatInstruction) },
+            new OpcodeDefinition { X = 2, Z = 3, Y = 5, Mnemonic = "OUTD", Ext1 = 0xED, Cycles = new[] { 4, 5, 3, 4 }, Instruction = typeof(OutRepeatInstruction) },
+            new OpcodeDefinition { X = 2, Z = 3, Y = 6, Mnemonic = "OUTIR", Ext1 = 0xED, Cycles = new[] { 4, 5, 3, 4, 5 }, AltCycles = new[] { 4, 5, 3, 4 }, Instruction = typeof(OutRepeatInstruction) },
+            new OpcodeDefinition { X = 2, Z = 3, Y = 7, Mnemonic = "OUTDR", Ext1 = 0xED, Cycles = new[] { 4, 5, 3, 4, 5 }, AltCycles = new[] { 4, 5, 3, 4 }, Instruction = typeof(OutRepeatInstruction) },
             #endregion
             #endregion  // ED
 

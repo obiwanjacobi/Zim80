@@ -112,6 +112,7 @@
     <Compile Include="Components\CpuZ80\Instructions\NegateInstructionTest.cs" />
     <Compile Include="Components\CpuZ80\Instructions\NopInstructionTest.cs" />
     <Compile Include="Components\CpuZ80\Instructions\OutInstructionTest.cs" />
+    <Compile Include="Components\CpuZ80\Instructions\OutRepeatInstructionTest.cs" />
     <Compile Include="Components\CpuZ80\Instructions\PopInstructionTest.cs" />
     <Compile Include="Components\CpuZ80\Instructions\PushInstructionTest.cs" />
     <Compile Include="Components\CpuZ80\Instructions\ReadImmediateRegisterInstructionTest.cs" />
