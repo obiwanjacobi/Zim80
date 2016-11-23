@@ -26,9 +26,7 @@ namespace Jacobi.Zim80.Components.CpuZ80.Instructions.UnitTests
 
                 }, true);
 
-            
-
-            model.Cpu.AssertRegisters(hl: Address + 1, bc: 0xFF);
+            model.Cpu.AssertRegisters(hl: Address + 1, bc: 0xFF02);
             model.Memory.Assert(Address, Value);
         }
 
@@ -36,14 +34,11 @@ namespace Jacobi.Zim80.Components.CpuZ80.Instructions.UnitTests
         {
             var cpu = new CpuZ80();
             var model = cpu.Initialize(
-                new byte[] { 0xED, ob.Value, 0, 0, 0, 0, 0 });//, 
-                //new byte[] { 0, 0, Value, 0, 0, 0, 0 });
+                new byte[] { 0xED, ob.Value, 0, 0, 0, 0, 0 }, 
+                new byte[] { 0, 0, Value, 0, 0, 0, 0 });
 
             cpu.FillRegisters();
             preTest(cpu);
-
-            var file = model.Save();
-            Console.WriteLine(file);
 
             model.ClockGen.BlockWave(isConditionMet ? 16 : 21);
 

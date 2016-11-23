@@ -106,6 +106,9 @@
 
         private void SetNextInstructionPart()
         {
+            if (_currentPart != null && !_currentPart.IsComplete)
+                throw Errors.InstructionPartWasNotCompleted();
+
             _currentPart = GetInstructionPart(ExecutionEngine.Cycles.MachineCycle + 1);
 
             if (_currentPart == null)

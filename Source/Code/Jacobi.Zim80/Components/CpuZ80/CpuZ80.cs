@@ -38,6 +38,8 @@ namespace Jacobi.Zim80.Components.CpuZ80
                 MachineCycle1, Refresh, Halt, Address, Data);
         }
 
+        public string Name { get; set; }
+
         public DigitalSignalConsumer Clock { get; }
 
         public DigitalSignalConsumer Reset { get; }

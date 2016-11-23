@@ -12,6 +12,8 @@ namespace Jacobi.Zim80.Components.Memory
             WriteEnable.OnChanged += WriteEnable_OnChanged;
         }
 
+        public string Name { get; set; }
+
         public DigitalSignalConsumer WriteEnable { get; private set; }
 
         protected override void OnStateChanged()

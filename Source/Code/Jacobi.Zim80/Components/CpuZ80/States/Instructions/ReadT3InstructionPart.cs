@@ -9,12 +9,12 @@ namespace Jacobi.Zim80.Components.CpuZ80.States.Instructions
 
         public ReadT3InstructionPart(Die die, 
             MachineCycleNames activeMachineCycle) 
-            : base(die, activeMachineCycle)
+            : base(die, activeMachineCycle, CycleNames.T3)
         { }
 
         public ReadT3InstructionPart(Die die, 
             MachineCycleNames activeMachineCycle, UInt16 address)
-            : base(die, activeMachineCycle)
+            : base(die, activeMachineCycle, CycleNames.T3)
         {
             _address = address;
         }

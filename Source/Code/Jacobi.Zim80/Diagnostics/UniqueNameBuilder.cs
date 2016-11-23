@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Linq;
+using System.Text;
 
 namespace Jacobi.Zim80.Diagnostics
 {
@@ -12,16 +14,36 @@ namespace Jacobi.Zim80.Diagnostics
             return _counter;
         }
 
-        public string NewId<T>(string name = null)
+        public string NewId<T>(string name = null, string ownerName = null, string netName = null)
         {
+            var builder = new StringBuilder();
             var type = typeof(T);
 
-            if (String.IsNullOrEmpty(name))
+            if (!String.IsNullOrEmpty(ownerName))
             {
-                return String.Format("{0}_{1}", TypeName(type), NextId());
+                builder.Append(ownerName);
+                builder.Append(".");
             }
 
-            return String.Format("{1} ({0})", TypeName(type), name);
+            if (!String.IsNullOrEmpty(name))
+            {
+                builder.Append(name);
+            }
+            else
+            {
+                builder.Append(TypeName(type));
+                builder.Append("_");
+                builder.Append(NextId());
+            }
+
+            if (!String.IsNullOrEmpty(netName))
+            {
+                builder.Append("=>");
+                builder.Append(netName);
+            }
+
+            builder.AppendFormat(" ({0})", TypeName(type));
+            return builder.ToString();
         }
 
         public string TypeName<T>()
@@ -31,10 +53,12 @@ namespace Jacobi.Zim80.Diagnostics
 
         public string TypeName(Type type)
         {
-            if (type.ContainsGenericParameters)
+            if (type.IsGenericType)
             {
                 var genArgs = type.GetGenericArguments();
-                return type.MakeGenericType(genArgs).Name;
+                return String.Format("{0}<{1}>", 
+                    type.Name.Split('`')[0], 
+                    String.Join(", ", genArgs.Select(a => a.Name)));
             }
 
             return type.Name;

@@ -9,7 +9,7 @@ namespace Jacobi.Zim80.Components.CpuZ80.States.Instructions
 
         public WriteT3InstructionPart(Die die,
             MachineCycleNames activeMachineCycle, UInt16 address)
-            : base(die, activeMachineCycle)
+            : base(die, activeMachineCycle, CycleNames.T3)
         {
             _address = address;
         }

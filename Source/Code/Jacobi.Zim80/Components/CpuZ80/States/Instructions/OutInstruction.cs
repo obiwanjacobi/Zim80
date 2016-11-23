@@ -77,7 +77,7 @@ namespace Jacobi.Zim80.Components.CpuZ80.States.Instructions
 
             public OutputInstructionPart(Die die,
                 MachineCycleNames activeMachineCycle, UInt16 address)
-                : base(die, activeMachineCycle)
+                : base(die, activeMachineCycle, CycleNames.T4)
             {
                 _address = address;
             }

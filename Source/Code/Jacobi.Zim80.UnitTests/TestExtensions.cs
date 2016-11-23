@@ -9,6 +9,7 @@ namespace Jacobi.Zim80.UnitTests
         public static string Save(this SimulationModel model)
         {
             GraphicModelBuilder builder = new GraphicModelBuilder();
+            builder.DisplayValues = true;
 
             if (model.Cpu != null)
                 builder.Add(model.Cpu);

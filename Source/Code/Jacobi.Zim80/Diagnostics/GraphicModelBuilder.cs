@@ -4,7 +4,7 @@ using Jacobi.Zim80.Components.Memory;
 using Jacobi.Zim80.Diagnostics.DgmlModel;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
+using System;
 
 namespace Jacobi.Zim80.Diagnostics
 {
@@ -12,7 +12,7 @@ namespace Jacobi.Zim80.Diagnostics
     {
         private readonly UniqueNameBuilder _idBuilder = new UniqueNameBuilder();
         private readonly DgmlModelBuilder _dgmlBuilder = new DgmlModelBuilder("Zim80 Model");
-        private readonly List<object> _visited = new List<object>();
+        private readonly Dictionary<object, DirectedGraphNode> _visited = new Dictionary<object, DirectedGraphNode>();
 
         public void Save(Stream fileStream)
         {
@@ -21,13 +21,20 @@ namespace Jacobi.Zim80.Diagnostics
 
         public bool DisplayComponents { get; set; }
         public bool DisplayUnconnected { get; set; }
+        public bool DisplayValues { get; set; }
 
-        public void Add(DigitalSignal digitalSignal, 
+        public void Add(DigitalSignal digitalSignal,
             bool inclProviders = true, bool inclConsumers = true)
         {
             if (!Visit(digitalSignal)) return;
 
             var node = AddNode<DigitalSignal>(digitalSignal.Name);
+            SetNodeMap(digitalSignal, node);
+
+            if (DisplayValues)
+            {
+                node.Description = digitalSignal.Level.ToString();
+            }
 
             if (inclProviders)
                 foreach(var p in digitalSignal.Providers)
@@ -38,14 +45,19 @@ namespace Jacobi.Zim80.Diagnostics
                     Add(c);
         }
 
-        public DirectedGraphNode Add(DigitalSignalProvider provider)
+        public DirectedGraphNode Add(DigitalSignalProvider provider, string ownerName = null)
         {
             if (!Visit(provider) ||
                 (!provider.IsConnected && !DisplayUnconnected))
-                return Find<DigitalSignalProvider>(provider.Name);
+                return FindNode(provider);
 
+            var node = AddNode<DigitalSignalProvider>(provider.Name, ownerName, SafeNetName(provider));
+            SetNodeMap(provider, node);
 
-            var node = AddNode<DigitalSignalProvider>(provider.Name);
+            if (DisplayValues)
+            {
+                node.Description = provider.Level.ToString();
+            }
 
             if (provider.IsConnected)
             {
@@ -58,13 +70,19 @@ namespace Jacobi.Zim80.Diagnostics
             return node;
         }
 
-        public DirectedGraphNode Add(DigitalSignalConsumer consumer)
+        public DirectedGraphNode Add(DigitalSignalConsumer consumer, string ownerName = null)
         {
             if (!Visit(consumer) ||
                 (!consumer.IsConnected && !DisplayUnconnected))
-                return Find<DigitalSignalConsumer>(consumer.Name);
+                return FindNode(consumer);
 
-            var node = AddNode<DigitalSignalConsumer>(consumer.Name);
+            var node = AddNode<DigitalSignalConsumer>(consumer.Name, ownerName, SafeNetName(consumer));
+            SetNodeMap(consumer, node);
+
+            if (DisplayValues)
+            {
+                node.Description = consumer.Level.ToString();
+            }
 
             if (consumer.IsConnected)
             {
@@ -77,13 +95,19 @@ namespace Jacobi.Zim80.Diagnostics
             return node;
         }
 
-        public void Add<T>(Bus<T> bus,
+        public void Add<T>(Bus<T> bus, string ownerName = null,
             bool inclMasters = true, bool inclSlaves = true)
             where T : BusData, new()
         {
             if (!Visit(bus)) return;
 
             var node = AddNode<Bus<T>>(bus.Name);
+            SetNodeMap(bus, node);
+
+            if (DisplayValues)
+            {
+                node.Description = bus.Value.ToString();
+            }
 
             if (inclMasters)
                 foreach (var m in bus.Masters)
@@ -94,14 +118,28 @@ namespace Jacobi.Zim80.Diagnostics
                     Add(s);
         }
 
-        public DirectedGraphNode Add<T>(BusMaster<T> master)
+        public DirectedGraphNode Add<T>(BusMaster<T> master, string ownerName = null)
             where T : BusData, new()
         {
             if (!Visit(master) ||
                 (!master.IsConnected && !DisplayUnconnected))
-                return Find<BusMaster<T>>(master.Name);
+                return FindNode(master);
 
-            var node = AddNode<BusMaster<T>>(master.Name);
+            var node = AddInternal(master, ownerName, SafeNetName(master));
+
+            return node;
+        }
+
+        private DirectedGraphNode AddInternal<T>(BusMaster<T> master, string ownerName, string netName)
+            where T : BusData, new()
+        {
+            var node = AddNode<BusMaster<T>>(master.Name, ownerName, SafeNetName(master));
+            SetNodeMap(master, node);
+
+            if (DisplayValues)
+            {
+                node.Description = master.Value.ToString();
+            }
 
             if (master.IsConnected)
             {
@@ -114,14 +152,20 @@ namespace Jacobi.Zim80.Diagnostics
             return node;
         }
 
-        public DirectedGraphNode Add<T>(BusSlave<T> slave)
+        public DirectedGraphNode Add<T>(BusSlave<T> slave, string ownerName = null)
             where T : BusData, new()
         {
             if (!Visit(slave) ||
                 (!slave.IsConnected && !DisplayUnconnected))
-                return Find<BusSlave<T>>(slave.Name);
+                return FindNode(slave);
 
-            var node = AddNode<BusSlave<T>>(slave.Name);
+            var node = AddNode<BusSlave<T>>(slave.Name, ownerName, SafeNetName(slave));
+            SetNodeMap(slave, node);
+
+            if (DisplayValues)
+            {
+                node.Description = slave.Value.ToString();
+            }
 
             if (slave.IsConnected)
             {
@@ -134,15 +178,26 @@ namespace Jacobi.Zim80.Diagnostics
             return node;
         }
 
-        public DirectedGraphNode Add<T>(BusMasterSlave<T> masterSlave)
+        public DirectedGraphNode Add<T>(BusMasterSlave<T> masterSlave, string ownerName = null)
             where T : BusData, new()
         {
             if (!Visit(masterSlave) ||
                 (!masterSlave.IsConnected && !masterSlave.Slave.IsConnected && !DisplayUnconnected))
-                return Find<BusMasterSlave<T>>(masterSlave.Name);
+                return FindNode(masterSlave);
 
-            var node = Add((BusMaster<T>)masterSlave);
-            Add(masterSlave.Slave);
+            var node = AddInternal((BusMaster<T>)masterSlave, ownerName, SafeNetName(masterSlave));
+            SetNodeMap(masterSlave, node);
+
+            if (DisplayValues)
+            {
+                node.Description = masterSlave.Value.ToString() + "/" + masterSlave.Slave.Value.ToString();
+            }
+
+            if (masterSlave.Slave.IsConnected)
+            {
+                var bid = _idBuilder.NewId<Bus<T>>(masterSlave.Slave.Bus.Name);
+                _dgmlBuilder.AddLink(node.Id, bid);
+            }
 
             return node;
         }
@@ -152,17 +207,18 @@ namespace Jacobi.Zim80.Diagnostics
             where DataT : BusData, new()
         {
             if (!Visit(rom))
-                return Find<MemoryRom<AddressT, DataT>>();
+                return FindNode(rom);
 
-            DirectedGraphNode node = null;
+            DirectedGraphNode node = AddNode<MemoryRom<AddressT, DataT>>(rom.Name);
+            SetNodeMap(rom, node);
 
-            if (DisplayComponents)
-                node = AddNode<MemoryRom<AddressT, DataT>>();
+            if (!DisplayComponents)
+                node = null;
 
-            LinkContains(node, Add(rom.Address));
-            LinkContains(node, Add(rom.Data));
-            LinkContains(node, Add(rom.ChipEnable));
-            LinkContains(node, Add(rom.OutputEnable));
+            LinkContains(node, Add(rom.Address, rom.Name));
+            LinkContains(node, Add(rom.Data, rom.Name));
+            LinkContains(node, Add(rom.ChipEnable, rom.Name));
+            LinkContains(node, Add(rom.OutputEnable, rom.Name));
 
             return node;
         }
@@ -172,18 +228,19 @@ namespace Jacobi.Zim80.Diagnostics
             where DataT : BusData, new()
         {
             if (!Visit(ram))
-                return Find<MemoryRam<AddressT, DataT>>();
+                return FindNode(ram);
 
-            DirectedGraphNode node = null;
+            DirectedGraphNode node = AddNode<MemoryRam<AddressT, DataT>>(ram.Name);
+            SetNodeMap(ram, node);
 
-            if (DisplayComponents)
-                node = AddNode<MemoryRam<AddressT, DataT>>();
+            if (!DisplayComponents)
+                node = null;
 
-            LinkContains(node, Add(ram.Address));
-            LinkContains(node, Add(ram.Data));
-            LinkContains(node, Add(ram.ChipEnable));
-            LinkContains(node, Add(ram.OutputEnable));
-            LinkContains(node, Add(ram.WriteEnable));
+            LinkContains(node, Add(ram.Address, ram.Name));
+            LinkContains(node, Add(ram.Data, ram.Name));
+            LinkContains(node, Add(ram.ChipEnable, ram.Name));
+            LinkContains(node, Add(ram.OutputEnable, ram.Name));
+            LinkContains(node, Add(ram.WriteEnable, ram.Name));
 
             return node;
         }
@@ -191,42 +248,51 @@ namespace Jacobi.Zim80.Diagnostics
         public DirectedGraphNode Add(CpuZ80 cpu)
         {
             if (!Visit(cpu))
-                return Find<CpuZ80>();
+                return FindNode(cpu);
 
-            DirectedGraphNode node = null;
+            DirectedGraphNode node = AddNode<CpuZ80>(cpu.Name);
+                SetNodeMap(cpu, node);
 
-            if (DisplayComponents)
-                node = AddNode<CpuZ80>();
+            if (!DisplayComponents)
+                node = null;
 
-            LinkContains(node, Add(cpu.Address));
-            LinkContains(node, Add(cpu.Data));
-            LinkContains(node, Add(cpu.BusAcknowledge));
-            LinkContains(node, Add(cpu.BusRequest));
-            LinkContains(node, Add(cpu.Clock));
-            LinkContains(node, Add(cpu.Halt));
-            LinkContains(node, Add(cpu.Interrupt));
-            LinkContains(node, Add(cpu.IoRequest));
-            LinkContains(node, Add(cpu.MachineCycle1));
-            LinkContains(node, Add(cpu.MemoryRequest));
-            LinkContains(node, Add(cpu.NonMaskableInterrupt));
-            LinkContains(node, Add(cpu.Read));
-            LinkContains(node, Add(cpu.Refresh));
-            LinkContains(node, Add(cpu.Reset));
-            LinkContains(node, Add(cpu.Wait));
-            LinkContains(node, Add(cpu.Write));
+            LinkContains(node, Add(cpu.Address, cpu.Name));
+            LinkContains(node, Add(cpu.Data, cpu.Name));
+            LinkContains(node, Add(cpu.BusAcknowledge, cpu.Name));
+            LinkContains(node, Add(cpu.BusRequest, cpu.Name));
+            LinkContains(node, Add(cpu.Clock, cpu.Name));
+            LinkContains(node, Add(cpu.Halt, cpu.Name));
+            LinkContains(node, Add(cpu.Interrupt, cpu.Name));
+            LinkContains(node, Add(cpu.IoRequest, cpu.Name));
+            LinkContains(node, Add(cpu.MachineCycle1, cpu.Name));
+            LinkContains(node, Add(cpu.MemoryRequest, cpu.Name));
+            LinkContains(node, Add(cpu.NonMaskableInterrupt, cpu.Name));
+            LinkContains(node, Add(cpu.Read, cpu.Name));
+            LinkContains(node, Add(cpu.Refresh, cpu.Name));
+            LinkContains(node, Add(cpu.Reset, cpu.Name));
+            LinkContains(node, Add(cpu.Wait, cpu.Name));
+            LinkContains(node, Add(cpu.Write, cpu.Name));
 
             return node;
         }
 
-        private DirectedGraphNode AddNode<T>(string name = null)
+        private DirectedGraphNode AddNode<T>(string name = null, string ownerName = null, string netName = null)
         {
-            var id = _idBuilder.NewId<T>(name);
+            var id = _idBuilder.NewId<T>(name, ownerName, netName);
             var node = _dgmlBuilder.AddNode(id);
             node.Label = id;
-            node.TypeName = typeof(DigitalSignal).Name;
+            node.TypeName = typeof(T).Name;
             node.Category1 = node.TypeName;
 
             return node;
+        }
+
+        private void SetNodeMap(object component, DirectedGraphNode node)
+        {
+            if (!_visited.ContainsKey(component))
+                throw new ArgumentException("Component was not visited.", nameof(component));
+
+            _visited[component] = node;
         }
 
         private DirectedGraphLink LinkContains(DirectedGraphNode container, DirectedGraphNode containee)
@@ -242,21 +308,46 @@ namespace Jacobi.Zim80.Diagnostics
             return link;
         }
 
-        private DirectedGraphNode Find<T>(string name = null)
+        private DirectedGraphNode FindNode<T>(T component)
         {
-            var id = _idBuilder.NewId<T>(name);
-
-            return _dgmlBuilder.DirectedGraph.Nodes
-                .SingleOrDefault(n => n.Id == id);
+            DirectedGraphNode node = null;
+            _visited.TryGetValue(component, out node);
+            return node;
         }
 
         private bool Visit(object obj)
         {
-            if (_visited.Contains(obj))
+            if (_visited.ContainsKey(obj))
                 return false;
 
-            _visited.Add(obj);
+            _visited.Add(obj, null);
             return true;
+        }
+
+        private string SafeNetName(DigitalSignalProvider provider)
+        {
+            if (provider == null || !provider.IsConnected) return null;
+            return provider.DigitalSignal.Name;
+        }
+
+        private string SafeNetName(DigitalSignalConsumer consumer)
+        {
+            if (consumer == null || !consumer.IsConnected) return null;
+            return consumer.DigitalSignal.Name;
+        }
+
+        private string SafeNetName<T>(BusMaster<T> master)
+            where T : BusData, new()
+        {
+            if (master == null || !master.IsConnected) return null;
+            return master.Bus.Name;
+        }
+
+        private string SafeNetName<T>(BusSlave<T> slave)
+            where T : BusData, new()
+        {
+            if (slave == null || !slave.IsConnected) return null;
+            return slave.Bus.Name;
         }
     }
 }

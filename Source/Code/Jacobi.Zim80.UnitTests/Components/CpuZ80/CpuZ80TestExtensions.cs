@@ -27,10 +27,12 @@ namespace Jacobi.Zim80.Components.CpuZ80.UnitTests
 
             var model = new SimulationModel();
             model.Cpu = cpu;
+            model.Cpu.Name = "U1";
             model.ClockGen = new SignalGenerator();
             model.ClockGen.Output.CreateConnection(model.Cpu.Clock, "Clock");
 
             model.Memory = MemoryTestExtensions.NewRam(program);
+            model.Memory.Name = "U2";
             model.Cpu.MemoryRequest.CreateConnection(model.Memory.ChipEnable, "MREQ");
             model.Cpu.Read.CreateConnection(model.Memory.OutputEnable, "RD");
             model.Cpu.Write.CreateConnection(model.Memory.WriteEnable, "WE");
@@ -41,6 +43,7 @@ namespace Jacobi.Zim80.Components.CpuZ80.UnitTests
             if (ioSpace != null)
             {
                 model.IoSpace = MemoryTestExtensions.NewRam(ioSpace);
+                model.IoSpace.Name = "U3";
                 model.Cpu.IoRequest.CreateConnection(model.IoSpace.ChipEnable, "IORQ");
                 model.IoSpace.OutputEnable.ConnectTo(model.Cpu.Read.DigitalSignal);
                 model.IoSpace.WriteEnable.ConnectTo(model.Cpu.Write.DigitalSignal);

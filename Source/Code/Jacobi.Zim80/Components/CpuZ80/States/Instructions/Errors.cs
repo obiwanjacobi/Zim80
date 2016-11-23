@@ -24,6 +24,11 @@ namespace Jacobi.Zim80.Components.CpuZ80.States.Instructions
             return new InvalidOperationException("Use a SingleByteInstruction base class for parameter-less instructions.");
         }
 
+        public static Exception CycleCountMismatch()
+        {
+            return new InvalidOperationException("The InstructionPart indicated it needed more cycles that defined by the opcode.");
+        }
+
         public static Exception NextInstructionPartIsNull()
         {
             return new InvalidOperationException("GetInstructionPart returned null.");

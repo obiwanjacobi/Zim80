@@ -8,7 +8,7 @@ namespace Jacobi.Zim80.Components.CpuZ80.States.Instructions
         private ushort _address;
 
         public InputInstructionPart(Die die, MachineCycleNames activeMachineCycle, ushort address)
-            : base(die, activeMachineCycle)
+            : base(die, activeMachineCycle, CycleNames.T4)
         {
             _address = address;
         }
