@@ -109,6 +109,7 @@
     <Compile Include="Components\CpuZ80\Instructions\LoadRegister16InstructionTest.cs" />
     <Compile Include="Components\CpuZ80\Instructions\LoadRegister8Instruction.cs" />
     <Compile Include="Components\CpuZ80\Instructions\LoadRepeatInstructionTest.cs" />
+    <Compile Include="Components\CpuZ80\Instructions\LoadSystemRegisterInstructionTest.cs" />
     <Compile Include="Components\CpuZ80\Instructions\MathDirectInstructionTest.cs" />
     <Compile Include="Components\CpuZ80\Instructions\MathIndirectInstructionTest.cs" />
     <Compile Include="Components\CpuZ80\Instructions\MathRegister8InstructionTest.cs" />
