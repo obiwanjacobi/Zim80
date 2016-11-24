@@ -246,7 +246,7 @@ namespace Jacobi.Zim80.Components.CpuZ80.Opcodes
             new OpcodeDefinition { X = 3, Z = 1, Q = 1, P = 0, Mnemonic = "RET", Cycles = new[] { 4, 3, 3 }, Instruction = typeof(RetInstruction) },
             new OpcodeDefinition { X = 3, Z = 1, Q = 1, P = 1, Mnemonic = "EXX", Cycles = new[] { 4 }, Instruction = typeof(ExchangeInstruction) },
             new OpcodeDefinition { X = 3, Z = 1, Q = 1, P = 2, Mnemonic = "JP HL", Cycles = new[] { 4 }, Instruction = typeof(JumpRegister16Instruction) },
-            new OpcodeDefinition { X = 3, Z = 1, Q = 1, P = 3, Mnemonic = "LD SP, HL", Cycles = new[] { 6 } },
+            new OpcodeDefinition { X = 3, Z = 1, Q = 1, P = 3, Mnemonic = "LD SP, HL", Cycles = new[] { 6 }, Instruction = typeof(LoadRegister16Instruction) },
 
             new OpcodeDefinition { X = 3, Z = 2, Y = 0, Mnemonic = "JP NZ, {0}", nn = true, Cycles = new[] { 4, 3, 3 }, Instruction = typeof(JumpInstruction) },
             new OpcodeDefinition { X = 3, Z = 2, Y = 1, Mnemonic = "JP Z, {0}", nn = true, Cycles = new[] { 4, 3, 3 }, Instruction = typeof(JumpInstruction) },
@@ -849,8 +849,11 @@ namespace Jacobi.Zim80.Components.CpuZ80.Opcodes
             
             new OpcodeDefinition { X = 3, Z = 1, Q = 0, P = 2, Mnemonic = "POP IX", Ext1 = 0xDD, Cycles = new[] { 4, 4, 3, 3 }, Instruction = typeof(PopInstruction) },
             new OpcodeDefinition { X = 3, Z = 1, Q = 1, P = 2, Mnemonic = "JP IX", Ext1 = 0xDD, Cycles = new[] { 4, 4 }, Instruction = typeof(JumpRegister16Instruction) },
+            new OpcodeDefinition { X = 3, Z = 1, Q = 1, P = 3, Mnemonic = "LD SP, IX", Ext1 = 0xDD, Cycles = new[] { 4, 6 }, Instruction = typeof(LoadRegister16Instruction) },
+
             new OpcodeDefinition { X = 3, Z = 3, Y = 4, Mnemonic = "EX (SP), IX", Ext1 = 0xDD, Cycles = new[] { 4, 4, 3, 4, 3, 5 }, Instruction = typeof(ExchangeIndirectInstruction) },
             new OpcodeDefinition { X = 3, Z = 5, Q = 0, P = 2, Mnemonic = "PUSH IX", Ext1 = 0xDD, Cycles = new[] { 4, 5, 3, 3 }, Instruction = typeof(PushInstruction) },
+            
             #endregion
             #endregion  //DD
 
@@ -914,6 +917,8 @@ namespace Jacobi.Zim80.Components.CpuZ80.Opcodes
             #region X = 3
             new OpcodeDefinition { X = 3, Z = 1, Q = 0, P = 2, Mnemonic = "POP IY", Ext1 = 0xFD, Cycles = new[] { 4, 4, 3, 3 }, Instruction = typeof(PopInstruction) },
             new OpcodeDefinition { X = 3, Z = 1, Q = 1, P = 2, Mnemonic = "JP IY", Ext1 = 0xFD, Cycles = new[] { 4, 4 }, Instruction = typeof(JumpRegister16Instruction) },
+            new OpcodeDefinition { X = 3, Z = 1, Q = 1, P = 3, Mnemonic = "LD SP, IY", Ext1 = 0xFD, Cycles = new[] { 4, 6 }, Instruction = typeof(LoadRegister16Instruction) },
+
             new OpcodeDefinition { X = 3, Z = 3, Y = 4, Mnemonic = "EX (SP), IY", Ext1 = 0xFD, Cycles = new[] { 4, 4, 3, 4, 3, 5 }, Instruction = typeof(ExchangeIndirectInstruction) },
             new OpcodeDefinition { X = 3, Z = 5, Q = 0, P = 2, Mnemonic = "PUSH IY", Ext1 = 0xFD, Cycles = new[] { 4, 5, 3, 3 }, Instruction = typeof(PushInstruction) },
             #endregion

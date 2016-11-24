@@ -111,6 +111,7 @@
     <Compile Include="Components\CpuZ80\States\Instructions\JumpRegister16Instruction.cs" />
     <Compile Include="Components\CpuZ80\States\Instructions\JumpInstruction.cs" />
     <Compile Include="Components\CpuZ80\States\Instructions\LoadImmediateIndirect16Instruction.cs" />
+    <Compile Include="Components\CpuZ80\States\Instructions\LoadRegister16Instruction.cs" />
     <Compile Include="Components\CpuZ80\States\Instructions\LoadRepeatInstruction.cs" />
     <Compile Include="Components\CpuZ80\States\Instructions\MathDirectInstruction.cs" />
     <Compile Include="Components\CpuZ80\States\Instructions\MathIndirectInstruction.cs" />
