@@ -18,6 +18,11 @@ namespace Jacobi.Zim80.Components.CpuZ80
             die.NonMaskableInterrupt.OnChanged += NonMaskableInterupt_OnChanged;
         }
 
+        public bool HasInterruptWaiting
+        {
+            get { return _pendingINT != null || _pendingNMI != null; }
+        }
+
         internal void EnableInterrupt()
         {
             Die.Registers.Interrupt.IFF1 = true;
@@ -33,8 +38,6 @@ namespace Jacobi.Zim80.Components.CpuZ80
         // nmi
         internal void PushNmi()
         {
-            // TODO: do not do this when NMI is already active
-            Die.Registers.Interrupt.IFF2 = Die.Registers.Interrupt.IFF1;
             Die.Registers.Interrupt.IFF1 = false;
         }
         // int

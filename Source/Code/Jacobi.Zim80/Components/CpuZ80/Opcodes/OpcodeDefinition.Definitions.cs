@@ -142,7 +142,7 @@ namespace Jacobi.Zim80.Components.CpuZ80.Opcodes
             new OpcodeDefinition { X = 1, Z = 6, Y = 3, Mnemonic = "LD E, (HL)", Cycles = new[] { 4, 3 }, Instruction = typeof(ReadIndirectRegisterInstruction) },
             new OpcodeDefinition { X = 1, Z = 6, Y = 4, Mnemonic = "LD H, (HL)", Cycles = new[] { 4, 3 }, Instruction = typeof(ReadIndirectRegisterInstruction) },
             new OpcodeDefinition { X = 1, Z = 6, Y = 5, Mnemonic = "LD L, (HL)", Cycles = new[] { 4, 3 }, Instruction = typeof(ReadIndirectRegisterInstruction) },
-            new OpcodeDefinition { X = 1, Z = 6, Y = 6, Mnemonic = "HALT", Cycles = new[] { 4 } },
+            new OpcodeDefinition { X = 1, Z = 6, Y = 6, Mnemonic = "HALT", Cycles = new[] { 4, -1 }, Instruction = typeof(HaltInstruction) },
             new OpcodeDefinition { X = 1, Z = 6, Y = 7, Mnemonic = "LD A, (HL)", Cycles = new[] { 4, 3 }, Instruction = typeof(ReadIndirectRegisterInstruction) },
 
             new OpcodeDefinition { X = 1, Z = 7, Y = 0, Mnemonic = "LD B, A", Cycles = new[] { 4 }, Instruction = typeof(LoadRegister8Instruction) },

@@ -131,6 +131,16 @@ namespace Jacobi.Zim80.Components.CpuZ80
         {
             MachineCycle++;
             CycleName = CycleNames.T1;
+
+            if (_opcodeCycles != null)
+            {
+                // special case for cycle-count of -1
+                // that means the instruction 'hangs' until it signals complete
+                // See also HaltInstruction.
+                var index = MachineCycleToIndex(MachineCycle);
+                if (_opcodeCycles[index] < 0)
+                    MachineCycle = MachineCycleNames.M1;
+            }
         }
 
         private CycleNames GetCycle(MachineCycleNames machineCycle)
