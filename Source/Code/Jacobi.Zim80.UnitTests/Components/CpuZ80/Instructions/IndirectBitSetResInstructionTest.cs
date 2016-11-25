@@ -107,7 +107,7 @@ namespace Jacobi.Zim80.Components.CpuZ80.Instructions.UnitTests
 
             cpuZ80.FillRegisters(hl: AddressHL);
 
-            model.ClockGen.BlockWave(ob.X == 1 ? 12 : 15);
+            model.ClockGen.SquareWave(ob.X == 1 ? 12 : 15);
 
             return model;
         }

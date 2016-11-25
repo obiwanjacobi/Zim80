@@ -15,12 +15,12 @@ namespace Jacobi.Zim80.Components.CpuZ80.UnitTests
             var interruptProvider = cpu.NonMaskableInterrupt.CreateConnection();
             var model = cpu.Initialize(new byte[] { 0 });
 
-            model.ClockGen.BlockWave(2);
+            model.ClockGen.SquareWave(2);
             interruptProvider.Write(DigitalLevel.NegEdge);
-            model.ClockGen.BlockWave(2);
+            model.ClockGen.SquareWave(2);
 
             // into nmi
-            model.ClockGen.BlockWave(11);
+            model.ClockGen.SquareWave(11);
 
             // nmi turns off interrupts
             cpu.Registers.Interrupt.IFF1.Should().BeFalse();

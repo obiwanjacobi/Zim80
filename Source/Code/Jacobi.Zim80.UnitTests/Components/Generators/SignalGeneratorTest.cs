@@ -138,7 +138,7 @@ namespace Jacobi.Zim80.Components.Generators.UnitTests
             ds.OnChanged += Output_OnChanged;
             gen.Output.ConnectTo(ds);
 
-            gen.BlockWave(machineCycles, toCycle, toLevel);
+            gen.SquareWave(machineCycles, toCycle, toLevel);
         }
 
         private void Output_OnChanged(object sender, DigitalLevelChangedEventArgs e)

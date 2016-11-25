@@ -83,7 +83,7 @@ namespace Jacobi.Zim80.Components.CpuZ80.Instructions.UnitTests
             writer[new BusData16(Stack + 1)] = new BusData8(0xAA);
 
             model.Cpu.FillRegisters(sp: Stack);
-            model.ClockGen.BlockWave(extension == 0 ? 10 : 14);
+            model.ClockGen.SquareWave(extension == 0 ? 10 : 14);
 
             return model;
         }

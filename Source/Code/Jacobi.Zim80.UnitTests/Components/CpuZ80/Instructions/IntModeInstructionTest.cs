@@ -76,7 +76,7 @@ namespace Jacobi.Zim80.Components.CpuZ80.Instructions.UnitTests
             var model = cpu.Initialize(new byte[] { 0xED, ob.Value });
             cpu.FillRegisters();
 
-            model.ClockGen.BlockWave(8);
+            model.ClockGen.SquareWave(8);
 
             cpu.AssertRegisters();
 

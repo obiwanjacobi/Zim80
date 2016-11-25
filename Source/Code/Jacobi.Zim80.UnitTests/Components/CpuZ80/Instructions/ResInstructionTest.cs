@@ -112,7 +112,7 @@ namespace Jacobi.Zim80.Components.CpuZ80.Instructions.UnitTests
 
             fnPreTest(model);
 
-            model.ClockGen.BlockWave(8);
+            model.ClockGen.SquareWave(8);
 
             return cpuZ80;
         }

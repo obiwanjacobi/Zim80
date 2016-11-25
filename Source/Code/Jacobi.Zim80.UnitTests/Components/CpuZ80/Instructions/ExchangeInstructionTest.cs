@@ -17,7 +17,7 @@ namespace Jacobi.Zim80.Components.CpuZ80.Instructions.UnitTests
 
             cpuZ80.FillRegisters(a: 0x55, a_a: 0xAA);
 
-            model.ClockGen.BlockWave(4);
+            model.ClockGen.SquareWave(4);
 
             cpuZ80.AssertRegisters(a: 0xAA, a_a: 0x55);
         }
@@ -32,7 +32,7 @@ namespace Jacobi.Zim80.Components.CpuZ80.Instructions.UnitTests
 
             cpuZ80.FillRegisters(de: 0x1234, hl:0x9876);
 
-            model.ClockGen.BlockWave(4);
+            model.ClockGen.SquareWave(4);
 
             cpuZ80.AssertRegisters(hl: 0x1234, de: 0x9876);
         }
@@ -48,7 +48,7 @@ namespace Jacobi.Zim80.Components.CpuZ80.Instructions.UnitTests
             cpuZ80.FillRegisters(bc: 0x1234, de:0x5678, hl: 0x9ABC,
                 a_bc: 0x4321, a_de: 8765, a_hl: 0xCBA9);
 
-            model.ClockGen.BlockWave(4);
+            model.ClockGen.SquareWave(4);
 
             cpuZ80.AssertRegisters(a_bc: 0x1234, a_de: 0x5678, a_hl: 0x9ABC,
                 bc: 0x4321, de: 8765, hl: 0xCBA9);

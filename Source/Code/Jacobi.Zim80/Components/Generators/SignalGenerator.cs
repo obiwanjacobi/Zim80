@@ -11,7 +11,7 @@ namespace Jacobi.Zim80.Components.Generators
 
         public DigitalSignalProvider Output { get; private set; }
 
-        public void BlockWave(long numberOfCycles)
+        public void SquareWave(long numberOfCycles)
         {
             var level = Output.Level;
 
@@ -26,7 +26,7 @@ namespace Jacobi.Zim80.Components.Generators
             Output.Write(level);
         }
 
-        public void BlockWave(long numberOfMachineCycles, CycleNames toCycle,
+        public void SquareWave(long numberOfMachineCycles, CycleNames toCycle,
             DigitalLevel toLevel, CycleNames maxCycle = CycleNames.T4)
         {
             if (maxCycle < toCycle)

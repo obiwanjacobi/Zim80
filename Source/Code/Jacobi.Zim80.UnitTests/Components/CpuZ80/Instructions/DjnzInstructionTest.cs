@@ -55,7 +55,7 @@ namespace Jacobi.Zim80.Components.CpuZ80.Instructions.UnitTests
             var bc = (ushort)((b << 8) | CpuZ80TestExtensions.MagicValue);
             cpuZ80.FillRegisters(bc: bc);
 
-            model.ClockGen.BlockWave(cycles);
+            model.ClockGen.SquareWave(cycles);
 
             return cpuZ80;
         }

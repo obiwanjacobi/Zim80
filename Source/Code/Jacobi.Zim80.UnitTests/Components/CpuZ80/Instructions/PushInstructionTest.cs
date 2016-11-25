@@ -103,7 +103,7 @@ namespace Jacobi.Zim80.Components.CpuZ80.Instructions.UnitTests
 
             preTest(model);
 
-            model.ClockGen.BlockWave(extension == 0 ? 11 : 15);
+            model.ClockGen.SquareWave(extension == 0 ? 11 : 15);
 
             return model;
         }

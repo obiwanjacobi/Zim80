@@ -86,7 +86,7 @@ namespace Jacobi.Zim80.Components.CpuZ80.Instructions.UnitTests
             cpu.FillRegisters();
             preTest(cpu);
 
-            model.ClockGen.BlockWave(isConditionMet ? 16 : 21);
+            model.ClockGen.SquareWave(isConditionMet ? 16 : 21);
 
             return model;
         }

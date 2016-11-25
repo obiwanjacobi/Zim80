@@ -16,7 +16,7 @@ namespace Jacobi.Zim80.Components.CpuZ80.UnitTests
             var gen = new SignalGenerator();
             var clock = cpu.Clock.CreateConnection(gen.Output);
 
-            gen.BlockWave(1, toCycle, toLevel);
+            gen.SquareWave(1, toCycle, toLevel);
 
             return clock;
         }

@@ -121,7 +121,7 @@ namespace Jacobi.Zim80.Components.CpuZ80.Instructions.UnitTests
 
             long cycles = 16;
             if (!isConditionMet) cycles += 21;
-            model.ClockGen.BlockWave(cycles);
+            model.ClockGen.SquareWave(cycles);
 
             return model;
         }

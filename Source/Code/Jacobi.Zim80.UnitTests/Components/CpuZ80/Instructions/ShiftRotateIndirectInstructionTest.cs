@@ -428,7 +428,7 @@ namespace Jacobi.Zim80.Components.CpuZ80.Instructions.UnitTests
 
             long clocks = group == 0xCB ? 15 : 18;
             if (extension != 0) clocks += 8;
-            model.ClockGen.BlockWave(clocks);
+            model.ClockGen.SquareWave(clocks);
 
             return model;
         }

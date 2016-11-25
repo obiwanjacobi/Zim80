@@ -17,9 +17,9 @@ namespace Jacobi.Zim80.Components.CpuZ80.Instructions.UnitTests
             var intProvider = model.Cpu.Interrupt.CreateConnection();
 
             // act
-            model.ClockGen.BlockWave(2);
+            model.ClockGen.SquareWave(2);
             intProvider.Write(DigitalLevel.Low);
-            model.ClockGen.BlockWave(2);
+            model.ClockGen.SquareWave(2);
 
             model.Cpu.AssertRegisters(pc: 1);
         }
@@ -31,9 +31,9 @@ namespace Jacobi.Zim80.Components.CpuZ80.Instructions.UnitTests
             var intProvider = model.Cpu.Interrupt.CreateConnection();
 
             // act
-            model.ClockGen.BlockWave(6);
+            model.ClockGen.SquareWave(6);
             intProvider.Write(DigitalLevel.Low);
-            model.ClockGen.BlockWave(2);
+            model.ClockGen.SquareWave(2);
 
             model.Cpu.AssertRegisters(pc: 1);
         }
@@ -46,9 +46,9 @@ namespace Jacobi.Zim80.Components.CpuZ80.Instructions.UnitTests
 
             var x = 9999;
             // act
-            model.ClockGen.BlockWave(x*4 + 2);
+            model.ClockGen.SquareWave(x*4 + 2);
             intProvider.Write(DigitalLevel.Low);
-            model.ClockGen.BlockWave(2);
+            model.ClockGen.SquareWave(2);
 
             model.Cpu.AssertRegisters(pc: 1);
         }

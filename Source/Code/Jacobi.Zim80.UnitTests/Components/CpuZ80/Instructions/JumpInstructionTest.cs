@@ -237,7 +237,7 @@ namespace Jacobi.Zim80.Components.CpuZ80.Instructions.UnitTests
             var conditionMet = preTest(cpuZ80.Registers);
 
             var def = OpcodeDefinition.Find(ob);
-            model.ClockGen.BlockWave(def.Cycles.Sum());
+            model.ClockGen.SquareWave(def.Cycles.Sum());
 
             return cpuZ80;
         }

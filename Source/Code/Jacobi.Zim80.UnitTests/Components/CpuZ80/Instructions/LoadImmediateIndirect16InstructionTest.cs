@@ -108,7 +108,7 @@ namespace Jacobi.Zim80.Components.CpuZ80.Instructions.UnitTests
                     cpuZ80.Registers[reg] = Expected;
             }
 
-            model.ClockGen.BlockWave(20);
+            model.ClockGen.SquareWave(20);
 
             return model;
         }

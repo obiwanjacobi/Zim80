@@ -30,9 +30,9 @@ namespace Jacobi.Zim80.Components.CpuZ80.UnitTests
             var interruptProvider = cpu.Interrupt.CreateConnection();
             var model = cpu.Initialize(new byte[] { 0 });
 
-            model.ClockGen.BlockWave(2);
+            model.ClockGen.SquareWave(2);
             interruptProvider.Write(DigitalLevel.Low);
-            model.ClockGen.BlockWave(2);
+            model.ClockGen.SquareWave(2);
 
             cpu.Registers.Interrupt.IFF1.Should().BeFalse();
         }
@@ -46,11 +46,11 @@ namespace Jacobi.Zim80.Components.CpuZ80.UnitTests
             var model = cpu.Initialize(new byte[] { 0 });
 
             // nop
-            model.ClockGen.BlockWave(2);
+            model.ClockGen.SquareWave(2);
             interruptProvider.Write(DigitalLevel.Low);
-            model.ClockGen.BlockWave(2);
+            model.ClockGen.SquareWave(2);
             // start interrupt
-            model.ClockGen.BlockWave(2);
+            model.ClockGen.SquareWave(2);
 
             // interrupt accepted turns off IFF1
             cpu.Registers.Interrupt.IFF1.Should().BeFalse();

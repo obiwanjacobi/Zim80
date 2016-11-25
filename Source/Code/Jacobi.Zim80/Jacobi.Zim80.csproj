@@ -159,6 +159,14 @@
     <Compile Include="Components\CpuZ80\States\Instructions\WriteImmediateRegisterInstruction.cs" />
     <Compile Include="Components\CpuZ80\States\Instructions\WriteIndirectRegisterInstruction.cs" />
     <Compile Include="Components\CpuZ80\States\Instructions\WriteT3InstructionPart.cs" />
+    <Compile Include="Components\Logic\AndGate.cs" />
+    <Compile Include="Components\Logic\Buffer.cs" />
+    <Compile Include="Components\Logic\Gate.cs" />
+    <Compile Include="Components\Logic\InvertorGate.cs" />
+    <Compile Include="Components\Logic\MultipleInputGate.cs" />
+    <Compile Include="Components\Logic\NandGate.cs" />
+    <Compile Include="Components\Logic\NorGate.cs" />
+    <Compile Include="Components\Logic\OrGate.cs" />
     <Compile Include="Diagnostics\GraphicModelBuilder.cs" />
     <Compile Include="Diagnostics\Dgml.cs">
       <DependentUpon>Dgml.xsd</DependentUpon>
@@ -176,7 +184,6 @@
     <Compile Include="Components\CpuZ80\Opcodes\OpcodeDefinition.cs" />
     <Compile Include="Components\CpuZ80\Opcodes\Opcode.cs" />
     <Compile Include="Components\CpuZ80\Opcodes\SingleByteOpcode.cs" />
-    <Compile Include="Components\Logic\GlueLogic.cs" />
     <Compile Include="Components\Memory\IDirectMemoryAccess.cs" />
     <Compile Include="Components\Memory\IMemoryAccessNotification.cs" />
     <Compile Include="Components\Memory\Memory.cs" />
