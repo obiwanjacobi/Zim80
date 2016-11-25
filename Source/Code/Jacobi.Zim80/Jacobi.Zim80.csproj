@@ -161,8 +161,10 @@
     <Compile Include="Components\CpuZ80\States\Instructions\WriteT3InstructionPart.cs" />
     <Compile Include="Components\Logic\AndGate.cs" />
     <Compile Include="Components\Logic\Buffer.cs" />
+    <Compile Include="Components\Logic\DigitalStream.cs" />
     <Compile Include="Components\Logic\Gate.cs" />
     <Compile Include="Components\Logic\InvertorGate.cs" />
+    <Compile Include="Components\Logic\LogicAnalyzer.cs" />
     <Compile Include="Components\Logic\MultipleInputGate.cs" />
     <Compile Include="Components\Logic\NandGate.cs" />
     <Compile Include="Components\Logic\NorGate.cs" />
@@ -174,6 +176,8 @@
     <Compile Include="Diagnostics\DgmlModelBuilder.cs" />
     <Compile Include="Diagnostics\DgmlSerializer.cs" />
     <Compile Include="Diagnostics\UniqueNameBuilder.cs" />
+    <Compile Include="Diagnostics\WaveDromBuilder.cs" />
+    <Compile Include="Diagnostics\WaveJsonBuilder.cs" />
     <Compile Include="DigitalLevelCycler.cs" />
     <Compile Include="Components\Generators\Randomizer.cs" />
     <Compile Include="Components\Generators\SignalGenerator.cs" />

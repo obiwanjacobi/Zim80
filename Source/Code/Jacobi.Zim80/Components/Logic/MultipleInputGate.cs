@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace Jacobi.Zim80.Components.Logic
 {
@@ -28,6 +30,12 @@ namespace Jacobi.Zim80.Components.Logic
 
         protected virtual void OnInputChanged(DigitalSignalConsumer input, DigitalSignalProvider source)
         { }
+
+        protected void ThrowIfAnyInputsNotConnected()
+        {
+            if (Inputs.Any((c) => !c.IsConnected))
+                throw new InvalidOperationException("Not all inputs are connected to a signal.");
+        }
 
         private void Input_OnChanged(object sender, DigitalLevelChangedEventArgs e)
         {
