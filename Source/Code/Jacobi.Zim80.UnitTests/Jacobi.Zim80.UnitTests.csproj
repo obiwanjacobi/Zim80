@@ -138,6 +138,12 @@
     <Compile Include="Components\CpuZ80\Opcodes\SingleByteOpcodeWithSingleByteParameterTest.cs" />
     <Compile Include="Components\CpuZ80\Opcodes\SingleByteOpcodeWithNoParameterTest.cs" />
     <Compile Include="Components\Generators\SignalGeneratorTest.cs" />
+    <Compile Include="Components\Logic\AndGateTest.cs" />
+    <Compile Include="Components\Logic\BufferTest.cs" />
+    <Compile Include="Components\Logic\InvertorGateTest.cs" />
+    <Compile Include="Components\Logic\NandGateTest.cs" />
+    <Compile Include="Components\Logic\NorGateTest.cs" />
+    <Compile Include="Components\Logic\OrGateTest.cs" />
     <Compile Include="Components\Memory\MemoryRamTest.cs" />
     <Compile Include="Components\Memory\MemoryRomTest.cs" />
     <Compile Include="Components\Memory\MemoryTestExtensions.cs" />

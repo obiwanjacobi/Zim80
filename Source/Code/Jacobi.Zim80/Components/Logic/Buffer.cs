@@ -19,8 +19,11 @@ namespace Jacobi.Zim80.Components.Logic
         // active low
         public DigitalSignalConsumer OutputEnable { get { return _outputEnable; }  }
 
+        public bool IsEnabled
+        { get { return _outputEnable.Level == DigitalLevel.Low; } }
+
         // returns index (always added to the end)
-        public int Add(out DigitalSignalConsumer input,  DigitalSignalProvider output, string name = null)
+        public int Add(out DigitalSignalConsumer input,  out DigitalSignalProvider output, string name = null)
         {
             var index = _inputs.Count;
 
@@ -48,8 +51,11 @@ namespace Jacobi.Zim80.Components.Logic
 
         protected void WriteOutputFor(DigitalSignalConsumer input)
         {
-            var index = _inputs.IndexOf(input);
-            _outputs[index].Write(input.Level);
+            if (IsEnabled)
+            {
+                var index = _inputs.IndexOf(input);
+                _outputs[index].Write(input.Level);
+            }
         }
 
         private void Input_OnChanged(object sender, DigitalLevelChangedEventArgs e)
@@ -59,7 +65,7 @@ namespace Jacobi.Zim80.Components.Logic
 
         private void OutputEnable_OnChanged(object sender, DigitalLevelChangedEventArgs e)
         {
-            if (_outputEnable.Level == DigitalLevel.Low)
+            if (IsEnabled)
                 WriteAllOutputs();
             else
                 DisableAllOutputs();
