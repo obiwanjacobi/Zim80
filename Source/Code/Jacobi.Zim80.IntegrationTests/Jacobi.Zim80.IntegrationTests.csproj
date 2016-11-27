@@ -45,7 +45,9 @@
     </When>
     <Otherwise>
       <ItemGroup>
-        <Reference Include="Microsoft.VisualStudio.QualityTools.UnitTestFramework" />
+        <Reference Include="Microsoft.VisualStudio.QualityTools.UnitTestFramework">
+          <Private>False</Private>
+        </Reference>
       </ItemGroup>
     </Otherwise>
   </Choose>
@@ -54,9 +56,19 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Jacobi.Zim80\Jacobi.Zim80.csproj">
-      <Project>{ccb0cd3f-799b-474c-9be8-14bfabefc2b2}</Project>
+      <Project>{7d42d4fa-d29b-4151-951c-6f066554c8c1}</Project>
       <Name>Jacobi.Zim80</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="CpuZ80\Zexlax\zexall.zmac.asm" />
+    <Content Include="CpuZ80\Zexlax\zexdoc.zmac.asm" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="CpuZ80\Zexlax\MakeAsm.cmd" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="CpuZ80\Routines\" />
   </ItemGroup>
   <Choose>
     <When Condition="'$(VisualStudioVersion)' == '10.0' And '$(IsCodedUITest)' == 'True'">
@@ -78,6 +90,10 @@
   </Choose>
   <Import Project="$(VSToolsPath)\TeamTest\Microsoft.TestTools.targets" Condition="Exists('$(VSToolsPath)\TeamTest\Microsoft.TestTools.targets')" />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <PropertyGroup>
+    <PreBuildEvent>
+    </PreBuildEvent>
+  </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">

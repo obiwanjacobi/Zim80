@@ -3,8 +3,6 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 14
 VisualStudioVersion = 14.0.25420.1
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Jacobi.Zim80", "Jacobi.Zim80\Jacobi.Zim80.csproj", "{CCB0CD3F-799B-474C-9BE8-14BFABEFC2B2}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Jacobi.Zim80.UnitTests", "Jacobi.Zim80.UnitTests\Jacobi.Zim80.UnitTests.csproj", "{4EF86D7F-3F04-44BB-BCDF-DDD060461D70}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{B252E763-82AE-48E7-BB99-C9B4FC20ED73}"
@@ -16,16 +14,14 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Jacobi.Zim80.OpcodeCalc", "
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Jacobi.Zim80.IntegrationTests", "Jacobi.Zim80.IntegrationTests\Jacobi.Zim80.IntegrationTests.csproj", "{D24C0470-C3AC-4C28-8AC3-8AB834800C05}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Jacobi.Zim80", "Jacobi.Zim80\Jacobi.Zim80.csproj", "{7D42D4FA-D29B-4151-951C-6F066554C8C1}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{CCB0CD3F-799B-474C-9BE8-14BFABEFC2B2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{CCB0CD3F-799B-474C-9BE8-14BFABEFC2B2}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{CCB0CD3F-799B-474C-9BE8-14BFABEFC2B2}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{CCB0CD3F-799B-474C-9BE8-14BFABEFC2B2}.Release|Any CPU.Build.0 = Release|Any CPU
 		{4EF86D7F-3F04-44BB-BCDF-DDD060461D70}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{4EF86D7F-3F04-44BB-BCDF-DDD060461D70}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4EF86D7F-3F04-44BB-BCDF-DDD060461D70}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -37,6 +33,10 @@ Global
 		{D24C0470-C3AC-4C28-8AC3-8AB834800C05}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D24C0470-C3AC-4C28-8AC3-8AB834800C05}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D24C0470-C3AC-4C28-8AC3-8AB834800C05}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7D42D4FA-D29B-4151-951C-6F066554C8C1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7D42D4FA-D29B-4151-951C-6F066554C8C1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7D42D4FA-D29B-4151-951C-6F066554C8C1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7D42D4FA-D29B-4151-951C-6F066554C8C1}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

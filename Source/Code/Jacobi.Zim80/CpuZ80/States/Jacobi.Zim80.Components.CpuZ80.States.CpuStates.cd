@@ -1,0 +1,106 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="Jacobi.Zim80.CpuZ80.States.CpuExecute" Collapsed="true">
+    <Position X="3.25" Y="3.5" Width="1.5" />
+    <Compartments>
+      <Compartment Name="Methods" Collapsed="true" />
+    </Compartments>
+    <InheritanceLine Type="Jacobi.Zim80.CpuZ80.States.CpuRefresh" ManuallyRouted="true">
+      <Path>
+        <Point X="2.75" Y="2.691" />
+        <Point X="2.75" Y="3.083" />
+        <Point X="4" Y="3.083" />
+        <Point X="4" Y="3.5" />
+      </Path>
+    </InheritanceLine>
+    <AssociationLine Name="_instruction" Type="Jacobi.Zim80.CpuZ80.States.Instructions.Instruction" FixedFromPoint="true" FixedToPoint="true">
+      <Path>
+        <Point X="4.75" Y="3.846" />
+        <Point X="5.125" Y="3.846" />
+        <Point X="5.125" Y="2.674" />
+        <Point X="6" Y="2.674" />
+      </Path>
+    </AssociationLine>
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAgAAAAAAAAIAAACAAAAAAAAAAAA=</HashCode>
+      <FileName>Components\CpuZ80\States\CpuExecute.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Field Name="_instruction" />
+    </ShowAsAssociation>
+  </Class>
+  <Class Name="Jacobi.Zim80.CpuZ80.States.CpuFetch" Collapsed="true">
+    <Position X="1" Y="3.5" Width="1.5" />
+    <InheritanceLine Type="Jacobi.Zim80.CpuZ80.States.CpuRefresh" ManuallyRouted="true">
+      <Path>
+        <Point X="2.75" Y="2.691" />
+        <Point X="2.75" Y="3.104" />
+        <Point X="1.75" Y="3.104" />
+        <Point X="1.75" Y="3.5" />
+      </Path>
+    </InheritanceLine>
+    <TypeIdentifier>
+      <HashCode>AAAAABAAAAAAAAAAAAAAAAAgAAAAAAAAAAAAAAQAAAA=</HashCode>
+      <FileName>Components\CpuZ80\States\CpuFetch.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Jacobi.Zim80.CpuZ80.States.CpuRefresh" Collapsed="true">
+    <Position X="2" Y="2" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAABAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAAAA=</HashCode>
+      <FileName>Components\CpuZ80\States\CpuRefresh.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Jacobi.Zim80.CpuZ80.States.CpuState" Collapsed="true">
+    <Position X="2" Y="0.5" Width="1.5" />
+    <Compartments>
+      <Compartment Name="Fields" Collapsed="true" />
+      <Compartment Name="Methods" Collapsed="true" />
+    </Compartments>
+    <TypeIdentifier>
+      <HashCode>AQAAABQAAAAAAAAgAAAAABAAgAAAAACAAAAAQAQAAAA=</HashCode>
+      <FileName>Components\CpuZ80\States\CpuState.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Jacobi.Zim80.CpuZ80.States.Instructions.Instruction">
+    <Position X="6" Y="2" Width="1.5" />
+    <Compartments>
+      <Compartment Name="Methods" Collapsed="true" />
+    </Compartments>
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAABAAAAAAAAAAEAAAA=</HashCode>
+      <FileName>Components\CpuZ80\States\Instructions\Instruction.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Jacobi.Zim80.CpuZ80.States.Instructions.MultiCycleInstruction" Collapsed="true">
+    <Position X="7.25" Y="4.25" Width="2" />
+    <Compartments>
+      <Compartment Name="Methods" Collapsed="true" />
+    </Compartments>
+    <AssociationLine Name="_currentPart" Type="Jacobi.Zim80.CpuZ80.States.CpuState" FixedFromPoint="true" FixedToPoint="true">
+      <Path>
+        <Point X="8.688" Y="4.25" />
+        <Point X="8.688" Y="0.781" />
+        <Point X="3.5" Y="0.781" />
+      </Path>
+    </AssociationLine>
+    <TypeIdentifier>
+      <HashCode>AAABABAAAAAAAAAAAAQAgAAABAAAABCQAAAAACEAAAA=</HashCode>
+      <FileName>Components\CpuZ80\States\Instructions\MultiCycleInstruction.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Field Name="_currentPart" />
+    </ShowAsAssociation>
+  </Class>
+  <Class Name="Jacobi.Zim80.CpuZ80.States.Instructions.SingleCycleInstruction" Collapsed="true">
+    <Position X="5" Y="4.25" Width="1.75" />
+    <Compartments>
+      <Compartment Name="Methods" Collapsed="true" />
+    </Compartments>
+    <TypeIdentifier>
+      <HashCode>AAAAABAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Components\CpuZ80\States\Instructions\SingleCycleInstruction.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>

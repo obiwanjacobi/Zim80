@@ -1,5 +1,5 @@
 ﻿using Jacobi.Zim80.Diagnostics;
-using Jacobi.Zim80.Model;
+using Jacobi.Zim80.Test;
 using System.IO;
 
 namespace Jacobi.Zim80.UnitTests

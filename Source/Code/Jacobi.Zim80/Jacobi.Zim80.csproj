@@ -2,23 +2,15 @@
 <Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
-    <MinimumVisualStudioVersion>10.0</MinimumVisualStudioVersion>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{CCB0CD3F-799B-474C-9BE8-14BFABEFC2B2}</ProjectGuid>
+    <ProjectGuid>{7D42D4FA-D29B-4151-951C-6F066554C8C1}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>Jacobi.Zim80</RootNamespace>
     <AssemblyName>Jacobi.Zim80</AssemblyName>
-    <DefaultLanguage>en-US</DefaultLanguage>
+    <TargetFrameworkVersion>v4.6</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
-    <ProjectTypeGuids>{786C830F-07A1-408B-BD7F-6EE04809D6DB};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
-    <TargetFrameworkProfile>Profile47</TargetFrameworkProfile>
-    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
-    <SccProjectName>SAK</SccProjectName>
-    <SccLocalPath>SAK</SccLocalPath>
-    <SccAuxPath>SAK</SccAuxPath>
-    <SccProvider>SAK</SccProvider>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -38,174 +30,182 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <!-- A reference to the entire .NET Framework is automatically included -->
-    <None Include="Components\Components.cd" />
-    <None Include="Components\CpuZ80\States\Instructions\Jacobi.Zim80.Components.CpuZ80.States.Instructions.MultiByteInstructions.cd" />
-    <None Include="Components\CpuZ80\States\Instructions\Jacobi.Zim80.Components.CpuZ80.States.Instructions.SingleByteInstructions.cd" />
-    <None Include="Components\CpuZ80\States\Jacobi.Zim80.Components.CpuZ80.States.CpuStates.cd" />
-    <None Include="Diagnostics\Dgml.xsd">
-      <SubType>Designer</SubType>
-    </None>
-    <None Include="Diagnostics\GenerateClasses.cmd" />
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Components\Bus.cs" />
-    <Compile Include="Components\BusChangedEventArgs.cs" />
-    <Compile Include="Components\BusConflictException.cs" />
-    <Compile Include="Components\BusMaster.cs" />
-    <Compile Include="Components\BusMasterSlave.cs" />
-    <Compile Include="Components\BusSlave.cs" />
-    <Compile Include="Components\BusTap.cs" />
-    <Compile Include="Components\BusData.cs" />
-    <Compile Include="Components\BusData16.cs" />
-    <Compile Include="Components\BusData20.cs" />
-    <Compile Include="Components\BusData24.cs" />
-    <Compile Include="Components\BusData8.cs" />
-    <Compile Include="Components\CpuZ80\Alu.cs" />
-    <Compile Include="Components\CpuZ80\InstructionExecutedEventArgs.cs" />
-    <Compile Include="Components\CpuZ80\InterruptManager.cs" />
-    <Compile Include="Components\CpuZ80\InterruptRegisters.cs" />
-    <Compile Include="Components\CpuZ80\InterruptTypes.cs" />
-    <Compile Include="Components\CpuZ80\Opcodes\MathOperations.cs" />
-    <Compile Include="Components\CpuZ80\Opcodes\Mnemonic.cs" />
-    <Compile Include="Components\CpuZ80\Opcodes\OpcodeDefinition.Definitions.cs" />
-    <Compile Include="Components\CpuZ80\Opcodes\Register16Table.cs" />
-    <Compile Include="Components\CpuZ80\Opcodes\Register8Table.cs" />
-    <Compile Include="Components\CpuZ80\Opcodes\ShiftRotateOperations.cs" />
-    <Compile Include="Components\CpuZ80\Register16.cs" />
-    <Compile Include="Components\CpuZ80\RegisterExtensions.cs" />
-    <Compile Include="Components\CpuZ80\RegisterFlags.cs" />
-    <Compile Include="Components\CpuZ80\RegisterSet.cs" />
-    <Compile Include="Components\CpuZ80\States\CpuReadParameterThenExecute.cs" />
-    <Compile Include="Components\CpuZ80\States\CpuInterrupt.cs" />
-    <Compile Include="Components\CpuZ80\States\Instructions\AddRegister16Instruction.cs" />
-    <Compile Include="Components\CpuZ80\States\Instructions\BitInstruction.cs" />
-    <Compile Include="Components\CpuZ80\States\Instructions\BitSetResExtendedInstruction.cs" />
-    <Compile Include="Components\CpuZ80\States\Instructions\CallInstruction.cs" />
-    <Compile Include="Components\CpuZ80\States\Instructions\CarryFlagInstruction.cs" />
-    <Compile Include="Components\CpuZ80\States\Instructions\CompareRepeatInstruction.cs" />
-    <Compile Include="Components\CpuZ80\States\Instructions\Dec8Instruction.cs" />
-    <Compile Include="Components\CpuZ80\States\Instructions\DecimalAdjustInstruction.cs" />
-    <Compile Include="Components\CpuZ80\States\Instructions\DjnzInstruction.cs" />
-    <Compile Include="Components\CpuZ80\States\Instructions\Errors.cs" />
-    <Compile Include="Components\CpuZ80\States\Instructions\ExchangeIndirectInstruction.cs" />
-    <Compile Include="Components\CpuZ80\States\Instructions\ExchangeInstruction.cs" />
-    <Compile Include="Components\CpuZ80\States\CpuExecute.cs" />
-    <Compile Include="Components\CpuZ80\States\CpuFetch.cs" />
-    <Compile Include="Components\CpuZ80\States\CpuRefresh.cs" />
-    <Compile Include="Components\CpuZ80\States\CpuState.cs" />
-    <Compile Include="Components\CpuZ80\Die.cs" />
-    <Compile Include="Components\CpuZ80\ExecutionEngine.cs" />
-    <Compile Include="Components\CpuZ80\CycleCounter.cs" />
-    <Compile Include="Components\CpuZ80\Registers.cs" />
-    <Compile Include="Components\CpuZ80\States\Instructions\Dec16Instruction.cs" />
-    <Compile Include="Components\CpuZ80\States\Instructions\ExtendedInstruction.cs" />
-    <Compile Include="Components\CpuZ80\States\Instructions\HaltInstruction.cs" />
-    <Compile Include="Components\CpuZ80\States\Instructions\Inc16Instruction.cs" />
-    <Compile Include="Components\CpuZ80\States\Instructions\Inc8Instruction.cs" />
-    <Compile Include="Components\CpuZ80\States\Instructions\IncDecShiftedIndirectInstruction.cs" />
-    <Compile Include="Components\CpuZ80\States\Instructions\IncDecIndirectInstruction.cs" />
-    <Compile Include="Components\CpuZ80\States\Instructions\IndirectBitSetResInstruction.cs" />
-    <Compile Include="Components\CpuZ80\States\Instructions\InInstruction.cs" />
-    <Compile Include="Components\CpuZ80\States\Instructions\InputInstructionPart.cs" />
-    <Compile Include="Components\CpuZ80\States\Instructions\InRepeatInstruction.cs" />
-    <Compile Include="Components\CpuZ80\States\Instructions\JumpRegister16Instruction.cs" />
-    <Compile Include="Components\CpuZ80\States\Instructions\JumpInstruction.cs" />
-    <Compile Include="Components\CpuZ80\States\Instructions\LoadImmediateIndirect16Instruction.cs" />
-    <Compile Include="Components\CpuZ80\States\Instructions\LoadRegister16Instruction.cs" />
-    <Compile Include="Components\CpuZ80\States\Instructions\LoadRepeatInstruction.cs" />
-    <Compile Include="Components\CpuZ80\States\Instructions\LoadSystemRegisterInstruction.cs" />
-    <Compile Include="Components\CpuZ80\States\Instructions\MathDirectInstruction.cs" />
-    <Compile Include="Components\CpuZ80\States\Instructions\MathIndirectInstruction.cs" />
-    <Compile Include="Components\CpuZ80\States\Instructions\NegateInstruction.cs" />
-    <Compile Include="Components\CpuZ80\States\Instructions\OutInstruction.cs" />
-    <Compile Include="Components\CpuZ80\States\Instructions\OutputInstructionPart.cs" />
-    <Compile Include="Components\CpuZ80\States\Instructions\OutRepeatInstruction.cs" />
-    <Compile Include="Components\CpuZ80\States\Instructions\RepeatInstruction.cs" />
-    <Compile Include="Components\CpuZ80\States\Instructions\RepeatInstructionPart.cs" />
-    <Compile Include="Components\CpuZ80\States\Instructions\RetIntInstruction.cs" />
-    <Compile Include="Components\CpuZ80\States\Instructions\ShiftRotateExtendedInstruction.cs" />
-    <Compile Include="Components\CpuZ80\States\Instructions\ShiftRotateIndirectInstruction.cs" />
-    <Compile Include="Components\CpuZ80\States\Instructions\SubRegister16Instruction.cs" />
-    <Compile Include="Components\CpuZ80\States\Instructions\WriteIndirectInstruction.cs" />
-    <Compile Include="Components\CpuZ80\States\Instructions\ReadIndirectInstruction.cs" />
-    <Compile Include="Components\CpuZ80\States\Instructions\Instruction.cs" />
-    <Compile Include="Components\CpuZ80\States\Instructions\Interrupt.cs" />
-    <Compile Include="Components\CpuZ80\States\Instructions\InterruptInstruction.cs" />
-    <Compile Include="Components\CpuZ80\States\Instructions\IntModeInstruction.cs" />
-    <Compile Include="Components\CpuZ80\States\Instructions\JumpRelativeInstruction.cs" />
-    <Compile Include="Components\CpuZ80\States\Instructions\LoadImmediate16Instruction.cs" />
-    <Compile Include="Components\CpuZ80\States\Instructions\LoadImmediate8Instruction.cs" />
-    <Compile Include="Components\CpuZ80\States\Instructions\LoadImmediateIndirectInstruction.cs" />
-    <Compile Include="Components\CpuZ80\States\Instructions\LoadRegister8Instruction.cs" />
-    <Compile Include="Components\CpuZ80\States\Instructions\MachineCycleState.cs" />
-    <Compile Include="Components\CpuZ80\States\Instructions\AutoCompleteInstructionPart.cs" />
-    <Compile Include="Components\CpuZ80\States\Instructions\MathRegister8Instruction.cs" />
-    <Compile Include="Components\CpuZ80\States\Instructions\NmiInterrupt.cs" />
-    <Compile Include="Components\CpuZ80\States\Instructions\PopInstruction.cs" />
-    <Compile Include="Components\CpuZ80\States\Instructions\PushInstruction.cs" />
-    <Compile Include="Components\CpuZ80\States\Instructions\ReadImmediateRegisterInstruction.cs" />
-    <Compile Include="Components\CpuZ80\States\Instructions\ReadIndirectRegisterInstruction.cs" />
-    <Compile Include="Components\CpuZ80\States\Instructions\MultiCycleInstruction.cs" />
-    <Compile Include="Components\CpuZ80\States\Instructions\NopInstruction.cs" />
-    <Compile Include="Components\CpuZ80\States\Instructions\ReadParametersInstruction.cs" />
-    <Compile Include="Components\CpuZ80\States\Instructions\ReadT3InstructionPart.cs" />
-    <Compile Include="Components\CpuZ80\States\Instructions\ResInstruction.cs" />
-    <Compile Include="Components\CpuZ80\States\Instructions\RetInstruction.cs" />
-    <Compile Include="Components\CpuZ80\States\Instructions\ShiftRotateInstruction.cs" />
-    <Compile Include="Components\CpuZ80\States\Instructions\RstInstruction.cs" />
-    <Compile Include="Components\CpuZ80\States\Instructions\SetInstruction.cs" />
-    <Compile Include="Components\CpuZ80\States\Instructions\SingleCycleInstruction.cs" />
-    <Compile Include="Components\CpuZ80\States\Instructions\WriteImmediateRegisterInstruction.cs" />
-    <Compile Include="Components\CpuZ80\States\Instructions\WriteIndirectRegisterInstruction.cs" />
-    <Compile Include="Components\CpuZ80\States\Instructions\WriteT3InstructionPart.cs" />
-    <Compile Include="Components\Logic\AndGate.cs" />
-    <Compile Include="Components\Logic\Buffer.cs" />
-    <Compile Include="Components\Logic\DigitalStream.cs" />
-    <Compile Include="Components\Logic\Gate.cs" />
-    <Compile Include="Components\Logic\InvertorGate.cs" />
-    <Compile Include="Components\Logic\LogicAnalyzer.cs" />
-    <Compile Include="Components\Logic\MultipleInputGate.cs" />
-    <Compile Include="Components\Logic\NandGate.cs" />
-    <Compile Include="Components\Logic\NorGate.cs" />
-    <Compile Include="Components\Logic\OrGate.cs" />
-    <Compile Include="Diagnostics\GraphicModelBuilder.cs" />
+    <Compile Include="Bus.cs" />
+    <Compile Include="BusChangedEventArgs.cs" />
+    <Compile Include="BusConflictException.cs" />
+    <Compile Include="BusData.cs" />
+    <Compile Include="BusData16.cs" />
+    <Compile Include="BusData20.cs" />
+    <Compile Include="BusData24.cs" />
+    <Compile Include="BusData8.cs" />
+    <Compile Include="BusMaster.cs" />
+    <Compile Include="BusMasterSlave.cs" />
+    <Compile Include="BusSlave.cs" />
+    <Compile Include="BusTap.cs" />
+    <Compile Include="CpuZ80\Alu.cs" />
+    <Compile Include="CpuZ80\CpuZ80.cs" />
+    <Compile Include="CpuZ80\CycleCounter.cs" />
+    <Compile Include="CpuZ80\Die.cs" />
+    <Compile Include="CpuZ80\ExecutionEngine.cs" />
+    <Compile Include="CpuZ80\InstructionExecutedEventArgs.cs" />
+    <Compile Include="CpuZ80\InterruptManager.cs" />
+    <Compile Include="CpuZ80\InterruptRegisters.cs" />
+    <Compile Include="CpuZ80\InterruptTypes.cs" />
+    <Compile Include="CpuZ80\Opcodes\MathOperations.cs" />
+    <Compile Include="CpuZ80\Opcodes\Mnemonic.cs" />
+    <Compile Include="CpuZ80\Opcodes\MultiByteOpcode.cs" />
+    <Compile Include="CpuZ80\Opcodes\Opcode.cs" />
+    <Compile Include="CpuZ80\Opcodes\OpcodeBuilder.cs" />
+    <Compile Include="CpuZ80\Opcodes\OpcodeByte.cs" />
+    <Compile Include="CpuZ80\Opcodes\OpcodeDefinition.cs" />
+    <Compile Include="CpuZ80\Opcodes\OpcodeDefinition.Definitions.cs" />
+    <Compile Include="CpuZ80\Opcodes\Register16Table.cs" />
+    <Compile Include="CpuZ80\Opcodes\Register8Table.cs" />
+    <Compile Include="CpuZ80\Opcodes\ShiftRotateOperations.cs" />
+    <Compile Include="CpuZ80\Opcodes\SingleByteOpcode.cs" />
+    <Compile Include="CpuZ80\Register16.cs" />
+    <Compile Include="CpuZ80\RegisterExtensions.cs" />
+    <Compile Include="CpuZ80\RegisterFlags.cs" />
+    <Compile Include="CpuZ80\Registers.cs" />
+    <Compile Include="CpuZ80\RegisterSet.cs" />
+    <Compile Include="CpuZ80\States\CpuExecute.cs" />
+    <Compile Include="CpuZ80\States\CpuFetch.cs" />
+    <Compile Include="CpuZ80\States\CpuInterrupt.cs" />
+    <Compile Include="CpuZ80\States\CpuReadParameterThenExecute.cs" />
+    <Compile Include="CpuZ80\States\CpuRefresh.cs" />
+    <Compile Include="CpuZ80\States\CpuState.cs" />
+    <Compile Include="CpuZ80\States\Instructions\AddRegister16Instruction.cs" />
+    <Compile Include="CpuZ80\States\Instructions\AutoCompleteInstructionPart.cs" />
+    <Compile Include="CpuZ80\States\Instructions\BitInstruction.cs" />
+    <Compile Include="CpuZ80\States\Instructions\BitSetResExtendedInstruction.cs" />
+    <Compile Include="CpuZ80\States\Instructions\CallInstruction.cs" />
+    <Compile Include="CpuZ80\States\Instructions\CarryFlagInstruction.cs" />
+    <Compile Include="CpuZ80\States\Instructions\CompareRepeatInstruction.cs" />
+    <Compile Include="CpuZ80\States\Instructions\Dec16Instruction.cs" />
+    <Compile Include="CpuZ80\States\Instructions\Dec8Instruction.cs" />
+    <Compile Include="CpuZ80\States\Instructions\DecimalAdjustInstruction.cs" />
+    <Compile Include="CpuZ80\States\Instructions\DjnzInstruction.cs" />
+    <Compile Include="CpuZ80\States\Instructions\Errors.cs" />
+    <Compile Include="CpuZ80\States\Instructions\ExchangeIndirectInstruction.cs" />
+    <Compile Include="CpuZ80\States\Instructions\ExchangeInstruction.cs" />
+    <Compile Include="CpuZ80\States\Instructions\ExtendedInstruction.cs" />
+    <Compile Include="CpuZ80\States\Instructions\HaltInstruction.cs" />
+    <Compile Include="CpuZ80\States\Instructions\Inc16Instruction.cs" />
+    <Compile Include="CpuZ80\States\Instructions\Inc8Instruction.cs" />
+    <Compile Include="CpuZ80\States\Instructions\IncDecIndirectInstruction.cs" />
+    <Compile Include="CpuZ80\States\Instructions\IncDecShiftedIndirectInstruction.cs" />
+    <Compile Include="CpuZ80\States\Instructions\IndirectBitSetResInstruction.cs" />
+    <Compile Include="CpuZ80\States\Instructions\InInstruction.cs" />
+    <Compile Include="CpuZ80\States\Instructions\InputInstructionPart.cs" />
+    <Compile Include="CpuZ80\States\Instructions\InRepeatInstruction.cs" />
+    <Compile Include="CpuZ80\States\Instructions\Instruction.cs" />
+    <Compile Include="CpuZ80\States\Instructions\Interrupt.cs" />
+    <Compile Include="CpuZ80\States\Instructions\InterruptInstruction.cs" />
+    <Compile Include="CpuZ80\States\Instructions\IntModeInstruction.cs" />
+    <Compile Include="CpuZ80\States\Instructions\JumpInstruction.cs" />
+    <Compile Include="CpuZ80\States\Instructions\JumpRegister16Instruction.cs" />
+    <Compile Include="CpuZ80\States\Instructions\JumpRelativeInstruction.cs" />
+    <Compile Include="CpuZ80\States\Instructions\LoadImmediate16Instruction.cs" />
+    <Compile Include="CpuZ80\States\Instructions\LoadImmediate8Instruction.cs" />
+    <Compile Include="CpuZ80\States\Instructions\LoadImmediateIndirect16Instruction.cs" />
+    <Compile Include="CpuZ80\States\Instructions\LoadImmediateIndirectInstruction.cs" />
+    <Compile Include="CpuZ80\States\Instructions\LoadRegister16Instruction.cs" />
+    <Compile Include="CpuZ80\States\Instructions\LoadRegister8Instruction.cs" />
+    <Compile Include="CpuZ80\States\Instructions\LoadRepeatInstruction.cs" />
+    <Compile Include="CpuZ80\States\Instructions\LoadSystemRegisterInstruction.cs" />
+    <Compile Include="CpuZ80\States\Instructions\MachineCycleState.cs" />
+    <Compile Include="CpuZ80\States\Instructions\MathDirectInstruction.cs" />
+    <Compile Include="CpuZ80\States\Instructions\MathIndirectInstruction.cs" />
+    <Compile Include="CpuZ80\States\Instructions\MathRegister8Instruction.cs" />
+    <Compile Include="CpuZ80\States\Instructions\MultiCycleInstruction.cs" />
+    <Compile Include="CpuZ80\States\Instructions\NegateInstruction.cs" />
+    <Compile Include="CpuZ80\States\Instructions\NmiInterrupt.cs" />
+    <Compile Include="CpuZ80\States\Instructions\NopInstruction.cs" />
+    <Compile Include="CpuZ80\States\Instructions\OutInstruction.cs" />
+    <Compile Include="CpuZ80\States\Instructions\OutputInstructionPart.cs" />
+    <Compile Include="CpuZ80\States\Instructions\OutRepeatInstruction.cs" />
+    <Compile Include="CpuZ80\States\Instructions\PopInstruction.cs" />
+    <Compile Include="CpuZ80\States\Instructions\PushInstruction.cs" />
+    <Compile Include="CpuZ80\States\Instructions\ReadImmediateRegisterInstruction.cs" />
+    <Compile Include="CpuZ80\States\Instructions\ReadIndirectInstruction.cs" />
+    <Compile Include="CpuZ80\States\Instructions\ReadIndirectRegisterInstruction.cs" />
+    <Compile Include="CpuZ80\States\Instructions\ReadParametersInstruction.cs" />
+    <Compile Include="CpuZ80\States\Instructions\ReadT3InstructionPart.cs" />
+    <Compile Include="CpuZ80\States\Instructions\RepeatInstruction.cs" />
+    <Compile Include="CpuZ80\States\Instructions\RepeatInstructionPart.cs" />
+    <Compile Include="CpuZ80\States\Instructions\ResInstruction.cs" />
+    <Compile Include="CpuZ80\States\Instructions\RetInstruction.cs" />
+    <Compile Include="CpuZ80\States\Instructions\RetIntInstruction.cs" />
+    <Compile Include="CpuZ80\States\Instructions\RstInstruction.cs" />
+    <Compile Include="CpuZ80\States\Instructions\SetInstruction.cs" />
+    <Compile Include="CpuZ80\States\Instructions\ShiftRotateExtendedInstruction.cs" />
+    <Compile Include="CpuZ80\States\Instructions\ShiftRotateIndirectInstruction.cs" />
+    <Compile Include="CpuZ80\States\Instructions\ShiftRotateInstruction.cs" />
+    <Compile Include="CpuZ80\States\Instructions\SingleCycleInstruction.cs" />
+    <Compile Include="CpuZ80\States\Instructions\SubRegister16Instruction.cs" />
+    <Compile Include="CpuZ80\States\Instructions\WriteImmediateRegisterInstruction.cs" />
+    <Compile Include="CpuZ80\States\Instructions\WriteIndirectInstruction.cs" />
+    <Compile Include="CpuZ80\States\Instructions\WriteIndirectRegisterInstruction.cs" />
+    <Compile Include="CpuZ80\States\Instructions\WriteT3InstructionPart.cs" />
+    <Compile Include="Logic\SignalGenerator.cs" />
+    <Compile Include="Logic\AndGate.cs" />
+    <Compile Include="Logic\Buffer.cs" />
+    <Compile Include="Logic\DigitalStream.cs" />
+    <Compile Include="Logic\Gate.cs" />
+    <Compile Include="Logic\InvertorGate.cs" />
+    <Compile Include="Logic\LogicAnalyzer.cs" />
+    <Compile Include="Logic\MultipleInputGate.cs" />
+    <Compile Include="Logic\NandGate.cs" />
+    <Compile Include="Logic\NorGate.cs" />
+    <Compile Include="Logic\OrGate.cs" />
+    <Compile Include="Memory\IDirectMemoryAccess.cs" />
+    <Compile Include="Memory\IMemoryAccessNotification.cs" />
+    <Compile Include="Memory\Memory.cs" />
+    <Compile Include="Memory\MemoryNotificationEventArgs.cs" />
+    <Compile Include="Memory\MemoryRam.cs" />
+    <Compile Include="Memory\MemoryRom.cs" />
+    <Compile Include="Memory\MemoryWriter.cs" />
+    <Compile Include="UninitialzedDataException.cs" />
     <Compile Include="Diagnostics\Dgml.cs">
       <DependentUpon>Dgml.xsd</DependentUpon>
     </Compile>
     <Compile Include="Diagnostics\DgmlModelBuilder.cs" />
     <Compile Include="Diagnostics\DgmlSerializer.cs" />
+    <Compile Include="Diagnostics\GraphicModelBuilder.cs" />
     <Compile Include="Diagnostics\UniqueNameBuilder.cs" />
     <Compile Include="Diagnostics\WaveDromBuilder.cs" />
     <Compile Include="Diagnostics\WaveJsonBuilder.cs" />
-    <Compile Include="DigitalLevelCycler.cs" />
-    <Compile Include="Components\Generators\Randomizer.cs" />
-    <Compile Include="Components\Generators\SignalGenerator.cs" />
-    <Compile Include="Components\CpuZ80\CpuZ80.cs" />
-    <Compile Include="Components\CpuZ80\Opcodes\MultiByteOpcode.cs" />
-    <Compile Include="Components\CpuZ80\Opcodes\OpcodeBuilder.cs" />
-    <Compile Include="Components\CpuZ80\Opcodes\OpcodeByte.cs" />
-    <Compile Include="Components\CpuZ80\Opcodes\OpcodeDefinition.cs" />
-    <Compile Include="Components\CpuZ80\Opcodes\Opcode.cs" />
-    <Compile Include="Components\CpuZ80\Opcodes\SingleByteOpcode.cs" />
-    <Compile Include="Components\Memory\IDirectMemoryAccess.cs" />
-    <Compile Include="Components\Memory\IMemoryAccessNotification.cs" />
-    <Compile Include="Components\Memory\Memory.cs" />
-    <Compile Include="Components\Memory\MemoryNotificationEventArgs.cs" />
-    <Compile Include="Components\Memory\MemoryRom.cs" />
-    <Compile Include="Components\Memory\MemoryRam.cs" />
-    <Compile Include="Components\Memory\MemoryWriter.cs" />
-    <Compile Include="Components\UninitialzedDataException.cs" />
-    <Compile Include="Model\SimulationModel.cs" />
     <Compile Include="DigitalLevel.cs" />
     <Compile Include="DigitalLevelChangedEventArgs.cs" />
+    <Compile Include="DigitalLevelCycler.cs" />
     <Compile Include="DigitalSignal.cs" />
     <Compile Include="DigitalSignalConflictException.cs" />
     <Compile Include="DigitalSignalConsumer.cs" />
     <Compile Include="DigitalSignalProvider.cs" />
+    <Compile Include="Test\SimulationModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
-  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Portable\$(TargetFrameworkVersion)\Microsoft.Portable.CSharp.targets" />
+  <ItemGroup>
+    <None Include="Components.cd" />
+    <None Include="CpuZ80\States\Instructions\Jacobi.Zim80.Components.CpuZ80.States.Instructions.MultiByteInstructions.cd" />
+    <None Include="CpuZ80\States\Instructions\Jacobi.Zim80.Components.CpuZ80.States.Instructions.SingleByteInstructions.cd" />
+    <None Include="CpuZ80\States\Jacobi.Zim80.Components.CpuZ80.States.CpuStates.cd" />
+    <None Include="Diagnostics\Dgml.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Diagnostics\GenerateClasses.cmd" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">

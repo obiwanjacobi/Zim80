@@ -1,6 +1,4 @@
-﻿using Jacobi.Zim80.Components;
-using Jacobi.Zim80.Components.CpuZ80;
-using Jacobi.Zim80.Components.Memory;
+﻿using Jacobi.Zim80.Memory;
 using Jacobi.Zim80.Diagnostics.DgmlModel;
 using System.Collections.Generic;
 using System.IO;
@@ -245,12 +243,12 @@ namespace Jacobi.Zim80.Diagnostics
             return node;
         }
 
-        public DirectedGraphNode Add(CpuZ80 cpu)
+        public DirectedGraphNode Add(CpuZ80.CpuZ80 cpu)
         {
             if (!Visit(cpu))
                 return FindNode(cpu);
 
-            DirectedGraphNode node = AddNode<CpuZ80>(cpu.Name);
+            DirectedGraphNode node = AddNode<CpuZ80.CpuZ80>(cpu.Name);
                 SetNodeMap(cpu, node);
 
             if (!DisplayComponents)

@@ -1,4 +1,4 @@
-﻿using Jacobi.Zim80.Components.Logic;
+﻿using Jacobi.Zim80.Logic;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;

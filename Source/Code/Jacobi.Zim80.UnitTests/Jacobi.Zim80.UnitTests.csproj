@@ -66,106 +66,105 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
-    <Compile Include="Components\BusDataTest.cs" />
-    <Compile Include="Components\BusDataTestExtensions.cs" />
-    <Compile Include="Components\BusMasterSlaveTest.cs" />
-    <Compile Include="Components\BusMasterTest.cs" />
-    <Compile Include="Components\BusSlaveTest.cs" />
-    <Compile Include="Components\BusTest.cs" />
-    <Compile Include="Components\BusTestExtensions.cs" />
-    <Compile Include="Components\CpuZ80\CpuZ80FetchTest.cs" />
-    <Compile Include="Components\CpuZ80\CpuZ80InterruptTest.cs" />
-    <Compile Include="Components\CpuZ80\CpuZ80NmiTest.cs" />
-    <Compile Include="Components\CpuZ80\CpuZ80TestExtensions.cs" />
-    <Compile Include="Components\CpuZ80\CycleCounterTest.cs" />
-    <Compile Include="Components\CpuZ80\InstructionLogger.cs" />
-    <Compile Include="Components\CpuZ80\Instructions\AddRegister16InstructionTest.cs" />
-    <Compile Include="Components\CpuZ80\Instructions\BitInstructionTest.cs" />
-    <Compile Include="Components\CpuZ80\Instructions\BitSetResExtendedInstructionTest.cs" />
-    <Compile Include="Components\CpuZ80\Instructions\CallInstructionTest.cs" />
-    <Compile Include="Components\CpuZ80\Instructions\CarryFlagInstructionTest.cs" />
-    <Compile Include="Components\CpuZ80\Instructions\CompareRepeatInstructionTest.cs" />
-    <Compile Include="Components\CpuZ80\Instructions\Dec16InstructionTest.cs" />
-    <Compile Include="Components\CpuZ80\Instructions\DecimalAdjustInstructionTest.cs" />
-    <Compile Include="Components\CpuZ80\Instructions\ExchangeIndirectInstructionTest.cs" />
-    <Compile Include="Components\CpuZ80\Instructions\HaltInstructionTest.cs" />
-    <Compile Include="Components\CpuZ80\Instructions\IndirectBitSetResInstructionTest.cs" />
-    <Compile Include="Components\CpuZ80\Instructions\IndirectRegisterTest.cs" />
-    <Compile Include="Components\CpuZ80\Instructions\InInstructionTest.cs" />
-    <Compile Include="Components\CpuZ80\Instructions\InRepeatInstructionTest.cs" />
-    <Compile Include="Components\CpuZ80\Instructions\InterruptInstructionTest.cs" />
-    <Compile Include="Components\CpuZ80\Instructions\IntModeInstructionTest.cs" />
-    <Compile Include="Components\CpuZ80\Instructions\JumpRegister16InstructionTest.cs" />
-    <Compile Include="Components\CpuZ80\Instructions\JumpInstructionTest.cs" />
-    <Compile Include="Components\CpuZ80\Instructions\JumpRelativeInstructionTest.cs" />
-    <Compile Include="Components\CpuZ80\Instructions\DjnzInstructionTest.cs" />
-    <Compile Include="Components\CpuZ80\Instructions\ExchangeInstructionTest.cs" />
-    <Compile Include="Components\CpuZ80\Instructions\Inc16InstructionTest.cs" />
-    <Compile Include="Components\CpuZ80\Instructions\Dec8InstructionTest.cs" />
-    <Compile Include="Components\CpuZ80\Instructions\Inc8InstructionTest.cs" />
-    <Compile Include="Components\CpuZ80\Instructions\LoadImmediate16InstructionTest.cs" />
-    <Compile Include="Components\CpuZ80\Instructions\LoadImmediate8InstructionTest.cs" />
-    <Compile Include="Components\CpuZ80\Instructions\LoadImmediateIndirect16InstructionTest.cs" />
-    <Compile Include="Components\CpuZ80\Instructions\LoadImmediateIndirectInstructionTest.cs" />
-    <Compile Include="Components\CpuZ80\Instructions\LoadRegister16InstructionTest.cs" />
-    <Compile Include="Components\CpuZ80\Instructions\LoadRegister8Instruction.cs" />
-    <Compile Include="Components\CpuZ80\Instructions\LoadRepeatInstructionTest.cs" />
-    <Compile Include="Components\CpuZ80\Instructions\LoadSystemRegisterInstructionTest.cs" />
-    <Compile Include="Components\CpuZ80\Instructions\MathDirectInstructionTest.cs" />
-    <Compile Include="Components\CpuZ80\Instructions\MathIndirectInstructionTest.cs" />
-    <Compile Include="Components\CpuZ80\Instructions\MathRegister8InstructionTest.cs" />
-    <Compile Include="Components\CpuZ80\Instructions\NegateInstructionTest.cs" />
-    <Compile Include="Components\CpuZ80\Instructions\NopInstructionTest.cs" />
-    <Compile Include="Components\CpuZ80\Instructions\OutInstructionTest.cs" />
-    <Compile Include="Components\CpuZ80\Instructions\OutRepeatInstructionTest.cs" />
-    <Compile Include="Components\CpuZ80\Instructions\PopInstructionTest.cs" />
-    <Compile Include="Components\CpuZ80\Instructions\PushInstructionTest.cs" />
-    <Compile Include="Components\CpuZ80\Instructions\ReadImmediateRegisterInstructionTest.cs" />
-    <Compile Include="Components\CpuZ80\Instructions\ResInstructionTest.cs" />
-    <Compile Include="Components\CpuZ80\Instructions\RetInstructionTest.cs" />
-    <Compile Include="Components\CpuZ80\Instructions\RetIntInstructionTest.cs" />
-    <Compile Include="Components\CpuZ80\Instructions\RstInstructionTest.cs" />
-    <Compile Include="Components\CpuZ80\Instructions\SetInstructionTest.cs" />
-    <Compile Include="Components\CpuZ80\Instructions\ShiftRotateExtendedInstructionTest.cs" />
-    <Compile Include="Components\CpuZ80\Instructions\ShiftRotateIndirectInstructionTest.cs" />
-    <Compile Include="Components\CpuZ80\Instructions\ShiftRotateInstructionTest.cs" />
-    <Compile Include="Components\CpuZ80\Instructions\SubRegister16InstructionTest.cs" />
-    <Compile Include="Components\CpuZ80\Instructions\WriteImmediateRegisterInstructionTest.cs" />
-    <Compile Include="Components\CpuZ80\Instructions\WriteIndirectRegisterInstructionTest.cs" />
-    <Compile Include="Components\CpuZ80\Instructions\ReadIndirectRegisterInstructionTest.cs" />
-    <Compile Include="Components\CpuZ80\MemoryLogger.cs" />
-    <Compile Include="Components\CpuZ80\Opcodes\OpcodeDefinitionTest.cs" />
-    <Compile Include="Components\CpuZ80\Opcodes\SingleByteOpcodeWithSingleByteParameterTest.cs" />
-    <Compile Include="Components\CpuZ80\Opcodes\SingleByteOpcodeWithNoParameterTest.cs" />
-    <Compile Include="Components\Generators\SignalGeneratorTest.cs" />
-    <Compile Include="Components\Logic\AndGateTest.cs" />
-    <Compile Include="Components\Logic\BufferTest.cs" />
-    <Compile Include="Components\Logic\InvertorGateTest.cs" />
-    <Compile Include="Components\Logic\NandGateTest.cs" />
-    <Compile Include="Components\Logic\NorGateTest.cs" />
-    <Compile Include="Components\Logic\OrGateTest.cs" />
-    <Compile Include="Components\Memory\MemoryRamTest.cs" />
-    <Compile Include="Components\Memory\MemoryRomTest.cs" />
-    <Compile Include="Components\Memory\MemoryTestExtensions.cs" />
+    <Compile Include="BusDataTest.cs" />
+    <Compile Include="BusDataTestExtensions.cs" />
+    <Compile Include="BusMasterSlaveTest.cs" />
+    <Compile Include="BusMasterTest.cs" />
+    <Compile Include="BusSlaveTest.cs" />
+    <Compile Include="BusTest.cs" />
+    <Compile Include="BusTestExtensions.cs" />
+    <Compile Include="CpuZ80\CpuZ80FetchTest.cs" />
+    <Compile Include="CpuZ80\CpuZ80InterruptTest.cs" />
+    <Compile Include="CpuZ80\CpuZ80NmiTest.cs" />
+    <Compile Include="CpuZ80\CpuZ80TestExtensions.cs" />
+    <Compile Include="CpuZ80\CycleCounterTest.cs" />
+    <Compile Include="CpuZ80\InstructionLogger.cs" />
+    <Compile Include="CpuZ80\Instructions\AddRegister16InstructionTest.cs" />
+    <Compile Include="CpuZ80\Instructions\BitInstructionTest.cs" />
+    <Compile Include="CpuZ80\Instructions\BitSetResExtendedInstructionTest.cs" />
+    <Compile Include="CpuZ80\Instructions\CallInstructionTest.cs" />
+    <Compile Include="CpuZ80\Instructions\CarryFlagInstructionTest.cs" />
+    <Compile Include="CpuZ80\Instructions\CompareRepeatInstructionTest.cs" />
+    <Compile Include="CpuZ80\Instructions\Dec16InstructionTest.cs" />
+    <Compile Include="CpuZ80\Instructions\DecimalAdjustInstructionTest.cs" />
+    <Compile Include="CpuZ80\Instructions\ExchangeIndirectInstructionTest.cs" />
+    <Compile Include="CpuZ80\Instructions\HaltInstructionTest.cs" />
+    <Compile Include="CpuZ80\Instructions\IndirectBitSetResInstructionTest.cs" />
+    <Compile Include="CpuZ80\Instructions\IndirectRegisterTest.cs" />
+    <Compile Include="CpuZ80\Instructions\InInstructionTest.cs" />
+    <Compile Include="CpuZ80\Instructions\InRepeatInstructionTest.cs" />
+    <Compile Include="CpuZ80\Instructions\InterruptInstructionTest.cs" />
+    <Compile Include="CpuZ80\Instructions\IntModeInstructionTest.cs" />
+    <Compile Include="CpuZ80\Instructions\JumpRegister16InstructionTest.cs" />
+    <Compile Include="CpuZ80\Instructions\JumpInstructionTest.cs" />
+    <Compile Include="CpuZ80\Instructions\JumpRelativeInstructionTest.cs" />
+    <Compile Include="CpuZ80\Instructions\DjnzInstructionTest.cs" />
+    <Compile Include="CpuZ80\Instructions\ExchangeInstructionTest.cs" />
+    <Compile Include="CpuZ80\Instructions\Inc16InstructionTest.cs" />
+    <Compile Include="CpuZ80\Instructions\Dec8InstructionTest.cs" />
+    <Compile Include="CpuZ80\Instructions\Inc8InstructionTest.cs" />
+    <Compile Include="CpuZ80\Instructions\LoadImmediate16InstructionTest.cs" />
+    <Compile Include="CpuZ80\Instructions\LoadImmediate8InstructionTest.cs" />
+    <Compile Include="CpuZ80\Instructions\LoadImmediateIndirect16InstructionTest.cs" />
+    <Compile Include="CpuZ80\Instructions\LoadImmediateIndirectInstructionTest.cs" />
+    <Compile Include="CpuZ80\Instructions\LoadRegister16InstructionTest.cs" />
+    <Compile Include="CpuZ80\Instructions\LoadRegister8Instruction.cs" />
+    <Compile Include="CpuZ80\Instructions\LoadRepeatInstructionTest.cs" />
+    <Compile Include="CpuZ80\Instructions\LoadSystemRegisterInstructionTest.cs" />
+    <Compile Include="CpuZ80\Instructions\MathDirectInstructionTest.cs" />
+    <Compile Include="CpuZ80\Instructions\MathIndirectInstructionTest.cs" />
+    <Compile Include="CpuZ80\Instructions\MathRegister8InstructionTest.cs" />
+    <Compile Include="CpuZ80\Instructions\NegateInstructionTest.cs" />
+    <Compile Include="CpuZ80\Instructions\NopInstructionTest.cs" />
+    <Compile Include="CpuZ80\Instructions\OutInstructionTest.cs" />
+    <Compile Include="CpuZ80\Instructions\OutRepeatInstructionTest.cs" />
+    <Compile Include="CpuZ80\Instructions\PopInstructionTest.cs" />
+    <Compile Include="CpuZ80\Instructions\PushInstructionTest.cs" />
+    <Compile Include="CpuZ80\Instructions\ReadImmediateRegisterInstructionTest.cs" />
+    <Compile Include="CpuZ80\Instructions\ResInstructionTest.cs" />
+    <Compile Include="CpuZ80\Instructions\RetInstructionTest.cs" />
+    <Compile Include="CpuZ80\Instructions\RetIntInstructionTest.cs" />
+    <Compile Include="CpuZ80\Instructions\RstInstructionTest.cs" />
+    <Compile Include="CpuZ80\Instructions\SetInstructionTest.cs" />
+    <Compile Include="CpuZ80\Instructions\ShiftRotateExtendedInstructionTest.cs" />
+    <Compile Include="CpuZ80\Instructions\ShiftRotateIndirectInstructionTest.cs" />
+    <Compile Include="CpuZ80\Instructions\ShiftRotateInstructionTest.cs" />
+    <Compile Include="CpuZ80\Instructions\SubRegister16InstructionTest.cs" />
+    <Compile Include="CpuZ80\Instructions\WriteImmediateRegisterInstructionTest.cs" />
+    <Compile Include="CpuZ80\Instructions\WriteIndirectRegisterInstructionTest.cs" />
+    <Compile Include="CpuZ80\Instructions\ReadIndirectRegisterInstructionTest.cs" />
+    <Compile Include="CpuZ80\MemoryLogger.cs" />
+    <Compile Include="CpuZ80\Opcodes\OpcodeDefinitionTest.cs" />
+    <Compile Include="CpuZ80\Opcodes\SingleByteOpcodeWithSingleByteParameterTest.cs" />
+    <Compile Include="CpuZ80\Opcodes\SingleByteOpcodeWithNoParameterTest.cs" />
+    <Compile Include="Logic\SignalGeneratorTest.cs" />
+    <Compile Include="Logic\AndGateTest.cs" />
+    <Compile Include="Logic\BufferTest.cs" />
+    <Compile Include="Logic\InvertorGateTest.cs" />
+    <Compile Include="Logic\NandGateTest.cs" />
+    <Compile Include="Logic\NorGateTest.cs" />
+    <Compile Include="Logic\OrGateTest.cs" />
+    <Compile Include="Memory\MemoryRamTest.cs" />
+    <Compile Include="Memory\MemoryRomTest.cs" />
+    <Compile Include="Memory\MemoryTestExtensions.cs" />
     <Compile Include="DigitalSignalConsumerTest.cs" />
     <Compile Include="DigitalSignalCyclerTest.cs" />
     <Compile Include="DigitalSignalProviderTest.cs" />
     <Compile Include="DigitalSignalTest.cs" />
     <Compile Include="DigitalSignalTestExtensions.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Components\CpuZ80\Opcodes\SingleByteOpcodeWithDoubleByteParameterTest.cs" />
+    <Compile Include="CpuZ80\Opcodes\SingleByteOpcodeWithDoubleByteParameterTest.cs" />
     <Compile Include="TestExtensions.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\Jacobi.Zim80\Jacobi.Zim80.csproj">
-      <Project>{ccb0cd3f-799b-474c-9be8-14bfabefc2b2}</Project>
-      <Name>Jacobi.Zim80</Name>
-    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <ProjectReference Include="..\Jacobi.Zim80\Jacobi.Zim80.csproj">
+      <Project>{7d42d4fa-d29b-4151-951c-6f066554c8c1}</Project>
+      <Name>Jacobi.Zim80</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Choose>
     <When Condition="'$(VisualStudioVersion)' == '10.0' And '$(IsCodedUITest)' == 'True'">
       <ItemGroup>

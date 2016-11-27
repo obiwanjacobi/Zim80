@@ -75,11 +75,11 @@ namespace Jacobi.Zim80
 
         private void ThrowIfMultipleProvidersActive(DigitalSignalProvider changeProvider)
         {
-            if (AreMultipleProviderActive(changeProvider))
+            if (AreMultipleProvidersActive(changeProvider))
                 throw new DigitalSignalConflictException("Multiple DigitalSignalProviders are active on: " + Name);
         }
 
-        private bool AreMultipleProviderActive(DigitalSignalProvider changeProvider)
+        private bool AreMultipleProvidersActive(DigitalSignalProvider changeProvider)
         {
             return _providers
                 .Where(p => p.Level != DigitalLevel.Floating)
