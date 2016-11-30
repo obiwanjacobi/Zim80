@@ -5,7 +5,7 @@ namespace Jacobi.Zim80
 {
     // reads bus signal values
     [DebuggerDisplay("{Value} {Name}")]
-    public class BusSlave<T> 
+    public class BusSlave<T> : INamedObject
         where T : BusData, new()
     {
         public BusSlave()

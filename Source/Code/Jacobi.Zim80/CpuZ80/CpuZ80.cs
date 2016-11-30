@@ -2,7 +2,7 @@
 
 namespace Jacobi.Zim80.CpuZ80
 {
-    public class CpuZ80
+    public class CpuZ80 : INamedObject
     {
         private readonly Die _die;
 

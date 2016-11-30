@@ -10,6 +10,9 @@ namespace Jacobi.Zim80
             Level = level;
         }
 
+        /// <summary>
+        ///     CAN BE NULL!
+        /// </summary>
         public DigitalSignalProvider Provider { get; private set; }
 
         public DigitalLevel Level { get; private set; }

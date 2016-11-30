@@ -5,7 +5,7 @@ namespace Jacobi.Zim80
 {
     // writes values to bus signals
     [DebuggerDisplay("{Value} {Name}")]
-    public class BusMaster<T> 
+    public class BusMaster<T> : INamedObject
         where T : BusData, new()
     {
         public BusMaster()

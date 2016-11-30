@@ -2,7 +2,8 @@
 
 namespace Jacobi.Zim80.Memory
 {
-    public abstract class Memory<AddressT, DataT> : IDirectMemoryAccess<DataT>,
+    public abstract class Memory<AddressT, DataT> : INamedObject,
+        IDirectMemoryAccess<DataT>,
         IMemoryAccessNotification<AddressT, DataT>
         where AddressT : BusData, new()
         where DataT : BusData, new()
@@ -26,6 +27,7 @@ namespace Jacobi.Zim80.Memory
         public DigitalSignalConsumer ChipEnable { get; private set; }
         public BusSlave<AddressT> Address { get; private set; }
         public BusMasterSlave<DataT> Data { get; private set; }
+        public string Name { get; set; }
 
         public event EventHandler<MemoryNotificationEventArgs<AddressT, DataT>> OnMemoryRead;
         public event EventHandler<MemoryNotificationEventArgs<AddressT, DataT>> OnMemoryWritten;

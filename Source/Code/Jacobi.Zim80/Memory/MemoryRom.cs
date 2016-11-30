@@ -12,8 +12,6 @@ namespace Jacobi.Zim80.Memory
             OutputEnable.OnChanged += OutputEnable_OnChanged;
         }
 
-        public string Name { get; set; }
-
         public DigitalSignalConsumer OutputEnable { get; private set; }
 
         protected override void OnStateChanged()

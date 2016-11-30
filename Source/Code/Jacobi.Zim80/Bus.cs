@@ -4,15 +4,21 @@ using System;
 
 namespace Jacobi.Zim80
 {
-    public class Bus<T>
+    public class Bus<T> : INamedObject
         where T : BusData, new()
     {
         private readonly List<BusMaster<T>> _masters = new List<BusMaster<T>>();
         private readonly List<BusSlave<T>> _slaves = new List<BusSlave<T>>();
+        private readonly List<DigitalSignal> _signals = new List<DigitalSignal>();
 
         public Bus()
         {
-            Value = new T();
+            var width = new T().Width;
+
+            for (int i = 0; i < width; i++)
+            {
+                _signals.Add(new DigitalSignal());
+            }
         }
 
         public Bus(string name)
@@ -23,7 +29,20 @@ namespace Jacobi.Zim80
 
         public string Name { get; set; }
 
-        public T Value { get; private set; }
+        private T _value;
+        public T Value
+        {
+            get
+            {
+                if (_value == null)
+                {
+                    _value = new T();
+                    _value.Write(_signals.Select((s) => s.Level));
+                }
+
+                return _value;
+            }
+        }
 
         public event EventHandler<BusChangedEventArgs<T>> OnChanged;
 
@@ -63,14 +82,25 @@ namespace Jacobi.Zim80
             var value = busMaster.Value;
             if (!Value.Equals(value))
             {
-                Value = value;
+                _value = value;
+                ApplyValue(value);
                 NotifyChange(busMaster);
             }
         }
 
-        private void NotifyChange(BusMaster<T> busMaster)
+        private void ApplyValue(T value)
         {
-            OnChanged?.Invoke(this, new BusChangedEventArgs<T>(busMaster, Value));
+            int index = 0;
+            foreach(var level in value.Signals)
+            {
+                _signals[index].Level = level;
+                index++;
+            }
+        }
+
+        private void NotifyChange(BusMaster<T> source)
+        {
+            OnChanged?.Invoke(this, new BusChangedEventArgs<T>(source, Value));
         }
 
         private void ThrowIfMultipleMastersAreActive(BusMaster<T> currentMaster)

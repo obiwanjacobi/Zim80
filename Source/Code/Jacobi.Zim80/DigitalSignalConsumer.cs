@@ -6,7 +6,7 @@ namespace Jacobi.Zim80
     /// Consumes a DigitalSignal. 
     /// Multiple instances can consume the same DigitalSignal instance.
     /// </summary>
-    public class DigitalSignalConsumer
+    public class DigitalSignalConsumer : INamedObject
     {
         public DigitalSignalConsumer()
         { }

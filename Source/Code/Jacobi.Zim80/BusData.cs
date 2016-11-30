@@ -72,6 +72,20 @@ namespace Jacobi.Zim80
             }
         }
 
+        internal void Write(IEnumerable<DigitalLevel> levels)
+        {
+            if (levels.Count() != _signals.Count)
+                throw new ArgumentOutOfRangeException(
+                    "The number of levels is not equal to signals expected.");
+
+            int index = 0;
+            foreach(var level in levels)
+            {
+                _signals[index] = level;
+                index++;
+            }
+        }
+
         public bool Equals(BusData that)
         {
             if (this.Width != that.Width) return false;

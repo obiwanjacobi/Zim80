@@ -7,7 +7,7 @@ namespace Jacobi.Zim80
     /// Multiple instances can provide for a single DigitalSignal, 
     /// but only one instance can be active at a time.
     /// </summary>
-    public class DigitalSignalProvider
+    public class DigitalSignalProvider : INamedObject
     {
         public DigitalSignalProvider()
         { }

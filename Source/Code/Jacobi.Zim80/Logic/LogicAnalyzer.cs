@@ -4,7 +4,8 @@ namespace Jacobi.Zim80.Logic
 {
     public class LogicAnalyzer : MultipleInputGate
     {
-        private readonly List<DigitalStream> _streams = new List<DigitalStream>();
+        //private readonly List<BusDataStream> _busStreams = new List<BusDataStream>();
+        private readonly List<DigitalStream> _digitalStreams = new List<DigitalStream>();
         private readonly DigitalSignalConsumer _clock;
         private DigitalLevel _trigger;
 
@@ -16,7 +17,7 @@ namespace Jacobi.Zim80.Logic
 
         public bool IsRunning { get; private set; }
 
-        public IEnumerable<DigitalStream> Streams { get { return _streams; } }
+        public IEnumerable<DigitalStream> Streams { get { return _digitalStreams; } }
 
         public void Start(DigitalLevel trigger = DigitalLevel.PosEdge)
         {
@@ -27,12 +28,12 @@ namespace Jacobi.Zim80.Logic
 
         private void InitializeStreams()
         {
-            _streams.Clear();
+            _digitalStreams.Clear();
 
             foreach (var input in Inputs)
             {
                 if (!input.IsConnected) continue;
-                _streams.Add(new DigitalStream(input.DigitalSignal));
+                _digitalStreams.Add(new DigitalStream(input.DigitalSignal));
             }
         }
 
@@ -52,7 +53,7 @@ namespace Jacobi.Zim80.Logic
 
         private void SampleInputs()
         {
-            foreach (var stream in _streams)
+            foreach (var stream in _digitalStreams)
             {
                 stream.Sample();
             }

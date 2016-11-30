@@ -9,11 +9,11 @@ namespace Jacobi.Zim80
     /// Maintains the state (Level) of a digital signal (net).
     /// </summary>
     [DebuggerDisplay("{Level} {Name}")]
-    public class DigitalSignal
+    public class DigitalSignal : INamedObject
     {
         public DigitalSignal()
         {
-            Level = DigitalLevel.Floating;
+            _level = DigitalLevel.Floating;
         }
 
         public DigitalSignal(string name)
@@ -24,7 +24,16 @@ namespace Jacobi.Zim80
 
         public string Name { get; set; }
 
-        public DigitalLevel Level { get; private set; }
+        private DigitalLevel _level;
+        public DigitalLevel Level
+        {
+            get { return _level; }
+            set
+            {
+                _level = value;
+                NotifyOnChanged(null);
+            }
+        }
 
         public event EventHandler<DigitalLevelChangedEventArgs> OnChanged;
 
@@ -64,9 +73,14 @@ namespace Jacobi.Zim80
             ThrowIfMultipleProvidersActive(provider);
             if (Level != provider.Level)
             {
-                Level = provider.Level;
-                OnChanged?.Invoke(this, new DigitalLevelChangedEventArgs(provider, Level));
+                _level = provider.Level;
+                NotifyOnChanged(provider);
             }
+        }
+
+        private void NotifyOnChanged(DigitalSignalProvider provider)
+        {
+            OnChanged?.Invoke(this, new DigitalLevelChangedEventArgs(provider, Level));
         }
 
         #region Private
