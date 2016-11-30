@@ -21,6 +21,8 @@ namespace Jacobi.Zim80.Diagnostics
 
             if (waveSignal.SignalStream != null)
                 WaveFrom(waveSignal.SignalStream, waveSignal.Offset);
+
+            _json.Append("\n");
         }
 
         private void WaveFrom(BusDataStream stream, int offset)
@@ -30,8 +32,20 @@ namespace Jacobi.Zim80.Diagnostics
             _json.Append("\", wave: \"");
             WaveFrom(offset);
             var data = WaveFrom(stream.Samples);
-            _json.Append("\" },");
-            
+            _json.Append("\", data: [");
+            int index = 0;
+            foreach (var str in data)
+            {
+                if (index > 0)
+                    _json.Append(", ");
+
+                _json.Append('\"');
+                _json.Append(str);
+                _json.Append('\"');
+
+                index++;
+            }
+            _json.Append("] },");
         }
 
         private void WaveFrom(DigitalStream stream, int offset)
@@ -44,7 +58,7 @@ namespace Jacobi.Zim80.Diagnostics
             _json.Append("\" },");
         }
 
-        private IEnumerable<string> WaveFrom(IEnumerable<BusData> samples)
+        private IList<string> WaveFrom(IEnumerable<BusData> samples)
         {
             var data = new List<string>();
 
@@ -69,14 +83,16 @@ namespace Jacobi.Zim80.Diagnostics
 
         private void WaveFrom(IEnumerable<DigitalLevel> samples)
         {
-            DigitalLevel? lastSample = null;
+            string lastSample = null;
             foreach (var sample in samples)
             {
+                var txt = Convert(sample);
+
                 if (lastSample == null ||
-                    lastSample.Value != sample)
+                    lastSample != txt)
                 {
-                    lastSample = sample;
-                    _json.Append(Convert(sample));
+                    lastSample = txt;
+                    _json.Append(txt);
                 }
                 else
                 {
@@ -99,7 +115,7 @@ namespace Jacobi.Zim80.Diagnostics
 
         public void BeginSignal()
         {
-            _json.Append("\"signal\" [");
+            _json.Append("\"signal\" : [");
         }
 
         public void EndSignal()

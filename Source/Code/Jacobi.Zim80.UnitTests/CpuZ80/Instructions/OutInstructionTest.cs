@@ -4,6 +4,7 @@ using Jacobi.Zim80.Test;
 using Jacobi.Zim80.CpuZ80.UnitTests;
 using Jacobi.Zim80.Memory.UnitTests;
 using System;
+using Jacobi.Zim80.UnitTests;
 
 namespace Jacobi.Zim80.CpuZ80.Instructions.UnitTests
 {
@@ -139,6 +140,8 @@ namespace Jacobi.Zim80.CpuZ80.Instructions.UnitTests
             preTest(cpu);
 
             model.ClockGen.SquareWave(extension == 0 ? 11 : 12);
+
+            Console.WriteLine(model.LogicAnalyzer.ToWaveJson());
 
             return model;
         }

@@ -5,6 +5,7 @@ using Jacobi.Zim80.CpuZ80.UnitTests;
 using FluentAssertions;
 using Jacobi.Zim80.Test;
 using Jacobi.Zim80.Memory.UnitTests;
+using Jacobi.Zim80.UnitTests;
 
 namespace Jacobi.Zim80.CpuZ80.Instructions.UnitTests
 {
@@ -429,6 +430,8 @@ namespace Jacobi.Zim80.CpuZ80.Instructions.UnitTests
             long clocks = group == 0xCB ? 15 : 18;
             if (extension != 0) clocks += 8;
             model.ClockGen.SquareWave(clocks);
+
+            Console.WriteLine(model.LogicAnalyzer.ToWaveJson());
 
             return model;
         }

@@ -1,15 +1,17 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Jacobi.Zim80.CpuZ80.Opcodes;
 using Jacobi.Zim80.CpuZ80.UnitTests;
-using Jacobi.Zim80.Memory;
 using Jacobi.Zim80.Test;
+using System;
+using Jacobi.Zim80.UnitTests;
 
 namespace Jacobi.Zim80.CpuZ80.Instructions.UnitTests
 {
     [TestClass]
     public class PopInstructionTest
     {
-        private const ushort Stack = 0x20;
+        private const ushort Stack = 0x04;
+        private const ushort Value = 0xAA55;
 
         [TestMethod]
         public void PopBC()
@@ -17,7 +19,7 @@ namespace Jacobi.Zim80.CpuZ80.Instructions.UnitTests
             var pop = OpcodeByte.New(x:3, z:1, p:0);
             var model = ExecuteTest(pop);
 
-            model.Cpu.AssertRegisters(sp:Stack + 2, bc: 0xAA55);
+            model.Cpu.AssertRegisters(sp:Stack + 2, bc: Value);
         }
 
         [TestMethod]
@@ -26,7 +28,7 @@ namespace Jacobi.Zim80.CpuZ80.Instructions.UnitTests
             var pop = OpcodeByte.New(x: 3, z: 1, p: 1);
             var model = ExecuteTest(pop);
 
-            model.Cpu.AssertRegisters(sp: Stack + 2, de: 0xAA55);
+            model.Cpu.AssertRegisters(sp: Stack + 2, de: Value);
         }
 
         [TestMethod]
@@ -35,7 +37,7 @@ namespace Jacobi.Zim80.CpuZ80.Instructions.UnitTests
             var pop = OpcodeByte.New(x: 3, z: 1, p: 2);
             var model = ExecuteTest(pop);
 
-            model.Cpu.AssertRegisters(sp: Stack + 2, hl: 0xAA55);
+            model.Cpu.AssertRegisters(sp: Stack + 2, hl: Value);
         }
 
         [TestMethod]
@@ -53,7 +55,7 @@ namespace Jacobi.Zim80.CpuZ80.Instructions.UnitTests
             var pop = OpcodeByte.New(x: 3, z: 1, p: 2);
             var model = ExecuteTest(pop, 0xDD);
 
-            model.Cpu.AssertRegisters(sp: Stack + 2, ix: 0xAA55);
+            model.Cpu.AssertRegisters(sp: Stack + 2, ix: Value);
         }
 
         [TestMethod]
@@ -62,28 +64,21 @@ namespace Jacobi.Zim80.CpuZ80.Instructions.UnitTests
             var pop = OpcodeByte.New(x: 3, z: 1, p: 2);
             var model = ExecuteTest(pop, 0xFD);
 
-            model.Cpu.AssertRegisters(sp: Stack + 2, iy: 0xAA55);
+            model.Cpu.AssertRegisters(sp: Stack + 2, iy: Value);
         }
 
         private static SimulationModel ExecuteTest(OpcodeByte pop, byte extension = 0)
         {
             var cpuZ80 = new CpuZ80();
-            var model = cpuZ80.Initialize(null);
-
-            var writer = new MemoryWriter<BusData16, BusData8>(model.Memory);
-            writer.Fill(0x48, new BusData8(0));
-            if (extension == 0)
-                writer[new BusData16(0)] = new BusData8(pop.Value);
-            else
-            {
-                writer[new BusData16(0)] = new BusData8(extension);
-                writer[new BusData16(1)] = new BusData8(pop.Value);
-            }
-            writer[new BusData16(Stack)] = new BusData8(0x55);
-            writer[new BusData16(Stack + 1)] = new BusData8(0xAA);
+            var buffer = (extension == 0) ?
+                new byte[] { pop.Value, 0, 0, 0, 0x55, 0xAA } :
+                new byte[] { extension, pop.Value, 0, 0, 0x55, 0xAA };
+            var model = cpuZ80.Initialize(buffer);
 
             model.Cpu.FillRegisters(sp: Stack);
             model.ClockGen.SquareWave(extension == 0 ? 10 : 14);
+
+            Console.WriteLine(model.LogicAnalyzer.ToWaveJson());
 
             return model;
         }

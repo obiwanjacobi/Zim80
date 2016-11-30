@@ -4,6 +4,7 @@ using Jacobi.Zim80.CpuZ80.Opcodes;
 using Jacobi.Zim80.CpuZ80.UnitTests;
 using Jacobi.Zim80.Test;
 using Jacobi.Zim80.Memory.UnitTests;
+using Jacobi.Zim80.UnitTests;
 
 namespace Jacobi.Zim80.CpuZ80.Instructions.UnitTests
 {
@@ -76,12 +77,9 @@ namespace Jacobi.Zim80.CpuZ80.Instructions.UnitTests
             var regA = ob.Q == 3;
 
             var cpuZ80 = new CpuZ80();
-            byte[] buffer;
-
-            if (extension == 0)
-                buffer = new byte[] { ob.Value, AddressLo, 0, 0, 0, 0, 0 };
-            else
-                buffer = new byte[] { extension, ob.Value, AddressLo, 0, 0, 0, 0 };
+            byte[] buffer = (extension == 0) ?
+                new byte[] { ob.Value, AddressLo, 0, 0, 0, 0, 0 } :
+                new byte[] { extension, ob.Value, AddressLo, 0, 0, 0, 0 };
 
             var model = cpuZ80.Initialize(buffer);
 
@@ -89,6 +87,8 @@ namespace Jacobi.Zim80.CpuZ80.Instructions.UnitTests
             preTest(cpuZ80);
 
             model.ClockGen.SquareWave(extension == 0 ? regA ? 13 : 16 : 20);
+
+            Console.WriteLine(model.LogicAnalyzer.ToWaveJson());
 
             return model;
         }

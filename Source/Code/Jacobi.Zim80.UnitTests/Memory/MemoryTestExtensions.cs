@@ -12,6 +12,12 @@ namespace Jacobi.Zim80.Memory.UnitTests
             actual.ToByte().Should().Be(expected, "at address: " + address);
         }
 
+        public static void Set(this IDirectMemoryAccess<BusData8> memory,
+                ushort address, byte value)
+        {
+            memory[address] = new BusData8(value);
+        }
+
         public static MemoryRom<BusData16, BusData8> NewRom(byte[] buffer)
         {
             var mem = new MemoryRom<BusData16, BusData8>();

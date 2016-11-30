@@ -2,6 +2,7 @@
 using Jacobi.Zim80.CpuZ80.Opcodes;
 using Jacobi.Zim80.CpuZ80.UnitTests;
 using System;
+using Jacobi.Zim80.UnitTests;
 
 namespace Jacobi.Zim80.CpuZ80.Instructions.UnitTests
 {
@@ -195,6 +196,8 @@ namespace Jacobi.Zim80.CpuZ80.Instructions.UnitTests
             }
 
             model.ClockGen.SquareWave(alt ? 11 : 17);
+
+            Console.WriteLine(model.LogicAnalyzer.ToWaveJson());
 
             return cpuZ80;
         }

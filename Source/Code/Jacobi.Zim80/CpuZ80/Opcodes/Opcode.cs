@@ -21,7 +21,7 @@
         /// </summary>
         public string Text { get { return _mnemonic.Text; } }
 
-        
+        public ushort Address { get; set; }
 
         private void UpdateMnemonic()
         {

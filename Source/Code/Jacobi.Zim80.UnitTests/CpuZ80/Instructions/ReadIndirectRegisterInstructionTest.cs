@@ -2,6 +2,7 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Jacobi.Zim80.CpuZ80.Opcodes;
 using Jacobi.Zim80.CpuZ80.UnitTests;
+using Jacobi.Zim80.UnitTests;
 
 namespace Jacobi.Zim80.CpuZ80.Instructions.UnitTests
 {
@@ -247,14 +248,17 @@ namespace Jacobi.Zim80.CpuZ80.Instructions.UnitTests
         private static CpuZ80 ExecuteTest(OpcodeByte ob, Action<CpuZ80> preTest, byte extension = 0)
         {
             var cpuZ80 = new CpuZ80();
-            var buffer = extension == 0 ? new byte[] { ob.Value, 0, 0, 0, 0, ExpectedValue } :
-                             new byte[] { extension, ob.Value, Offset, 0, ExpectedValue, 0 };
+            var buffer = extension == 0 ? 
+                new byte[] { ob.Value, 0, 0, 0, 0, ExpectedValue } :
+                new byte[] { extension, ob.Value, Offset, 0, ExpectedValue, 0 };
             var model = cpuZ80.Initialize(buffer);
 
             cpuZ80.FillRegisters();
             preTest(cpuZ80);
 
             model.ClockGen.SquareWave(extension == 0 ? 7 : 19);
+
+            Console.WriteLine(model.LogicAnalyzer.ToWaveJson());
 
             return cpuZ80;
         }

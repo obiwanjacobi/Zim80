@@ -1,9 +1,9 @@
 ﻿using Jacobi.Zim80.CpuZ80.Opcodes;
 using Jacobi.Zim80.CpuZ80.UnitTests;
+using Jacobi.Zim80.UnitTests;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using System.Linq;
-using static Jacobi.Zim80.CpuZ80.Registers;
 
 namespace Jacobi.Zim80.CpuZ80.Instructions.UnitTests
 {
@@ -24,8 +24,6 @@ namespace Jacobi.Zim80.CpuZ80.Instructions.UnitTests
 
             cpu.AssertRegisters(pc: JumpAddress);
         }
-
-        
 
         [TestMethod]
         public void JPnn_nz_NZ()
@@ -238,6 +236,8 @@ namespace Jacobi.Zim80.CpuZ80.Instructions.UnitTests
 
             var def = OpcodeDefinition.Find(ob);
             model.ClockGen.SquareWave(def.Cycles.Sum());
+
+            Console.WriteLine(model.LogicAnalyzer.ToWaveJson());
 
             return cpuZ80;
         }

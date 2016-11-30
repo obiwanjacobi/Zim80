@@ -11,5 +11,6 @@ namespace Jacobi.Zim80.Test
         public Bus<BusData16> Address { get; set; }
         public Bus<BusData8> Data { get; set; }
         public SignalGenerator ClockGen { get; set; }
+        public LogicAnalyzer LogicAnalyzer { get; set; }
     }
 }

@@ -72,6 +72,22 @@ namespace Jacobi.Zim80.Diagnostics
             var writer = new StreamWriter(stream);
             writer.Write(builder.ToString());
         }
+
+        public override string ToString()
+        {
+            WaveJsonBuilder builder = new WaveJsonBuilder();
+
+            builder.BeginSignal();
+
+            foreach (var wave in _waves)
+            {
+                builder.WaveFrom(wave);
+            }
+
+            builder.EndSignal();
+
+            return builder.ToString();
+        }
     }
 
     internal class WaveSignal

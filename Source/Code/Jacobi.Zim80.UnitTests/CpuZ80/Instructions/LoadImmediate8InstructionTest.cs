@@ -2,6 +2,7 @@
 using Jacobi.Zim80.CpuZ80.Opcodes;
 using Jacobi.Zim80.CpuZ80.UnitTests;
 using System;
+using Jacobi.Zim80.UnitTests;
 
 namespace Jacobi.Zim80.CpuZ80.Instructions.UnitTests
 {
@@ -126,18 +127,17 @@ namespace Jacobi.Zim80.CpuZ80.Instructions.UnitTests
         private static CpuZ80 ExecuteTest(OpcodeByte ob, OpcodeByte parameter, byte extension = 0)
         {
             var cpuZ80 = new CpuZ80();
-            byte[] buffer;
-
-            if (extension == 0)
-                buffer = new byte[] { ob.Value, parameter.Value };
-            else
-                buffer = new byte[] { extension, ob.Value, parameter.Value };
+            byte[] buffer = (extension == 0) ?
+                new byte[] { ob.Value, parameter.Value } :
+                new byte[] { extension, ob.Value, parameter.Value };
 
             var model = cpuZ80.Initialize(buffer);
 
             cpuZ80.FillRegisters();
 
             model.ClockGen.SquareWave(extension == 0 ? 7 : 11);
+
+            Console.WriteLine(model.LogicAnalyzer.ToWaveJson());
 
             return cpuZ80;
         }

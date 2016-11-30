@@ -62,6 +62,8 @@ namespace Jacobi.Zim80
 
         public void ConnectTo(Bus bus)
         {
+            if (bus == null)
+                throw new ArgumentNullException(nameof(bus));
             if (IsConnected)
                 throw new InvalidOperationException(
                     "This BusSlave is already connected.");

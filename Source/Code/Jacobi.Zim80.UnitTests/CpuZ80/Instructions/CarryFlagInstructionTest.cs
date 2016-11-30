@@ -2,6 +2,8 @@
 using Jacobi.Zim80.CpuZ80.Opcodes;
 using Jacobi.Zim80.CpuZ80.UnitTests;
 using FluentAssertions;
+using System;
+using Jacobi.Zim80.UnitTests;
 
 namespace Jacobi.Zim80.CpuZ80.Instructions.UnitTests
 {
@@ -58,6 +60,8 @@ namespace Jacobi.Zim80.CpuZ80.Instructions.UnitTests
             cpuZ80.Registers.Flags.C = carry;
 
             model.ClockGen.SquareWave(4);
+
+            Console.WriteLine(model.LogicAnalyzer.ToWaveJson());
 
             return cpuZ80;
         }

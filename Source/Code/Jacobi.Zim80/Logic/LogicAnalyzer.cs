@@ -9,7 +9,6 @@ namespace Jacobi.Zim80.Logic
         private readonly List<BusDataStream> _busStreams = new List<BusDataStream>();
         private readonly List<DigitalStream> _digitalStreams = new List<DigitalStream>();
         private readonly DigitalSignalConsumer _clock;
-        private DigitalLevel _triggerLevel;
 
         public LogicAnalyzer()
         {
@@ -45,13 +44,9 @@ namespace Jacobi.Zim80.Logic
             return slave;
         }
 
-        public void Start(DigitalLevel trigger = DigitalLevel.PosEdge)
+        public void Start()
         {
-            if (trigger == DigitalLevel.Floating)
-                throw new ArgumentException("Cannot trigger on Floating.", "trigger");
-
             InitializeStreams();
-            _triggerLevel = trigger;
             IsRunning = true;
         }
 
@@ -85,8 +80,7 @@ namespace Jacobi.Zim80.Logic
 
         private void Clock_OnChanged(object sender, DigitalLevelChangedEventArgs e)
         {
-            if (IsRunning && 
-                _triggerLevel == e.Level)
+            if (IsRunning)
             {
                 SampleInputs();
             }

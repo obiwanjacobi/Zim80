@@ -19,8 +19,7 @@ namespace Jacobi.Zim80
 
         public DigitalSignalProvider(DigitalSignal digitalSignal, string name)
         {
-            if (digitalSignal == null)
-                throw new ArgumentNullException(nameof(digitalSignal));
+            
 
             Name = name;
             ConnectTo(digitalSignal);
@@ -35,6 +34,8 @@ namespace Jacobi.Zim80
 
         public void ConnectTo(DigitalSignal digitalSignal)
         {
+            if (digitalSignal == null)
+                throw new ArgumentNullException(nameof(digitalSignal));
             if (_digitalSignal != null)
                 throw new InvalidOperationException("This DigitalSignalProvider is already connected.");
 

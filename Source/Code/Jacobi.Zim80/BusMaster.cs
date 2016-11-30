@@ -73,6 +73,8 @@ namespace Jacobi.Zim80
 
         public virtual void ConnectTo(Bus bus)
         {
+            if (bus == null)
+                throw new ArgumentNullException(nameof(bus));
             if (IsConnected)
                 throw new InvalidOperationException(
                     "BusMaster is already connected.");

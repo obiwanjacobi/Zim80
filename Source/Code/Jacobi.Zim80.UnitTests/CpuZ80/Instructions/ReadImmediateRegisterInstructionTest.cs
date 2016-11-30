@@ -1,6 +1,8 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Jacobi.Zim80.CpuZ80.Opcodes;
 using Jacobi.Zim80.CpuZ80.UnitTests;
+using System;
+using Jacobi.Zim80.UnitTests;
 
 namespace Jacobi.Zim80.CpuZ80.Instructions.UnitTests
 {
@@ -48,18 +50,17 @@ namespace Jacobi.Zim80.CpuZ80.Instructions.UnitTests
             var regA = ob.Q == 3;
 
             var cpuZ80 = new CpuZ80();
-            byte[] buffer;
-
-            if (extension == 0)
-                buffer = new byte[] { ob.Value, 5, 0, 0, 0, 0xAA, 0x55 };
-            else
-                buffer = new byte[] { extension, ob.Value, 5, 0, 0, 0xAA, 0x55 };
+            byte[] buffer = (extension == 0) ?
+                new byte[] { ob.Value, 5, 0, 0, 0, 0xAA, 0x55 } :
+                new byte[] { extension, ob.Value, 5, 0, 0, 0xAA, 0x55 };
 
             var model = cpuZ80.Initialize(buffer);
 
             cpuZ80.FillRegisters();
 
             model.ClockGen.SquareWave(extension == 0 ? regA ? 13 : 16 : 20);
+
+            Console.WriteLine(model.LogicAnalyzer.ToWaveJson());
 
             return cpuZ80;
         }

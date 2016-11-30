@@ -51,6 +51,19 @@ namespace Jacobi.Zim80.CpuZ80.UnitTests
                 new MemoryLogger<BusData16, BusData8>("IO").Attach(model.IoSpace);
             }
 
+            model.LogicAnalyzer = new LogicAnalyzer();
+            model.LogicAnalyzer.Clock.ConnectTo(model.ClockGen.Output.DigitalSignal);
+            model.Cpu.MachineCycle1.CreateConnection(model.LogicAnalyzer.AddInput("M1"));
+            model.Cpu.Refresh.CreateConnection(model.LogicAnalyzer.AddInput("RFSH"));
+            model.LogicAnalyzer.ConnectInput(model.Cpu.MemoryRequest.DigitalSignal);
+            if (ioSpace != null)
+                model.LogicAnalyzer.ConnectInput(model.Cpu.IoRequest.DigitalSignal);
+            model.LogicAnalyzer.ConnectInput(model.Cpu.Read.DigitalSignal);
+            model.LogicAnalyzer.ConnectInput(model.Cpu.Write.DigitalSignal);
+            model.LogicAnalyzer.ConnectInput(model.Address);
+            model.LogicAnalyzer.ConnectInput(model.Data);
+            model.LogicAnalyzer.Start();
+
             return model;
         }
 
