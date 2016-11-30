@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Jacobi.Zim80.Logic;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
@@ -15,12 +16,55 @@ namespace Jacobi.Zim80.Diagnostics
 
         public void WaveFrom(WaveSignal waveSignal)
         {
+            if (waveSignal.BusStream != null)
+                WaveFrom(waveSignal.BusStream, waveSignal.Offset);
+
+            if (waveSignal.SignalStream != null)
+                WaveFrom(waveSignal.SignalStream, waveSignal.Offset);
+        }
+
+        private void WaveFrom(BusDataStream stream, int offset)
+        {
             _json.Append("{ name: \"");
-            _json.Append(waveSignal.Stream.DigitalSignal.Name);
+            _json.Append(stream.Bus.Name);
             _json.Append("\", wave: \"");
-            WaveFrom(waveSignal.Offset);
-            WaveFrom(waveSignal.Stream.Samples);
+            WaveFrom(offset);
+            var data = WaveFrom(stream.Samples);
             _json.Append("\" },");
+            
+        }
+
+        private void WaveFrom(DigitalStream stream, int offset)
+        {  
+            _json.Append("{ name: \"");
+            _json.Append(stream.DigitalSignal.Name);
+            _json.Append("\", wave: \"");
+            WaveFrom(offset);
+            WaveFrom(stream.Samples);
+            _json.Append("\" },");
+        }
+
+        private IEnumerable<string> WaveFrom(IEnumerable<BusData> samples)
+        {
+            var data = new List<string>();
+
+            BusData lastSample = null;
+            foreach (var sample in samples)
+            {
+                if (lastSample == null ||
+                    !lastSample.Equals(sample))
+                {
+                    lastSample = sample;
+                    _json.Append('=');
+                    data.Add(Convert(sample));
+                }
+                else
+                {
+                    _json.Append('.');
+                }
+            }
+
+            return data;
         }
 
         private void WaveFrom(IEnumerable<DigitalLevel> samples)
@@ -72,8 +116,12 @@ namespace Jacobi.Zim80.Diagnostics
 
         public override string ToString()
         {
-            _json.Append(" }");
-            return _json.ToString();
+            return _json.ToString() + " }";
+        }
+
+        private static string Convert(BusData sample)
+        {
+            return sample.ToString();
         }
 
         private static string Convert(DigitalLevel level)
