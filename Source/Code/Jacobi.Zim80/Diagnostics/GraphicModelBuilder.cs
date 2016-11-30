@@ -93,13 +93,12 @@ namespace Jacobi.Zim80.Diagnostics
             return node;
         }
 
-        public void Add<T>(Bus<T> bus, string ownerName = null,
+        public void Add(Bus bus, string ownerName = null,
             bool inclMasters = true, bool inclSlaves = true)
-            where T : BusData, new()
         {
             if (!Visit(bus)) return;
 
-            var node = AddNode<Bus<T>>(bus.Name);
+            var node = AddNode<Bus>(bus.Name);
             SetNodeMap(bus, node);
 
             if (DisplayValues)
@@ -116,8 +115,7 @@ namespace Jacobi.Zim80.Diagnostics
                     Add(s);
         }
 
-        public DirectedGraphNode Add<T>(BusMaster<T> master, string ownerName = null)
-            where T : BusData, new()
+        public DirectedGraphNode Add(BusMaster master, string ownerName = null)
         {
             if (!Visit(master) ||
                 (!master.IsConnected && !DisplayUnconnected))
@@ -128,10 +126,9 @@ namespace Jacobi.Zim80.Diagnostics
             return node;
         }
 
-        private DirectedGraphNode AddInternal<T>(BusMaster<T> master, string ownerName, string netName)
-            where T : BusData, new()
+        private DirectedGraphNode AddInternal(BusMaster master, string ownerName, string netName)
         {
-            var node = AddNode<BusMaster<T>>(master.Name, ownerName, SafeNetName(master));
+            var node = AddNode<BusMaster>(master.Name, ownerName, SafeNetName(master));
             SetNodeMap(master, node);
 
             if (DisplayValues)
@@ -143,21 +140,20 @@ namespace Jacobi.Zim80.Diagnostics
             {
                 Add(master.Bus);
 
-                var bid = _idBuilder.NewId<Bus<T>>(master.Bus.Name);
+                var bid = _idBuilder.NewId<Bus>(master.Bus.Name);
                 _dgmlBuilder.AddLink(node.Id, bid);
             }
 
             return node;
         }
 
-        public DirectedGraphNode Add<T>(BusSlave<T> slave, string ownerName = null)
-            where T : BusData, new()
+        public DirectedGraphNode Add(BusSlave slave, string ownerName = null)
         {
             if (!Visit(slave) ||
                 (!slave.IsConnected && !DisplayUnconnected))
                 return FindNode(slave);
 
-            var node = AddNode<BusSlave<T>>(slave.Name, ownerName, SafeNetName(slave));
+            var node = AddNode<BusSlave>(slave.Name, ownerName, SafeNetName(slave));
             SetNodeMap(slave, node);
 
             if (DisplayValues)
@@ -169,21 +165,20 @@ namespace Jacobi.Zim80.Diagnostics
             {
                 Add(slave.Bus);
 
-                var bid = _idBuilder.NewId<Bus<T>>(slave.Bus.Name);
+                var bid = _idBuilder.NewId<Bus>(slave.Bus.Name);
                 _dgmlBuilder.AddLink(node.Id, bid);
             }
 
             return node;
         }
 
-        public DirectedGraphNode Add<T>(BusMasterSlave<T> masterSlave, string ownerName = null)
-            where T : BusData, new()
+        public DirectedGraphNode Add(BusMasterSlave masterSlave, string ownerName = null)
         {
             if (!Visit(masterSlave) ||
                 (!masterSlave.IsConnected && !masterSlave.Slave.IsConnected && !DisplayUnconnected))
                 return FindNode(masterSlave);
 
-            var node = AddInternal((BusMaster<T>)masterSlave, ownerName, SafeNetName(masterSlave));
+            var node = AddInternal((BusMaster)masterSlave, ownerName, SafeNetName(masterSlave));
             SetNodeMap(masterSlave, node);
 
             if (DisplayValues)
@@ -193,7 +188,7 @@ namespace Jacobi.Zim80.Diagnostics
 
             if (masterSlave.Slave.IsConnected)
             {
-                var bid = _idBuilder.NewId<Bus<T>>(masterSlave.Slave.Bus.Name);
+                var bid = _idBuilder.NewId<Bus>(masterSlave.Slave.Bus.Name);
                 _dgmlBuilder.AddLink(node.Id, bid);
             }
 
@@ -334,15 +329,13 @@ namespace Jacobi.Zim80.Diagnostics
             return consumer.DigitalSignal.Name;
         }
 
-        private string SafeNetName<T>(BusMaster<T> master)
-            where T : BusData, new()
+        private string SafeNetName(BusMaster master)
         {
             if (master == null || !master.IsConnected) return null;
             return master.Bus.Name;
         }
 
-        private string SafeNetName<T>(BusSlave<T> slave)
-            where T : BusData, new()
+        private string SafeNetName(BusSlave slave)
         {
             if (slave == null || !slave.IsConnected) return null;
             return slave.Bus.Name;

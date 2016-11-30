@@ -65,14 +65,14 @@ namespace Jacobi.Zim80.Memory
             return data;
         }
 
-        protected void NotifyMemoryRead(AddressT address, DataT data)
+        protected void NotifyMemoryRead(BusData address, BusData data)
         {
-            OnMemoryRead?.Invoke(this, new MemoryNotificationEventArgs<AddressT, DataT>(address, data));
+            OnMemoryRead?.Invoke(this, new MemoryNotificationEventArgs<AddressT, DataT>((AddressT)address, (DataT)data));
         }
 
-        protected void NotifyMemoryWritten(AddressT address, DataT data)
+        protected void NotifyMemoryWritten(BusData address, BusData data)
         {
-            OnMemoryWritten?.Invoke(this, new MemoryNotificationEventArgs<AddressT, DataT>(address, data));
+            OnMemoryWritten?.Invoke(this, new MemoryNotificationEventArgs<AddressT, DataT>((AddressT)address, (DataT)data));
         }
 
         protected virtual void OnStateChanged()
@@ -86,7 +86,7 @@ namespace Jacobi.Zim80.Memory
             _memory[address] = value;
         }
 
-        private void Address_OnChanged(object sender, BusChangedEventArgs<AddressT> e)
+        private void Address_OnChanged(object sender, BusChangedEventArgs<BusData> e)
         {
             OnStateChanged();
         }
@@ -96,9 +96,9 @@ namespace Jacobi.Zim80.Memory
             OnStateChanged();
         }
 
-        private void DataIn_OnChanged(object sender, BusChangedEventArgs<DataT> e)
+        private void DataIn_OnChanged(object sender, BusChangedEventArgs<BusData> e)
         {
-            OnWriteDataBus(e.Value);
+            OnWriteDataBus((DataT)e.Value);
         }
     }
 }

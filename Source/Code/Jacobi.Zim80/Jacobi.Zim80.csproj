@@ -44,10 +44,6 @@
     <Compile Include="BusChangedEventArgs.cs" />
     <Compile Include="BusConflictException.cs" />
     <Compile Include="BusData.cs" />
-    <Compile Include="BusData16.cs" />
-    <Compile Include="BusData20.cs" />
-    <Compile Include="BusData24.cs" />
-    <Compile Include="BusData8.cs" />
     <Compile Include="BusMaster.cs" />
     <Compile Include="BusMasterSlave.cs" />
     <Compile Include="BusSlave.cs" />
@@ -198,6 +194,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BusData.Types.cs" />
     <None Include="Components.cd" />
     <None Include="CpuZ80\States\Instructions\Jacobi.Zim80.Components.CpuZ80.States.Instructions.MultiByteInstructions.cd" />
     <None Include="CpuZ80\States\Instructions\Jacobi.Zim80.Components.CpuZ80.States.Instructions.SingleByteInstructions.cd" />

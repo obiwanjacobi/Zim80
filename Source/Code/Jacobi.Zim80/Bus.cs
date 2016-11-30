@@ -1,42 +1,47 @@
 ﻿using System.Linq;
 using System.Collections.Generic;
 using System;
+using System.Diagnostics;
 
 namespace Jacobi.Zim80
 {
-    public class Bus<T> : INamedObject
-        where T : BusData, new()
+    [DebuggerDisplay("{Name}: {Value}")]
+    public class Bus : INamedObject
     {
-        private readonly List<BusMaster<T>> _masters = new List<BusMaster<T>>();
-        private readonly List<BusSlave<T>> _slaves = new List<BusSlave<T>>();
+        private readonly List<BusMaster> _masters = new List<BusMaster>();
+        private readonly List<BusSlave> _slaves = new List<BusSlave>();
         private readonly List<DigitalSignal> _signals = new List<DigitalSignal>();
 
-        public Bus()
+        public Bus(int busWidth)
         {
-            var width = new T().Width;
+            if (busWidth <= 0)
+                throw new ArgumentOutOfRangeException("busWidth", "Bus Width must be greater than zero.");
 
-            for (int i = 0; i < width; i++)
-            {
+            for (int i = 0; i < busWidth; i++)
                 _signals.Add(new DigitalSignal());
-            }
         }
 
-        public Bus(string name)
-            : this()
+        public Bus(int busWidth, string name)
+            : this(busWidth)
         {
             Name = name;
         }
 
+        public int BusWidth
+        {
+            get { return _signals.Count; }
+        }
+
         public string Name { get; set; }
 
-        private T _value;
-        public T Value
+        private BusData _value;
+        public BusData Value
         {
             get
             {
                 if (_value == null)
                 {
-                    _value = new T();
+                    _value = NewBusData();
                     _value.Write(_signals.Select((s) => s.Level));
                 }
 
@@ -44,19 +49,24 @@ namespace Jacobi.Zim80
             }
         }
 
-        public event EventHandler<BusChangedEventArgs<T>> OnChanged;
+        public event EventHandler<BusChangedEventArgs<BusData>> OnChanged;
 
-        public IEnumerable<BusMaster<T>> Masters
+        public IEnumerable<BusMaster> Masters
         {
             get { return _masters; }
         }
 
-        public IEnumerable<BusSlave<T>> Slaves
+        public IEnumerable<BusSlave> Slaves
         {
             get { return _slaves; }
         }
 
-        internal void Attach(BusMaster<T> busMaster)
+        protected virtual BusData NewBusData()
+        {
+            return new BusData(BusWidth);
+        }
+
+        internal void Attach(BusMaster busMaster) 
         {
             if (busMaster == null)
                 throw new ArgumentNullException(nameof(busMaster));
@@ -66,7 +76,7 @@ namespace Jacobi.Zim80
             _masters.Add(busMaster);
         }
 
-        internal void Attach(BusSlave<T> busSlave)
+        internal void Attach(BusSlave busSlave)
         {
             if (busSlave == null)
                 throw new ArgumentNullException(nameof(busSlave));
@@ -76,7 +86,7 @@ namespace Jacobi.Zim80
             _slaves.Add(busSlave);
         }
 
-        internal void OnMasterValueChanged(BusMaster<T> busMaster)
+        internal void OnMasterValueChanged(BusMaster busMaster)
         {
             ThrowIfMultipleMastersAreActive(busMaster);
             var value = busMaster.Value;
@@ -88,35 +98,57 @@ namespace Jacobi.Zim80
             }
         }
 
-        private void ApplyValue(T value)
+        private void ApplyValue(BusData value)
         {
             int index = 0;
-            foreach(var level in value.Signals)
+            foreach (var level in value.Signals)
             {
                 _signals[index].Level = level;
                 index++;
             }
         }
 
-        private void NotifyChange(BusMaster<T> source)
+        private void NotifyChange(BusMaster source)
         {
-            OnChanged?.Invoke(this, new BusChangedEventArgs<T>(source, Value));
+            OnChanged?.Invoke(this, new BusChangedEventArgs<BusData>(source, Value));
         }
 
-        private void ThrowIfMultipleMastersAreActive(BusMaster<T> currentMaster)
+        private void ThrowIfMultipleMastersAreActive(BusMaster currentMaster)
         {
             if (AreMultipleMastersActive(currentMaster))
                 throw new BusConflictException("Multiple masters are active on bus: " + Name);
         }
 
-        private bool AreMultipleMastersActive(BusMaster<T> currentMaster)
+        private bool AreMultipleMastersActive(BusMaster currentMaster)
         {
-            var floating = new T();
+            var floating = new BusData(BusWidth);
 
             return _masters
                 .Where(m => !m.Value.Equals(floating))
                 .Except(new[] { currentMaster })
                 .Any();
+        }
+    }
+
+    public class Bus<T> : Bus
+        where T : BusData, new()
+    {
+        public Bus()
+            : base(new T().Width)
+        { }
+
+        public Bus(string name)
+            : base(new T().Width, name)
+        { }
+
+        public new T Value
+        {
+            get { return (T)base.Value; }
+        }
+
+        protected override BusData NewBusData()
+        {
+            return new T();
         }
     }
 }

@@ -4,13 +4,12 @@ using System.Diagnostics;
 namespace Jacobi.Zim80
 {
     // writes values to bus signals
-    [DebuggerDisplay("{Value} {Name}")]
-    public class BusMaster<T> : INamedObject
-        where T : BusData, new()
+    [DebuggerDisplay("{Name}: {Value}")]
+    public class BusMaster : INamedObject
     {
         public BusMaster()
         {
-            Value = new T();
+            Value = NewBusData();
         }
 
         public BusMaster(string name)
@@ -19,7 +18,13 @@ namespace Jacobi.Zim80
             Name = name;
         }
 
-        public BusMaster(Bus<T> bus, string name)
+        public BusMaster(Bus bus)
+            : this()
+        {
+            ConnectTo(bus);
+        }
+
+        public BusMaster(Bus bus, string name)
             : this()
         {
             Name = name;
@@ -36,8 +41,9 @@ namespace Jacobi.Zim80
                 if (_isEnabled != value)
                 {
                     _isEnabled = value;
+
                     if (!_isEnabled)
-                        WriteInternal(new T());
+                        Value = NewBusData();
                 }
             }
         }
@@ -56,18 +62,18 @@ namespace Jacobi.Zim80
             { _name = value; }
         }
 
-        public T Value { get; private set; }
+        public BusData Value { get; protected set; }
 
-        private Bus<T> _bus;
+        private Bus _bus;
 
-        public Bus<T> Bus
+        public Bus Bus
         {
-            get { return _bus; }
+            get { ThrowIfNotConnected(); return _bus; }
         }
 
-        public virtual void ConnectTo(Bus<T> bus)
+        public virtual void ConnectTo(Bus bus)
         {
-            if (_bus != null)
+            if (IsConnected)
                 throw new InvalidOperationException(
                     "BusMaster is already connected.");
 
@@ -80,16 +86,13 @@ namespace Jacobi.Zim80
             }
         }
 
-        public void Write(T value)
+        public void Write(BusData value)
         {
             if (value == null)
                 throw new ArgumentNullException(nameof(value));
             ThrowIfNotEnabled();
 
-            if (!IsConnected)
-                Value = value;
-            else
-                WriteInternal(value);
+            WriteInternal(value);
         }
 
         public bool IsConnected
@@ -97,10 +100,17 @@ namespace Jacobi.Zim80
             get { return _bus != null; }
         }
 
-        private void WriteInternal(T value)
+        protected virtual BusData NewBusData()
+        {
+            return new BusData(0);
+        }
+
+        private void WriteInternal(BusData value)
         {
             Value = value;
-            _bus.OnMasterValueChanged(this);
+
+            if (IsConnected)
+                _bus.OnMasterValueChanged(this);
         }
 
         private void ThrowIfNotConnected()
@@ -115,6 +125,51 @@ namespace Jacobi.Zim80
             if (!IsEnabled)
                 throw new InvalidOperationException(
                     "BusMaster is not enabled.");
+        }
+    }
+
+    
+    public class BusMaster<T> : BusMaster
+        where T : BusData, new()
+    {
+        public BusMaster()
+        { }
+
+        public BusMaster(string name)
+            : base(name)
+        { }
+
+        public BusMaster(Bus<T> bus)
+            : base(bus)
+        { }
+
+        public BusMaster(Bus<T> bus, string name)
+            : base(bus, name)
+        { }
+
+        public new T Value
+        {
+            get { return (T)base.Value; }
+        }
+
+        public new Bus<T> Bus
+        {
+            get { return (Bus<T>)base.Bus; }
+        }
+
+        public virtual void ConnectTo(Bus<T> bus)
+        {
+            base.ConnectTo(bus);
+        }
+
+        public void Write(T value)
+        {
+            base.Write(value);
+        }
+
+        protected override BusData NewBusData()
+        {
+            return new T();
         }
     }
 }

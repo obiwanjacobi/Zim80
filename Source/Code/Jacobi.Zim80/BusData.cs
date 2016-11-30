@@ -5,13 +5,13 @@ using System.Linq;
 namespace Jacobi.Zim80
 {
     /// <summary>
-    /// Immutable base class for bus data objects.
+    /// Immutable class for bus data carriers.
     /// </summary>
-    public abstract class BusData
+    public class BusData
     {
         private readonly List<DigitalLevel> _signals = new List<DigitalLevel>();
 
-        protected BusData(byte width)
+        protected internal BusData(int width)
         {
             Width = width;
             for (int i = 0; i < width; i++)

@@ -51,16 +51,14 @@ namespace Jacobi.Zim80.Logic
 
         protected void WriteOutputFor(DigitalSignalConsumer input)
         {
-            if (IsEnabled)
-            {
-                var index = _inputs.IndexOf(input);
-                _outputs[index].Write(input.Level);
-            }
+            var index = _inputs.IndexOf(input);
+            _outputs[index].Write(input.Level);
         }
 
         private void Input_OnChanged(object sender, DigitalLevelChangedEventArgs e)
         {
-            WriteOutputFor((DigitalSignalConsumer)sender);
+            if (IsEnabled)
+                WriteOutputFor((DigitalSignalConsumer)sender);
         }
 
         private void OutputEnable_OnChanged(object sender, DigitalLevelChangedEventArgs e)

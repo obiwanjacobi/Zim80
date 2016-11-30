@@ -4,9 +4,8 @@ using System.Diagnostics;
 namespace Jacobi.Zim80
 {
     // reads bus signal values
-    [DebuggerDisplay("{Value} {Name}")]
-    public class BusSlave<T> : INamedObject
-        where T : BusData, new()
+    [DebuggerDisplay("{Name}: {Value}")]
+    public class BusSlave : INamedObject
     {
         public BusSlave()
         { }
@@ -16,13 +15,18 @@ namespace Jacobi.Zim80
             Name = name;
         }
 
-        public BusSlave(Bus<T> bus, string name)
+        public BusSlave(Bus bus)
+        {
+            ConnectTo(bus);
+        }
+
+        public BusSlave(Bus bus, string name)
         {
             Name = name;
             ConnectTo(bus);
         }
 
-        public event EventHandler<BusChangedEventArgs<T>> OnChanged;
+        public event EventHandler<BusChangedEventArgs<BusData>> OnChanged;
 
         private string _name;
 
@@ -38,26 +42,27 @@ namespace Jacobi.Zim80
             { _name = value; }
         }
 
-        public T Value
+        public BusData Value
         {
             get
             {
-                if (!IsConnected) return new T();
+                if (!IsConnected)
+                    return NewBusData();
 
                 return _bus.Value;
             }
         }
 
-        private Bus<T> _bus;
+        private Bus _bus;
 
-        public Bus<T> Bus
+        public Bus Bus
         {
             get { ThrowIfNotConnected(); return _bus; }
         }
 
-        public void ConnectTo(Bus<T> bus)
+        public void ConnectTo(Bus bus)
         {
-            if (_bus != null)
+            if (IsConnected)
                 throw new InvalidOperationException(
                     "This BusSlave is already connected.");
 
@@ -71,12 +76,17 @@ namespace Jacobi.Zim80
             get { return _bus != null; }
         }
 
-        protected virtual void OnValueChanged(BusChangedEventArgs<T> e)
+        protected virtual BusData NewBusData()
+        {
+            return new BusData(0);
+        }
+
+        protected virtual void OnValueChanged(BusChangedEventArgs<BusData> e)
         {
             OnChanged?.Invoke(this, e);
         }
 
-        private void Bus_OnChanged(object sender, BusChangedEventArgs<T> e)
+        private void Bus_OnChanged(object sender, BusChangedEventArgs<BusData> e)
         {
             OnValueChanged(e);
         }
@@ -85,6 +95,45 @@ namespace Jacobi.Zim80
         {
             if (!IsConnected)
                 throw new InvalidOperationException("The BusSlave is not connected.");
+        }
+    }
+
+    public class BusSlave<T> : BusSlave
+        where T : BusData, new()
+    {
+        public BusSlave()
+        { }
+
+        public BusSlave(string name)
+            : base(name)
+        { }
+
+        public BusSlave(Bus<T> bus)
+            : base(bus)
+        { }
+
+        public BusSlave(Bus<T> bus, string name)
+            : base(bus, name)
+        { }
+
+        public new Bus<T> Bus
+        {
+            get { return (Bus<T>)base.Bus; }
+        }
+
+        public new T Value
+        {
+            get { return (T)base.Value; }
+        }
+
+        public void ConnectTo(Bus<T> bus)
+        {
+            base.ConnectTo(bus);
+        }
+
+        protected override BusData NewBusData()
+        {
+            return new T();
         }
     }
 }

@@ -2,20 +2,19 @@
 
 namespace Jacobi.Zim80.Logic
 {
-    public class BusDataStream<DataT>
-        where DataT : BusData, new()
+    public class BusDataStream
     {
-        private readonly List<DataT> _samples = new List<DataT>();
-        private readonly Bus<DataT> _bus;
+        private readonly List<BusData> _samples = new List<BusData>();
+        private readonly Bus _bus;
 
-        public BusDataStream(Bus<DataT> bus)
+        public BusDataStream(Bus bus)
         {
             _bus = bus;
         }
 
-        public Bus<DataT> Bus { get { return _bus; } }
+        public Bus Bus { get { return _bus; } }
 
-        public IEnumerable<DataT> Samples { get { return _samples; } }
+        public IEnumerable<BusData> Samples { get { return _samples; } }
 
         public void Sample()
         {
