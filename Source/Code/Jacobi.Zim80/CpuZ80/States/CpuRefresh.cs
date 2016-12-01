@@ -17,17 +17,19 @@
 
         protected override void OnClockPos()
         {
-            if (!IsEnabled) return;
-
             switch (ExecutionEngine.Cycles.CycleName)
             {
                 case CycleNames.T1:
+                    // always reset refresh on T1.
                     Die.Refresh.Write(DigitalLevel.High);
                     break;
 
                 case CycleNames.T3:
-                    ExecutionEngine.SetRefreshOnAddressBus();
-                    Die.Refresh.Write(DigitalLevel.Low);
+                    if (IsEnabled)
+                    {
+                        ExecutionEngine.SetRefreshOnAddressBus();
+                        Die.Refresh.Write(DigitalLevel.Low);
+                    }
                     break;
             }
         }
