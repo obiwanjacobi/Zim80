@@ -22,6 +22,13 @@ namespace Jacobi.Zim80.Test
             return memory[address];
         }
 
+        public static uint GetInt<DataT>(this IDirectMemoryAccess<DataT> memory,
+                int address)
+            where DataT : BusData
+        {
+            return memory[address].ToUInt32();
+        }
+
         public static long Write<AddressT, DataT>(this Memory<AddressT, DataT> memory, byte[] buffer)
             where AddressT : BusData, new()
             where DataT : BusData, new()

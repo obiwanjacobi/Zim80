@@ -1,4 +1,5 @@
 ﻿using Jacobi.Zim80.CpuZ80;
+using System;
 
 namespace Jacobi.Zim80.Logic
 {
@@ -17,13 +18,18 @@ namespace Jacobi.Zim80.Logic
 
             for (int i = 0; i < numberOfCycles; i++)
             {
-                Output.Write(DigitalLevel.Low);
-                Output.Write(DigitalLevel.PosEdge);
-                Output.Write(DigitalLevel.High);
-                Output.Write(DigitalLevel.NegEdge);
+                OutputOneCycle();
             }
 
             Output.Write(level);
+        }
+
+        private void OutputOneCycle()
+        {
+            Output.Write(DigitalLevel.Low);
+            Output.Write(DigitalLevel.PosEdge);
+            Output.Write(DigitalLevel.High);
+            Output.Write(DigitalLevel.NegEdge);
         }
 
         public void SquareWave(long numberOfMachineCycles, CycleNames toCycle,
@@ -46,6 +52,20 @@ namespace Jacobi.Zim80.Logic
                     }
                 }
             }
+        }
+
+        public void SquareWave(Func<long, bool> abortFunc)
+        {
+            if (abortFunc == null)
+                throw new ArgumentNullException(nameof(abortFunc));
+
+            long cycles = 0;
+            do
+            {
+                OutputOneCycle();
+                cycles++;
+            }
+            while (!abortFunc(cycles));
         }
     }
 }

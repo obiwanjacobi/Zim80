@@ -120,7 +120,7 @@ namespace Jacobi.Zim80.Diagnostics
 
         public void EndSignal()
         {
-            _json.Append(" ], ");
+            _json.Append(" ], config:{skin:'narrow'}");
         }
 
         public void AddHead(string title)

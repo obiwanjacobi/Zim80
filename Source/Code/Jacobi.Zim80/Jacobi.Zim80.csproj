@@ -153,6 +153,7 @@
     <Compile Include="CpuZ80\States\Instructions\WriteIndirectInstruction.cs" />
     <Compile Include="CpuZ80\States\Instructions\WriteIndirectRegisterInstruction.cs" />
     <Compile Include="CpuZ80\States\Instructions\WriteT3InstructionPart.cs" />
+    <Compile Include="Diagnostics\LogicAnalyzerExtensions.cs" />
     <Compile Include="INamedObject.cs" />
     <Compile Include="Logic\BusDataStream.cs" />
     <Compile Include="Logic\SignalGenerator.cs" />

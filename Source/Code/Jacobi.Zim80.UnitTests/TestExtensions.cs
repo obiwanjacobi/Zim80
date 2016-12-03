@@ -32,15 +32,5 @@ namespace Jacobi.Zim80.UnitTests
 
             return filePath;
         }
-
-        // Paste output into http://wavedrom.com/editor.html
-        public static string ToWaveJson(this LogicAnalyzer analyzer)
-        {
-            var builder = new WaveDromBuilder();
-
-            builder.AddRange(analyzer.SignalStreams);
-            builder.AddRange(analyzer.BusStreams);
-            return builder.ToString();
-        }
     }
 }

@@ -36,13 +36,15 @@ namespace Jacobi.Zim80.Test
         }
 
         // Auto-connects to all connected signals of the Cpu.
-        public void AddLogicAnalyzer()
+        public void AddLogicAnalyzer(bool start = true)
         {
             Model.LogicAnalyzer = new LogicAnalyzer();
+            Model.LogicAnalyzer.Clock.ConnectTo(Model.Cpu.Clock.DigitalSignal);
 
             foreach (var input in Model.Cpu.Inputs())
             {
                 if (!input.IsConnected) continue;
+                if (input == Model.Cpu.Clock) continue; //skip clock
                 Model.LogicAnalyzer.ConnectInput(input.DigitalSignal);
             }
 
@@ -57,6 +59,9 @@ namespace Jacobi.Zim80.Test
 
             if (Model.Data != null)
                 Model.LogicAnalyzer.ConnectInput(Model.Data);
+
+            if (start)
+                Model.LogicAnalyzer.Start();
         }
 
         public void AddCpuIoSpace()
@@ -76,9 +81,15 @@ namespace Jacobi.Zim80.Test
         private void SetModelAddressAndDataBus()
         {
             if (Model.Cpu.Address.IsConnected && Model.Address == null)
+            {
                 Model.Address = Model.Cpu.Address.Bus;
+                if (Model.Address.Name == null) Model.Address.Name = "Address";
+            }
             if (Model.Cpu.Data.IsConnected && Model.Data == null)
+            {
                 Model.Data = Model.Cpu.Data.Bus;
+                if (Model.Data.Name == null) Model.Data.Name = "Data";
+            }
         }
     }
 }

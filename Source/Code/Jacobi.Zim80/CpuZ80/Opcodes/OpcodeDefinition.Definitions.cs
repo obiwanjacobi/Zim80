@@ -756,8 +756,8 @@ namespace Jacobi.Zim80.CpuZ80.Opcodes
             new OpcodeDefinition { X = 2, Z = 0, Y = 3, Mnemonic = "NOP*", Ext1 = 0xED, Cycles = new[] { 4, 4 }, Instruction = typeof(NopInstruction) },
             new OpcodeDefinition { X = 2, Z = 0, Y = 4, Mnemonic = "LDI", Ext1 = 0xED, Cycles = new[] { 4, 4, 3, 5 }, Instruction = typeof(LoadRepeatInstruction) },
             new OpcodeDefinition { X = 2, Z = 0, Y = 5, Mnemonic = "LDD", Ext1 = 0xED, Cycles = new[] { 4, 4, 3, 5 }, Instruction = typeof(LoadRepeatInstruction) },
-            new OpcodeDefinition { X = 2, Z = 0, Y = 6, Mnemonic = "LDIR", Ext1 = 0xED, Cycles = new[] { 4, 4, 3, 5, 5 }, Instruction = typeof(LoadRepeatInstruction) },
-            new OpcodeDefinition { X = 2, Z = 0, Y = 7, Mnemonic = "LDDR", Ext1 = 0xED, Cycles = new[] { 4, 4, 3, 5, 5 }, Instruction = typeof(LoadRepeatInstruction) },
+            new OpcodeDefinition { X = 2, Z = 0, Y = 6, Mnemonic = "LDIR", Ext1 = 0xED, Cycles = new[] { 4, 4, 3, 5, 5 }, AltCycles = new[] { 4, 4, 3, 5 }, Instruction = typeof(LoadRepeatInstruction) },
+            new OpcodeDefinition { X = 2, Z = 0, Y = 7, Mnemonic = "LDDR", Ext1 = 0xED, Cycles = new[] { 4, 4, 3, 5, 5 }, AltCycles = new[] { 4, 4, 3, 5 }, Instruction = typeof(LoadRepeatInstruction) },
 
             new OpcodeDefinition { X = 2, Z = 1, Y = 0, Mnemonic = "NOP*", Ext1 = 0xED, Cycles = new[] { 4, 4 }, Instruction = typeof(NopInstruction) },
             new OpcodeDefinition { X = 2, Z = 1, Y = 1, Mnemonic = "NOP*", Ext1 = 0xED, Cycles = new[] { 4, 4 }, Instruction = typeof(NopInstruction) },

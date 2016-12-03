@@ -5,6 +5,7 @@ using Jacobi.Zim80.CpuZ80.Opcodes;
 using Jacobi.Zim80.CpuZ80.UnitTests;
 using Jacobi.Zim80.Memory.UnitTests;
 using Jacobi.Zim80.UnitTests;
+using Jacobi.Zim80.Diagnostics;
 
 namespace Jacobi.Zim80.CpuZ80.Instructions.UnitTests
 {
@@ -13,7 +14,7 @@ namespace Jacobi.Zim80.CpuZ80.Instructions.UnitTests
     {
         private const ushort RdAddress = 0x04;
         private const ushort WrAddress = 0x08;
-        private const byte Value1 = 0xAA;
+        private const byte Value1 = 0x55;
         private const byte Value2 = 0xAA;
         private const byte Length = 0x02;
 

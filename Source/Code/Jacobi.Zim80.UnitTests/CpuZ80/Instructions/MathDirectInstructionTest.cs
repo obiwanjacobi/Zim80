@@ -5,6 +5,7 @@ using Jacobi.Zim80.Test;
 using FluentAssertions;
 using System;
 using Jacobi.Zim80.UnitTests;
+using Jacobi.Zim80.Diagnostics;
 
 namespace Jacobi.Zim80.CpuZ80.Instructions.UnitTests
 {

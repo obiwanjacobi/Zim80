@@ -12,6 +12,7 @@ namespace Jacobi.Zim80.CpuZ80
         private readonly InterruptManager _interruptManager;
         private CpuState _state;
         private CpuStates _currentState;
+        private ushort _instructionAddress;
 
         public ExecutionEngine(Die die)
         {
@@ -34,10 +35,16 @@ namespace Jacobi.Zim80.CpuZ80
 
         public bool AddOpcodeByte(OpcodeByte opcodeByte)
         {
+            if (_opcodeBuilder.IsEmpty)
+                _instructionAddress = (ushort)(Die.Registers.PC - 1);
+
             var valid = _opcodeBuilder.Add(opcodeByte);
 
             if (valid)
+            {
+                _opcodeBuilder.Opcode.Address = _instructionAddress;
                 _cycles.OpcodeDefinition = _opcodeBuilder.Opcode.Definition;
+            }
 
             return valid;
         }

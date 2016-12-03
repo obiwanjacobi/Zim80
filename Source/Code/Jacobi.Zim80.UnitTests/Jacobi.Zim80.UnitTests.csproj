@@ -39,12 +39,12 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="FluentAssertions, Version=4.9.1.0, Culture=neutral, PublicKeyToken=33f2691a05b67b6a, processorArchitecture=MSIL">
-      <HintPath>..\packages\FluentAssertions.4.9.1\lib\net45\FluentAssertions.dll</HintPath>
+    <Reference Include="FluentAssertions, Version=4.17.0.0, Culture=neutral, PublicKeyToken=33f2691a05b67b6a, processorArchitecture=MSIL">
+      <HintPath>..\packages\FluentAssertions.4.17.0\lib\net45\FluentAssertions.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="FluentAssertions.Core, Version=4.9.1.0, Culture=neutral, PublicKeyToken=33f2691a05b67b6a, processorArchitecture=MSIL">
-      <HintPath>..\packages\FluentAssertions.4.9.1\lib\net45\FluentAssertions.Core.dll</HintPath>
+    <Reference Include="FluentAssertions.Core, Version=4.17.0.0, Culture=neutral, PublicKeyToken=33f2691a05b67b6a, processorArchitecture=MSIL">
+      <HintPath>..\packages\FluentAssertions.4.17.0\lib\net45\FluentAssertions.Core.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="System" />
@@ -85,29 +85,30 @@
     <Compile Include="CpuZ80\Instructions\CarryFlagInstructionTest.cs" />
     <Compile Include="CpuZ80\Instructions\CompareRepeatInstructionTest.cs" />
     <Compile Include="CpuZ80\Instructions\Dec16InstructionTest.cs" />
+    <Compile Include="CpuZ80\Instructions\Dec8InstructionTest.cs" />
     <Compile Include="CpuZ80\Instructions\DecimalAdjustInstructionTest.cs" />
+    <Compile Include="CpuZ80\Instructions\DjnzInstructionTest.cs" />
     <Compile Include="CpuZ80\Instructions\ExchangeIndirectInstructionTest.cs" />
+    <Compile Include="CpuZ80\Instructions\ExchangeInstructionTest.cs" />
     <Compile Include="CpuZ80\Instructions\HaltInstructionTest.cs" />
+    <Compile Include="CpuZ80\Instructions\Inc16InstructionTest.cs" />
+    <Compile Include="CpuZ80\Instructions\Inc8InstructionTest.cs" />
     <Compile Include="CpuZ80\Instructions\IndirectBitSetResInstructionTest.cs" />
     <Compile Include="CpuZ80\Instructions\IndirectRegisterTest.cs" />
     <Compile Include="CpuZ80\Instructions\InInstructionTest.cs" />
     <Compile Include="CpuZ80\Instructions\InRepeatInstructionTest.cs" />
     <Compile Include="CpuZ80\Instructions\InterruptInstructionTest.cs" />
     <Compile Include="CpuZ80\Instructions\IntModeInstructionTest.cs" />
-    <Compile Include="CpuZ80\Instructions\JumpRegister16InstructionTest.cs" />
     <Compile Include="CpuZ80\Instructions\JumpInstructionTest.cs" />
+    <Compile Include="CpuZ80\Instructions\JumpRegister16InstructionTest.cs" />
     <Compile Include="CpuZ80\Instructions\JumpRelativeInstructionTest.cs" />
-    <Compile Include="CpuZ80\Instructions\DjnzInstructionTest.cs" />
-    <Compile Include="CpuZ80\Instructions\ExchangeInstructionTest.cs" />
-    <Compile Include="CpuZ80\Instructions\Inc16InstructionTest.cs" />
-    <Compile Include="CpuZ80\Instructions\Dec8InstructionTest.cs" />
-    <Compile Include="CpuZ80\Instructions\Inc8InstructionTest.cs" />
     <Compile Include="CpuZ80\Instructions\LoadImmediate16InstructionTest.cs" />
     <Compile Include="CpuZ80\Instructions\LoadImmediate8InstructionTest.cs" />
     <Compile Include="CpuZ80\Instructions\LoadImmediateIndirect16InstructionTest.cs" />
     <Compile Include="CpuZ80\Instructions\LoadImmediateIndirectInstructionTest.cs" />
     <Compile Include="CpuZ80\Instructions\LoadRegister16InstructionTest.cs" />
     <Compile Include="CpuZ80\Instructions\LoadRegister8Instruction.cs" />
+    <Compile Include="CpuZ80\Instructions\LoadRepeatInstructionBugs.cs" />
     <Compile Include="CpuZ80\Instructions\LoadRepeatInstructionTest.cs" />
     <Compile Include="CpuZ80\Instructions\LoadSystemRegisterInstructionTest.cs" />
     <Compile Include="CpuZ80\Instructions\MathDirectInstructionTest.cs" />
@@ -120,6 +121,7 @@
     <Compile Include="CpuZ80\Instructions\PopInstructionTest.cs" />
     <Compile Include="CpuZ80\Instructions\PushInstructionTest.cs" />
     <Compile Include="CpuZ80\Instructions\ReadImmediateRegisterInstructionTest.cs" />
+    <Compile Include="CpuZ80\Instructions\ReadIndirectRegisterInstructionTest.cs" />
     <Compile Include="CpuZ80\Instructions\ResInstructionTest.cs" />
     <Compile Include="CpuZ80\Instructions\RetInstructionTest.cs" />
     <Compile Include="CpuZ80\Instructions\RetIntInstructionTest.cs" />
@@ -131,11 +133,11 @@
     <Compile Include="CpuZ80\Instructions\SubRegister16InstructionTest.cs" />
     <Compile Include="CpuZ80\Instructions\WriteImmediateRegisterInstructionTest.cs" />
     <Compile Include="CpuZ80\Instructions\WriteIndirectRegisterInstructionTest.cs" />
-    <Compile Include="CpuZ80\Instructions\ReadIndirectRegisterInstructionTest.cs" />
     <Compile Include="CpuZ80\MemoryLogger.cs" />
     <Compile Include="CpuZ80\Opcodes\OpcodeDefinitionTest.cs" />
-    <Compile Include="CpuZ80\Opcodes\SingleByteOpcodeWithSingleByteParameterTest.cs" />
+    <Compile Include="CpuZ80\Opcodes\SingleByteOpcodeWithDoubleByteParameterTest.cs" />
     <Compile Include="CpuZ80\Opcodes\SingleByteOpcodeWithNoParameterTest.cs" />
+    <Compile Include="CpuZ80\Opcodes\SingleByteOpcodeWithSingleByteParameterTest.cs" />
     <Compile Include="Logic\SignalGeneratorTest.cs" />
     <Compile Include="Logic\AndGateTest.cs" />
     <Compile Include="Logic\BufferTest.cs" />
@@ -151,18 +153,17 @@
     <Compile Include="DigitalSignalProviderTest.cs" />
     <Compile Include="DigitalSignalTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="CpuZ80\Opcodes\SingleByteOpcodeWithDoubleByteParameterTest.cs" />
     <Compile Include="TestExtensions.cs" />
     <Compile Include="Test\SimulationModelBuilderTest.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Jacobi.Zim80\Jacobi.Zim80.csproj">
       <Project>{7d42d4fa-d29b-4151-951c-6f066554c8c1}</Project>
       <Name>Jacobi.Zim80</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
   </ItemGroup>
   <Choose>
     <When Condition="'$(VisualStudioVersion)' == '10.0' And '$(IsCodedUITest)' == 'True'">

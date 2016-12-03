@@ -31,6 +31,12 @@ namespace Jacobi.Zim80.CpuZ80.Opcodes
 
         public bool IsDone { get; private set; }
 
+        public bool IsEmpty
+        {
+            get { return _ext1 == null && _ext2 == null && _tmpOffset == null && 
+                    _opcodeDef == null && Opcode == null; }
+        }
+
         public bool HasShiftExtension
         {
             get { return _ext1 != null && _ext1.IsDD || _ext1.IsFD; }
@@ -112,8 +118,6 @@ namespace Jacobi.Zim80.CpuZ80.Opcodes
 
             return Opcode != null;
         }
-
-        
 
         // implements how additional extensions will replace others
         private void SetExtension(OpcodeByte opcodeByte)
