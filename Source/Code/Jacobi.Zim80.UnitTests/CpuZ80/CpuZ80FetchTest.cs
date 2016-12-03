@@ -1,5 +1,7 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using FluentAssertions;
+using Jacobi.Zim80.Logic;
+using Jacobi.Zim80.Test;
 
 namespace Jacobi.Zim80.CpuZ80.UnitTests
 {
@@ -102,6 +104,20 @@ namespace Jacobi.Zim80.CpuZ80.UnitTests
 
             // bus
             cpu.Address.Value.Should().Be(new BusData16(0));
+        }
+
+        
+    }
+
+    internal static class CpuExtensions
+    {
+        public static void Clock(this CpuZ80 cpu,
+        CycleNames toCycle, DigitalLevel toLevel)
+        {
+            var gen = new SignalGenerator();
+            var clock = cpu.Clock.ConnectTo(gen.Output);
+
+            gen.SquareWave(1, toCycle, toLevel);
         }
     }
 }

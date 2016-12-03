@@ -19,8 +19,6 @@ namespace Jacobi.Zim80
 
         public DigitalSignalProvider(DigitalSignal digitalSignal, string name)
         {
-            
-
             Name = name;
             ConnectTo(digitalSignal);
         }

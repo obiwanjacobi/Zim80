@@ -1,4 +1,5 @@
-﻿using System.Diagnostics;
+﻿using System;
+using System.Diagnostics;
 
 namespace Jacobi.Zim80
 {
@@ -39,31 +40,36 @@ namespace Jacobi.Zim80
         public override void ConnectTo(Bus bus)
         {
             base.ConnectTo(bus);
-            Slave.ConnectTo(bus);
+            _slave.ConnectToInternal(bus);
+        }
+
+        private void ConnectToInternal(Bus bus)
+        {
+            base.ConnectTo(bus);
         }
 
         private class BusSlaveOfMaster : BusSlave
         {
-            private BusMaster _owner;
+            private BusMasterSlave _owner;
 
-            public BusSlaveOfMaster(BusMaster owner)
+            public BusSlaveOfMaster(BusMasterSlave owner)
             {
                 _owner = owner;
             }
 
-            public BusSlaveOfMaster(BusMaster owner, string name)
+            public BusSlaveOfMaster(BusMasterSlave owner, string name)
                 : base(name)
             {
                 _owner = owner;
             }
 
-            public BusSlaveOfMaster(BusMaster owner, Bus bus)
+            public BusSlaveOfMaster(BusMasterSlave owner, Bus bus)
                 : base(bus)
             {
                 _owner = owner;
             }
 
-            public BusSlaveOfMaster(BusMaster owner, Bus bus, string name)
+            public BusSlaveOfMaster(BusMasterSlave owner, Bus bus, string name)
                 : base(bus, name)
             {
                 _owner = owner;
@@ -74,8 +80,18 @@ namespace Jacobi.Zim80
                 if (e.BusMaster != _owner)
                     base.OnValueChanged(e);
             }
-        }
 
+            public override void ConnectTo(Bus bus)
+            {
+                base.ConnectTo(bus);
+                _owner.ConnectToInternal(bus);
+            }
+
+            internal new void ConnectToInternal(Bus bus)
+            {
+                base.ConnectToInternal(bus);
+            }
+        }
     }
 
 
@@ -111,25 +127,30 @@ namespace Jacobi.Zim80
         public override void ConnectTo(Bus<T> bus)
         {
             base.ConnectTo(bus);
-            Slave.ConnectTo(bus);
+            _slave.ConnectToInternal(bus);
+        }
+
+        private void ConnectToInternal(Bus<T> bus)
+        {
+            base.ConnectTo(bus);
         }
 
         private class BusSlaveOfMaster : BusSlave<T>
         {
-            private BusMaster<T> _owner;
+            private BusMasterSlave<T> _owner;
 
-            public BusSlaveOfMaster(BusMaster<T> owner)
+            public BusSlaveOfMaster(BusMasterSlave<T> owner)
             {
                 _owner = owner;
             }
 
-            public BusSlaveOfMaster(BusMaster<T> owner, string name)
+            public BusSlaveOfMaster(BusMasterSlave<T> owner, string name)
                 : base(name)
             {
                 _owner = owner;
             }
 
-            public BusSlaveOfMaster(BusMaster<T> owner, Bus<T> bus, string name)
+            public BusSlaveOfMaster(BusMasterSlave<T> owner, Bus<T> bus, string name)
                 : base(bus, name)
             {
                 _owner = owner;
@@ -139,6 +160,17 @@ namespace Jacobi.Zim80
             {
                 if (e.BusMaster != _owner)
                     base.OnValueChanged(e);
+            }
+
+            public override void ConnectTo(Bus<T> bus)
+            {
+                base.ConnectTo(bus);
+                _owner.ConnectToInternal(bus);
+            }
+
+            internal void ConnectToInternal(Bus<T> bus)
+            {
+                base.ConnectToInternal(bus);
             }
         }
     }

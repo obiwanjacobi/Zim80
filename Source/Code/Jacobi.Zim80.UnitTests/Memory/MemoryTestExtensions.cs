@@ -1,5 +1,5 @@
 ﻿using FluentAssertions;
-using System.IO;
+using Jacobi.Zim80.Test;
 
 namespace Jacobi.Zim80.Memory.UnitTests
 {
@@ -23,10 +23,7 @@ namespace Jacobi.Zim80.Memory.UnitTests
             var mem = new MemoryRom<BusData16, BusData8>();
 
             if (buffer != null)
-            {
-                var writer = new MemoryWriter<BusData16, BusData8>(mem);
-                writer.CopyFrom(CreateBinaryReader(buffer));
-            }
+                mem.Write(buffer);
 
             return mem;
         }
@@ -36,17 +33,9 @@ namespace Jacobi.Zim80.Memory.UnitTests
             var mem = new MemoryRam<BusData16, BusData8>();
 
             if (buffer != null)
-            {
-                var writer = new MemoryWriter<BusData16, BusData8>(mem);
-                writer.CopyFrom(CreateBinaryReader(buffer));
-            }
+                mem.Write(buffer);
 
             return mem;
-        }
-
-        private static BinaryReader CreateBinaryReader(byte[] buffer)
-        {
-            return new BinaryReader(new MemoryStream(buffer, false));
         }
     }
 }

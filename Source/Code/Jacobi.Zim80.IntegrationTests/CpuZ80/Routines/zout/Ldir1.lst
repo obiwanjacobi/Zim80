@@ -1,0 +1,33 @@
+   1:     -	0000          		org 0h
+   2:    0+10	0000  211000  		ld hl, src
+   3:   10+10	0003  112000  		ld de, trg
+   4:   20+10	0006  010D00  		ld bc, 13
+   5:   30+16+5	0009  EDB0    		ldir
+   6:				
+   7:     -	000B          		defs 5
+   8:     -	0010          	src:
+   9:     -	0010  48656C6C		defb "Hello World!"
+	      6F20576F
+	      726C6421
+  10:				
+  11:     -	001C          		defs 4
+  12:     -	0020          	trg:
+**** C:\Users\marc\Documents\Projects\Personal\Jacobi\Public\GitHub\Zim80\Source\Code\Jacobi.Zim80.IntegrationTests\CpuZ80\Routines\Ldir1.asm ****
+  13:     -	0020          		defs 10h
+
+
+
+Statistics:
+
+     4	passes
+     0	jr promotions
+     2	symbols
+    23	bytes
+
+
+
+Symbol Table:
+
+src               10     
+trg               20     
+

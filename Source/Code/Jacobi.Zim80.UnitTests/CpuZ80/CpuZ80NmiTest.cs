@@ -1,6 +1,7 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Jacobi.Zim80.UnitTests;
 using FluentAssertions;
+using Jacobi.Zim80.Test;
 
 namespace Jacobi.Zim80.CpuZ80.UnitTests
 {

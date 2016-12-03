@@ -1,6 +1,7 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Gates = Jacobi.Zim80.Logic;
 using FluentAssertions;
+using Jacobi.Zim80.Test;
 
 namespace Jacobi.Zim80.UnitTests.Logic
 {

@@ -52,6 +52,7 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
+    <Compile Include="CpuZ80\Routines\Ldir.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -61,15 +62,19 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="CpuZ80\Routines\Ldir1.asm" />
     <Content Include="CpuZ80\Zexlax\zexall.zmac.asm" />
     <Content Include="CpuZ80\Zexlax\zexdoc.zmac.asm" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="CpuZ80\Routines\Ldir1.bin">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <None Include="CpuZ80\Routines\MakeAllAsm.cmd" />
+    <None Include="CpuZ80\Routines\MakeAsm.cmd" />
     <None Include="CpuZ80\Zexlax\MakeAsm.cmd" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="CpuZ80\Routines\" />
-  </ItemGroup>
+  <ItemGroup />
   <Choose>
     <When Condition="'$(VisualStudioVersion)' == '10.0' And '$(IsCodedUITest)' == 'True'">
       <ItemGroup>

@@ -173,6 +173,11 @@
     <Compile Include="Memory\MemoryRam.cs" />
     <Compile Include="Memory\MemoryRom.cs" />
     <Compile Include="Memory\MemoryWriter.cs" />
+    <Compile Include="Test\BusExtensions.cs" />
+    <Compile Include="Test\CpuZ80Extensions.cs" />
+    <Compile Include="Test\DigitalSignalExtensions.cs" />
+    <Compile Include="Test\MemoryExtensions.cs" />
+    <Compile Include="Test\SimulationModelBuilder.cs" />
     <Compile Include="UninitialzedDataException.cs" />
     <Compile Include="Diagnostics\Dgml.cs">
       <DependentUpon>Dgml.xsd</DependentUpon>

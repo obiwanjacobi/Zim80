@@ -1,0 +1,1977 @@
+   1:				    title	'Z80 instruction set exerciser'
+   2:				
+   3:				; zexdoc.src - Z80 documented instruction set exerciser
+   4:				; Original Copyright (C) 1994  Frank D. Cringle
+   5:				; Changes at 03-Nov-2002 Copyright (C) 2002 J.G.Harston
+   6:				; + Source syntax tweeked to assemble with ZMAC Z80 Macro Assembler
+   7:				;   and MAXAM Assembler, marked in the source with 'jgh:'
+   8:				; + labels on equates mustn't have trailing colon
+   9:				; + macros don't understand <...> sequence, so parameters are passed
+  10:				;   explicitly
+  11:				; + ds n,c not supported, so strings are set to full explicity length
+  12:				;
+  13:				; This program is free software; you can redistribute it and/or
+  14:				; modify it under the terms of the GNU General Public License
+  15:				; as published by the Free Software Foundation; either version 2
+  16:				; of the License, or (at your option) any later version.
+  17:				;
+  18:				; This program is distributed in the hope that it will be useful,
+  19:				; but WITHOUT ANY WARRANTY; without even the implied warranty of
+  20:				; MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  21:				; GNU General Public License for more details.
+  22:				;
+  23:				; You should have received a copy of the GNU General Public License
+  24:				; along with this program; if not, write to the Free Software
+  25:				; Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
+  26:				
+  27:				    aseg
+  28:     -	0100          	    org	100h
+  29:				
+  30:    0+10	0100  C31301  	    jp	start
+  31:				
+  32:				; machine state before test (needs to be at predictably constant address)
+  33:     -	0103          	msbt:	ds	14
+  34:     -	0111          	spbt:	ds	2
+  35:     -	0001          	msbthi	equ	msbt / 0100h
+  36:     -	0003          	msbtlo	equ	msbt & 0ffh
+  37:				
+  38:				
+  39:				; For the purposes of this test program, the machine state consists of:
+  40:				;	a 2 byte memory operand, followed by
+  41:				;	the registers iy,ix,hl,de,bc,af,sp
+  42:				; for a total of 16 bytes.
+  43:				
+  44:				; The program tests instructions (or groups of similar instructions)
+  45:				; by cycling through a sequence of machine states, executing the test
+  46:				; instruction for each one and running a 32-bit crc over the resulting
+  47:				; machine states.  At the end of the sequence the crc is compared to
+  48:				; an expected value that was found empirically on a real Z80.
+  49:				
+  50:				; A test case is defined by a descriptor which consists of:
+  51:				;	a flag mask byte,
+  52:				;	the base case,
+  53:				;	the incement vector,
+  54:				;	the shift vector,
+  55:				;	the expected crc,
+  56:				;	a short descriptive message.
+  57:				;
+  58:				; The flag mask byte is used to prevent undefined flag bits from
+  59:				; influencing the results.  Documented flags are as per Mostek Z80
+  60:				; Technical Manual.
+  61:				;
+  62:				; The next three parts of the descriptor are 20 byte vectors
+  63:				; corresponding to a 4 byte instruction and a 16 byte machine state.
+  64:				; The first part is the base case, which is the first test case of
+  65:				; the sequence.  This base is then modified according to the next 2
+  66:				; vectors.  Each 1 bit in the increment vector specifies a bit to be
+  67:				; cycled in the form of a binary counter.  For instance, if the byte
+  68:				; corresponding to the accumulator is set to 0ffh in the increment
+  69:				; vector, the test will be repeated for all 256 values of the
+  70:				; accumulator.  Note that 1 bits don't have to be contiguous.  The
+  71:				; number of test cases 'caused' by the increment vector is equal to
+  72:				; 2^(number of 1 bits).  The shift vector is similar, but specifies a
+  73:				; set of bits in the test case that are to be successively inverted.
+  74:				; Thus the shift vector 'causes' a number of test cases equal to the
+  75:				; number of 1 bits in it.
+  76:				
+  77:				; The total number of test cases is the product of those caused by the
+  78:				; counter and shift vectors and can easily become unweildy.  Each
+  79:				; individual test case can take a few milliseconds to execute, due to
+  80:				; the overhead of test setup and crc calculation, so test design is a
+  81:				; compromise between coverage and execution time.
+  82:				
+  83:				; This program is designed to detect differences between
+  84:				; implementations and is not ideal for diagnosing the causes of any
+  85:				; discrepancies.  However, provided a reference implementation (or
+  86:				; real system) is available, a failing test case can be isolated by
+  87:				; hand using a binary search of the test space.
+  88:				
+  89:				
+  90:   10+16	0113  2A0600  	start:	ld	hl,(6)
+  91:   26+6	0116  F9      	    ld	sp,hl
+  92:   32+10	0117  11C916  	    ld	de,msg1
+  93:   42+7	011A  0E09    	    ld	c,9
+  94:   49+17	011C  CDBD16  	    call	bdos
+  95:				
+  96:   66+10	011F  213A01  	    ld	hl,tests	; first test case
+  97:   76+7	0122  7E      	loop:	ld	a,(hl)		; end of list ?
+  98:   83+6	0123  23      	    inc	hl
+  99:   89+7	0124  B6      	    or	(hl)
+ 100:   96+10	0125  CA2F01  	    jp	z,done
+ 101:  106+6	0128  2B      	    dec	hl
+ 102:  112+17	0129  CDD113  	    call	stt
+ 103:  129+10	012C  C32201  	    jp	loop
+ 104:				    
+ 105:  139+10	012F  11E816  	done:	ld	de,msg2
+ 106:  149+7	0132  0E09    	    ld	c,9
+ 107:  156+17	0134  CDBD16  	    call	bdos
+ 108:  173+10	0137  C30000  	    jp	0		; warm boot
+ 109:				
+ 110:     -	013A          	tests:
+ 111:     -	013A  C201    	    dw	adc16
+ 112:     -	013C  0702    	    dw	add16
+ 113:     -	013E  4C02    	    dw	add16x
+ 114:     -	0140  9102    	    dw	add16y
+ 115:     -	0142  D602    	    dw	alu8i
+ 116:     -	0144  1B03    	    dw	alu8r
+ 117:     -	0146  6003    	    dw	alu8rx
+ 118:     -	0148  A503    	    dw	alu8x
+ 119:     -	014A  EA03    	    dw	bitx
+ 120:     -	014C  2F04    	    dw	bitz80
+ 121:     -	014E  7404    	    dw	cpd1
+ 122:     -	0150  B904    	    dw	cpi1
+ 123:     -	0152  FE04    	    dw	daaop	; can't use opcode as label
+ 124:     -	0154  4305    	    dw	inca
+ 125:     -	0156  8805    	    dw	incb
+ 126:     -	0158  CD05    	    dw	incbc
+ 127:     -	015A  1206    	    dw	incc
+ 128:     -	015C  5706    	    dw	incd
+ 129:     -	015E  9C06    	    dw	incde
+ 130:     -	0160  E106    	    dw	ince
+ 131:     -	0162  2607    	    dw	inch
+ 132:     -	0164  6B07    	    dw	inchl
+ 133:     -	0166  B007    	    dw	incix
+ 134:     -	0168  F507    	    dw	inciy
+ 135:     -	016A  3A08    	    dw	incl
+ 136:     -	016C  7F08    	    dw	incm
+ 137:     -	016E  C408    	    dw	incsp
+ 138:     -	0170  0909    	    dw	incx
+ 139:     -	0172  4E09    	    dw	incxh
+ 140:     -	0174  9309    	    dw	incxl
+ 141:     -	0176  D809    	    dw	incyh
+ 142:     -	0178  1D0A    	    dw	incyl
+ 143:     -	017A  620A    	    dw	ld161
+ 144:     -	017C  A70A    	    dw	ld162
+ 145:     -	017E  EC0A    	    dw	ld163
+ 146:     -	0180  310B    	    dw	ld164
+ 147:     -	0182  760B    	    dw	ld165
+ 148:     -	0184  BB0B    	    dw	ld166
+ 149:     -	0186  000C    	    dw	ld167
+ 150:     -	0188  450C    	    dw	ld168
+ 151:     -	018A  8A0C    	    dw	ld16im
+ 152:     -	018C  CF0C    	    dw	ld16ix
+ 153:     -	018E  140D    	    dw	ld8bd
+ 154:     -	0190  590D    	    dw	ld8im
+ 155:     -	0192  9E0D    	    dw	ld8imx
+ 156:     -	0194  E30D    	    dw	ld8ix1
+ 157:     -	0196  280E    	    dw	ld8ix2
+ 158:     -	0198  6D0E    	    dw	ld8ix3
+ 159:     -	019A  B20E    	    dw	ld8ixy
+ 160:     -	019C  F70E    	    dw	ld8rr
+ 161:     -	019E  3C0F    	    dw	ld8rrx
+ 162:     -	01A0  810F    	    dw	lda
+ 163:     -	01A2  C60F    	    dw	ldd1
+ 164:     -	01A4  0B10    	    dw	ldd2
+ 165:     -	01A6  5010    	    dw	ldi1
+ 166:     -	01A8  9510    	    dw	ldi2
+ 167:     -	01AA  DA10    	    dw	negop	; jgh: can't use opcode as label
+ 168:     -	01AC  1F11    	    dw	rldop	; jgh: can't use opcode as label
+ 169:     -	01AE  6411    	    dw	rot8080
+ 170:     -	01B0  A911    	    dw	rotxy
+ 171:     -	01B2  EE11    	    dw	rotz80
+ 172:     -	01B4  3312    	    dw	srz80
+ 173:     -	01B6  7812    	    dw	srzx
+ 174:     -	01B8  BD12    	    dw	st8ix1
+ 175:     -	01BA  0213    	    dw	st8ix2
+ 176:     -	01BC  4713    	    dw	st8ix3
+ 177:     -	01BE  8C13    	    dw	stabd
+ 178:     -	01C0  0000    	    dw	0
+ 179:				
+ 180:				; jgh: macro syntax changed for ZMAC and MAXAM
+ 181:				;	can't use opcodes as labels
+ 182:				;	ZMAC allows &nn as hex, so & removed from local labels
+ 183:				;
+ 184:				tstr	macro	insn1,insn2,insn3,insn4,memop,riy,rix,rhl,rde,rbc,flags,acc,rsp,?lab
+ 185:				?lab:	db	insn1,insn2,insn3,insn4
+ 186:				    dw	memop,riy,rix,rhl,rde,rbc
+ 187:				    db	flags
+ 188:				    db	acc
+ 189:				    dw	rsp
+ 190:				    if	$-?lab ne 20
+ 191:				    error	'missing parameter'
+ 192:				    endif
+ 193:				    endm
+ 194:				
+ 195:				tmsg	macro	msg,?lab
+ 196:				?lab:	db	'msg'
+ 197:				    if	$ ge ?lab+31
+ 198:				    error	'message too long'
+ 199:				    else
+ 200:				;	ds	?lab+30-$,'.'	; jgh: ZMAC/MAXAM don't have char parameter
+ 201:				    endif
+ 202:				    db	'$'
+ 203:				    endm
+ 204:				
+ 205:				; jgh: ZMAC/MAXAM don't recognise <n,m> syntax for macros, so full parameters given
+ 206:				; jgh: each tmsg has full string, as ZMAC/MAXAM don't have ds n,c pseudo-op
+ 207:				
+ 208:				; <adc,sbc> hl,<bc,de,hl,sp> (38,912 cycles)
+ 209:     -	01C2  C7      	adc16:	db	0c7h		; flag mask
+ 210:     -	01C3          	    tstr	0edh,042h,0,0,0832ch,04f88h,0f22bh,0b339h,07e1fh,01563h,0d3h,089h,0465eh
+ 211:     -	01D7          	    tstr	0,038h,0,0,0,0,0,0f821h,0,0,0,0,0	; (1024 cycles)
+ 212:     -	01EB          	    tstr	0,0,0,0,0,0,0,-1,-1,-1,0d7h,0,-1	; (38 cycles)
+ 213:     -	01FF  F8B4EAA9	    db	0f8h,0b4h,0eah,0a9h			; expected crc
+ 214:     -	0203          	    tmsg	'<adc,sbc> hl,<bc,de,hl,sp>....'
+ 215:				
+ 216:				; add hl,<bc,de,hl,sp> (19,456 cycles)
+ 217:     -	0207  C7      	add16:	db	0c7h		; flag mask
+ 218:     -	0208          	    tstr	9,0,0,0,0c4a5h,0c4c7h,0d226h,0a050h,058eah,08566h,0c6h,0deh,09bc9h
+ 219:     -	021C          	    tstr	030h,0,0,0,0,0,0,0f821h,0,0,0,0,0	; (512 cycles)
+ 220:     -	0230          	    tstr	0,0,0,0,0,0,0,-1,-1,-1,0d7h,0,-1	; (38 cycles)
+ 221:     -	0244  89FDB635	    db	089h,0fdh,0b6h,035h			; expected crc
+ 222:     -	0248          	    tmsg	'add hl,<bc,de,hl,sp>..........'
+ 223:				
+ 224:				; add ix,<bc,de,ix,sp> (19,456 cycles)
+ 225:     -	024C  C7      	add16x:	db	0c7h		; flag mask
+ 226:     -	024D          	    tstr	0ddh,9,0,0,0ddach,0c294h,0635bh,033d3h,06a76h,0fa20h,094h,068h,036f5h
+ 227:     -	0261          	    tstr	0,030h,0,0,0,0,0f821h,0,0,0,0,0,0	; (512 cycles)
+ 228:     -	0275          	    tstr	0,0,0,0,0,0,-1,0,-1,-1,0d7h,0,-1	; (38 cycles)
+ 229:     -	0289  C133790B	    db	0c1h,033h,079h,00bh			; expected crc
+ 230:     -	028D          	    tmsg	'add ix,<bc,de,ix,sp>..........'
+ 231:				
+ 232:				; add iy,<bc,de,iy,sp> (19,456 cycles)
+ 233:     -	0291  C7      	add16y:	db	0c7h		; flag mask
+ 234:     -	0292          	    tstr	0fdh,9,0,0,0c7c2h,0f407h,051c1h,03e96h,00bf4h,0510fh,092h,01eh,071eah
+ 235:     -	02A6          	    tstr	0,030h,0,0,0,0f821h,0,0,0,0,0,0,0	; (512 cycles)
+ 236:     -	02BA          	    tstr	0,0,0,0,0,-1,0,0,-1,-1,0d7h,0,-1		; (38 cycles)
+ 237:     -	02CE  E8817B9E	    db	0e8h,081h,07bh,09eh			; expected crc
+ 238:     -	02D2          	    tmsg	'add iy,<bc,de,iy,sp>..........'
+ 239:				
+ 240:				; aluop a,nn (28,672 cycles)
+ 241:     -	02D6  D7      	alu8i:	db	0d7h		; flag mask
+ 242:     -	02D7          	    tstr	0c6h,0,0,0,009140h,07e3ch,07a67h,0df6dh,05b61h,00b29h,010h,066h,085b2h
+ 243:     -	02EB          	    tstr	038h,0,0,0,0,0,0,0,0,0,0,-1,0		; (2048 cycles)
+ 244:     -	02FF          	    tstr	0,-1,0,0,0,0,0,0,0,0,0d7h,0,0		; (14 cycles)
+ 245:     -	0313  48799360	    db	048h,079h,093h,060h			; expected crc
+ 246:     -	0317          	    tmsg	'aluop a,nn....................'
+ 247:				
+ 248:				; aluop a,<b,c,d,e,h,l,(hl),a> (753,664 cycles)
+ 249:     -	031B  D7      	alu8r:	db	0d7h		; flag mask
+ 250:     -	031C          	    tstr	080h,0,0,0,0c53eh,0573ah,04c4dh,msbt,0e309h,0a666h,0d0h,03bh,0adbbh
+ 251:     -	0330          	    tstr	03fh,0,0,0,0,0,0,0,0,0,0,-1,0		; (16,384 cycles)
+ 252:     -	0344          	    tstr	0,0,0,0,0ffh,0,0,0,-1,-1,0d7h,0,0	; (46 cycles)
+ 253:     -	0358  FE43B016	    db	0feh,043h,0b0h,016h			; expected crc
+ 254:     -	035C          	    tmsg	'aluop a,<b,c,d,e,h,l,(hl),a>..'
+ 255:				
+ 256:				; aluop a,<ixh,ixl,iyh,iyl> (376,832 cycles)
+ 257:     -	0360  D7      	alu8rx:	db	0d7h		; flag mask
+ 258:     -	0361          	    tstr	0ddh,084h,0,0,0d6f7h,0c76eh,0accfh,02847h,022ddh,0c035h,0c5h,038h,0234bh
+ 259:     -	0375          	    tstr	020h,039h,0,0,0,0,0,0,0,0,0,-1,0	; (8,192 cycles)
+ 260:     -	0389          	    tstr	0,0,0,0,0ffh,0,0,0,-1,-1,0d7h,0,0	; (46 cycles)
+ 261:     -	039D  A4026D5A	    db	0a4h,002h,06dh,05ah			; expected crc
+ 262:     -	03A1          	    tmsg	'aluop a,<ixh,ixl,iyh,iyl>.....'
+ 263:				
+ 264:				; aluop a,(<ix,iy>+1) (229,376 cycles)
+ 265:     -	03A5  D7      	alu8x:	db	0d7h		; flag mask
+ 266:     -	03A6          	    tstr	0ddh,086h,1,0,090b7h,msbt-1,msbt-1,032fdh,0406eh,0c1dch,045h,06eh,0e5fah
+ 267:     -	03BA          	    tstr	020h,038h,0,0,0,1,1,0,0,0,0,-1,0	; (16,384 cycles)
+ 268:     -	03CE          	    tstr	0,0,0,0,0ffh,0,0,0,0,0,0d7h,0,0		; (14 cycles)
+ 269:     -	03E2  E849676E	    db	0e8h,049h,067h,06eh			; expected crc
+ 270:     -	03E6          	    tmsg	'aluop a,(<ix,iy>+1)...........'
+ 271:				
+ 272:				; bit n,(<ix,iy>+1) (2048 cycles)
+ 273:     -	03EA  53      	bitx:	db	053h		; flag mask
+ 274:     -	03EB          	    tstr	0ddh,0cbh,1,046h,02075h,msbt-1,msbt-1,03cfch,0a79ah,03d74h,051h,027h,0ca14h
+ 275:     -	03FF          	    tstr	020h,0,0,038h,0,0,0,0,0,0,053h,0,0	; (256 cycles)
+ 276:     -	0413          	    tstr	0,0,0,0,0ffh,0,0,0,0,0,0,0,0		; (8 cycles)
+ 277:     -	0427  A8EE0867	    db	0a8h,0eeh,008h,067h			; expected crc
+ 278:     -	042B          	    tmsg	'bit n,(<ix,iy>+1).............'
+ 279:				
+ 280:				; bit n,<b,c,d,e,h,l,(hl),a> (49,152 cycles)
+ 281:     -	042F  53      	bitz80:	db	053h		; flag mask
+ 282:     -	0430          	    tstr	0cbh,040h,0,0,03ef1h,09dfch,07acch,msbt,0be61h,07a86h,050h,024h,01998h
+ 283:     -	0444          	    tstr	0,03fh,0,0,0,0,0,0,0,0,053h,0,0		; (1024 cycles)
+ 284:     -	0458          	    tstr	0,0,0,0,0ffh,0,0,0,-1,-1,0,-1,0		; (48 cycles)
+ 285:     -	046C  7B55E6C8	    db	07bh,055h,0e6h,0c8h			; expected crc
+ 286:     -	0470          	    tmsg	'bit n,<b,c,d,e,h,l,(hl),a>....'
+ 287:				
+ 288:				; cpd<r> (1) (6144 cycles)
+ 289:     -	0474  D7      	cpd1:	db	0d7h		; flag mask
+ 290:     -	0475          	    tstr	0edh,0a9h,0,0,0c7b6h,072b4h,018f6h,msbt+17,08dbdh,1,0c0h,030h,094a3h
+ 291:     -	0489          	    tstr	0,010h,0,0,0,0,0,0,0,010,0,-1,0		; (1024 cycles)
+ 292:     -	049D          	    tstr	0,0,0,0,0,0,0,0,0,0,0d7h,0,0		; (6 cycles)
+ 293:     -	04B1  A87E6CFA	    db	0a8h,07eh,06ch,0fah			; expected crc
+ 294:     -	04B5          	    tmsg	'cpd<r>........................'
+ 295:				
+ 296:				; cpi<r> (1) (6144 cycles)
+ 297:     -	04B9  D7      	cpi1:	db	0d7h		; flag mask
+ 298:     -	04BA          	    tstr	0edh,0a1h,0,0,04d48h,0af4ah,0906bh,msbt,04e71h,1,093h,06ah,0907ch
+ 299:     -	04CE          	    tstr	0,010h,0,0,0,0,0,0,0,010,0,-1,0		; (1024 cycles)
+ 300:     -	04E2          	    tstr	0,0,0,0,0,0,0,0,0,0,0d7h,0,0		; (6 cycles)
+ 301:     -	04F6  06DEB356	    db	006h,0deh,0b3h,056h			; expected crc
+ 302:     -	04FA          	    tmsg	'cpi<r>........................'
+ 303:				
+ 304:				; <daa,cpl,scf,ccf>
+ 305:     -	04FE  D7      	daaop:	db	0d7h		; flag mask
+ 306:     -	04FF          	    tstr	027h,0,0,0,02141h,009fah,01d60h,0a559h,08d5bh,09079h,004h,08eh,0299dh
+ 307:     -	0513          	    tstr	018h,0,0,0,0,0,0,0,0,0,0d7h,-1,0	; (65,536 cycles)
+ 308:     -	0527          	    tstr	0,0,0,0,0,0,0,0,0,0,0,0,0		; (1 cycle)
+ 309:     -	053B  9B4BA675	    db	09bh,04bh,0a6h,075h			; expected crc
+ 310:     -	053F          	    tmsg	'<daa,cpl,scf,ccf>.............'
+ 311:				
+ 312:				; <inc,dec> a (3072 cycles)
+ 313:     -	0543  D7      	inca:	db	0d7h		; flag mask
+ 314:     -	0544          	    tstr	03ch,0,0,0,04adfh,0d5d8h,0e598h,08a2bh,0a7b0h,0431bh,044h,05ah,0d030h
+ 315:     -	0558          	    tstr	001h,0,0,0,0,0,0,0,0,0,0,-1,0		; (512 cycles)
+ 316:     -	056C          	    tstr	0,0,0,0,0,0,0,0,0,0,0d7h,0,0		; (6 cycles)
+ 317:     -	0580  D18815A4	    db	0d1h,088h,015h,0a4h			; expected crc
+ 318:     -	0584          	    tmsg	'<inc,dec> a...................'
+ 319:				
+ 320:				; <inc,dec> b (3072 cycles)
+ 321:     -	0588  D7      	incb:	db	0d7h		; flag mask
+ 322:     -	0589          	    tstr	004h,0,0,0,0d623h,0432dh,07a61h,08180h,05a86h,01e85h,086h,058h,09bbbh
+ 323:     -	059D          	    tstr	001h,0,0,0,0,0,0,0,0,0ff00h,0,0,0	; (512 cycles)
+ 324:     -	05B1          	    tstr	0,0,0,0,0,0,0,0,0,0,0d7h,0,0		; (6 cycles)
+ 325:     -	05C5  5F682264	    db	05fh,068h,022h,064h			; expected crc
+ 326:     -	05C9          	    tmsg	'<inc,dec> b...................'
+ 327:				
+ 328:				; <inc,dec> bc (1536 cycles)
+ 329:     -	05CD  D7      	incbc:	db	0d7h		; flag mask
+ 330:     -	05CE          	    tstr	003h,0,0,0,0cd97h,044abh,08dc9h,0e3e3h,011cch,0e8a4h,002h,049h,02a4dh
+ 331:     -	05E2          	    tstr	008h,0,0,0,0,0,0,0,0,0f821h,0,0,0	; (256 cycles)
+ 332:     -	05F6          	    tstr	0,0,0,0,0,0,0,0,0,0,0d7h,0,0		; (6 cycles)
+ 333:     -	060A  D2AE3BEC	    db	0d2h,0aeh,03bh,0ech			; expected crc
+ 334:     -	060E          	    tmsg	'<inc,dec> bc..................'
+ 335:				
+ 336:				; <inc,dec> c (3072 cycles)
+ 337:     -	0612  D7      	incc:	db	0d7h		; flag mask
+ 338:     -	0613          	    tstr	00ch,0,0,0,0d789h,00935h,0055bh,09f85h,08b27h,0d208h,095h,005h,00660h
+ 339:     -	0627          	    tstr	001h,0,0,0,0,0,0,0,0,0ffh,0,0,0		; (512 cycles)
+ 340:     -	063B          	    tstr	0,0,0,0,0,0,0,0,0,0,0d7h,0,0		; (6 cycles)
+ 341:     -	064F  C284554C	    db	0c2h,084h,055h,04ch			; expected crc
+ 342:     -	0653          	    tmsg	'<inc,dec> c...................'
+ 343:				
+ 344:				; <inc,dec> d (3072 cycles)
+ 345:     -	0657  D7      	incd:	db	0d7h		; flag mask
+ 346:     -	0658          	    tstr	014h,0,0,0,0a0eah,05fbah,065fbh,0981ch,038cch,0debch,043h,05ch,003bdh
+ 347:     -	066C          	    tstr	001h,0,0,0,0,0,0,0,0ff00h,0,0,0,0	; (512 cycles)
+ 348:     -	0680          	    tstr	0,0,0,0,0,0,0,0,0,0,0d7h,0,0		; (6 cycles)
+ 349:     -	0694  4523DE10	    db	045h,023h,0deh,010h			; expected crc
+ 350:     -	0698          	    tmsg	'<inc,dec> d...................'
+ 351:				
+ 352:				; <inc,dec> de (1536 cycles)
+ 353:     -	069C  D7      	incde:	db	0d7h		; flag mask
+ 354:     -	069D          	    tstr	013h,0,0,0,0342eh,0131dh,028c9h,00acah,09967h,03a2eh,092h,0f6h,09d54h
+ 355:     -	06B1          	    tstr	008h,0,0,0,0,0,0,0,0f821h,0,0,0,0	; (256 cycles)
+ 356:     -	06C5          	    tstr	0,0,0,0,0,0,0,0,0,0,0d7h,0,0		; (6 cycles)
+ 357:     -	06D9  AEC6D42C	    db	0aeh,0c6h,0d4h,02ch			; expected crc
+ 358:     -	06DD          	    tmsg	'<inc,dec> de..................'
+ 359:				
+ 360:				; <inc,dec> e (3072 cycles)
+ 361:     -	06E1  D7      	ince:	db	0d7h		; flag mask
+ 362:     -	06E2          	    tstr	01ch,0,0,0,0602fh,04c0dh,02402h,0e2f5h,0a0f4h,0a10ah,013h,032h,05925h
+ 363:     -	06F6          	    tstr	001h,0,0,0,0,0,0,0,0ffh,0,0,0,0		; (512 cycles)
+ 364:     -	070A          	    tstr	0,0,0,0,0,0,0,0,0,0,0d7h,0,0		; (6 cycles)
+ 365:     -	071E  E175AFCC	    db	0e1h,075h,0afh,0cch			; expected crc
+ 366:     -	0722          	    tmsg	'<inc,dec> e...................'
+ 367:				
+ 368:				; <inc,dec> h (3072 cycles)
+ 369:     -	0726  D7      	inch:	db	0d7h		; flag mask
+ 370:     -	0727          	    tstr	024h,0,0,0,01506h,0f2ebh,0e8ddh,0262bh,011a6h,0bc1ah,017h,006h,02818h
+ 371:     -	073B          	    tstr	001h,0,0,0,0,0,0,0ff00h,0,0,0,0,0	; (512 cycles)
+ 372:     -	074F          	    tstr	0,0,0,0,0,0,0,0,0,0,0d7h,0,0		; (6 cycles)
+ 373:     -	0763  1CED847D	    db	01ch,0edh,084h,07dh			; expected crc
+ 374:     -	0767          	    tmsg	'<inc,dec> h...................'
+ 375:				
+ 376:				; <inc,dec> hl (1536 cycles)
+ 377:     -	076B  D7      	inchl:	db	0d7h		; flag mask
+ 378:     -	076C          	    tstr	023h,0,0,0,0c3f4h,007a5h,01b6dh,04f04h,0e2c2h,0822ah,057h,0e0h,0c3e1h
+ 379:     -	0780          	    tstr	008h,0,0,0,0,0,0,0f821h,0,0,0,0,0	; (256 cycles)
+ 380:     -	0794          	    tstr	0,0,0,0,0,0,0,0,0,0,0d7h,0,0		; (6 cycles)
+ 381:     -	07A8  FC0D6D4A	    db	0fch,00dh,06dh,04ah			; expected crc
+ 382:     -	07AC          	    tmsg	'<inc,dec> hl..................'
+ 383:				
+ 384:				; <inc,dec> ix (1536 cycles)
+ 385:     -	07B0  D7      	incix:	db	0d7h		; flag mask
+ 386:     -	07B1          	    tstr	0ddh,023h,0,0,0bc3ch,00d9bh,0e081h,0adfdh,09a7fh,096e5h,013h,085h,00be2h
+ 387:     -	07C5          	    tstr	0,8,0,0,0,0,0f821h,0,0,0,0,0,0		; (256 cycles)
+ 388:     -	07D9          	    tstr	0,0,0,0,0,0,0,0,0,0,0d7h,0,0		; (6 cycles)
+ 389:     -	07ED  A54DBE31	    db	0a5h,04dh,0beh,031h			; expected crc
+ 390:     -	07F1          	    tmsg	'<inc,dec> ix..................'
+ 391:				
+ 392:				; <inc,dec> iy (1536 cycles)
+ 393:     -	07F5  D7      	inciy:	db	0d7h		; flag mask
+ 394:     -	07F6          	    tstr	0fdh,023h,0,0,09402h,0637ah,03182h,0c65ah,0b2e9h,0abb4h,016h,0f2h,06d05h
+ 395:     -	080A          	    tstr	0,8,0,0,0,0f821h,0,0,0,0,0,0,0		; (256 cycles)
+ 396:     -	081E          	    tstr	0,0,0,0,0,0,0,0,0,0,0d7h,0,0		; (6 cycles)
+ 397:     -	0832  505D51A3	    db	050h,05dh,051h,0a3h			; expected crc
+ 398:     -	0836          	    tmsg	'<inc,dec> iy..................'
+ 399:				
+ 400:				; <inc,dec> l (3072 cycles)
+ 401:     -	083A  D7      	incl:	db	0d7h		; flag mask
+ 402:     -	083B          	    tstr	02ch,0,0,0,08031h,0a520h,04356h,0b409h,0f4c1h,0dfa2h,0d1h,03ch,03ea2h
+ 403:     -	084F          	    tstr	001h,0,0,0,0,0,0,0ffh,0,0,0,0,0		; (512 cycles)
+ 404:     -	0863          	    tstr	0,0,0,0,0,0,0,0,0,0,0d7h,0,0		; (6 cycles)
+ 405:     -	0877  56CD06F3	    db	056h,0cdh,006h,0f3h			; expected crc
+ 406:     -	087B          	    tmsg	'<inc,dec> l...................'
+ 407:				
+ 408:				; <inc,dec> (hl) (3072 cycles)
+ 409:     -	087F  D7      	incm:	db	0d7h		; flag mask
+ 410:     -	0880          	    tstr	034h,0,0,0,0b856h,00c7ch,0e53eh,msbt,0877eh,0da58h,015h,05ch,01f37h
+ 411:     -	0894          	    tstr	001h,0,0,0,0ffh,0,0,0,0,0,0,0,0		; (512 cycles)
+ 412:     -	08A8          	    tstr	0,0,0,0,0,0,0,0,0,0,0d7h,0,0		; (6 cycles)
+ 413:     -	08BC  B83ADCEF	    db	0b8h,03ah,0dch,0efh			; expected crc
+ 414:     -	08C0          	    tmsg	'<inc,dec> (hl)................'
+ 415:				
+ 416:				; <inc,dec> sp (1536 cycles)
+ 417:     -	08C4  D7      	incsp:	db	0d7h		; flag mask
+ 418:     -	08C5          	    tstr	033h,0,0,0,0346fh,0d482h,0d169h,0deb6h,0a494h,0f476h,053h,002h,0855bh
+ 419:     -	08D9          	    tstr	008h,0,0,0,0,0,0,0,0,0,0,0,0f821h	; (256 cycles)
+ 420:     -	08ED          	    tstr	0,0,0,0,0,0,0,0,0,0,0d7h,0,0		; (6 cycles)
+ 421:     -	0901  5DACD527	    db	05dh,0ach,0d5h,027h			; expected crc
+ 422:     -	0905          	    tmsg	'<inc,dec> sp..................'
+ 423:				
+ 424:				; <inc,dec> (<ix,iy>+1) (6144 cycles)
+ 425:     -	0909  D7      	incx:	db	0d7h		; flag mask
+ 426:     -	090A          	    tstr	0ddh,034h,1,0,0fa6eh,msbt-1,msbt-1,02c28h,08894h,05057h,016h,033h,0286fh
+ 427:     -	091E          	    tstr	020h,1,0,0,0ffh,0,0,0,0,0,0,0,0		; (1024 cycles)
+ 428:     -	0932          	    tstr	0,0,0,0,0,0,0,0,0,0,0d7h,0,0		; (6 cycles)
+ 429:     -	0946  20581470	    db	020h,058h,014h,070h			; expected crc
+ 430:     -	094A          	    tmsg	'<inc,dec> (<ix,iy>+1).........'
+ 431:				
+ 432:				; <inc,dec> ixh (3072 cycles)
+ 433:     -	094E  D7      	incxh:	db	0d7h		; flag mask
+ 434:     -	094F          	    tstr	0ddh,024h,0,0,0b838h,0316ch,0c6d4h,03e01h,08358h,015b4h,081h,0deh,04259h
+ 435:     -	0963          	    tstr	0,1,0,0,0,0ff00h,0,0,0,0,0,0,0		; (512 cycles)
+ 436:     -	0977          	    tstr	0,0,0,0,0,0,0,0,0,0,0d7h,0,0		; (6 cycles)
+ 437:     -	098B  6F463662	    db	06fh,046h,036h,062h			; expected crc
+ 438:     -	098F          	    tmsg	'<inc,dec> ixh.................'
+ 439:				
+ 440:				; <inc,dec> ixl (3072 cycles)
+ 441:     -	0993  D7      	incxl:	db	0d7h		; flag mask
+ 442:     -	0994          	    tstr	0ddh,02ch,0,0,04d14h,07460h,076d4h,006e7h,032a2h,0213ch,0d6h,0d7h,099a5h
+ 443:     -	09A8          	    tstr	0,1,0,0,0,0ffh,0,0,0,0,0,0,0		; (512 cycles)
+ 444:     -	09BC          	    tstr	0,0,0,0,0,0,0,0,0,0,0d7h,0,0		; (6 cycles)
+ 445:     -	09D0  027BEF2C	    db	002h,07bh,0efh,02ch			; expected crc
+ 446:     -	09D4          	    tmsg	'<inc,dec> ixl.................'
+ 447:				
+ 448:				; <inc,dec> iyh (3072 cycles)
+ 449:     -	09D8  D7      	incyh:	db	0d7h		; flag mask
+ 450:     -	09D9          	    tstr	0ddh,024h,0,0,02836h,09f6fh,09116h,061b9h,082cbh,0e219h,092h,073h,0a98ch
+ 451:     -	09ED          	    tstr	0,1,0,0,0ff00h,0,0,0,0,0,0,0,0		; (512 cycles)
+ 452:     -	0A01          	    tstr	0,0,0,0,0,0,0,0,0,0,0d7h,0,0		; (6 cycles)
+ 453:     -	0A15  2D966CF3	    db	02dh,096h,06ch,0f3h			; expected crc
+ 454:     -	0A19          	    tmsg	'<inc,dec> iyh.................'
+ 455:				
+ 456:				; <inc,dec> iyl (3072 cycles)
+ 457:     -	0A1D  D7      	incyl:	db	0d7h		; flag mask
+ 458:     -	0A1E          	    tstr	0ddh,02ch,0,0,0d7c6h,062d5h,0a09eh,07039h,03e7eh,09f12h,090h,0d9h,0220fh
+ 459:     -	0A32          	    tstr	0,1,0,0,0ffh,0,0,0,0,0,0,0,0		; (512 cycles)
+ 460:     -	0A46          	    tstr	0,0,0,0,0,0,0,0,0,0,0d7h,0,0		; (6 cycles)
+ 461:     -	0A5A  FBCBBA95	    db	0fbh,0cbh,0bah,095h			; expected crc
+ 462:     -	0A5E          	    tmsg	'<inc,dec> iyl.................'
+ 463:				
+ 464:				; ld <bc,de>,(nnnn) (32 cycles)
+ 465:     -	0A62  D7      	ld161:	db	0d7h		; flag mask
+ 466:     -	0A63          	    tstr	0edh,04bh,msbtlo,msbthi,0f9a8h,0f559h,093a4h,0f5edh,06f96h,0d968h,086h,0e6h,04bd8h
+ 467:     -	0A77          	    tstr	0,010h,0,0,0,0,0,0,0,0,0,0,0		; (2 cycles)
+ 468:     -	0A8B          	    tstr	0,0,0,0,-1,0,0,0,0,0,0,0,0		; (16 cycles)
+ 469:     -	0A9F  4D45A9AC	    db	04dh,045h,0a9h,0ach			; expected crc
+ 470:     -	0AA3          	    tmsg	'ld <bc,de>,(nnnn).............'
+ 471:				
+ 472:				; ld hl,(nnnn) (16 cycles)
+ 473:     -	0AA7  D7      	ld162:	db	0d7h		; flag mask
+ 474:     -	0AA8          	    tstr	02ah,msbtlo,msbthi,0,09863h,07830h,02077h,0b1feh,0b9fah,0abb8h,004h,006h,06015h
+ 475:     -	0ABC          	    tstr	0,0,0,0,0,0,0,0,0,0,0,0,0		; (1 cycle)
+ 476:     -	0AD0          	    tstr	0,0,0,0,-1,0,0,0,0,0,0,0,0		; (16 cycles)
+ 477:     -	0AE4  5F972487	    db	05fh,097h,024h,087h			; expected crc
+ 478:     -	0AE8          	    tmsg	'ld hl,(nnnn)..................'
+ 479:				    
+ 480:				; ld sp,(nnnn) (16 cycles)
+ 481:     -	0AEC  D7      	ld163:	db	0d7h		; flag mask
+ 482:     -	0AED          	    tstr	0edh,07bh,msbtlo,msbthi,08dfch,057d7h,02161h,0ca18h,0c185h,027dah,083h,01eh,0f460h
+ 483:     -	0B01          	    tstr	0,0,0,0,0,0,0,0,0,0,0,0,0		; (1 cycles)
+ 484:     -	0B15          	    tstr	0,0,0,0,-1,0,0,0,0,0,0,0,0		; (16 cycles)
+ 485:     -	0B29  7ACEA11B	    db	07ah,0ceh,0a1h,01bh			; expected crc
+ 486:     -	0B2D          	    tmsg	'ld sp,(nnnn)..................'
+ 487:				
+ 488:				; ld <ix,iy>,(nnnn) (32 cycles)
+ 489:     -	0B31  D7      	ld164:	db	0d7h		; flag mask
+ 490:     -	0B32          	    tstr	0ddh,02ah,msbtlo,msbthi,0ded7h,0a6fah,0f780h,0244ch,087deh,0bcc2h,016h,063h,04c96h
+ 491:     -	0B46          	    tstr	020h,0,0,0,0,0,0,0,0,0,0,0,0		; (2 cycles)
+ 492:     -	0B5A          	    tstr	0,0,0,0,-1,0,0,0,0,0,0,0,0		; (16 cycles)
+ 493:     -	0B6E  858BF16D	    db	085h,08bh,0f1h,06dh			; expected crc
+ 494:     -	0B72          	    tmsg	'ld <ix,iy>,(nnnn).............'
+ 495:				    
+ 496:				; ld (nnnn),<bc,de> (64 cycles)
+ 497:     -	0B76  D7      	ld165:	db	0d7h		; flag mask
+ 498:     -	0B77          	    tstr	0edh,043h,msbtlo,msbthi,01f98h,0844dh,0e8ach,0c9edh,0c95dh,08f61h,080h,03fh,0c7bfh
+ 499:     -	0B8B          	    tstr	0,010h,0,0,0,0,0,0,0,0,0,0,0		; (2 cycles)
+ 500:     -	0B9F          	    tstr	0,0,0,0,0,0,0,0,-1,-1,0,0,0		; (32 cycles)
+ 501:     -	0BB3  641E8715	    db	064h,01eh,087h,015h			; expected crc
+ 502:     -	0BB7          	    tmsg	'ld (nnnn),<bc,de>.............'
+ 503:				
+ 504:				; ld (nnnn),hl (16 cycles)
+ 505:     -	0BBB  D7      	ld166:	db	0d7h		; flag mask
+ 506:     -	0BBC          	    tstr	022h,msbtlo,msbthi,0,0d003h,07772h,07f53h,03f72h,064eah,0e180h,010h,02dh,035e9h
+ 507:     -	0BD0          	    tstr	0,0,0,0,0,0,0,0,0,0,0,0,0		; (1 cycle)
+ 508:     -	0BE4          	    tstr	0,0,0,0,0,0,0,-1,0,0,0,0,0		; (16 cycles)
+ 509:     -	0BF8  A3608B47	    db	0a3h,060h,08bh,047h			; expected crc
+ 510:     -	0BFC          	    tmsg	'ld (nnnn),hl..................'
+ 511:				
+ 512:				; ld (nnnn),sp (16 cycles)
+ 513:     -	0C00  D7      	ld167:	db	0d7h		; flag mask
+ 514:     -	0C01          	    tstr	0edh,073h,msbtlo,msbthi,0c0dch,0d1d6h,0ed5ah,0f356h,0afdah,06ca7h,044h,09fh,03f0ah
+ 515:     -	0C15          	    tstr	0,0,0,0,0,0,0,0,0,0,0,0,0		; (1 cycle)
+ 516:     -	0C29          	    tstr	0,0,0,0,0,0,0,0,0,0,0,0,-1		; (16 cycles)
+ 517:     -	0C3D  16585FD7	    db	016h,058h,05fh,0d7h			; expected crc
+ 518:     -	0C41          	    tmsg	'ld (nnnn),sp..................'
+ 519:				
+ 520:				; ld (nnnn),<ix,iy> (64 cycles)
+ 521:     -	0C45  D7      	ld168:	db	0d7h		; flag mask
+ 522:     -	0C46          	    tstr	0ddh,022h,msbtlo,msbthi,06cc3h,00d91h,06900h,08ef8h,0e3d6h,0c3f7h,0c6h,0d9h,0c2dfh
+ 523:     -	0C5A          	    tstr	020h,0,0,0,0,0,0,0,0,0,0,0,0		; (2 cycles)
+ 524:     -	0C6E          	    tstr	0,0,0,0,0,-1,-1,0,0,0,0,0,0		; (32 cycles)
+ 525:     -	0C82  BA102A6B	    db	0bah,010h,02ah,06bh			; expected crc
+ 526:     -	0C86          	    tmsg	'ld (nnnn),<ix,iy>.............'
+ 527:				
+ 528:				; ld <bc,de,hl,sp>,nnnn (64 cycles)
+ 529:     -	0C8A  D7      	ld16im:	db	0d7h		; flag mask
+ 530:     -	0C8B          	    tstr	1,0,0,0,05c1ch,02d46h,08eb9h,06078h,074b1h,0b30eh,046h,0d1h,030cch
+ 531:     -	0C9F          	    tstr	030h,0,0,0,0,0,0,0,0,0,0,0,0		; (4 cycles)
+ 532:     -	0CB3          	    tstr	0,0ffh,0ffh,0,0,0,0,0,0,0,0,0,0		; (16 cycles)
+ 533:     -	0CC7  DE391969	    db	0deh,039h,019h,069h			; expected crc
+ 534:     -	0CCB          	    tmsg	'ld <bc,de,hl,sp>,nnnn.........'
+ 535:				
+ 536:				; ld <ix,iy>,nnnn (32 cycles)
+ 537:     -	0CCF  D7      	ld16ix:	db	0d7h		; flag mask
+ 538:     -	0CD0          	    tstr	0ddh,021h,0,0,087e8h,02006h,0bd12h,0b69bh,07253h,0a1e5h,051h,013h,0f1bdh
+ 539:     -	0CE4          	    tstr	020h,0,0,0,0,0,0,0,0,0,0,0,0		; (2 cycles)
+ 540:     -	0CF8          	    tstr	0,0,0ffh,0ffh,0,0,0,0,0,0,0,0,0		; (16 cycles)
+ 541:     -	0D0C  227DD525	    db	022h,07dh,0d5h,025h			; expected crc
+ 542:     -	0D10          	    tmsg	'ld <ix,iy>,nnnn...............'
+ 543:				
+ 544:				; ld a,<(bc),(de)> (44 cycles)
+ 545:     -	0D14  D7      	ld8bd:	db	0d7h		; flag mask
+ 546:     -	0D15          	    tstr	00ah,0,0,0,0b3a8h,01d2ah,07f8eh,042ach,msbt,msbt,0c6h,0b1h,0ef8eh
+ 547:     -	0D29          	    tstr	010h,0,0,0,0,0,0,0,0,0,0,0,0		; (2 cycles)
+ 548:     -	0D3D          	    tstr	0,0,0,0,0ffh,0,0,0,0,0,0d7h,-1,0	; (22 cycles)
+ 549:     -	0D51  B0818935	    db	0b0h,081h,089h,035h			; expected crc
+ 550:     -	0D55          	    tmsg	'ld a,<(bc),(de)>..............'
+ 551:				
+ 552:				; ld <b,c,d,e,h,l,(hl),a>,nn (64 cycles)
+ 553:     -	0D59  D7      	ld8im:	db	0d7h		; flag mask
+ 554:     -	0D5A          	    tstr	6,0,0,0,0c407h,0f49dh,0d13dh,00339h,0de89h,07455h,053h,0c0h,05509h
+ 555:     -	0D6E          	    tstr	038h,0,0,0,0,0,0,0,0,0,0,0,0		; (8 cycles)
+ 556:     -	0D82          	    tstr	0,0,0,0,0,0,0,0,0,0,0,-1,0		; (8 cycles)
+ 557:     -	0D96  F1DAB556	    db	0f1h,0dah,0b5h,056h			; expected crc
+ 558:     -	0D9A          	    tmsg	'ld <b,c,d,e,h,l,(hl),a>,nn....'
+ 559:				
+ 560:				; ld (<ix,iy>+1),nn (32 cycles)
+ 561:     -	0D9E  D7      	ld8imx:	db	0d7h		; flag mask
+ 562:     -	0D9F          	    tstr	0ddh,036h,1,0,01b45h,msbt-1,msbt-1,0d5c1h,061c7h,0bdc4h,0c0h,085h,0cd16h
+ 563:     -	0DB3          	    tstr	020h,0,0,0,0,0,0,0,0,0,0,0,0		; (2 cycles)
+ 564:     -	0DC7          	    tstr	0,0,0,-1,0,0,0,0,0,0,0,-1,0		; (16 cycles)
+ 565:     -	0DDB  26DB477E	    db	026h,0dbh,047h,07eh			; expected crc
+ 566:     -	0DDF          	    tmsg	'ld (<ix,iy>+1),nn.............'
+ 567:				
+ 568:				; ld <b,c,d,e>,(<ix,iy>+1) (512 cycles)
+ 569:     -	0DE3  D7      	ld8ix1:	db	0d7h		; flag mask
+ 570:     -	0DE4          	    tstr	0ddh,046h,1,0,0d016h,msbt-1,msbt-1,04260h,07f39h,00404h,097h,04ah,0d085h
+ 571:     -	0DF8          	    tstr	020h,018h,0,0,0,1,1,0,0,0,0,0,0		; (32 cycles)
+ 572:     -	0E0C          	    tstr	0,0,0,0,-1,0,0,0,0,0,0,0,0		; (16 cycles)
+ 573:     -	0E20  CC1106A8	    db	0cch,011h,006h,0a8h			; expected crc
+ 574:     -	0E24          	    tmsg	'ld <b,c,d,e>,(<ix,iy>+1)......'
+ 575:				
+ 576:				; ld <h,l>,(<ix,iy>+1) (256 cycles)
+ 577:     -	0E28  D7      	ld8ix2:	db	0d7h		; flag mask
+ 578:     -	0E29          	    tstr	0ddh,066h,1,0,084e0h,msbt-1,msbt-1,09c52h,0a799h,049b6h,093h,000h,0eeadh
+ 579:     -	0E3D          	    tstr	020h,008h,0,0,0,1,1,0,0,0,0,0,0		; (16 cycles)
+ 580:     -	0E51          	    tstr	0,0,0,0,-1,0,0,0,0,0,0,0,0		; (16 cycles)
+ 581:     -	0E65  FA2A4D03	    db	0fah,02ah,04dh,003h			; expected crc
+ 582:     -	0E69          	    tmsg	'ld <h,l>,(<ix,iy>+1)..........'
+ 583:				
+ 584:				; ld a,(<ix,iy>+1) (128 cycles)
+ 585:     -	0E6D  D7      	ld8ix3:	db	0d7h		; flag mask
+ 586:     -	0E6E          	    tstr	0ddh,07eh,1,0,0d8b6h,msbt-1,msbt-1,0c612h,0df07h,09cd0h,043h,0a6h,0a0e5h
+ 587:     -	0E82          	    tstr	020h,0,0,0,0,1,1,0,0,0,0,0,0		; (8 cycles)
+ 588:     -	0E96          	    tstr	0,0,0,0,-1,0,0,0,0,0,0,0,0		; (16 cycles)
+ 589:     -	0EAA  A5E9AC64	    db	0a5h,0e9h,0ach,064h			; expected crc
+ 590:     -	0EAE          	    tmsg	'ld a,(<ix,iy>+1)..............'
+ 591:				
+ 592:				; ld <ixh,ixl,iyh,iyl>,nn (32 cycles)
+ 593:     -	0EB2  D7      	ld8ixy:	db	0d7h		; flag mask
+ 594:     -	0EB3          	    tstr	0ddh,026h,0,0,03c53h,04640h,0e179h,07711h,0c107h,01afah,081h,0adh,05d9bh
+ 595:     -	0EC7          	    tstr	020h,8,0,0,0,0,0,0,0,0,0,0,0		; (4 cycles)
+ 596:     -	0EDB          	    tstr	0,0,0,0,0,0,0,0,0,0,0,-1,0		; (8 cycles)
+ 597:     -	0EEF  24E8828B	    db	024h,0e8h,082h,08bh			; expected crc
+ 598:     -	0EF3          	    tmsg	'ld <ixh,ixl,iyh,iyl>,nn.......'
+ 599:				
+ 600:				; ld <b,c,d,e,h,l,a>,<b,c,d,e,h,l,a> (3456 cycles)
+ 601:     -	0EF7  D7      	ld8rr:	db	0d7h		; flag mask
+ 602:     -	0EF8          	    tstr	040h,0,0,0,072a4h,0a024h,061ach,msbt,082c7h,0718fh,097h,08fh,0ef8eh
+ 603:     -	0F0C          	    tstr	03fh,0,0,0,0,0,0,0,0,0,0,0,0		; (64 cycles)
+ 604:     -	0F20          	    tstr	0,0,0,0,0ffh,0,0,0,-1,-1,0d7h,-1,0	; (54 cycles)
+ 605:     -	0F34  744B0118	    db	074h,04bh,001h,018h			; expected crc
+ 606:     -	0F38          	    tmsg	'ld <bcdehla>,<bcdehla>........'
+ 607:				
+ 608:				; ld <b,c,d,e,ixy,a>,<b,c,d,e,ixy,a> (6912 cycles)
+ 609:     -	0F3C  D7      	ld8rrx:	db	0d7h		; flag mask
+ 610:     -	0F3D          	    tstr	0ddh,040h,0,0,0bcc5h,msbt,msbt,msbt,02fc2h,098c0h,083h,01fh,03bcdh
+ 611:     -	0F51          	    tstr	020h,03fh,0,0,0,0,0,0,0,0,0,0,0		; (128 cycles)
+ 612:     -	0F65          	    tstr	0,0,0,0,0ffh,0,0,0,-1,-1,0d7h,-1,0	; (54 cycles)
+ 613:     -	0F79  478BA36B	    db	047h,08bh,0a3h,06bh			; expected crc
+ 614:     -	0F7D          	    tmsg	'ld <bcdexya>,<bcdexya>........'
+ 615:				
+ 616:				; ld a,(nnnn) / ld (nnnn),a (44 cycles)
+ 617:     -	0F81  D7      	lda:	db	0d7h		; flag mask
+ 618:     -	0F82          	    tstr	032h,msbtlo,msbthi,0,0fd68h,0f4ech,044a0h,0b543h,00653h,0cdbah,0d2h,04fh,01fd8h
+ 619:     -	0F96          	    tstr	008h,0,0,0,0,0,0,0,0,0,0,0,0		; (2 cycle)
+ 620:     -	0FAA          	    tstr	0,0,0,0,0ffh,0,0,0,0,0,0d7h,-1,0	; (22 cycles)
+ 621:     -	0FBE  C9262DE5	    db	0c9h,026h,02dh,0e5h			; expected crc
+ 622:     -	0FC2          	    tmsg	'ld a,(nnnn) / ld (nnnn),a.....'
+ 623:				
+ 624:				; ldd<r> (1) (44 cycles)
+ 625:     -	0FC6  D7      	ldd1:	db	0d7h		; flag mask
+ 626:     -	0FC7          	    tstr	0edh,0a8h,0,0,09852h,068fah,066a1h,msbt+3,msbt+1,1,0c1h,068h,020b7h
+ 627:     -	0FDB          	    tstr	0,010h,0,0,0,0,0,0,0,0,0,0,0		; (2 cycles)
+ 628:     -	0FEF          	    tstr	0,0,0,0,-1,0,0,0,0,0,0d7h,0,0		; (22 cycles)
+ 629:     -	1003  94F42769	    db	094h,0f4h,027h,069h			; expected crc
+ 630:     -	1007          	    tmsg	'ldd<r> (1)....................'
+ 631:				
+ 632:				; ldd<r> (2) (44 cycles)
+ 633:     -	100B  D7      	ldd2:	db	0d7h		; flag mask
+ 634:     -	100C          	    tstr	0edh,0a8h,0,0,0f12eh,0eb2ah,0d5bah,msbt+3,msbt+1,2,047h,0ffh,0fbe4h
+ 635:     -	1020          	    tstr	0,010h,0,0,0,0,0,0,0,0,0,0,0		; (2 cycles)
+ 636:     -	1034          	    tstr	0,0,0,0,-1,0,0,0,0,0,0d7h,0,0		; (22 cycles)
+ 637:     -	1048  5A907ED4	    db	05ah,090h,07eh,0d4h			; expected crc
+ 638:     -	104C          	    tmsg	'ldd<r> (2)....................'
+ 639:				
+ 640:				; ldi<r> (1) (44 cycles)
+ 641:     -	1050  D7      	ldi1:	db	0d7h		; flag mask
+ 642:     -	1051          	    tstr	0edh,0a0h,0,0,0fe30h,003cdh,06058h,msbt+2,msbt,1,004h,060h,02688h
+ 643:     -	1065          	    tstr	0,010h,0,0,0,0,0,0,0,0,0,0,0		; (2 cycles)
+ 644:     -	1079          	    tstr	0,0,0,0,-1,0,0,0,0,0,0d7h,0,0		; (22 cycles)
+ 645:     -	108D  9ABDF6B5	    db	09ah,0bdh,0f6h,0b5h			; expected crc
+ 646:     -	1091          	    tmsg	'ldi<r> (1)....................'
+ 647:				
+ 648:				; ldi<r> (2) (44 cycles)
+ 649:     -	1095  D7      	ldi2:	db	0d7h		; flag mask
+ 650:     -	1096          	    tstr	0edh,0a0h,0,0,04aceh,0c26eh,0b188h,msbt+2,msbt,2,014h,02dh,0a39fh
+ 651:     -	10AA          	    tstr	0,010h,0,0,0,0,0,0,0,0,0,0,0		; (2 cycles)
+ 652:     -	10BE          	    tstr	0,0,0,0,-1,0,0,0,0,0,0d7h,0,0		; (22 cycles)
+ 653:     -	10D2  EB59891B	    db	0ebh,059h,089h,01bh			; expected crc
+ 654:     -	10D6          	    tmsg	'ldi<r> (2)....................'
+ 655:				
+ 656:				; neg (16,384 cycles)
+ 657:     -	10DA  D7      	negop:	db	0d7h		; flag mask
+ 658:     -	10DB          	    tstr	0edh,044h,0,0,038a2h,05f6bh,0d934h,057e4h,0d2d6h,04642h,043h,05ah,009cch
+ 659:     -	10EF          	    tstr	0,0,0,0,0,0,0,0,0,0,0d7h,-1,0		; (16,384 cycles)
+ 660:     -	1103          	    tstr	0,0,0,0,0,0,0,0,0,0,0,0,0		; (1 cycle)
+ 661:     -	1117  6A3C3BBD	    db	06ah,03ch,03bh,0bdh			; expected crc
+ 662:     -	111B          	    tmsg	'neg...........................'
+ 663:				
+ 664:				; <rld,rrd> (7168 cycles)
+ 665:     -	111F  D7      	rldop:	db	0d7h		; flag mask
+ 666:     -	1120          	    tstr	0edh,067h,0,0,091cbh,0c48bh,0fa62h,msbt,0e720h,0b479h,040h,006h,08ae2h
+ 667:     -	1134          	    tstr	0,8,0,0,0ffh,0,0,0,0,0,0,0,0		; (512 cycles)
+ 668:     -	1148          	    tstr	0,0,0,0,0,0,0,0,0,0,0d7h,-1,0		; (14 cycles)
+ 669:     -	115C  955BA326	    db	095h,05bh,0a3h,026h			; expected crc
+ 670:     -	1160          	    tmsg	'<rrd,rld>.....................'
+ 671:				
+ 672:				; <rlca,rrca,rla,rra> (6144 cycles)
+ 673:     -	1164  D7      	rot8080: db	0d7h		; flag mask
+ 674:     -	1165          	    tstr	7,0,0,0,0cb92h,06d43h,00a90h,0c284h,00c53h,0f50eh,091h,0ebh,040fch
+ 675:     -	1179          	    tstr	018h,0,0,0,0,0,0,0,0,0,0,-1,0		; (1024 cycles)
+ 676:     -	118D          	    tstr	0,0,0,0,0,0,0,0,0,0,0d7h,0,0		; (6 cycles)
+ 677:     -	11A1  251330AE	    db	025h,013h,030h,0aeh			; expected crc
+ 678:     -	11A5          	    tmsg	'<rlca,rrca,rla,rra>...........'
+ 679:				
+ 680:				; shift/rotate (<ix,iy>+1) (416 cycles)
+ 681:     -	11A9  D7      	rotxy:	db	0d7h		; flag mask
+ 682:     -	11AA          	    tstr	0ddh,0cbh,1,6,0ddafh,msbt-1,msbt-1,0ff3ch,0dbf6h,094f4h,082h,080h,061d9h
+ 683:     -	11BE          	    tstr	020h,0,0,038h,0,0,0,0,0,0,080h,0,0	; (32 cycles)
+ 684:     -	11D2          	    tstr	0,0,0,0,0ffh,0,0,0,0,0,057h,0,0		; (13 cycles)
+ 685:     -	11E6  713ACD81	    db	071h,03ah,0cdh,081h			; expected crc
+ 686:     -	11EA          	    tmsg	'shf/rot (<ix,iy>+1)...........'
+ 687:				
+ 688:				; shift/rotate <b,c,d,e,h,l,(hl),a> (6784 cycles)
+ 689:     -	11EE  D7      	rotz80:	db	0d7h		; flag mask
+ 690:     -	11EF          	    tstr	0cbh,0,0,0,0ccebh,05d4ah,0e007h,msbt,01395h,030eeh,043h,078h,03dadh
+ 691:     -	1203          	    tstr	0,03fh,0,0,0,0,0,0,0,0,080h,0,0		; (128 cycles)
+ 692:     -	1217          	    tstr	0,0,0,0,0ffh,0,0,0,-1,-1,057h,-1,0	; (53 cycles)
+ 693:     -	122B  EB604D58	    db	0ebh,060h,04dh,058h			; expected crc
+ 694:     -	122F          	    tmsg	'shf/rot <b,c,d,e,h,l,(hl),a>..'
+ 695:				
+ 696:				; <set,res> n,<b,c,d,e,h,l,(hl),a> (7936 cycles)
+ 697:     -	1233  D7      	srz80:	db	0d7h		; flag mask
+ 698:     -	1234          	    tstr	0cbh,080h,0,0,02cd5h,097abh,039ffh,msbt,0d14bh,06ab2h,053h,027h,0b538h
+ 699:     -	1248          	    tstr	0,07fh,0,0,0,0,0,0,0,0,0,0,0		; (128 cycles)
+ 700:     -	125C          	    tstr	0,0,0,0,0ffh,0,0,0,-1,-1,0d7h,-1,0	; (62 cycles)
+ 701:     -	1270  8B57F008	    db	08bh,057h,0f0h,008h			; expected crc
+ 702:     -	1274          	    tmsg	'<set,res> n,<bcdehl(hl)a>.....'
+ 703:				
+ 704:				; <set,res> n,(<ix,iy>+1) (1792 cycles)
+ 705:     -	1278  D7      	srzx:	db	0d7h		; flag mask
+ 706:     -	1279          	    tstr	0ddh,0cbh,1,086h,0fb44h,msbt-1,msbt-1,0ba09h,068beh,032d8h,010h,05eh,0a867h
+ 707:     -	128D          	    tstr	020h,0,0,078h,0,0,0,0,0,0,0,0,0	; (128 cycles)
+ 708:     -	12A1          	    tstr	0,0,0,0,0ffh,0,0,0,0,0,0d7h,0,0		;(14 cycles)
+ 709:     -	12B5  CC63F98A	    db	0cch,063h,0f9h,08ah			; expected crc
+ 710:     -	12B9          	    tmsg	'<set,res> n,(<ix,iy>+1).......'
+ 711:				
+ 712:				; ld (<ix,iy>+1),<b,c,d,e> (1024 cycles)
+ 713:     -	12BD  D7      	st8ix1:	db	0d7h		; flag mask
+ 714:     -	12BE          	    tstr	0ddh,070h,1,0,0270dh,msbt-1,msbt-1,0b73ah,0887bh,099eeh,086h,070h,0ca07h
+ 715:     -	12D2          	    tstr	020h,003h,0,0,0,1,1,0,0,0,0,0,0		; (32 cycles)
+ 716:     -	12E6          	    tstr	0,0,0,0,0,0,0,0,-1,-1,0,0,0		; (32 cycles)
+ 717:     -	12FA  04626ABF	    db	004h,062h,06ah,0bfh			; expected crc
+ 718:     -	12FE          	    tmsg	'ld (<ix,iy>+1),<b,c,d,e>......'
+ 719:				
+ 720:				; ld (<ix,iy>+1),<h,l> (256 cycles)
+ 721:     -	1302  D7      	st8ix2:	db	0d7h		; flag mask
+ 722:     -	1303          	    tstr	0ddh,074h,1,0,0b664h,msbt-1,msbt-1,0e8ach,0b5f5h,0aafeh,012h,010h,09566h
+ 723:     -	1317          	    tstr	020h,001h,0,0,0,1,1,0,0,0,0,0,0		; (16 cycles)
+ 724:     -	132B          	    tstr	0,0,0,0,0,0,0,-1,0,0,0,0,0		; (32 cycles)
+ 725:     -	133F  6A1A8831	    db	06ah,01ah,088h,031h			; expected crc
+ 726:     -	1343          	    tmsg	'ld (<ix,iy>+1),<h,l>..........'
+ 727:				
+ 728:				; ld (<ix,iy>+1),a (64 cycles)
+ 729:     -	1347  D7      	st8ix3:	db	0d7h		; flag mask
+ 730:     -	1348          	    tstr	0ddh,077h,1,0,067afh,msbt-1,msbt-1,04f13h,00644h,0bcd7h,050h,0ach,05fafh
+ 731:     -	135C          	    tstr	020h,0,0,0,0,1,1,0,0,0,0,0,0		; (8 cycles)
+ 732:     -	1370          	    tstr	0,0,0,0,0,0,0,0,0,0,0,-1,0		; (8 cycles)
+ 733:     -	1384  CCBE5A96	    db	0cch,0beh,05ah,096h			; expected crc
+ 734:     -	1388          	    tmsg	'ld (<ix,iy>+1),a..............'
+ 735:				
+ 736:				; ld (<bc,de>),a (96 cycles)
+ 737:     -	138C  D7      	stabd:	db	0d7h		; flag mask
+ 738:     -	138D          	    tstr	2,0,0,0,00c3bh,0b592h,06cffh,0959eh,msbt,msbt+1,0c1h,021h,0bde7h
+ 739:     -	13A1          	    tstr	018h,0,0,0,0,0,0,0,0,0,0,0,0		; (4 cycles)
+ 740:     -	13B5          	    tstr	0,0,0,0,-1,0,0,0,0,0,0,-1,0		; (24 cycles)
+ 741:     -	13C9  7A4C114F	    db	07ah,04ch,011h,04fh			; expected crc
+ 742:     -	13CD          	    tmsg	'ld (<bc,de>),a................'
+ 743:				
+ 744:				; start test pointed to by (hl)
+ 745:  183+11	13D1  E5      	stt:	push	hl
+ 746:  194+7	13D2  7E      	    ld	a,(hl)		; get pointer to test
+ 747:  201+6	13D3  23      	    inc	hl
+ 748:  207+7	13D4  66      	    ld	h,(hl)
+ 749:  214+4	13D5  6F      	    ld	l,a
+ 750:  218+7	13D6  7E      	    ld	a,(hl)		; flag mask
+ 751:  225+13	13D7  325416  	    ld	(flgmsk+1),a
+ 752:  238+6	13DA  23      	    inc	hl
+ 753:  244+11	13DB  E5      	    push	hl
+ 754:  255+10	13DC  111400  	    ld	de,20
+ 755:  265+11	13DF  19      	    add	hl,de		; point to incmask
+ 756:  276+10	13E0  11C915  	    ld	de,counter
+ 757:  286+17	13E3  CD3815  	    call	initmask
+ 758:  303+10	13E6  E1      	    pop	hl
+ 759:  313+11	13E7  E5      	    push	hl
+ 760:  324+10	13E8  112800  	    ld	de,20+20
+ 761:  334+11	13EB  19      	    add	hl,de		; point to scanmask
+ 762:  345+10	13EC  11F115  	    ld	de,shifter
+ 763:  355+17	13EF  CD3815  	    call	initmask
+ 764:  372+10	13F2  21F115  	    ld	hl,shifter
+ 765:  382+10	13F5  3601    	    ld	(hl),1		; first bit
+ 766:  392+10	13F7  E1      	    pop	hl
+ 767:  402+11	13F8  E5      	    push	hl
+ 768:  413+10	13F9  113116  	    ld	de,iut		; copy initial instruction under test
+ 769:  423+10	13FC  010400  	    ld	bc,4
+ 770:  433+16+5	13FF  EDB0    	    ldir
+ 771:  449+10	1401  110301  	    ld	de,msbt		; copy initial machine state
+ 772:  459+10	1404  011000  	    ld	bc,16
+ 773:  469+16+5	1407  EDB0    	    ldir
+ 774:  485+10	1409  112C00  	    ld	de,20+20+4	; skip incmask, scanmask and expcrc
+ 775:  495+11	140C  19      	    add	hl,de
+ 776:  506+4	140D  EB      	    ex	de,hl
+ 777:  510+7	140E  0E09    	    ld	c,9
+ 778:  517+17	1410  CDBD16  	    call	bdos		; show test name
+ 779:  534+17	1413  CD6317  	    call	initcrc		; initialise crc
+ 780:				; test loop
+ 781:  551+13	1416  3A3116  	tlp:	ld	a,(iut)
+ 782:  564+7	1419  FE76    	    cp	076h		; pragmatically avoid halt intructions
+ 783:  571+10	141B  CA2D14  	    jp	z,tlp2
+ 784:  581+7	141E  E6DF    	    and	a,0dfh
+ 785:  588+7	1420  FEDD    	    cp	0ddh
+ 786:  595+10	1422  C22A14  	    jp	nz,tlp1
+ 787:  605+13	1425  3A3216  	    ld	a,(iut+1)
+ 788:  618+7	1428  FE76    	    cp	076h
+ 789:  625+10+7	142A  C41916  	tlp1:	call	nz,test		; execute the test instruction
+ 790:  635+17	142D  CD7815  	tlp2:	call	count		; increment the counter
+ 791:  652+10+7	1430  C49C15  	    call	nz,shift	; shift the scan bit
+ 792:  662+10	1433  E1      	    pop	hl		; pointer to test case
+ 793:  672+10	1434  CA6914  	    jp	z,tlp3		; done if shift returned NZ
+ 794:  682+10	1437  113C00  	    ld	de,20+20+20
+ 795:  692+11	143A  19      	    add	hl,de		; point to expected crc
+ 796:  703+17	143B  CD2417  	    call	cmpcrc
+ 797:  720+10	143E  11F716  	    ld	de,okmsg
+ 798:  730+10	1441  CA6014  	    jp	z,tlpok
+ 799:  740+10	1444  11FE16  	    ld	de,ermsg1
+ 800:  750+7	1447  0E09    	    ld	c,9
+ 801:  757+17	1449  CDBD16  	    call	bdos
+ 802:  774+17	144C  CD8816  	    call	phex8
+ 803:  791+10	144F  111917  	    ld	de,ermsg2
+ 804:  801+7	1452  0E09    	    ld	c,9
+ 805:  808+17	1454  CDBD16  	    call	bdos
+ 806:  825+10	1457  217717  	    ld	hl,crcval
+ 807:  835+17	145A  CD8816  	    call	phex8
+ 808:  852+10	145D  112117  	    ld	de,crlf
+ 809:  862+7	1460  0E09    	tlpok:	ld	c,9
+ 810:  869+17	1462  CDBD16  	    call	bdos
+ 811:  886+10	1465  E1      	    pop	hl
+ 812:  896+6	1466  23      	    inc	hl
+ 813:  902+6	1467  23      	    inc	hl
+ 814:  908+10	1468  C9      	    ret
+ 815:				
+ 816:  918+11	1469  E5      	tlp3:	push	hl
+ 817:  929+7	146A  3E01    	    ld	a,1		; initialise count and shift scanners
+ 818:  936+13	146C  32DF14  	    ld	(cntbit),a
+ 819:  949+13	146F  320315  	    ld	(shfbit),a
+ 820:  962+10	1472  21C915  	    ld	hl,counter
+ 821:  972+16	1475  22E014  	    ld	(cntbyt),hl
+ 822:  988+10	1478  21F115  	    ld	hl,shifter
+ 823:  998+16	147B  220415  	    ld	(shfbyt),hl
+ 824:				
+ 825: 1014+7	147E  0604    	    ld	b,4		; bytes in iut field
+ 826: 1021+10	1480  E1      	    pop	hl		; pointer to test case
+ 827: 1031+11	1481  E5      	    push	hl
+ 828: 1042+10	1482  113116  	    ld	de,iut
+ 829: 1052+17	1485  CD9314  	    call	setup		; setup iut
+ 830: 1069+7	1488  0610    	    ld	b,16		; bytes in machine state
+ 831: 1076+10	148A  110301  	    ld	de,msbt
+ 832: 1086+17	148D  CD9314  	    call	setup		; setup machine state
+ 833: 1103+10	1490  C31614  	    jp	tlp
+ 834:				
+ 835:				; setup a field of the test case
+ 836:				; b  = number of bytes
+ 837:				; hl = pointer to base case
+ 838:				; de = destination
+ 839: 1113+17	1493  CD9C14  	setup:	call	subyte
+ 840: 1130+6	1496  23      	    inc	hl
+ 841: 1136+4	1497  05      	    dec	b
+ 842: 1140+10	1498  C29314  	    jp	nz,setup
+ 843: 1150+10	149B  C9      	    ret
+ 844:				
+ 845: 1160+11	149C  C5      	subyte:	push	bc
+ 846: 1171+11	149D  D5      	    push	de
+ 847: 1182+11	149E  E5      	    push	hl
+ 848: 1193+7	149F  4E      	    ld	c,(hl)		; get base byte
+ 849: 1200+10	14A0  111400  	    ld	de,20
+ 850: 1210+11	14A3  19      	    add	hl,de		; point to incmask
+ 851: 1221+7	14A4  7E      	    ld	a,(hl)
+ 852: 1228+7	14A5  FE00    	    cp	0
+ 853: 1235+10	14A7  CABD14  	    jp	z,subshf
+ 854: 1245+7	14AA  0608    	    ld	b,8		; 8 bits
+ 855: 1252+4	14AC  0F      	subclp:	rrca
+ 856: 1256+11	14AD  F5      	    push	af
+ 857: 1267+7	14AE  3E00    	    ld	a,0
+ 858: 1274+10+7	14B0  DCE214  	    call	c,nxtcbit	; get next counter bit if mask bit was set
+ 859: 1284+4	14B3  A9      	    xor	c		; flip bit if counter bit was set
+ 860: 1288+4	14B4  0F      	    rrca
+ 861: 1292+4	14B5  4F      	    ld	c,a
+ 862: 1296+10	14B6  F1      	    pop	af
+ 863: 1306+4	14B7  05      	    dec	b
+ 864: 1310+10	14B8  C2AC14  	    jp	nz,subclp
+ 865: 1320+7	14BB  0608    	    ld	b,8
+ 866: 1327+10	14BD  111400  	subshf:	ld	de,20
+ 867: 1337+11	14C0  19      	    add	hl,de		; point to shift mask
+ 868: 1348+7	14C1  7E      	    ld	a,(hl)
+ 869: 1355+7	14C2  FE00    	    cp	0
+ 870: 1362+10	14C4  CAD814  	    jp	z,substr
+ 871: 1372+7	14C7  0608    	    ld	b,8		; 8 bits
+ 872: 1379+4	14C9  0F      	sbshf1:	rrca
+ 873: 1383+11	14CA  F5      	    push	af
+ 874: 1394+7	14CB  3E00    	    ld	a,0
+ 875: 1401+10+7	14CD  DC0615  	    call	c,nxtsbit	; get next shifter bit if mask bit was set
+ 876: 1411+4	14D0  A9      	    xor	c		; flip bit if shifter bit was set
+ 877: 1415+4	14D1  0F      	    rrca
+ 878: 1419+4	14D2  4F      	    ld	c,a
+ 879: 1423+10	14D3  F1      	    pop	af
+ 880: 1433+4	14D4  05      	    dec	b
+ 881: 1437+10	14D5  C2C914  	    jp	nz,sbshf1
+ 882: 1447+10	14D8  E1      	substr:	pop	hl
+ 883: 1457+10	14D9  D1      	    pop	de
+ 884: 1467+4	14DA  79      	    ld	a,c
+ 885: 1471+7	14DB  12      	    ld	(de),a		; mangled byte to destination
+ 886: 1478+6	14DC  13      	    inc	de
+ 887: 1484+10	14DD  C1      	    pop	bc
+ 888: 1494+10	14DE  C9      	    ret
+ 889:				
+ 890:				; get next counter bit in low bit of a
+ 891:     -	14DF          	cntbit:	ds	1
+ 892:     -	14E0          	cntbyt:	ds	2
+ 893:				
+ 894: 1504+11	14E2  C5      	nxtcbit: push	bc
+ 895: 1515+11	14E3  E5      	    push	hl
+ 896: 1526+16	14E4  2AE014  	    ld	hl,(cntbyt)
+ 897: 1542+7	14E7  46      	    ld	b,(hl)
+ 898: 1549+10	14E8  21DF14  	    ld	hl,cntbit
+ 899: 1559+7	14EB  7E      	    ld	a,(hl)
+ 900: 1566+4	14EC  4F      	    ld	c,a
+ 901: 1570+4	14ED  07      	    rlca
+ 902: 1574+7	14EE  77      	    ld	(hl),a
+ 903: 1581+7	14EF  FE01    	    cp	a,1
+ 904: 1588+10	14F1  C2FB14  	    jp	nz,ncb1
+ 905: 1598+16	14F4  2AE014  	    ld	hl,(cntbyt)
+ 906: 1614+6	14F7  23      	    inc	hl
+ 907: 1620+16	14F8  22E014  	    ld	(cntbyt),hl
+ 908: 1636+4	14FB  78      	ncb1:	ld	a,b
+ 909: 1640+4	14FC  A1      	    and	c
+ 910: 1644+10	14FD  E1      	    pop	hl
+ 911: 1654+10	14FE  C1      	    pop	bc
+ 912: 1664+5+6	14FF  C8      	    ret	z
+ 913: 1669+7	1500  3E01    	    ld	a,1
+ 914: 1676+10	1502  C9      	    ret
+ 915:				    
+ 916:				; get next shifter bit in low bit of a
+ 917:     -	1503          	shfbit:	ds	1
+ 918:     -	1504          	shfbyt:	ds	2
+ 919:				
+ 920: 1686+11	1506  C5      	nxtsbit: push	bc
+ 921: 1697+11	1507  E5      	    push	hl
+ 922: 1708+16	1508  2A0415  	    ld	hl,(shfbyt)
+ 923: 1724+7	150B  46      	    ld	b,(hl)
+ 924: 1731+10	150C  210315  	    ld	hl,shfbit
+ 925: 1741+7	150F  7E      	    ld	a,(hl)
+ 926: 1748+4	1510  4F      	    ld	c,a
+ 927: 1752+4	1511  07      	    rlca
+ 928: 1756+7	1512  77      	    ld	(hl),a
+ 929: 1763+7	1513  FE01    	    cp	a,1
+ 930: 1770+10	1515  C21F15  	    jp	nz,nsb1
+ 931: 1780+16	1518  2A0415  	    ld	hl,(shfbyt)
+ 932: 1796+6	151B  23      	    inc	hl
+ 933: 1802+16	151C  220415  	    ld	(shfbyt),hl
+ 934: 1818+4	151F  78      	nsb1:	ld	a,b
+ 935: 1822+4	1520  A1      	    and	c
+ 936: 1826+10	1521  E1      	    pop	hl
+ 937: 1836+10	1522  C1      	    pop	bc
+ 938: 1846+5+6	1523  C8      	    ret	z
+ 939: 1851+7	1524  3E01    	    ld	a,1
+ 940: 1858+10	1526  C9      	    ret
+ 941:				    
+ 942:				
+ 943:				; clear memory at hl, bc bytes
+ 944: 1868+11	1527  F5      	clrmem:	push	af
+ 945: 1879+11	1528  C5      	    push	bc
+ 946: 1890+11	1529  D5      	    push	de
+ 947: 1901+11	152A  E5      	    push	hl
+ 948: 1912+10	152B  3600    	    ld	(hl),0
+ 949: 1922+4	152D  54      	    ld	d,h
+ 950: 1926+4	152E  5D      	    ld	e,l
+ 951: 1930+6	152F  13      	    inc	de
+ 952: 1936+6	1530  0B      	    dec	bc
+ 953: 1942+16+5	1531  EDB0    	    ldir
+ 954: 1958+10	1533  E1      	    pop	hl
+ 955: 1968+10	1534  D1      	    pop	de
+ 956: 1978+10	1535  C1      	    pop	bc
+ 957: 1988+10	1536  F1      	    pop	af
+ 958: 1998+10	1537  C9      	    ret
+ 959:				
+ 960:				; initialise counter or shifter
+ 961:				; de = pointer to work area for counter or shifter
+ 962:				; hl = pointer to mask
+ 963:     -	1538          	initmask:
+ 964: 2008+11	1538  D5      	    push	de
+ 965: 2019+4	1539  EB      	    ex	de,hl
+ 966: 2023+10	153A  012800  	    ld	bc,20+20
+ 967: 2033+17	153D  CD2715  	    call	clrmem		; clear work area
+ 968: 2050+4	1540  EB      	    ex	de,hl
+ 969: 2054+7	1541  0614    	    ld	b,20		; byte counter
+ 970: 2061+7	1543  0E01    	    ld	c,1		; first bit
+ 971: 2068+7	1545  1600    	    ld	d,0		; bit counter
+ 972: 2075+7	1547  5E      	imlp:	ld	e,(hl)
+ 973: 2082+4	1548  7B      	imlp1:	ld	a,e
+ 974: 2086+4	1549  A1      	    and	a,c
+ 975: 2090+10	154A  CA4E15  	    jp	z,imlp2
+ 976: 2100+4	154D  14      	    inc	d
+ 977: 2104+4	154E  79      	imlp2:	ld	a,c
+ 978: 2108+4	154F  07      	    rlca
+ 979: 2112+4	1550  4F      	    ld	c,a
+ 980: 2116+7	1551  FE01    	    cp	a,1
+ 981: 2123+10	1553  C24815  	    jp	nz,imlp1
+ 982: 2133+6	1556  23      	    inc	hl
+ 983: 2139+4	1557  05      	    dec	b
+ 984: 2143+10	1558  C24715  	    jp	nz,imlp
+ 985:				; got number of 1-bits in mask in reg d
+ 986: 2153+4	155B  7A      	    ld	a,d
+ 987: 2157+7	155C  E6F8    	    and	0f8h
+ 988: 2164+4	155E  0F      	    rrca
+ 989: 2168+4	155F  0F      	    rrca
+ 990: 2172+4	1560  0F      	    rrca			; divide by 8 (get byte offset)
+ 991: 2176+4	1561  6F      	    ld	l,a
+ 992: 2180+7	1562  2600    	    ld	h,0
+ 993: 2187+4	1564  7A      	    ld	a,d
+ 994: 2191+7	1565  E607    	    and	a,7		; bit offset
+ 995: 2198+4	1567  3C      	    inc	a
+ 996: 2202+4	1568  47      	    ld	b,a
+ 997: 2206+7	1569  3E80    	    ld	a,080h
+ 998: 2213+4	156B  07      	imlp3:	rlca
+ 999: 2217+4	156C  05      	    dec	b
+1000: 2221+10	156D  C26B15  	    jp	nz,imlp3
+1001: 2231+10	1570  D1      	    pop	de
+1002: 2241+11	1571  19      	    add	hl,de
+1003: 2252+10	1572  111400  	    ld	de,20
+1004: 2262+11	1575  19      	    add	hl,de
+1005: 2273+7	1576  77      	    ld	(hl),a
+1006: 2280+10	1577  C9      	    ret
+1007:				
+1008:				; multi-byte counter
+1009: 2290+11	1578  C5      	count:	push	bc
+1010: 2301+11	1579  D5      	    push	de
+1011: 2312+11	157A  E5      	    push	hl
+1012: 2323+10	157B  21C915  	    ld	hl,counter	; 20 byte counter starts here
+1013: 2333+10	157E  111400  	    ld	de,20		; somewhere in here is the stop bit
+1014: 2343+4	1581  EB      	    ex	de,hl
+1015: 2347+11	1582  19      	    add	hl,de
+1016: 2358+4	1583  EB      	    ex	de,hl
+1017: 2362+11	1584  34      	cntlp:	inc	(hl)
+1018: 2373+7	1585  7E      	    ld	a,(hl)
+1019: 2380+7	1586  FE00    	    cp	0
+1020: 2387+10	1588  CA9715  	    jp	z,cntlp1	; overflow to next byte
+1021: 2397+4	158B  47      	    ld	b,a
+1022: 2401+7	158C  1A      	    ld	a,(de)
+1023: 2408+4	158D  A0      	    and	a,b		; test for terminal value
+1024: 2412+10	158E  CA9315  	    jp	z,cntend
+1025: 2422+10	1591  3600    	    ld	(hl),0		; reset to zero
+1026: 2432+10	1593  C1      	cntend:	pop	bc
+1027: 2442+10	1594  D1      	    pop	de
+1028: 2452+10	1595  E1      	    pop	hl
+1029: 2462+10	1596  C9      	    ret
+1030:				
+1031: 2472+6	1597  23      	cntlp1:	inc	hl
+1032: 2478+6	1598  13      	    inc	de
+1033: 2484+10	1599  C38415  	    jp	cntlp
+1034:				    
+1035:				
+1036:				; multi-byte shifter
+1037: 2494+11	159C  C5      	shift:	push	bc
+1038: 2505+11	159D  D5      	    push	de
+1039: 2516+11	159E  E5      	    push	hl
+1040: 2527+10	159F  21F115  	    ld	hl,shifter	; 20 byte shift register starts here
+1041: 2537+10	15A2  111400  	    ld	de,20		; somewhere in here is the stop bit
+1042: 2547+4	15A5  EB      	    ex	de,hl
+1043: 2551+11	15A6  19      	    add	hl,de
+1044: 2562+4	15A7  EB      	    ex	de,hl
+1045: 2566+7	15A8  7E      	shflp:	ld	a,(hl)
+1046: 2573+4	15A9  B7      	    or	a
+1047: 2577+10	15AA  CAC415  	    jp	z,shflp1
+1048: 2587+4	15AD  47      	    ld	b,a
+1049: 2591+7	15AE  1A      	    ld	a,(de)
+1050: 2598+4	15AF  A0      	    and	b
+1051: 2602+10	15B0  C2C015  	    jp	nz,shlpe
+1052: 2612+4	15B3  78      	    ld	a,b
+1053: 2616+4	15B4  07      	    rlca
+1054: 2620+7	15B5  FE01    	    cp	a,1
+1055: 2627+10	15B7  C2BE15  	    jp	nz,shflp2
+1056: 2637+10	15BA  3600    	    ld	(hl),0
+1057: 2647+6	15BC  23      	    inc	hl
+1058: 2653+6	15BD  13      	    inc	de
+1059: 2659+7	15BE  77      	shflp2:	ld	(hl),a
+1060: 2666+4	15BF  AF      	    xor	a		; set Z
+1061: 2670+10	15C0  E1      	shlpe:	pop	hl
+1062: 2680+10	15C1  D1      	    pop	de
+1063: 2690+10	15C2  C1      	    pop	bc
+1064: 2700+10	15C3  C9      	    ret
+1065: 2710+6	15C4  23      	shflp1:	inc	hl
+1066: 2716+6	15C5  13      	    inc	de
+1067: 2722+10	15C6  C3A815  	    jp	shflp
+1068:				
+1069:     -	15C9          	counter: ds	2*20
+1070:     -	15F1          	shifter: ds	2*20
+1071:				
+1072:				; test harness
+1073: 2732+11	1619  F5      	test:	push	af
+1074: 2743+11	161A  C5      	    push	bc
+1075: 2754+11	161B  D5      	    push	de
+1076: 2765+11	161C  E5      	    push	hl
+1077:     -	0000          	      if	0
+1090:				      endif	
+1091: 2776+4	161D  F3      	    di			; disable interrupts
+1092: 2780+20	161E  ED737C16	    ld	(spsav),sp	; save stack pointer
+1093: 2800+10	1622  310501  	    ld	sp,msbt+2	; point to test-case machine state
+1094: 2810+14	1625  FDE1    	    pop	iy		; and load all regs
+1095: 2824+14	1627  DDE1    	    pop	ix
+1096: 2838+10	1629  E1      	    pop	hl
+1097: 2848+10	162A  D1      	    pop	de
+1098: 2858+10	162B  C1      	    pop	bc
+1099: 2868+10	162C  F1      	    pop	af
+1100: 2878+20	162D  ED7B1101	    ld	sp,(spbt)
+1101:     -	1631          	iut:	ds	4		; max 4 byte instruction under test
+1102: 2898+20	1635  ED737A16	    ld	(spat),sp	; save stack pointer
+1103: 2918+10	1639  317A16  	    ld	sp,spat
+1104: 2928+11	163C  F5      	    push	af		; save other registers
+1105: 2939+11	163D  C5      	    push	bc
+1106: 2950+11	163E  D5      	    push	de
+1107: 2961+11	163F  E5      	    push	hl
+1108: 2972+15	1640  DDE5    	    push	ix
+1109: 2987+15	1642  FDE5    	    push	iy
+1110: 3002+20	1644  ED7B7C16	    ld	sp,(spsav)	; restore stack pointer
+1111: 3022+4	1648  FB      	    ei			; enable interrupts
+1112: 3026+16	1649  2A0301  	    ld	hl,(msbt)	; copy memory operand
+1113: 3042+16	164C  226C16  	    ld	(msat),hl
+1114: 3058+10	164F  217816  	    ld	hl,flgsat	; flags after test
+1115: 3068+7	1652  7E      	    ld	a,(hl)
+1116: 3075+7	1653  E6D7    	flgmsk:	and	a,0d7h		; mask-out irrelevant bits (self-modified code!)
+1117: 3082+7	1655  77      	    ld	(hl),a
+1118: 3089+7	1656  0610    	    ld	b,16		; total of 16 bytes of state
+1119: 3096+10	1658  116C16  	    ld	de,msat
+1120: 3106+10	165B  217717  	    ld	hl,crcval
+1121: 3116+7	165E  1A      	tcrc:	ld	a,(de)
+1122: 3123+6	165F  13      	    inc	de
+1123: 3129+17	1660  CD3B17  	    call	updcrc		; accumulate crc of this test case
+1124: 3146+4	1663  05      	    dec	b
+1125: 3150+10	1664  C25E16  	    jp	nz,tcrc
+1126:     -	0000          	      if	0
+1141:				      endif
+1142: 3160+10	1667  E1      	    pop	hl
+1143: 3170+10	1668  D1      	    pop	de
+1144: 3180+10	1669  C1      	    pop	bc
+1145: 3190+10	166A  F1      	    pop	af
+1146: 3200+10	166B  C9      	    ret
+1147:				
+1148:				; machine state after test
+1149:     -	166C          	msat:	ds	14	; memop,iy,ix,hl,de,bc,af
+1150:     -	167A          	spat:	ds	2	; stack pointer after test
+1151:				; ZMAC/MAXAM doesn't like ':' after label with EQUs
+1152:     -	1678          	flgsat	equ	spat-2	; flags
+1153:				
+1154:     -	167C          	spsav:	ds	2	; saved stack pointer
+1155:				
+1156:				; display hex string (pointer in hl, byte count in b)
+1157: 3210+7	167E  7E      	hexstr:	ld	a,(hl)
+1158: 3217+17	167F  CD9A16  	    call	phex2
+1159: 3234+6	1682  23      	    inc	hl
+1160: 3240+4	1683  05      	    dec	b
+1161: 3244+10	1684  C27E16  	    jp	nz,hexstr
+1162: 3254+10	1687  C9      	    ret
+1163:				
+1164:				; display hex
+1165:				; display the big-endian 32-bit value pointed to by hl
+1166: 3264+11	1688  F5      	phex8:	push	af
+1167: 3275+11	1689  C5      	    push	bc
+1168: 3286+11	168A  E5      	    push	hl
+1169: 3297+7	168B  0604    	    ld	b,4
+1170: 3304+7	168D  7E      	ph8lp:	ld	a,(hl)
+1171: 3311+17	168E  CD9A16  	    call	phex2
+1172: 3328+6	1691  23      	    inc	hl
+1173: 3334+4	1692  05      	    dec	b
+1174: 3338+10	1693  C28D16  	    jp	nz,ph8lp
+1175: 3348+10	1696  E1      	    pop	hl
+1176: 3358+10	1697  C1      	    pop	bc
+1177: 3368+10	1698  F1      	    pop	af
+1178: 3378+10	1699  C9      	    ret
+1179:				
+1180:				; display byte in a
+1181: 3388+11	169A  F5      	phex2:	push	af
+1182: 3399+4	169B  0F      	    rrca
+1183: 3403+4	169C  0F      	    rrca
+1184: 3407+4	169D  0F      	    rrca
+1185: 3411+4	169E  0F      	    rrca
+1186: 3415+17	169F  CDA316  	    call	phex1
+1187: 3432+10	16A2  F1      	    pop	af
+1188:				; fall through	
+1189:				
+1190:				; display low nibble in a
+1191: 3442+11	16A3  F5      	phex1:	push	af
+1192: 3453+11	16A4  C5      	    push	bc
+1193: 3464+11	16A5  D5      	    push	de
+1194: 3475+11	16A6  E5      	    push	hl
+1195: 3486+7	16A7  E60F    	    and	a,0fh
+1196: 3493+7	16A9  FE0A    	    cp	a,10
+1197: 3500+10	16AB  DAB016  	    jp	c,ph11
+1198: 3510+7	16AE  C627    	    add	a,'a'-'9'-1
+1199: 3517+7	16B0  C630    	ph11:	add	a,'0'
+1200: 3524+4	16B2  5F      	    ld	e,a
+1201: 3528+7	16B3  0E02    	    ld	c,2
+1202: 3535+17	16B5  CDBD16  	    call	bdos
+1203: 3552+10	16B8  E1      	    pop	hl
+1204: 3562+10	16B9  D1      	    pop	de
+1205: 3572+10	16BA  C1      	    pop	bc
+1206: 3582+10	16BB  F1      	    pop	af
+1207: 3592+10	16BC  C9      	    ret
+1208:				
+1209: 3602+11	16BD  F5      	bdos	push	af
+1210: 3613+11	16BE  C5      	    push	bc
+1211: 3624+11	16BF  D5      	    push	de
+1212: 3635+11	16C0  E5      	    push	hl
+1213: 3646+17	16C1  CD0500  	    call	5
+1214: 3663+10	16C4  E1      	    pop	hl
+1215: 3673+10	16C5  D1      	    pop	de
+1216: 3683+10	16C6  C1      	    pop	bc
+1217: 3693+10	16C7  F1      	    pop	af
+1218: 3703+10	16C8  C9      	    ret
+1219:				
+1220:     -	16C9  5A383064	msg1:	db	'Z80doc instruction exerciser',10,13,'$'
+	      6F632069
+	      6E737472
+	      75637469
+	      6F6E2065
+	      78657263
+	      69736572
+	      0A0D24
+1221:     -	16E8  54657374	msg2:	db	'Tests complete$'
+	      7320636F
+	      6D706C65
+	      746524
+1222:     -	16F7  20204F4B	okmsg:	db	'  OK',10,13,'$'
+	      0A0D24
+1223:     -	16FE  20204552	ermsg1:	db	'  ERROR **** crc expected:$'
+	      524F5220
+	      2A2A2A2A
+	      20637263
+	      20657870
+	      65637465
+	      643A24
+1224:     -	1719  20666F75	ermsg2:	db	' found:$'
+	      6E643A24
+1225:     -	1721  0A0D24  	crlf:	db	10,13,'$'
+1226:				
+1227:				; compare crc
+1228:				; hl points to value to compare to crcval
+1229: 3713+11	1724  C5      	cmpcrc:	push	bc
+1230: 3724+11	1725  D5      	    push	de
+1231: 3735+11	1726  E5      	    push	hl
+1232: 3746+10	1727  117717  	    ld	de,crcval
+1233: 3756+7	172A  0604    	    ld	b,4
+1234: 3763+7	172C  1A      	cclp:	ld	a,(de)
+1235: 3770+7	172D  BE      	    cp	a,(hl)
+1236: 3777+10	172E  C23717  	    jp	nz,cce
+1237: 3787+6	1731  23      	    inc	hl
+1238: 3793+6	1732  13      	    inc	de
+1239: 3799+4	1733  05      	    dec	b
+1240: 3803+10	1734  C22C17  	    jp	nz,cclp
+1241: 3813+10	1737  E1      	cce:	pop	hl
+1242: 3823+10	1738  D1      	    pop	de
+1243: 3833+10	1739  C1      	    pop	bc
+1244: 3843+10	173A  C9      	    ret
+1245:				
+1246:				; 32-bit crc routine
+1247:				; entry: a contains next byte, hl points to crc
+1248:				; exit:  crc updated
+1249: 3853+11	173B  F5      	updcrc:	push	af
+1250: 3864+11	173C  C5      	    push	bc
+1251: 3875+11	173D  D5      	    push	de
+1252: 3886+11	173E  E5      	    push	hl
+1253: 3897+11	173F  E5      	    push	hl
+1254: 3908+10	1740  110300  	    ld	de,3
+1255: 3918+11	1743  19      	    add	hl,de	; point to low byte of old crc
+1256: 3929+7	1744  AE      	    xor	a,(hl)	; xor with new byte
+1257: 3936+4	1745  6F      	    ld	l,a
+1258: 3940+7	1746  2600    	    ld	h,0
+1259: 3947+11	1748  29      	    add	hl,hl	; use result as index into table of 4 byte entries
+1260: 3958+11	1749  29      	    add	hl,hl
+1261: 3969+4	174A  EB      	    ex	de,hl
+1262: 3973+10	174B  217B17  	    ld	hl,crctab
+1263: 3983+11	174E  19      	    add	hl,de	; point to selected entry in crctab
+1264: 3994+4	174F  EB      	    ex	de,hl
+1265: 3998+10	1750  E1      	    pop	hl
+1266: 4008+10	1751  010400  	    ld	bc,4	; c = byte count, b = accumulator
+1267: 4018+7	1754  1A      	crclp:	ld	a,(de)
+1268: 4025+4	1755  A8      	    xor	a,b
+1269: 4029+7	1756  46      	    ld	b,(hl)
+1270: 4036+7	1757  77      	    ld	(hl),a
+1271: 4043+6	1758  13      	    inc	de
+1272: 4049+6	1759  23      	    inc	hl
+1273: 4055+4	175A  0D      	    dec	c
+1274: 4059+10	175B  C25417  	    jp	nz,crclp
+1275:     -	0000          	      if	0
+1281:				      endif
+1282: 4069+10	175E  E1      	    pop	hl
+1283: 4079+10	175F  D1      	    pop	de
+1284: 4089+10	1760  C1      	    pop	bc
+1285: 4099+10	1761  F1      	    pop	af
+1286: 4109+10	1762  C9      	    ret
+1287:				
+1288: 4119+11	1763  F5      	initcrc:push	af
+1289: 4130+11	1764  C5      	    push	bc
+1290: 4141+11	1765  E5      	    push	hl
+1291: 4152+10	1766  217717  	    ld	hl,crcval
+1292: 4162+7	1769  3EFF    	    ld	a,0ffh
+1293: 4169+7	176B  0604    	    ld	b,4
+1294: 4176+7	176D  77      	icrclp:	ld	(hl),a
+1295: 4183+6	176E  23      	    inc	hl
+1296: 4189+4	176F  05      	    dec	b
+1297: 4193+10	1770  C26D17  	    jp	nz,icrclp
+1298: 4203+10	1773  E1      	    pop	hl
+1299: 4213+10	1774  C1      	    pop	bc
+1300: 4223+10	1775  F1      	    pop	af
+1301: 4233+10	1776  C9      	    ret
+1302:				
+1303:     -	1777          	crcval	ds	4
+1304:				
+1305:     -	177B  00000000	crctab:	db	000h,000h,000h,000h
+1306:     -	177F  77073096	    db	077h,007h,030h,096h
+1307:     -	1783  EE0E612C	    db	0eeh,00eh,061h,02ch
+1308:     -	1787  990951BA	    db	099h,009h,051h,0bah
+1309:     -	178B  076DC419	    db	007h,06dh,0c4h,019h
+1310:     -	178F  706AF48F	    db	070h,06ah,0f4h,08fh
+1311:     -	1793  E963A535	    db	0e9h,063h,0a5h,035h
+1312:     -	1797  9E6495A3	    db	09eh,064h,095h,0a3h
+1313:     -	179B  0EDB8832	    db	00eh,0dbh,088h,032h
+1314:     -	179F  79DCB8A4	    db	079h,0dch,0b8h,0a4h
+1315:     -	17A3  E0D5E91E	    db	0e0h,0d5h,0e9h,01eh
+1316:     -	17A7  97D2D988	    db	097h,0d2h,0d9h,088h
+1317:     -	17AB  09B64C2B	    db	009h,0b6h,04ch,02bh
+1318:     -	17AF  7EB17CBD	    db	07eh,0b1h,07ch,0bdh
+1319:     -	17B3  E7B82D07	    db	0e7h,0b8h,02dh,007h
+1320:     -	17B7  90BF1D91	    db	090h,0bfh,01dh,091h
+1321:     -	17BB  1DB71064	    db	01dh,0b7h,010h,064h
+1322:     -	17BF  6AB020F2	    db	06ah,0b0h,020h,0f2h
+1323:     -	17C3  F3B97148	    db	0f3h,0b9h,071h,048h
+1324:     -	17C7  84BE41DE	    db	084h,0beh,041h,0deh
+1325:     -	17CB  1ADAD47D	    db	01ah,0dah,0d4h,07dh
+1326:     -	17CF  6DDDE4EB	    db	06dh,0ddh,0e4h,0ebh
+1327:     -	17D3  F4D4B551	    db	0f4h,0d4h,0b5h,051h
+1328:     -	17D7  83D385C7	    db	083h,0d3h,085h,0c7h
+1329:     -	17DB  136C9856	    db	013h,06ch,098h,056h
+1330:     -	17DF  646BA8C0	    db	064h,06bh,0a8h,0c0h
+1331:     -	17E3  FD62F97A	    db	0fdh,062h,0f9h,07ah
+1332:     -	17E7  8A65C9EC	    db	08ah,065h,0c9h,0ech
+1333:     -	17EB  14015C4F	    db	014h,001h,05ch,04fh
+1334:     -	17EF  63066CD9	    db	063h,006h,06ch,0d9h
+1335:     -	17F3  FA0F3D63	    db	0fah,00fh,03dh,063h
+1336:     -	17F7  8D080DF5	    db	08dh,008h,00dh,0f5h
+1337:     -	17FB  3B6E20C8	    db	03bh,06eh,020h,0c8h
+1338:     -	17FF  4C69105E	    db	04ch,069h,010h,05eh
+1339:     -	1803  D56041E4	    db	0d5h,060h,041h,0e4h
+1340:     -	1807  A2677172	    db	0a2h,067h,071h,072h
+1341:     -	180B  3C03E4D1	    db	03ch,003h,0e4h,0d1h
+1342:     -	180F  4B04D447	    db	04bh,004h,0d4h,047h
+1343:     -	1813  D20D85FD	    db	0d2h,00dh,085h,0fdh
+1344:     -	1817  A50AB56B	    db	0a5h,00ah,0b5h,06bh
+1345:     -	181B  35B5A8FA	    db	035h,0b5h,0a8h,0fah
+1346:     -	181F  42B2986C	    db	042h,0b2h,098h,06ch
+1347:     -	1823  DBBBC9D6	    db	0dbh,0bbh,0c9h,0d6h
+1348:     -	1827  ACBCF940	    db	0ach,0bch,0f9h,040h
+1349:     -	182B  32D86CE3	    db	032h,0d8h,06ch,0e3h
+1350:     -	182F  45DF5C75	    db	045h,0dfh,05ch,075h
+1351:     -	1833  DCD60DCF	    db	0dch,0d6h,00dh,0cfh
+1352:     -	1837  ABD13D59	    db	0abh,0d1h,03dh,059h
+1353:     -	183B  26D930AC	    db	026h,0d9h,030h,0ach
+1354:     -	183F  51DE003A	    db	051h,0deh,000h,03ah
+1355:     -	1843  C8D75180	    db	0c8h,0d7h,051h,080h
+1356:     -	1847  BFD06116	    db	0bfh,0d0h,061h,016h
+1357:     -	184B  21B4F4B5	    db	021h,0b4h,0f4h,0b5h
+1358:     -	184F  56B3C423	    db	056h,0b3h,0c4h,023h
+1359:     -	1853  CFBA9599	    db	0cfh,0bah,095h,099h
+1360:     -	1857  B8BDA50F	    db	0b8h,0bdh,0a5h,00fh
+1361:     -	185B  2802B89E	    db	028h,002h,0b8h,09eh
+1362:     -	185F  5F058808	    db	05fh,005h,088h,008h
+1363:     -	1863  C60CD9B2	    db	0c6h,00ch,0d9h,0b2h
+1364:     -	1867  B10BE924	    db	0b1h,00bh,0e9h,024h
+1365:     -	186B  2F6F7C87	    db	02fh,06fh,07ch,087h
+1366:     -	186F  58684C11	    db	058h,068h,04ch,011h
+1367:     -	1873  C1611DAB	    db	0c1h,061h,01dh,0abh
+1368:     -	1877  B6662D3D	    db	0b6h,066h,02dh,03dh
+1369:     -	187B  76DC4190	    db	076h,0dch,041h,090h
+1370:     -	187F  01DB7106	    db	001h,0dbh,071h,006h
+1371:     -	1883  98D220BC	    db	098h,0d2h,020h,0bch
+1372:     -	1887  EFD5102A	    db	0efh,0d5h,010h,02ah
+1373:     -	188B  71B18589	    db	071h,0b1h,085h,089h
+1374:     -	188F  06B6B51F	    db	006h,0b6h,0b5h,01fh
+1375:     -	1893  9FBFE4A5	    db	09fh,0bfh,0e4h,0a5h
+1376:     -	1897  E8B8D433	    db	0e8h,0b8h,0d4h,033h
+1377:     -	189B  7807C9A2	    db	078h,007h,0c9h,0a2h
+1378:     -	189F  0F00F934	    db	00fh,000h,0f9h,034h
+1379:     -	18A3  9609A88E	    db	096h,009h,0a8h,08eh
+1380:     -	18A7  E10E9818	    db	0e1h,00eh,098h,018h
+1381:     -	18AB  7F6A0DBB	    db	07fh,06ah,00dh,0bbh
+1382:     -	18AF  086D3D2D	    db	008h,06dh,03dh,02dh
+1383:     -	18B3  91646C97	    db	091h,064h,06ch,097h
+1384:     -	18B7  E6635C01	    db	0e6h,063h,05ch,001h
+1385:     -	18BB  6B6B51F4	    db	06bh,06bh,051h,0f4h
+1386:     -	18BF  1C6C6162	    db	01ch,06ch,061h,062h
+1387:     -	18C3  856530D8	    db	085h,065h,030h,0d8h
+1388:     -	18C7  F262004E	    db	0f2h,062h,000h,04eh
+1389:     -	18CB  6C0695ED	    db	06ch,006h,095h,0edh
+1390:     -	18CF  1B01A57B	    db	01bh,001h,0a5h,07bh
+1391:     -	18D3  8208F4C1	    db	082h,008h,0f4h,0c1h
+1392:     -	18D7  F50FC457	    db	0f5h,00fh,0c4h,057h
+1393:     -	18DB  65B0D9C6	    db	065h,0b0h,0d9h,0c6h
+1394:     -	18DF  12B7E950	    db	012h,0b7h,0e9h,050h
+1395:     -	18E3  8BBEB8EA	    db	08bh,0beh,0b8h,0eah
+1396:     -	18E7  FCB9887C	    db	0fch,0b9h,088h,07ch
+1397:     -	18EB  62DD1DDF	    db	062h,0ddh,01dh,0dfh
+1398:     -	18EF  15DA2D49	    db	015h,0dah,02dh,049h
+1399:     -	18F3  8CD37CF3	    db	08ch,0d3h,07ch,0f3h
+1400:     -	18F7  FBD44C65	    db	0fbh,0d4h,04ch,065h
+1401:     -	18FB  4DB26158	    db	04dh,0b2h,061h,058h
+1402:     -	18FF  3AB551CE	    db	03ah,0b5h,051h,0ceh
+1403:     -	1903  A3BC0074	    db	0a3h,0bch,000h,074h
+1404:     -	1907  D4BB30E2	    db	0d4h,0bbh,030h,0e2h
+1405:     -	190B  4ADFA541	    db	04ah,0dfh,0a5h,041h
+1406:     -	190F  3DD895D7	    db	03dh,0d8h,095h,0d7h
+1407:     -	1913  A4D1C46D	    db	0a4h,0d1h,0c4h,06dh
+1408:     -	1917  D3D6F4FB	    db	0d3h,0d6h,0f4h,0fbh
+1409:     -	191B  4369E96A	    db	043h,069h,0e9h,06ah
+1410:     -	191F  346ED9FC	    db	034h,06eh,0d9h,0fch
+1411:     -	1923  AD678846	    db	0adh,067h,088h,046h
+1412:     -	1927  DA60B8D0	    db	0dah,060h,0b8h,0d0h
+1413:     -	192B  44042D73	    db	044h,004h,02dh,073h
+1414:     -	192F  33031DE5	    db	033h,003h,01dh,0e5h
+1415:     -	1933  AA0A4C5F	    db	0aah,00ah,04ch,05fh
+1416:     -	1937  DD0D7CC9	    db	0ddh,00dh,07ch,0c9h
+1417:     -	193B  5005713C	    db	050h,005h,071h,03ch
+1418:     -	193F  270241AA	    db	027h,002h,041h,0aah
+1419:     -	1943  BE0B1010	    db	0beh,00bh,010h,010h
+1420:     -	1947  C90C2086	    db	0c9h,00ch,020h,086h
+1421:     -	194B  5768B525	    db	057h,068h,0b5h,025h
+1422:     -	194F  206F85B3	    db	020h,06fh,085h,0b3h
+1423:     -	1953  B966D409	    db	0b9h,066h,0d4h,009h
+1424:     -	1957  CE61E49F	    db	0ceh,061h,0e4h,09fh
+1425:     -	195B  5EDEF90E	    db	05eh,0deh,0f9h,00eh
+1426:     -	195F  29D9C998	    db	029h,0d9h,0c9h,098h
+1427:     -	1963  B0D09822	    db	0b0h,0d0h,098h,022h
+1428:     -	1967  C7D7A8B4	    db	0c7h,0d7h,0a8h,0b4h
+1429:     -	196B  59B33D17	    db	059h,0b3h,03dh,017h
+1430:     -	196F  2EB40D81	    db	02eh,0b4h,00dh,081h
+1431:     -	1973  B7BD5C3B	    db	0b7h,0bdh,05ch,03bh
+1432:     -	1977  C0BA6CAD	    db	0c0h,0bah,06ch,0adh
+1433:     -	197B  EDB88320	    db	0edh,0b8h,083h,020h
+1434:     -	197F  9ABFB3B6	    db	09ah,0bfh,0b3h,0b6h
+1435:     -	1983  03B6E20C	    db	003h,0b6h,0e2h,00ch
+1436:     -	1987  74B1D29A	    db	074h,0b1h,0d2h,09ah
+1437:     -	198B  EAD54739	    db	0eah,0d5h,047h,039h
+1438:     -	198F  9DD277AF	    db	09dh,0d2h,077h,0afh
+1439:     -	1993  04DB2615	    db	004h,0dbh,026h,015h
+1440:     -	1997  73DC1683	    db	073h,0dch,016h,083h
+1441:     -	199B  E3630B12	    db	0e3h,063h,00bh,012h
+1442:     -	199F  94643B84	    db	094h,064h,03bh,084h
+1443:     -	19A3  0D6D6A3E	    db	00dh,06dh,06ah,03eh
+1444:     -	19A7  7A6A5AA8	    db	07ah,06ah,05ah,0a8h
+1445:     -	19AB  E40ECF0B	    db	0e4h,00eh,0cfh,00bh
+1446:     -	19AF  9309FF9D	    db	093h,009h,0ffh,09dh
+1447:     -	19B3  0A00AE27	    db	00ah,000h,0aeh,027h
+1448:     -	19B7  7D079EB1	    db	07dh,007h,09eh,0b1h
+1449:     -	19BB  F00F9344	    db	0f0h,00fh,093h,044h
+1450:     -	19BF  8708A3D2	    db	087h,008h,0a3h,0d2h
+1451:     -	19C3  1E01F268	    db	01eh,001h,0f2h,068h
+1452:     -	19C7  6906C2FE	    db	069h,006h,0c2h,0feh
+1453:     -	19CB  F762575D	    db	0f7h,062h,057h,05dh
+1454:     -	19CF  806567CB	    db	080h,065h,067h,0cbh
+1455:     -	19D3  196C3671	    db	019h,06ch,036h,071h
+1456:     -	19D7  6E6B06E7	    db	06eh,06bh,006h,0e7h
+1457:     -	19DB  FED41B76	    db	0feh,0d4h,01bh,076h
+1458:     -	19DF  89D32BE0	    db	089h,0d3h,02bh,0e0h
+1459:     -	19E3  10DA7A5A	    db	010h,0dah,07ah,05ah
+1460:     -	19E7  67DD4ACC	    db	067h,0ddh,04ah,0cch
+1461:     -	19EB  F9B9DF6F	    db	0f9h,0b9h,0dfh,06fh
+1462:     -	19EF  8EBEEFF9	    db	08eh,0beh,0efh,0f9h
+1463:     -	19F3  17B7BE43	    db	017h,0b7h,0beh,043h
+1464:     -	19F7  60B08ED5	    db	060h,0b0h,08eh,0d5h
+1465:     -	19FB  D6D6A3E8	    db	0d6h,0d6h,0a3h,0e8h
+1466:     -	19FF  A1D1937E	    db	0a1h,0d1h,093h,07eh
+1467:     -	1A03  38D8C2C4	    db	038h,0d8h,0c2h,0c4h
+1468:     -	1A07  4FDFF252	    db	04fh,0dfh,0f2h,052h
+1469:     -	1A0B  D1BB67F1	    db	0d1h,0bbh,067h,0f1h
+1470:     -	1A0F  A6BC5767	    db	0a6h,0bch,057h,067h
+1471:     -	1A13  3FB506DD	    db	03fh,0b5h,006h,0ddh
+1472:     -	1A17  48B2364B	    db	048h,0b2h,036h,04bh
+1473:     -	1A1B  D80D2BDA	    db	0d8h,00dh,02bh,0dah
+1474:     -	1A1F  AF0A1B4C	    db	0afh,00ah,01bh,04ch
+1475:     -	1A23  36034AF6	    db	036h,003h,04ah,0f6h
+1476:     -	1A27  41047A60	    db	041h,004h,07ah,060h
+1477:     -	1A2B  DF60EFC3	    db	0dfh,060h,0efh,0c3h
+1478:     -	1A2F  A867DF55	    db	0a8h,067h,0dfh,055h
+1479:     -	1A33  316E8EEF	    db	031h,06eh,08eh,0efh
+1480:     -	1A37  4669BE79	    db	046h,069h,0beh,079h
+1481:     -	1A3B  CB61B38C	    db	0cbh,061h,0b3h,08ch
+1482:     -	1A3F  BC66831A	    db	0bch,066h,083h,01ah
+1483:     -	1A43  256FD2A0	    db	025h,06fh,0d2h,0a0h
+1484:     -	1A47  5268E236	    db	052h,068h,0e2h,036h
+1485:     -	1A4B  CC0C7795	    db	0cch,00ch,077h,095h
+1486:     -	1A4F  BB0B4703	    db	0bbh,00bh,047h,003h
+1487:     -	1A53  220216B9	    db	022h,002h,016h,0b9h
+1488:     -	1A57  5505262F	    db	055h,005h,026h,02fh
+1489:     -	1A5B  C5BA3BBE	    db	0c5h,0bah,03bh,0beh
+1490:     -	1A5F  B2BD0B28	    db	0b2h,0bdh,00bh,028h
+1491:     -	1A63  2BB45A92	    db	02bh,0b4h,05ah,092h
+1492:     -	1A67  5CB36A04	    db	05ch,0b3h,06ah,004h
+1493:     -	1A6B  C2D7FFA7	    db	0c2h,0d7h,0ffh,0a7h
+1494:     -	1A6F  B5D0CF31	    db	0b5h,0d0h,0cfh,031h
+1495:     -	1A73  2CD99E8B	    db	02ch,0d9h,09eh,08bh
+1496:     -	1A77  5BDEAE1D	    db	05bh,0deh,0aeh,01dh
+1497:     -	1A7B  9B64C2B0	    db	09bh,064h,0c2h,0b0h
+1498:     -	1A7F  EC63F226	    db	0ech,063h,0f2h,026h
+1499:     -	1A83  756AA39C	    db	075h,06ah,0a3h,09ch
+1500:     -	1A87  026D930A	    db	002h,06dh,093h,00ah
+1501:     -	1A8B  9C0906A9	    db	09ch,009h,006h,0a9h
+1502:     -	1A8F  EB0E363F	    db	0ebh,00eh,036h,03fh
+1503:     -	1A93  72076785	    db	072h,007h,067h,085h
+1504:     -	1A97  05005713	    db	005h,000h,057h,013h
+1505:     -	1A9B  95BF4A82	    db	095h,0bfh,04ah,082h
+1506:     -	1A9F  E2B87A14	    db	0e2h,0b8h,07ah,014h
+1507:     -	1AA3  7BB12BAE	    db	07bh,0b1h,02bh,0aeh
+1508:     -	1AA7  0CB61B38	    db	00ch,0b6h,01bh,038h
+1509:     -	1AAB  92D28E9B	    db	092h,0d2h,08eh,09bh
+1510:     -	1AAF  E5D5BE0D	    db	0e5h,0d5h,0beh,00dh
+1511:     -	1AB3  7CDCEFB7	    db	07ch,0dch,0efh,0b7h
+1512:     -	1AB7  0BDBDF21	    db	00bh,0dbh,0dfh,021h
+1513:     -	1ABB  86D3D2D4	    db	086h,0d3h,0d2h,0d4h
+1514:     -	1ABF  F1D4E242	    db	0f1h,0d4h,0e2h,042h
+1515:     -	1AC3  68DDB3F8	    db	068h,0ddh,0b3h,0f8h
+1516:     -	1AC7  1FDA836E	    db	01fh,0dah,083h,06eh
+1517:     -	1ACB  81BE16CD	    db	081h,0beh,016h,0cdh
+1518:     -	1ACF  F6B9265B	    db	0f6h,0b9h,026h,05bh
+1519:     -	1AD3  6FB077E1	    db	06fh,0b0h,077h,0e1h
+1520:     -	1AD7  18B74777	    db	018h,0b7h,047h,077h
+1521:     -	1ADB  88085AE6	    db	088h,008h,05ah,0e6h
+1522:     -	1ADF  FF0F6A70	    db	0ffh,00fh,06ah,070h
+1523:     -	1AE3  66063BCA	    db	066h,006h,03bh,0cah
+1524:     -	1AE7  11010B5C	    db	011h,001h,00bh,05ch
+1525:     -	1AEB  8F659EFF	    db	08fh,065h,09eh,0ffh
+1526:     -	1AEF  F862AE69	    db	0f8h,062h,0aeh,069h
+1527:     -	1AF3  616BFFD3	    db	061h,06bh,0ffh,0d3h
+1528:     -	1AF7  166CCF45	    db	016h,06ch,0cfh,045h
+1529:     -	1AFB  A00AE278	    db	0a0h,00ah,0e2h,078h
+1530:     -	1AFF  D70DD2EE	    db	0d7h,00dh,0d2h,0eeh
+1531:     -	1B03  4E048354	    db	04eh,004h,083h,054h
+1532:     -	1B07  3903B3C2	    db	039h,003h,0b3h,0c2h
+1533:     -	1B0B  A7672661	    db	0a7h,067h,026h,061h
+1534:     -	1B0F  D06016F7	    db	0d0h,060h,016h,0f7h
+1535:     -	1B13  4969474D	    db	049h,069h,047h,04dh
+1536:     -	1B17  3E6E77DB	    db	03eh,06eh,077h,0dbh
+1537:     -	1B1B  AED16A4A	    db	0aeh,0d1h,06ah,04ah
+1538:     -	1B1F  D9D65ADC	    db	0d9h,0d6h,05ah,0dch
+1539:     -	1B23  40DF0B66	    db	040h,0dfh,00bh,066h
+1540:     -	1B27  37D83BF0	    db	037h,0d8h,03bh,0f0h
+1541:     -	1B2B  A9BCAE53	    db	0a9h,0bch,0aeh,053h
+1542:     -	1B2F  DEBB9EC5	    db	0deh,0bbh,09eh,0c5h
+1543:     -	1B33  47B2CF7F	    db	047h,0b2h,0cfh,07fh
+1544:     -	1B37  30B5FFE9	    db	030h,0b5h,0ffh,0e9h
+1545:     -	1B3B  BDBDF21C	    db	0bdh,0bdh,0f2h,01ch
+1546:     -	1B3F  CABAC28A	    db	0cah,0bah,0c2h,08ah
+1547:     -	1B43  53B39330	    db	053h,0b3h,093h,030h
+1548:     -	1B47  24B4A3A6	    db	024h,0b4h,0a3h,0a6h
+1549:     -	1B4B  BAD03605	    db	0bah,0d0h,036h,005h
+1550:     -	1B4F  CDD70693	    db	0cdh,0d7h,006h,093h
+1551:     -	1B53  54DE5729	    db	054h,0deh,057h,029h
+1552:     -	1B57  23D967BF	    db	023h,0d9h,067h,0bfh
+1553:     -	1B5B  B3667A2E	    db	0b3h,066h,07ah,02eh
+1554:     -	1B5F  C4614AB8	    db	0c4h,061h,04ah,0b8h
+1555:     -	1B63  5D681B02	    db	05dh,068h,01bh,002h
+1556:     -	1B67  2A6F2B94	    db	02ah,06fh,02bh,094h
+1557:     -	1B6B  B40BBE37	    db	0b4h,00bh,0beh,037h
+1558:     -	1B6F  C30C8EA1	    db	0c3h,00ch,08eh,0a1h
+1559:     -	1B73  5A05DF1B	    db	05ah,005h,0dfh,01bh
+1560:     -	1B77  2D02EF8D	    db	02dh,002h,0efh,08dh
+1561:				
+
+
+
+Statistics:
+
+     4	passes
+     0	jr promotions
+   410	symbols
+  6651	bytes
+
+   268	macro calls
+   305	macro bytes
+  1072	invented symbols
+
+
+
+Symbol Table:
+
+?b0003           203     
+?b0007           248     
+?b0011           28d     
+?b0015           2d2     
+?b0019           317     
+?b0023           35c     
+?b0027           3a1     
+?b0031           3e6     
+?b0035           42b     
+?b0039           470     
+?b0043           4b5     
+?b0047           4fa     
+?b0051           53f     
+?b0055           584     
+?b0059           5c9     
+?b0063           60e     
+?b0067           653     
+?b0071           698     
+?b0075           6dd     
+?b0079           722     
+?b0083           767     
+?b0087           7ac     
+?b0091           7f1     
+?b0095           836     
+?b0099           87b     
+?b0103           8c0     
+?b0107           905     
+?b0111           94a     
+?b0115           98f     
+?b0119           9d4     
+?b0123           a19     
+?b0127           a5e     
+?b0131           aa3     
+?b0135           ae8     
+?b0139           b2d     
+?b0143           b72     
+?b0147           bb7     
+?b0151           bfc     
+?b0155           c41     
+?b0159           c86     
+?b0163           ccb     
+?b0167           d10     
+?b0171           d55     
+?b0175           d9a     
+?b0179           ddf     
+?b0183           e24     
+?b0187           e69     
+?b0191           eae     
+?b0195           ef3     
+?b0199           f38     
+?b0203           f7d     
+?b0207           fc2     
+?b0211          1007     
+?b0215          104c     
+?b0219          1091     
+?b0223          10d6     
+?b0227          111b     
+?b0231          1160     
+?b0235          11a5     
+?b0239          11ea     
+?b0243          122f     
+?b0247          1274     
+?b0251          12b9     
+?b0255          12fe     
+?b0259          1343     
+?b0263          1388     
+?b0267          13cd     
+?n0000           1c3     
+?n0001           1d7     
+?n0002           1eb     
+?n0004           208     
+?n0005           21c     
+?n0006           230     
+?n0008           24d     
+?n0009           261     
+?n0010           275     
+?n0012           292     
+?n0013           2a6     
+?n0014           2ba     
+?n0016           2d7     
+?n0017           2eb     
+?n0018           2ff     
+?n0020           31c     
+?n0021           330     
+?n0022           344     
+?n0024           361     
+?n0025           375     
+?n0026           389     
+?n0028           3a6     
+?n0029           3ba     
+?n0030           3ce     
+?n0032           3eb     
+?n0033           3ff     
+?n0034           413     
+?n0036           430     
+?n0037           444     
+?n0038           458     
+?n0040           475     
+?n0041           489     
+?n0042           49d     
+?n0044           4ba     
+?n0045           4ce     
+?n0046           4e2     
+?n0048           4ff     
+?n0049           513     
+?n0050           527     
+?n0052           544     
+?n0053           558     
+?n0054           56c     
+?n0056           589     
+?n0057           59d     
+?n0058           5b1     
+?n0060           5ce     
+?n0061           5e2     
+?n0062           5f6     
+?n0064           613     
+?n0065           627     
+?n0066           63b     
+?n0068           658     
+?n0069           66c     
+?n0070           680     
+?n0072           69d     
+?n0073           6b1     
+?n0074           6c5     
+?n0076           6e2     
+?n0077           6f6     
+?n0078           70a     
+?n0080           727     
+?n0081           73b     
+?n0082           74f     
+?n0084           76c     
+?n0085           780     
+?n0086           794     
+?n0088           7b1     
+?n0089           7c5     
+?n0090           7d9     
+?n0092           7f6     
+?n0093           80a     
+?n0094           81e     
+?n0096           83b     
+?n0097           84f     
+?n0098           863     
+?n0100           880     
+?n0101           894     
+?n0102           8a8     
+?n0104           8c5     
+?n0105           8d9     
+?n0106           8ed     
+?n0108           90a     
+?n0109           91e     
+?n0110           932     
+?n0112           94f     
+?n0113           963     
+?n0114           977     
+?n0116           994     
+?n0117           9a8     
+?n0118           9bc     
+?n0120           9d9     
+?n0121           9ed     
+?n0122           a01     
+?n0124           a1e     
+?n0125           a32     
+?n0126           a46     
+?n0128           a63     
+?n0129           a77     
+?n0130           a8b     
+?n0132           aa8     
+?n0133           abc     
+?n0134           ad0     
+?n0136           aed     
+?n0137           b01     
+?n0138           b15     
+?n0140           b32     
+?n0141           b46     
+?n0142           b5a     
+?n0144           b77     
+?n0145           b8b     
+?n0146           b9f     
+?n0148           bbc     
+?n0149           bd0     
+?n0150           be4     
+?n0152           c01     
+?n0153           c15     
+?n0154           c29     
+?n0156           c46     
+?n0157           c5a     
+?n0158           c6e     
+?n0160           c8b     
+?n0161           c9f     
+?n0162           cb3     
+?n0164           cd0     
+?n0165           ce4     
+?n0166           cf8     
+?n0168           d15     
+?n0169           d29     
+?n0170           d3d     
+?n0172           d5a     
+?n0173           d6e     
+?n0174           d82     
+?n0176           d9f     
+?n0177           db3     
+?n0178           dc7     
+?n0180           de4     
+?n0181           df8     
+?n0182           e0c     
+?n0184           e29     
+?n0185           e3d     
+?n0186           e51     
+?n0188           e6e     
+?n0189           e82     
+?n0190           e96     
+?n0192           eb3     
+?n0193           ec7     
+?n0194           edb     
+?n0196           ef8     
+?n0197           f0c     
+?n0198           f20     
+?n0200           f3d     
+?n0201           f51     
+?n0202           f65     
+?n0204           f82     
+?n0205           f96     
+?n0206           faa     
+?n0208           fc7     
+?n0209           fdb     
+?n0210           fef     
+?n0212          100c     
+?n0213          1020     
+?n0214          1034     
+?n0216          1051     
+?n0217          1065     
+?n0218          1079     
+?n0220          1096     
+?n0221          10aa     
+?n0222          10be     
+?n0224          10db     
+?n0225          10ef     
+?n0226          1103     
+?n0228          1120     
+?n0229          1134     
+?n0230          1148     
+?n0232          1165     
+?n0233          1179     
+?n0234          118d     
+?n0236          11aa     
+?n0237          11be     
+?n0238          11d2     
+?n0240          11ef     
+?n0241          1203     
+?n0242          1217     
+?n0244          1234     
+?n0245          1248     
+?n0246          125c     
+?n0248          1279     
+?n0249          128d     
+?n0250          12a1     
+?n0252          12be     
+?n0253          12d2     
+?n0254          12e6     
+?n0256          1303     
+?n0257          1317     
+?n0258          132b     
+?n0260          1348     
+?n0261          135c     
+?n0262          1370     
+?n0264          138d     
+?n0265          13a1     
+?n0266          13b5     
+adc16            1c2     
+add16            207     
+add16x           24c     
+add16y           291     
+alu8i            2d6     
+alu8r            31b     
+alu8rx           360     
+alu8x            3a5     
+bdos            16bd     
+bitx             3ea     
+bitz80           42f     
+cce             1737     
+cclp            172c     
+clrmem          1527     
+cmpcrc          1724     
+cntbit          14df     
+cntbyt          14e0     
+cntend          1593     
+cntlp           1584     
+cntlp1          1597     
+count           1578     
+counter         15c9     
+cpd1             474     
+cpi1             4b9     
+crclp           1754     
+crctab          177b     
+crcval          1777     
+crlf            1721     
+daaop            4fe     
+done             12f     
+ermsg1          16fe     
+ermsg2          1719     
+flgmsk          1653     
+flgsat         =1678     
+hexstr          167e     
+icrclp          176d     
+imlp            1547     
+imlp1           1548     
+imlp2           154e     
+imlp3           156b     
+inca             543     
+incb             588     
+incbc            5cd     
+incc             612     
+incd             657     
+incde            69c     
+ince             6e1     
+inch             726     
+inchl            76b     
+incix            7b0     
+inciy            7f5     
+incl             83a     
+incm             87f     
+incsp            8c4     
+incx             909     
+incxh            94e     
+incxl            993     
+incyh            9d8     
+incyl            a1d     
+initcrc         1763     
+initmask        1538     
+iut             1631     
+ld161            a62     
+ld162            aa7     
+ld163            aec     
+ld164            b31     
+ld165            b76     
+ld166            bbb     
+ld167            c00     
+ld168            c45     
+ld16im           c8a     
+ld16ix           ccf     
+ld8bd            d14     
+ld8im            d59     
+ld8imx           d9e     
+ld8ix1           de3     
+ld8ix2           e28     
+ld8ix3           e6d     
+ld8ixy           eb2     
+ld8rr            ef7     
+ld8rrx           f3c     
+lda              f81     
+ldd1             fc6     
+ldd2            100b     
+ldi1            1050     
+ldi2            1095     
+loop             122     
+msat            166c     
+msbt             103     
+msbthi         =   1     
+msbtlo         =   3     
+msg1            16c9     
+msg2            16e8     
+ncb1            14fb     
+negop           10da     
+nsb1            151f     
+nxtcbit         14e2     
+nxtsbit         1506     
+okmsg           16f7     
+ph11            16b0     
+ph8lp           168d     
+phex1           16a3     
+phex2           169a     
+phex8           1688     
+rldop           111f     
+rot8080         1164     
+rotxy           11a9     
+rotz80          11ee     
+sbshf1          14c9     
+setup           1493     
+shfbit          1503     
+shfbyt          1504     
+shflp           15a8     
+shflp1          15c4     
+shflp2          15be     
+shift           159c     
+shifter         15f1     
+shlpe           15c0     
+spat            167a     
+spbt             111     
+spsav           167c     
+srz80           1233     
+srzx            1278     
+st8ix1          12bd     
+st8ix2          1302     
+st8ix3          1347     
+stabd           138c     
+start            113     
+stt             13d1     
+subclp          14ac     
+subshf          14bd     
+substr          14d8     
+subyte          149c     
+tcrc            165e     
+test            1619     
+tests            13a     
+tlp             1416     
+tlp1            142a     
+tlp2            142d     
+tlp3            1469     
+tlpok           1460     
+updcrc          173b     
+

@@ -1,4 +1,5 @@
 ﻿using FluentAssertions;
+using Jacobi.Zim80.Test;
 using Jacobi.Zim80.UnitTests;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;

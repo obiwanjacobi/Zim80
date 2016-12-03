@@ -72,7 +72,6 @@
     <Compile Include="BusMasterTest.cs" />
     <Compile Include="BusSlaveTest.cs" />
     <Compile Include="BusTest.cs" />
-    <Compile Include="BusTestExtensions.cs" />
     <Compile Include="CpuZ80\CpuZ80FetchTest.cs" />
     <Compile Include="CpuZ80\CpuZ80InterruptTest.cs" />
     <Compile Include="CpuZ80\CpuZ80NmiTest.cs" />
@@ -151,10 +150,10 @@
     <Compile Include="DigitalSignalCyclerTest.cs" />
     <Compile Include="DigitalSignalProviderTest.cs" />
     <Compile Include="DigitalSignalTest.cs" />
-    <Compile Include="DigitalSignalTestExtensions.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="CpuZ80\Opcodes\SingleByteOpcodeWithDoubleByteParameterTest.cs" />
     <Compile Include="TestExtensions.cs" />
+    <Compile Include="Test\SimulationModelBuilderTest.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

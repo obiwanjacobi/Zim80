@@ -1,0 +1,23 @@
+binary-debuggable-source
+0000 0000 f C:\Users\marc\Documents\Projects\Personal\Jacobi\Public\GitHub\Zim80\Source\Code\Jacobi.Zim80.IntegrationTests\CpuZ80\Routines\Ldir1.asm
+0000 0000 s 	org 0h
+0000 0000 d 211000
+0000 0000 s 	ld hl, src
+0003 0003 d 112000
+0003 0003 s 	ld de, trg
+0006 0006 d 010d00
+0006 0006 s 	ld bc, 13
+0009 0009 d edb0
+0009 0009 s 	ldir
+000b 000b s 
+000b 000b s 	defs 5
+0010 0010 s src:
+0010 0010 d 48656c6c6f20576f726c6421
+0010 0010 s 	defb "Hello World!"
+001c 001c s 
+001c 001c s 	defs 4
+0020 0020 s trg:
+0020 0020 f C:\Users\marc\Documents\Projects\Personal\Jacobi\Public\GitHub\Zim80\Source\Code\Jacobi.Zim80.IntegrationTests\CpuZ80\Routines\Ldir1.asm
+0020 0020 s 	defs 10h
+0010 a src
+0020 a trg

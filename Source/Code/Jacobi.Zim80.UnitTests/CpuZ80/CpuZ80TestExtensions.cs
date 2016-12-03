@@ -1,5 +1,4 @@
 ﻿using Jacobi.Zim80.Memory.UnitTests;
-using Jacobi.Zim80.UnitTests;
 using Jacobi.Zim80.Test;
 using Jacobi.Zim80.Logic;
 using FluentAssertions;
@@ -9,17 +8,6 @@ namespace Jacobi.Zim80.CpuZ80.UnitTests
 {
     internal static class CpuZ80TestExtensions
     {
-        public static DigitalSignalProvider Clock(this CpuZ80 cpu, 
-            CycleNames toCycle, DigitalLevel toLevel)
-        {
-            var gen = new SignalGenerator();
-            var clock = cpu.Clock.CreateConnection(gen.Output);
-
-            gen.SquareWave(1, toCycle, toLevel);
-
-            return clock;
-        }
-
         public static SimulationModel Initialize(this CpuZ80 cpu, byte[] program, byte[] ioSpace = null)
         {
             new InstructionLogger(cpu);
@@ -28,22 +16,22 @@ namespace Jacobi.Zim80.CpuZ80.UnitTests
             model.Cpu = cpu;
             model.Cpu.Name = "U1";
             model.ClockGen = new SignalGenerator();
-            model.ClockGen.Output.CreateConnection(model.Cpu.Clock, "Clock");
+            model.ClockGen.Output.ConnectTo(model.Cpu.Clock, "Clock");
 
             model.Memory = MemoryTestExtensions.NewRam(program);
             model.Memory.Name = "U2";
-            model.Cpu.MemoryRequest.CreateConnection(model.Memory.ChipEnable, "MREQ");
-            model.Cpu.Read.CreateConnection(model.Memory.OutputEnable, "RD");
-            model.Cpu.Write.CreateConnection(model.Memory.WriteEnable, "WE");
-            model.Address = cpu.Address.CreateConnection(model.Memory.Address, "Address");
-            model.Data = cpu.Data.CreateConnection(model.Memory.Data, "Data");
+            model.Cpu.MemoryRequest.ConnectTo(model.Memory.ChipEnable, "MREQ");
+            model.Cpu.Read.ConnectTo(model.Memory.OutputEnable, "RD");
+            model.Cpu.Write.ConnectTo(model.Memory.WriteEnable, "WE");
+            model.Address = cpu.Address.ConnectTo(model.Memory.Address, "Address");
+            model.Data = cpu.Data.ConnectTo(model.Memory.Data.Slave, "Data");
             new MemoryLogger<BusData16, BusData8>().Attach(model.Memory);
 
             if (ioSpace != null)
             {
                 model.IoSpace = MemoryTestExtensions.NewRam(ioSpace);
                 model.IoSpace.Name = "U3";
-                model.Cpu.IoRequest.CreateConnection(model.IoSpace.ChipEnable, "IORQ");
+                model.Cpu.IoRequest.ConnectTo(model.IoSpace.ChipEnable, "IORQ");
                 model.IoSpace.OutputEnable.ConnectTo(model.Cpu.Read.DigitalSignal);
                 model.IoSpace.WriteEnable.ConnectTo(model.Cpu.Write.DigitalSignal);
                 model.IoSpace.Address.ConnectTo(cpu.Address.Bus);
@@ -53,8 +41,8 @@ namespace Jacobi.Zim80.CpuZ80.UnitTests
 
             model.LogicAnalyzer = new LogicAnalyzer();
             model.LogicAnalyzer.Clock.ConnectTo(model.ClockGen.Output.DigitalSignal);
-            model.Cpu.MachineCycle1.CreateConnection(model.LogicAnalyzer.AddInput("M1"));
-            model.Cpu.Refresh.CreateConnection(model.LogicAnalyzer.AddInput("RFSH"));
+            model.Cpu.MachineCycle1.ConnectTo(model.LogicAnalyzer.AddInput("M1"));
+            model.Cpu.Refresh.ConnectTo(model.LogicAnalyzer.AddInput("RFSH"));
             model.LogicAnalyzer.ConnectInput(model.Cpu.MemoryRequest.DigitalSignal);
             if (ioSpace != null)
                 model.LogicAnalyzer.ConnectInput(model.Cpu.IoRequest.DigitalSignal);

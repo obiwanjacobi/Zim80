@@ -60,7 +60,12 @@ namespace Jacobi.Zim80
             get { ThrowIfNotConnected(); return _bus; }
         }
 
-        public void ConnectTo(Bus bus)
+        public virtual void ConnectTo(Bus bus)
+        {
+            ConnectToInternal(bus);
+        }
+
+        protected void ConnectToInternal(Bus bus)
         {
             if (bus == null)
                 throw new ArgumentNullException(nameof(bus));
@@ -128,7 +133,7 @@ namespace Jacobi.Zim80
             get { return (T)base.Value; }
         }
 
-        public void ConnectTo(Bus<T> bus)
+        public virtual void ConnectTo(Bus<T> bus)
         {
             base.ConnectTo(bus);
         }

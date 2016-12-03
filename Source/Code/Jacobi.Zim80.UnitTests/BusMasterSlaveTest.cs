@@ -1,4 +1,5 @@
 ﻿using FluentAssertions;
+using Jacobi.Zim80.Test;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace Jacobi.Zim80.UnitTests
@@ -12,7 +13,7 @@ namespace Jacobi.Zim80.UnitTests
             var ms1 = new BusMasterSlave<BusData8>();
             var ms2 = new BusMasterSlave<BusData8>();
 
-            var connection = ms1.CreateConnection(ms2);
+            var connection = ms1.ConnectTo(ms2.Slave);
             var value = new BusData8(0x55);
 
             ms1.IsEnabled = true;
@@ -26,7 +27,7 @@ namespace Jacobi.Zim80.UnitTests
             var ms1 = new BusMasterSlave<BusData8>();
             var ms2 = new BusMasterSlave<BusData8>();
 
-            var connection = ms1.CreateConnection(ms2);
+            var connection = ms1.ConnectTo(ms2.Slave);
             var value = new BusData8(0x55);
 
             ms2.IsEnabled = true;

@@ -1,7 +1,7 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using FluentAssertions;
-using Jacobi.Zim80.UnitTests;
 using System;
+using Jacobi.Zim80.Test;
 
 namespace Jacobi.Zim80.Memory.UnitTests
 {

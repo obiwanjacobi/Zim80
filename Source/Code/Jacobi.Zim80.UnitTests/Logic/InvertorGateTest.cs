@@ -1,5 +1,6 @@
 ﻿using FluentAssertions;
 using Jacobi.Zim80.Logic;
+using Jacobi.Zim80.Test;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace Jacobi.Zim80.UnitTests.Logic
