@@ -69,8 +69,16 @@ namespace Jacobi.Zim80.Diagnostics
                     !lastSample.Equals(sample))
                 {
                     lastSample = sample;
-                    _json.Append('=');
-                    data.Add(Convert(sample));
+                    var value = Convert(sample);
+                    if (!String.IsNullOrEmpty(value))
+                    {
+                        _json.Append('=');
+                        data.Add(value);
+                    }
+                    else
+                    {
+                        _json.Append('x');
+                    }
                 }
                 else
                 {
@@ -120,7 +128,7 @@ namespace Jacobi.Zim80.Diagnostics
 
         public void EndSignal()
         {
-            _json.Append(" ], config:{skin:'narrow'}");
+            _json.Append(" ], \"config\":{ \"hscale\": 1, \"skin\":'narrow'}");
         }
 
         public void AddHead(string title)

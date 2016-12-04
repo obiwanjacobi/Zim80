@@ -143,6 +143,9 @@ namespace Jacobi.Zim80
 
         public override string ToString()
         {
+            if (IsFloating)
+                return string.Empty;
+
             return String.Format("{0:X}", ToUInt32(Width));
         }
 

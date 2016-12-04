@@ -21,6 +21,7 @@ namespace Jacobi.Zim80.IntegrationTests
 
             model.ClockGen.SquareWave((c) => stop);
 
+            model.LogicAnalyzer.Stop();
             Console.WriteLine(model.LogicAnalyzer.ToWaveJson());
         }
 

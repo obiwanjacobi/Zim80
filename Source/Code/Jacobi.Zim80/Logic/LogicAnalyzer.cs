@@ -49,12 +49,14 @@ namespace Jacobi.Zim80.Logic
         public void Start()
         {
             InitializeStreams();
+            AddFloating();
             IsRunning = true;
         }
 
         public void Stop()
         {
             IsRunning = false;
+            AddFloating();
         }
 
         private void InitializeStreams()
@@ -77,6 +79,19 @@ namespace Jacobi.Zim80.Logic
             {
                 if (!bus.IsConnected) continue;
                 _busStreams.Add(new Logic.BusDataStream(bus.Bus));
+            }
+        }
+
+        private void AddFloating()
+        {
+            foreach (var stream in _digitalStreams)
+            {
+                stream.AddFloating();
+            }
+
+            foreach (var stream in _busStreams)
+            {
+                stream.AddFloating();
             }
         }
 

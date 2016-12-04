@@ -25,5 +25,10 @@ namespace Jacobi.Zim80.Logic
         {
             _samples.Clear();
         }
+
+        internal void AddFloating()
+        {
+            _samples.Add(DigitalLevel.Floating);
+        }
     }
 }
