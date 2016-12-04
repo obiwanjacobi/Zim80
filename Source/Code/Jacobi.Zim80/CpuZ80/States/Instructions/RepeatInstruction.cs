@@ -11,9 +11,13 @@
             if (ExecutionEngine.Cycles.IsLastCycle &&
                 ExecutionEngine.Cycles.MachineCycle == MachineCycleNames.M3)
             {
-                if (IsConditionMet() &&
-                    ExecutionEngine.Opcode.Definition.AltCycles != null)
+                if (IsConditionMet() && IsRepeat)
+                {
+                    if (ExecutionEngine.Opcode.Definition.AltCycles == null)
+                        throw Errors.AssignedToIllegalOpcode();
+
                     ExecutionEngine.Cycles.SetAltCycles();
+                }
             }
 
             base.OnClockNeg();
