@@ -9,6 +9,7 @@ namespace Jacobi.Zim80.IntegrationTests.CpuZ80.Routines
     public class CallSubRoutine : IntegrationTest
     {
         private const string CallSubRoutineBin = "CallSubRoutine.bin";
+        private const string Expected = "Hello World!";
 
         [TestMethod]
         public void Int_CallSubRoutineBin()
@@ -19,19 +20,8 @@ namespace Jacobi.Zim80.IntegrationTests.CpuZ80.Routines
 
             RunTest(model, end);
 
-            model.Memory.GetInt(trg++).Should().Be('H');
-            model.Memory.GetInt(trg++).Should().Be('e');
-            model.Memory.GetInt(trg++).Should().Be('l');
-            model.Memory.GetInt(trg++).Should().Be('l');
-            model.Memory.GetInt(trg++).Should().Be('o');
-            model.Memory.GetInt(trg++).Should().Be(' ');
-            model.Memory.GetInt(trg++).Should().Be('W');
-            model.Memory.GetInt(trg++).Should().Be('o');
-            model.Memory.GetInt(trg++).Should().Be('r');
-            model.Memory.GetInt(trg++).Should().Be('l');
-            model.Memory.GetInt(trg++).Should().Be('d');
-            model.Memory.GetInt(trg++).Should().Be('!');
-            model.Memory.GetInt(trg++).Should().Be(0);
+            var actual = model.Memory.GetString(trg);
+            actual.Should().Be(Expected);
         }
     }
 }

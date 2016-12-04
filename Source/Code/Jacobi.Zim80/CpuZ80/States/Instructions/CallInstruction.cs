@@ -58,7 +58,7 @@ namespace Jacobi.Zim80.CpuZ80.States.Instructions
             }
             else if (ExecutionEngine.Opcode.Definition.Z == 5)
             {
-                // ret (no condition)
+                // call (no condition)
                 return true;
             }
 
