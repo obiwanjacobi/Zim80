@@ -62,6 +62,7 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
+    <Compile Include="CpuZ80\Routines\CallSubRoutine.cs" />
     <Compile Include="CpuZ80\Routines\CopyString.cs" />
     <Compile Include="IntegrationTest.cs" />
     <Compile Include="CpuZ80\Routines\Ldir.cs" />
@@ -74,6 +75,9 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="CpuZ80\Routines\CallSubRoutine.asm">
+      <DependentUpon>CallSubRoutine.cs</DependentUpon>
+    </Content>
     <Content Include="CpuZ80\Routines\CopyString.asm">
       <DependentUpon>CopyString.cs</DependentUpon>
     </Content>
@@ -90,6 +94,10 @@
   <ItemGroup>
     <Content Include="CpuZ80\Routines\CopyString.bin">
       <DependentUpon>CopyString.cs</DependentUpon>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="CpuZ80\Routines\CallSubRoutine.bin">
+      <DependentUpon>CallSubRoutine.cs</DependentUpon>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <None Include="CpuZ80\Routines\MakeAllAsm.cmd" />

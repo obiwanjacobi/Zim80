@@ -12,11 +12,11 @@ namespace Jacobi.Zim80.IntegrationTests
 
         public TestContext TestContext { get; set; }
 
-        protected void RunTest(SimulationModel model, ushort end)
+        protected void RunTest(SimulationModel model, ushort endAddress)
         {
             bool stop = false;
             model.Cpu.InstructionExecuted += (s, e) => {
-                stop = e.Opcode.Address == end;
+                stop = e.Opcode.Address == endAddress;
             };
 
             model.ClockGen.SquareWave((c) => stop);
