@@ -62,6 +62,8 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
+    <Compile Include="CpuZ80\Routines\CopyString.cs" />
+    <Compile Include="CpuZ80\Routines\IntegrationTest.cs" />
     <Compile Include="CpuZ80\Routines\Ldir.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -72,6 +74,9 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="CpuZ80\Routines\CopyString.asm">
+      <DependentUpon>CopyString.cs</DependentUpon>
+    </Content>
     <Content Include="CpuZ80\Routines\Ldir1.asm">
       <DependentUpon>Ldir.cs</DependentUpon>
     </Content>
@@ -83,6 +88,10 @@
     <Content Include="CpuZ80\Zexlax\zexdoc.zmac.asm" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="CpuZ80\Routines\CopyString.bin">
+      <DependentUpon>CopyString.cs</DependentUpon>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <None Include="CpuZ80\Routines\MakeAllAsm.cmd" />
     <None Include="CpuZ80\Routines\MakeAsm.cmd" />
     <None Include="CpuZ80\Zexlax\MakeAsm.cmd" />

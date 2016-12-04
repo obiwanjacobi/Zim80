@@ -5,17 +5,17 @@ using FluentAssertions;
 namespace Jacobi.Zim80.IntegrationTests.CpuZ80.Routines
 {
     [TestClass]
-    [DeploymentItem(OutPath + Ldir1Bin)]
-    public class Ldir : IntegrationTest
+    [DeploymentItem(OutPath + CopyStringBin)]
+    public class CopyString : IntegrationTest
     {
-        private const string Ldir1Bin = "Ldir1.bin";
+        private const string CopyStringBin = "CopyString.bin";
 
         [TestMethod]
-        public void Int_Ldir1()
+        public void Int_CopyString()
         {
-            ushort end = 0x0B;
-            int trg = 0x20;
-            var model = CreateModel(Ldir1Bin);
+            ushort end = 0x10;
+            int trg = 0x25;
+            var model = CreateModel(CopyStringBin);
 
             ExecuteTest(model, end);
 

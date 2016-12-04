@@ -21,6 +21,8 @@ namespace Jacobi.Zim80.Logic
 
         public bool IsRunning { get; private set; }
 
+        public TriggerMode TriggerMode { get; set; }
+
         public IEnumerable<DigitalStream> SignalStreams { get { return _digitalStreams; } }
 
         public IEnumerable<BusDataStream> BusStreams { get { return _busStreams; } }
@@ -80,7 +82,7 @@ namespace Jacobi.Zim80.Logic
 
         private void Clock_OnChanged(object sender, DigitalLevelChangedEventArgs e)
         {
-            if (IsRunning)
+            if (IsRunning && IsTriggered(e.Level))
             {
                 SampleInputs();
             }
@@ -98,5 +100,27 @@ namespace Jacobi.Zim80.Logic
                 stream.Sample();
             }
         }
+
+        private bool IsTriggered(DigitalLevel level)
+        {
+            switch (TriggerMode)
+            {
+                case TriggerMode.Edge:
+                    return level == DigitalLevel.NegEdge || level == DigitalLevel.PosEdge;
+                case TriggerMode.Level:
+                    return level == DigitalLevel.Low || level == DigitalLevel.High;
+                case TriggerMode.All:
+                    return level != DigitalLevel.Floating;
+            }
+
+            return false;
+        }
+    }
+
+    public enum TriggerMode
+    {
+        Edge,
+        Level,
+        All
     }
 }

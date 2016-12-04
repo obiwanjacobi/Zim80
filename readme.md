@@ -15,7 +15,7 @@ See also the wiki for more information.
 
 ## Credits:
 
-Using the WaveDrom json format to generate wave diagrams from recorded signal changes by the LogicAnalyzer.
+Using the WaveDrom json format to generate wave diagrams from recorded signal changes by the LogicAnalyzer. Copyright (c) 2011-2016 Aliaksei Chapyzhenka
 http://wavedrom.com/
 
 Using the Zexlax Z80 excercizer scripts Copyright (C) 1994  Frank D. Cringle Modified by J.G.Harston for zmac compatibility.
@@ -28,3 +28,9 @@ Using the Dgml Xml syntax to generate graphic models of connected signals. Copyr
 https://msdn.microsoft.com/en-us/library/dn966108.aspx
 
 Thank you all for making this available.
+
+
+## Resources
+
+Used http://Z80.info resources, such as the instruction decoding page http://z80.info/decoding.htm.
+
