@@ -1,0 +1,39 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|AnyCPU">
+      <Configuration>Debug</Configuration>
+      <Platform>AnyCPU</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|AnyCPU">
+      <Configuration>Release</Configuration>
+      <Platform>AnyCPU</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>23c04351-c4a7-4e96-a0cd-6c5437ce2e3e</ProjectGuid>
+  </PropertyGroup>
+  <PropertyGroup>
+    <NuProjPath Condition=" '$(NuProjPath)' == '' ">$(MSBuildExtensionsPath)\NuProj\</NuProjPath>
+  </PropertyGroup>
+  <Import Project="$(NuProjPath)\NuProj.props" Condition="Exists('$(NuProjPath)\NuProj.props')" />
+  <PropertyGroup Label="Configuration">
+    <Id>Jacobi.Zim80-$(Configuration)</Id>
+    <Version>0.1.0</Version>
+    <Title>Symmetry Zim80</Title>
+    <Authors>Marc Jacobi</Authors>
+    <Owners>Marc Jacobi</Owners>
+    <Summary>Z80 Electrical &amp; Software Simulator</Summary>
+    <Description>The Zim80 is a Z80 Simulator that not only allows you to simulate Z80 (assembly) code but also simulates the electrical connections on the Z80. The Zim80 library comes with common digital components such as gates and memory. The Zim80 is targted to be used inside a (unit) testing framework to verify your custom code you wrote for your custom Z80 computer.</Description>
+    <ReleaseNotes>Alpha</ReleaseNotes>
+    <ProjectUrl>https://github.com/obiwanjacobi/Zim80</ProjectUrl>
+    <LicenseUrl>
+    </LicenseUrl>
+    <Copyright>Copyright © 2016 Jacobi Software</Copyright>
+    <Tags>Z80 Simulator Emulator</Tags>
+  </PropertyGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Jacobi.Zim80\Jacobi.Zim80.csproj" />
+  </ItemGroup>
+  <Import Project="$(NuProjPath)\NuProj.targets" />
+</Project>
