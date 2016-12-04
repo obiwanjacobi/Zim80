@@ -4,7 +4,7 @@ using System.IO;
 using System;
 using Jacobi.Zim80.Diagnostics;
 
-namespace Jacobi.Zim80.IntegrationTests.CpuZ80.Routines
+namespace Jacobi.Zim80.IntegrationTests
 {
     public abstract class IntegrationTest
     {
@@ -12,7 +12,7 @@ namespace Jacobi.Zim80.IntegrationTests.CpuZ80.Routines
 
         public TestContext TestContext { get; set; }
 
-        protected void ExecuteTest(SimulationModel model, ushort end)
+        protected void RunTest(SimulationModel model, ushort end)
         {
             bool stop = false;
             model.Cpu.InstructionExecuted += (s, e) => {

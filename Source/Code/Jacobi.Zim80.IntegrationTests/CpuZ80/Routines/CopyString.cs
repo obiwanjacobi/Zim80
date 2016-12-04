@@ -17,7 +17,7 @@ namespace Jacobi.Zim80.IntegrationTests.CpuZ80.Routines
             int trg = 0x25;
             var model = CreateModel(CopyStringBin);
 
-            ExecuteTest(model, end);
+            RunTest(model, end);
 
             model.Memory.GetInt(trg++).Should().Be('H');
             model.Memory.GetInt(trg++).Should().Be('e');

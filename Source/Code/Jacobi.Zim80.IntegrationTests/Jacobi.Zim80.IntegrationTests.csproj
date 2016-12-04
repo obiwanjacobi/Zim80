@@ -63,7 +63,7 @@
   </Choose>
   <ItemGroup>
     <Compile Include="CpuZ80\Routines\CopyString.cs" />
-    <Compile Include="CpuZ80\Routines\IntegrationTest.cs" />
+    <Compile Include="IntegrationTest.cs" />
     <Compile Include="CpuZ80\Routines\Ldir.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
