@@ -1,4 +1,6 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
+using System.Text;
 
 namespace Jacobi.Zim80.Logic
 {
@@ -29,6 +31,12 @@ namespace Jacobi.Zim80.Logic
         internal void AddFloating()
         {
             _samples.Add(new BusData(_bus.BusWidth));
+        }
+
+        public override string ToString()
+        {
+            var bytes = _samples.Select((s) => s.ToByte());
+            return Encoding.UTF8.GetString(bytes.ToArray());
         }
     }
 }

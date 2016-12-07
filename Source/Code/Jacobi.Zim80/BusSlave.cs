@@ -85,7 +85,9 @@ namespace Jacobi.Zim80
 
         protected virtual BusData NewBusData()
         {
-            return new BusData(0);
+            throw new InvalidOperationException(
+                "The BusSlave has no way of knowing the Bus Width.");
+            //return new BusData(0);
         }
 
         protected virtual void OnValueChanged(BusChangedEventArgs<BusData> e)

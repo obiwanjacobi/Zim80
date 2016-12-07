@@ -75,13 +75,25 @@ namespace Jacobi.Zim80.Test
             return new BusSlave<T>(bus, busName);
         }
 
+        public static BusMaster CreateConnection(this BusSlave slave, string busName = null)
+        {
+            var bus = slave.GetOrAddBus(busName);
+            return new BusMaster(bus, busName);
+        }
+
+        public static BusSlave CreateConnection(this BusMaster master, string busName = null)
+        {
+            var bus = master.GetOrAddBus(busName);
+            return new BusSlave(bus, busName);
+        }
+
         public static Bus<T> GetOrAddBus<T>(this BusMaster<T> master, string busName = null)
             where T : BusData, new()
         {
             Bus<T> bus;
             if (!master.IsConnected)
             {
-                bus = new Bus<T>();
+                bus = new Bus<T>(busName);
                 master.ConnectTo(bus);
             }
             else
@@ -98,7 +110,39 @@ namespace Jacobi.Zim80.Test
             Bus<T> bus;
             if (!slave.IsConnected)
             {
-                bus = new Bus<T>();
+                bus = new Bus<T>(busName);
+                slave.ConnectTo(bus);
+            }
+            else
+            {
+                bus = slave.Bus;
+            }
+
+            return bus;
+        }
+
+        public static Bus GetOrAddBus(this BusMaster master, string busName = null)
+        {
+            Bus bus;
+            if (!master.IsConnected)
+            {
+                bus = new Bus(master.Value.Width, busName);
+                master.ConnectTo(bus);
+            }
+            else
+            {
+                bus = master.Bus;
+            }
+
+            return bus;
+        }
+
+        public static Bus GetOrAddBus(this BusSlave slave, string busName = null)
+        {
+            Bus bus;
+            if (!slave.IsConnected)
+            {
+                bus = new Bus(slave.Value.Width, busName);
                 slave.ConnectTo(bus);
             }
             else

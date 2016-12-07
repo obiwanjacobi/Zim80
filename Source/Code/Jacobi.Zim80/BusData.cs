@@ -11,7 +11,7 @@ namespace Jacobi.Zim80
     {
         private readonly List<DigitalLevel> _signals = new List<DigitalLevel>();
 
-        protected internal BusData(int width)
+        public BusData(int width)
         {
             Width = width;
             for (int i = 0; i < width; i++)
@@ -49,7 +49,7 @@ namespace Jacobi.Zim80
         }
 
         internal void Write(byte data, int maxWidth = 8)
-       {
+        {
             ThrowIfMaxWidthOutOfRange(maxWidth, 8);
             Write((UInt32)data, maxWidth);
         }

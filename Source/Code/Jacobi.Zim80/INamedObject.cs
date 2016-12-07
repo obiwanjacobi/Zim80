@@ -1,6 +1,6 @@
 ﻿namespace Jacobi.Zim80
 {
-    interface INamedObject
+    public interface INamedObject
     {
         string Name { get; set; }
     }
