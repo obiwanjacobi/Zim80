@@ -6,8 +6,27 @@
         {
             _portEnable = new DigitalSignalConsumer("PE");
             _portEnable.OnChanged += PortEnable_OnChanged;
-
             _busSlave = new BusSlave("OutputPort Input");
+        }
+
+        public OutputPort(string name)
+        {
+            Name = name;
+            _portEnable = new DigitalSignalConsumer("PE");
+            _portEnable.OnChanged += PortEnable_OnChanged;
+            _busSlave = new BusSlave(name + "Input");
+        }
+
+        public OutputPort(Bus bus)
+            : this()
+        {
+            Input.ConnectTo(bus);
+        }
+
+        public OutputPort(Bus bus, string name)
+            : this(name)
+        {
+            Input.ConnectTo(bus);
         }
 
         private readonly DigitalSignalConsumer _portEnable;

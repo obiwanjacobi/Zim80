@@ -1,6 +1,6 @@
 ﻿namespace Jacobi.Zim80.Logic
 {
-    public class InvertorGate
+    public class InvertorGate : INamedObject
     {
         private readonly DigitalSignalConsumer _input;
         private readonly DigitalSignalProvider _output;
@@ -13,11 +13,7 @@
             _input.OnChanged += Input_OnChanged;
         }
 
-        private void Input_OnChanged(object sender, DigitalLevelChangedEventArgs e)
-        {
-            Output.Write(Invert(e.Level));
-        }
-
+        public string Name { get; set; }
         public DigitalSignalConsumer Input { get { return _input; } }
         public DigitalSignalProvider Output { get { return _output; } }
 
@@ -30,6 +26,11 @@
                 newLevel -= 4;
 
             return newLevel;
+        }
+
+        private void Input_OnChanged(object sender, DigitalLevelChangedEventArgs e)
+        {
+            Output.Write(Invert(e.Level));
         }
     }
 }

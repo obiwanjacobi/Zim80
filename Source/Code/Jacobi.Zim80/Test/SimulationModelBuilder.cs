@@ -1,5 +1,4 @@
-﻿using System;
-using Jacobi.Zim80.Logic;
+﻿using Jacobi.Zim80.Logic;
 using Jacobi.Zim80.Memory;
 
 namespace Jacobi.Zim80.Test
@@ -11,7 +10,7 @@ namespace Jacobi.Zim80.Test
             New();
         }
 
-        public void New()
+        public virtual void New()
         {
             Model = new SimulationModel();
             Model.Cpu = new CpuZ80.CpuZ80();
@@ -76,7 +75,47 @@ namespace Jacobi.Zim80.Test
             SetModelAddressAndDataBus();
         }
 
-        public SimulationModel Model { get; private set; }
+        public BusDecoder AddOutputPort(ushort ioAddress, string name = null)
+        {
+            Bus address = Model.Address;
+            Bus data = Model.Data;
+
+            return AddOutputPort(address, data, ioAddress, name);
+        }
+
+        public BusDecoder AddOutputPort(Bus address, Bus data, ushort ioAddress, string name = null)
+        {
+            if (name == null) name = string.Empty;
+
+            var decoder = new BusDecoder(address, name + "-IoAddressDecoder");
+            decoder.AddValue(ioAddress);
+            AddComponent(decoder);
+
+            var outputPort = new OutputPort(data, name);
+            AddOutputPort(outputPort);
+
+            var invertor = new InvertorGate() {
+                Name = name + "-PortEnableInvertor"
+            };
+            AddComponent(invertor);
+
+            decoder.Output.ConnectTo(invertor.Input);
+            outputPort.PortEnable.ConnectTo(invertor.Output);
+
+            return decoder;
+        }
+
+        public void AddComponent(INamedObject component)
+        {
+            Model.Components.Add(component.Name, component);
+        }
+
+        public void AddOutputPort(OutputPort outputPort)
+        {
+            Model.OutputPorts.Add(outputPort.Name, outputPort);
+        }
+
+        public SimulationModel Model { get; protected set; }
 
         private void SetModelAddressAndDataBus()
         {

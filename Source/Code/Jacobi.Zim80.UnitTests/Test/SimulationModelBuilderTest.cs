@@ -1,6 +1,7 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Jacobi.Zim80.Test;
 using FluentAssertions;
+using Jacobi.Zim80.Logic;
 
 namespace Jacobi.Zim80.UnitTests.Test
 {
@@ -106,6 +107,48 @@ namespace Jacobi.Zim80.UnitTests.Test
 
             uut.Model.Address.Should().NotBeNull();
             uut.Model.Data.Should().NotBeNull();
+        }
+
+        [TestMethod]
+        public void AddComponent_AddedToModel()
+        {
+            var uut = new SimulationModelBuilder();
+
+            var name = "Test";
+            uut.AddComponent(new InvertorGate() { Name = name });
+
+            uut.Model.Components.Should().HaveCount(1);
+            uut.Model.Components[name].Should().NotBeNull();
+        }
+
+        [TestMethod]
+        public void AddOutputPort_AddedToModel()
+        {
+            var uut = new SimulationModelBuilder();
+
+            var name = "Test";
+            uut.AddOutputPort(new OutputPort() { Name = name });
+
+            uut.Model.OutputPorts.Should().HaveCount(1);
+            uut.Model.OutputPorts[name].Should().NotBeNull();
+        }
+
+        [TestMethod]
+        public void AddOutputPort_CpuMemory_ConnectedAndAddedToModel()
+        {
+            var uut = new SimulationModelBuilder();
+            uut.AddCpuMemory();
+
+            var name = "Test";
+            uut.AddOutputPort(0x10, name);
+
+            uut.Model.Components.Should().HaveCount(2);
+            uut.Model.OutputPorts.Should().HaveCount(1);
+
+            var outputPort = uut.Model.OutputPorts[name];
+
+            outputPort.Input.IsConnected.Should().BeTrue();
+            outputPort.PortEnable.IsConnected.Should().BeTrue();
         }
     }
 }
