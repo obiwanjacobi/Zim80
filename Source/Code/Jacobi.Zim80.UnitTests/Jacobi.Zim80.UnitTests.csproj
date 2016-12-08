@@ -71,6 +71,7 @@
     <Compile Include="BusMasterSlaveTest.cs" />
     <Compile Include="BusMasterTest.cs" />
     <Compile Include="BusSlaveTest.cs" />
+    <Compile Include="BusTapTest.cs" />
     <Compile Include="BusTest.cs" />
     <Compile Include="CpuZ80\CpuZ80FetchTest.cs" />
     <Compile Include="CpuZ80\CpuZ80InterruptTest.cs" />

@@ -53,6 +53,12 @@ namespace Jacobi.Zim80.Test
                 Model.LogicAnalyzer.ConnectInput(output.DigitalSignal);
             }
 
+            foreach (var outputPort in Model.OutputPorts.Values)
+            {
+                if (!outputPort.PortEnable.IsConnected) continue;
+                Model.LogicAnalyzer.ConnectInput(outputPort.PortEnable.DigitalSignal);
+            }
+
             if (Model.Address != null)
                 Model.LogicAnalyzer.ConnectInput(Model.Address);
 
@@ -75,15 +81,15 @@ namespace Jacobi.Zim80.Test
             SetModelAddressAndDataBus();
         }
 
-        public BusDecoder AddOutputPort(ushort ioAddress, string name = null)
+        public void AddOutputPort(ushort ioAddress, string name = null)
         {
             Bus address = Model.Address;
             Bus data = Model.Data;
 
-            return AddOutputPort(address, data, ioAddress, name);
+            AddOutputPort(address, data, ioAddress, name);
         }
 
-        public BusDecoder AddOutputPort(Bus address, Bus data, ushort ioAddress, string name = null)
+        public void AddOutputPort(Bus address, Bus data, ushort ioAddress, string name = null)
         {
             if (name == null) name = string.Empty;
 
@@ -91,18 +97,23 @@ namespace Jacobi.Zim80.Test
             decoder.AddValue(ioAddress);
             AddComponent(decoder);
 
-            var outputPort = new OutputPort(data, name);
-            AddOutputPort(outputPort);
-
             var invertor = new InvertorGate() {
-                Name = name + "-PortEnableInvertor"
+                Name = name + "-AddressDecodeInvertor"
             };
             AddComponent(invertor);
-
             decoder.Output.ConnectTo(invertor.Input);
-            outputPort.PortEnable.ConnectTo(invertor.Output);
 
-            return decoder;
+            var or = new OrGate()
+            {
+                Name = name + "-PortEnableIO"
+            };
+            or.AddInput().ConnectTo(Model.Cpu.IoRequest);
+            or.AddInput().ConnectTo(invertor.Output);
+            AddComponent(or);
+
+            var outputPort = new OutputPort(data, name);
+            AddOutputPort(outputPort);
+            outputPort.PortEnable.ConnectTo(or.Output);
         }
 
         public void AddComponent(INamedObject component)

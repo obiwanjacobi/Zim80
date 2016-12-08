@@ -142,7 +142,7 @@ namespace Jacobi.Zim80.UnitTests.Test
             var name = "Test";
             uut.AddOutputPort(0x10, name);
 
-            uut.Model.Components.Should().HaveCount(2);
+            uut.Model.Components.Should().HaveCount(3); // decoder/invertor/or
             uut.Model.OutputPorts.Should().HaveCount(1);
 
             var outputPort = uut.Model.OutputPorts[name];

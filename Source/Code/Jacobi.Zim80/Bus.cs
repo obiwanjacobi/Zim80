@@ -40,12 +40,13 @@ namespace Jacobi.Zim80
             get
             {
                 if (_value == null)
-                {
-                    _value = NewBusData();
-                    _value.Write(_signals.Select((s) => s.Level));
-                }
+                    _value = ValueFromSignals();
 
                 return _value;
+            }
+            protected set
+            {
+                _value = value;
             }
         }
 
@@ -59,6 +60,16 @@ namespace Jacobi.Zim80
         public IEnumerable<BusSlave> Slaves
         {
             get { return _slaves; }
+        }
+
+        public IEnumerable<DigitalSignal> Signals
+        {
+            get { return _signals; }
+        }
+
+        protected IList<DigitalSignal> SignalList
+        {
+            get { return _signals; }
         }
 
         protected virtual BusData NewBusData()
@@ -92,13 +103,21 @@ namespace Jacobi.Zim80
             var value = busMaster.Value;
             if (!Value.Equals(value))
             {
-                _value = value;
+                Value = value;
                 ApplyValue(value);
                 NotifyChange(busMaster);
             }
         }
 
-        private void ApplyValue(BusData value)
+        protected BusData ValueFromSignals()
+        {
+            var value = NewBusData();
+            value.Write(_signals.Select((s) => s.Level));
+
+            return value;
+        }
+
+        protected void ApplyValue(BusData value)
         {
             int index = 0;
             foreach (var level in value.Signals)
@@ -108,7 +127,7 @@ namespace Jacobi.Zim80
             }
         }
 
-        private void NotifyChange(BusMaster source)
+        protected void NotifyChange(BusMaster source)
         {
             OnChanged?.Invoke(this, new BusChangedEventArgs<BusData>(source, Value));
         }
