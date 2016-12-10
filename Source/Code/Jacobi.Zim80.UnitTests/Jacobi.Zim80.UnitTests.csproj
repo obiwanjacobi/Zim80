@@ -140,6 +140,7 @@
     <Compile Include="CpuZ80\Opcodes\SingleByteOpcodeWithNoParameterTest.cs" />
     <Compile Include="CpuZ80\Opcodes\SingleByteOpcodeWithSingleByteParameterTest.cs" />
     <Compile Include="Logic\BusDecoderTest.cs" />
+    <Compile Include="Logic\LogicTest.cs" />
     <Compile Include="Logic\OutputPortTest.cs" />
     <Compile Include="Logic\SignalGeneratorTest.cs" />
     <Compile Include="Logic\AndGateTest.cs" />

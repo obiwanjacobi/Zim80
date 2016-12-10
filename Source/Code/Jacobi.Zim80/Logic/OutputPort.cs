@@ -14,7 +14,7 @@
             Name = name;
             _portEnable = new DigitalSignalConsumer("PE");
             _portEnable.OnChanged += PortEnable_OnChanged;
-            _busSlave = new BusSlave(name + "Input");
+            _busSlave = new BusSlave(name + "-Input");
         }
 
         public OutputPort(Bus bus)

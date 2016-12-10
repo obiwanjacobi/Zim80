@@ -31,7 +31,6 @@ namespace Jacobi.Zim80.UnitTests.Logic
         [TestMethod]
         public void Enable_PosEdge_CapturedValue()
         {
-            _portEnable.Write(DigitalLevel.Low);
             var value = NewValue(Value);
             _input.Write(value);
 
@@ -43,12 +42,10 @@ namespace Jacobi.Zim80.UnitTests.Logic
         [TestMethod]
         public void Enable_Cycles_CapturedMultipleValues()
         {
-            _portEnable.Write(DigitalLevel.Low);
             var value = NewValue(Value);
             _input.Write(value);
 
             _portEnable.Write(DigitalLevel.PosEdge);
-            _portEnable.Write(DigitalLevel.Low);
 
             value = NewValue(Value2);
             _input.Write(value);
@@ -62,12 +59,10 @@ namespace Jacobi.Zim80.UnitTests.Logic
         [TestMethod]
         public void Enable_Cycles_CapturedString()
         {
-            _portEnable.Write(DigitalLevel.Low);
             var value = NewValue((byte)'H');
             _input.Write(value);
 
             _portEnable.Write(DigitalLevel.PosEdge);
-            _portEnable.Write(DigitalLevel.Low);
 
             value = NewValue((byte)'i');
             _input.Write(value);

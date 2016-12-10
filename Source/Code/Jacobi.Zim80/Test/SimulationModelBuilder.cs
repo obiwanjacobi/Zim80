@@ -103,8 +103,7 @@ namespace Jacobi.Zim80.Test
             AddComponent(invertor);
             decoder.Output.ConnectTo(invertor.Input);
 
-            var or = new OrGate()
-            {
+            var or = new OrGate() {
                 Name = name + "-PortEnableIO"
             };
             or.AddInput().ConnectTo(Model.Cpu.IoRequest);
