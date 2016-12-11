@@ -45,7 +45,7 @@ namespace Jacobi.Zim80.CpuZ80.Opcodes
         public void FormatParameter(UInt16 value)
         {
             var valTxt = string.Format("{0:X4}", value);
-            Text = string.Format(_mnemonic, value);
+            Text = string.Format(_mnemonic, valTxt);
         }
 
         private static string FormatOffest(sbyte value)
