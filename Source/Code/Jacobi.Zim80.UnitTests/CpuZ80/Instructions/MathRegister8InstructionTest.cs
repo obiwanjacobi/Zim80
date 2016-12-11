@@ -1,11 +1,10 @@
-﻿using System;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using FluentAssertions;
 using Jacobi.Zim80.CpuZ80.Opcodes;
-using Jacobi.Zim80.Test;
 using Jacobi.Zim80.CpuZ80.UnitTests;
-using FluentAssertions;
-using Jacobi.Zim80.UnitTests;
 using Jacobi.Zim80.Diagnostics;
+using Jacobi.Zim80.Test;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
+using System;
 
 namespace Jacobi.Zim80.CpuZ80.Instructions.UnitTests
 {
@@ -24,11 +23,11 @@ namespace Jacobi.Zim80.CpuZ80.Instructions.UnitTests
                 (flags, reg) => 
                 {
                     flags.S.Should().Be(reg == Register8Table.A);
-                    flags.Z.Should().BeFalse();
-                    flags.C.Should().BeFalse();
-                    flags.H.Should().BeTrue();
-                    flags.N.Should().BeFalse();
-                    flags.PV.Should().BeFalse();
+                    flags.Z.Should().Be(false);
+                    flags.C.Should().Be(false);
+                    flags.H.Should().Be(true);
+                    flags.N.Should().Be(false);
+                    flags.PV.Should().Be(false);
                 }, carry: false);
         }
 
@@ -42,11 +41,11 @@ namespace Jacobi.Zim80.CpuZ80.Instructions.UnitTests
                 (flags, reg) =>
                 {
                     flags.S.Should().Be(reg == Register8Table.A);
-                    flags.Z.Should().BeFalse();
-                    flags.C.Should().BeFalse();
-                    flags.H.Should().BeTrue();
-                    flags.N.Should().BeFalse();
-                    flags.PV.Should().BeFalse();
+                    flags.Z.Should().Be(false);
+                    flags.C.Should().Be(false);
+                    flags.H.Should().Be(true);
+                    flags.N.Should().Be(false);
+                    flags.PV.Should().Be(false);
                 }, carry: false);
         }
 
@@ -59,12 +58,12 @@ namespace Jacobi.Zim80.CpuZ80.Instructions.UnitTests
             TestMathOperation(MathOperations.AddWithCarry, expectedValue, expectedValueA,
                 (flags, reg) =>
                 {
-                    flags.S.Should().BeTrue();
-                    flags.Z.Should().BeFalse();
-                    flags.C.Should().BeFalse();
-                    flags.H.Should().BeTrue();
-                    flags.N.Should().BeFalse();
-                    flags.PV.Should().BeFalse();
+                    flags.S.Should().Be(true);
+                    flags.Z.Should().Be(false);
+                    flags.C.Should().Be(false);
+                    flags.H.Should().Be(true);
+                    flags.N.Should().Be(false);
+                    flags.PV.Should().Be(true);
                 }, carry: true);
         }
 
@@ -83,7 +82,7 @@ namespace Jacobi.Zim80.CpuZ80.Instructions.UnitTests
                     flags.Z.Should().Be(isA);
                     flags.C.Should().Be(!isA);
                     flags.H.Should().Be(isA);
-                    flags.N.Should().BeTrue();
+                    flags.N.Should().Be(true);
                     flags.PV.Should().Be(!isA);
 
                 }, carry: false);
@@ -104,7 +103,7 @@ namespace Jacobi.Zim80.CpuZ80.Instructions.UnitTests
                     flags.Z.Should().Be(isA);
                     flags.C.Should().Be(!isA);
                     flags.H.Should().Be(isA);
-                    flags.N.Should().BeTrue();
+                    flags.N.Should().Be(true);
                     flags.PV.Should().Be(!isA);
 
                 }, carry: false);
@@ -119,12 +118,12 @@ namespace Jacobi.Zim80.CpuZ80.Instructions.UnitTests
             TestMathOperation(MathOperations.SubtractWithCarry, expectedValue, expectedValueA,
                 (flags, reg) =>
                 {
-                    flags.S.Should().BeTrue();
-                    flags.Z.Should().BeFalse();
-                    flags.C.Should().BeTrue();
-                    flags.H.Should().BeFalse();
-                    flags.N.Should().BeTrue();
-                    flags.PV.Should().BeTrue();
+                    flags.S.Should().Be(true);
+                    flags.Z.Should().Be(false);
+                    flags.C.Should().Be(true);
+                    flags.H.Should().Be(false);
+                    flags.N.Should().Be(true);
+                    flags.PV.Should().Be(false);
 
                 }, carry: true);
         }
@@ -138,12 +137,12 @@ namespace Jacobi.Zim80.CpuZ80.Instructions.UnitTests
             TestMathOperation(MathOperations.And, expectedValue, expectedValueA,
                 (flags, reg) =>
                 {
-                    flags.S.Should().BeFalse();
+                    flags.S.Should().Be(false);
                     flags.Z.Should().Be(reg != Register8Table.A);
-                    flags.C.Should().BeFalse();
-                    flags.H.Should().BeTrue();
-                    flags.N.Should().BeFalse();
-                    flags.PV.Should().BeFalse();
+                    flags.C.Should().Be(false);
+                    flags.H.Should().Be(true);
+                    flags.N.Should().Be(false);
+                    flags.PV.Should().Be(false);
 
                 }, carry: false);
         }
@@ -158,11 +157,11 @@ namespace Jacobi.Zim80.CpuZ80.Instructions.UnitTests
                 (flags, reg) =>
                 {
                     var isA = reg == Register8Table.A;
-                    flags.S.Should().BeFalse();
+                    flags.S.Should().Be(false);
                     flags.Z.Should().Be(isA);
-                    flags.C.Should().BeFalse();
-                    flags.H.Should().BeFalse();
-                    flags.N.Should().BeFalse();
+                    flags.C.Should().Be(false);
+                    flags.H.Should().Be(false);
+                    flags.N.Should().Be(false);
                     flags.PV.Should().Be(isA);
 
                 }, carry: false);
@@ -177,12 +176,12 @@ namespace Jacobi.Zim80.CpuZ80.Instructions.UnitTests
             TestMathOperation(MathOperations.Or, expectedValue, expectedValueA,
                 (flags, reg) =>
                 {
-                    flags.S.Should().BeFalse();
-                    flags.Z.Should().BeFalse();
-                    flags.C.Should().BeFalse();
-                    flags.H.Should().BeFalse();
-                    flags.N.Should().BeFalse();
-                    flags.PV.Should().BeFalse();
+                    flags.S.Should().Be(false);
+                    flags.Z.Should().Be(false);
+                    flags.C.Should().Be(false);
+                    flags.H.Should().Be(false);
+                    flags.N.Should().Be(false);
+                    flags.PV.Should().Be(false);
 
                 }, carry: false);
         }
@@ -202,7 +201,7 @@ namespace Jacobi.Zim80.CpuZ80.Instructions.UnitTests
                     flags.Z.Should().Be(isA);
                     flags.C.Should().Be(!isA);
                     flags.H.Should().Be(isA);
-                    flags.N.Should().BeTrue();
+                    flags.N.Should().Be(true);
                     flags.PV.Should().Be(!isA);
 
                 }, carry: false);

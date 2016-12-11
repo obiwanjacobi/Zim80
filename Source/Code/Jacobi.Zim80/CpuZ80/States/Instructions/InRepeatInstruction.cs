@@ -15,6 +15,7 @@
                 ExecutionEngine.Cycles.MachineCycle == MachineCycleNames.M3)
             {
                 MoveNext();
+                SetFlags();
             }
 
             base.OnClockNeg();
@@ -37,8 +38,39 @@
             }
         }
 
+        protected override bool IsConditionMet()
+        {
+            return IsRepeat && Registers.B == 0;
+        }
+
+        protected void MoveNext()
+        {
+            if (IsDecrement)
+                Registers.HL--;
+            else
+                Registers.HL++;
+        }
+
+        private void DecrementCount()
+        {
+            Registers.B = Cpu.Alu.Dec8(Registers.B);
+        }
+
+        private void SetFlags()
+        {
+            Registers.Flags.N = (_writePart.Data.Value & (1 << 7)) != 0;
+
+            // undocumented p16/p17
+            byte adjustedC = (byte)(Registers.C + (IsDecrement ? -1 : 1));
+            var temp = _writePart.Data.Value + adjustedC;
+            Registers.Flags.H = Registers.Flags.C = (temp > 0xFF);
+            Registers.Flags.PV = Alu.IsParityEven((byte)((temp & 7) ^ Registers.B));
+        }
+
         private CpuState CreateInputPart(MachineCycleNames machineCycle)
         {
+            DecrementCount();
+
             _inputPart = new InputInstructionPart(Cpu, machineCycle, Registers.BC);
             return _inputPart;
         }

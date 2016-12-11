@@ -1,10 +1,9 @@
-﻿using System;
+﻿using FluentAssertions;
 using Jacobi.Zim80.CpuZ80.Opcodes;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Jacobi.Zim80.CpuZ80.UnitTests;
-using FluentAssertions;
-using Jacobi.Zim80.UnitTests;
 using Jacobi.Zim80.Diagnostics;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
+using System;
 
 namespace Jacobi.Zim80.CpuZ80.Instructions.UnitTests
 {

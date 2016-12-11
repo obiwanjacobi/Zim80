@@ -14,7 +14,6 @@
             var q = ExecutionEngine.Opcode.Definition.Q;
             var p = ExecutionEngine.Opcode.Definition.P;
 
-            // TODO: check z -for other instructions
             if (x == 0 && z == 2)
             {
                 switch (p)

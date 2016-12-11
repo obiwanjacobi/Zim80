@@ -1,10 +1,9 @@
-﻿using System;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using FluentAssertions;
 using Jacobi.Zim80.CpuZ80.Opcodes;
 using Jacobi.Zim80.CpuZ80.UnitTests;
-using FluentAssertions;
-using Jacobi.Zim80.UnitTests;
 using Jacobi.Zim80.Diagnostics;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
+using System;
 
 namespace Jacobi.Zim80.CpuZ80.Instructions.UnitTests
 {
@@ -43,11 +42,11 @@ namespace Jacobi.Zim80.CpuZ80.Instructions.UnitTests
 
             var flags = cpu.Registers.Flags;
             flags.S.Should().Be(true);
-            flags.Z.Should().BeFalse();
-            flags.C.Should().BeFalse();
-            flags.H.Should().BeTrue();
-            flags.N.Should().BeFalse();
-            flags.PV.Should().BeFalse();
+            flags.Z.Should().Be(false);
+            flags.C.Should().Be(false);
+            flags.H.Should().Be(true);
+            flags.N.Should().Be(false);
+            flags.PV.Should().Be(false);
         }
         
         [TestMethod]
@@ -96,11 +95,11 @@ namespace Jacobi.Zim80.CpuZ80.Instructions.UnitTests
 
             var flags = cpu.Registers.Flags;
             flags.S.Should().Be(true);
-            flags.Z.Should().BeFalse();
-            flags.C.Should().BeFalse();
-            flags.H.Should().BeTrue();
-            flags.N.Should().BeFalse();
-            flags.PV.Should().BeFalse();
+            flags.Z.Should().Be(false);
+            flags.C.Should().Be(false);
+            flags.H.Should().Be(true);
+            flags.N.Should().Be(false);
+            flags.PV.Should().Be(carry);
         }
 
         [TestMethod]
@@ -134,7 +133,7 @@ namespace Jacobi.Zim80.CpuZ80.Instructions.UnitTests
             flags.C.Should().Be(true);
             flags.H.Should().Be(false);
             flags.N.Should().Be(true);
-            flags.PV.Should().Be(false);
+            flags.PV.Should().Be(true);
         }
 
         [TestMethod]
@@ -183,11 +182,11 @@ namespace Jacobi.Zim80.CpuZ80.Instructions.UnitTests
 
             var flags = cpu.Registers.Flags;
             flags.S.Should().Be(!carry);
-            flags.Z.Should().BeFalse();
+            flags.Z.Should().Be(false);
             flags.C.Should().Be(true);
             flags.H.Should().Be(false);
             flags.N.Should().Be(true);
-            flags.PV.Should().BeFalse();
+            flags.PV.Should().Be(!carry);
         }
 
         [TestMethod]
@@ -217,11 +216,11 @@ namespace Jacobi.Zim80.CpuZ80.Instructions.UnitTests
 
             var flags = cpu.Registers.Flags;
             flags.S.Should().Be(false);
-            flags.Z.Should().BeFalse();
+            flags.Z.Should().Be(false);
             flags.C.Should().Be(false);
             flags.H.Should().Be(true);
             flags.N.Should().Be(false);
-            flags.PV.Should().BeFalse();
+            flags.PV.Should().Be(false);
         }
 
         [TestMethod]
@@ -251,11 +250,11 @@ namespace Jacobi.Zim80.CpuZ80.Instructions.UnitTests
 
             var flags = cpu.Registers.Flags;
             flags.S.Should().Be(true);
-            flags.Z.Should().BeFalse();
+            flags.Z.Should().Be(false);
             flags.C.Should().Be(false);
             flags.H.Should().Be(false);
             flags.N.Should().Be(false);
-            flags.PV.Should().BeFalse();
+            flags.PV.Should().Be(false);
         }
 
         [TestMethod]
@@ -285,11 +284,11 @@ namespace Jacobi.Zim80.CpuZ80.Instructions.UnitTests
 
             var flags = cpu.Registers.Flags;
             flags.S.Should().Be(true);
-            flags.Z.Should().BeFalse();
+            flags.Z.Should().Be(false);
             flags.C.Should().Be(false);
             flags.H.Should().Be(false);
             flags.N.Should().Be(false);
-            flags.PV.Should().BeFalse();
+            flags.PV.Should().Be(false);
         }
 
         [TestMethod]
@@ -319,11 +318,11 @@ namespace Jacobi.Zim80.CpuZ80.Instructions.UnitTests
 
             var flags = cpu.Registers.Flags;
             flags.S.Should().Be(true);
-            flags.Z.Should().BeFalse();
+            flags.Z.Should().Be(false);
             flags.C.Should().Be(true);
             flags.H.Should().Be(false);
             flags.N.Should().Be(true);
-            flags.PV.Should().BeFalse();
+            flags.PV.Should().Be(true);
         }
 
         private CpuZ80 TestMathOperation(OpcodeByte ob, byte expectedValue, bool carry, byte extension = 0)
@@ -331,7 +330,6 @@ namespace Jacobi.Zim80.CpuZ80.Instructions.UnitTests
             var cpu = ExecuteTest(ob,
                 (cpuZ80) => {
                     cpuZ80.Registers.Flags.C = carry;
-                    //cpuZ80.Registers.A = Value;
 
                     if (extension == 0) cpuZ80.Registers.HL = Address;
                     if (extension == 0xDD) cpuZ80.Registers.IX = Address;

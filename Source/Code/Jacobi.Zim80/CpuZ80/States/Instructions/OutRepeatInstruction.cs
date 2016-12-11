@@ -9,6 +9,17 @@
             : base(cpu)
         { }
 
+        protected override void OnClockNeg()
+        {
+            if (ExecutionEngine.Cycles.IsLastCycle &&
+                ExecutionEngine.Cycles.MachineCycle == MachineCycleNames.M3)
+            {
+                MoveNext();
+            }
+
+            base.OnClockNeg();
+        }
+
         protected override CpuState GetInstructionPart(MachineCycleNames machineCycle)
         {
             switch (machineCycle)
@@ -26,6 +37,37 @@
             }
         }
 
+        protected override bool IsConditionMet()
+        {
+            return IsRepeat && Registers.B == 0;
+        }
+
+        protected void MoveNext()
+        {
+            if (IsDecrement)
+                Registers.HL--;
+            else
+                Registers.HL++;
+
+            DecrementCount();
+            SetFlags();
+        }
+
+        private void DecrementCount()
+        {
+            Registers.B = Cpu.Alu.Dec8(Registers.B);
+        }
+
+        private void SetFlags()
+        {
+            Registers.Flags.N = (_readPart.Data.Value & (1 << 7)) != 0;
+
+            // undocumented p16
+            var temp = _readPart.Data.Value + Registers.L;
+            Registers.Flags.H = Registers.Flags.C = (temp > 0xFF);
+            Registers.Flags.PV = Alu.IsParityEven((byte)((temp & 7) ^ Registers.B));
+        }
+
         private CpuState CreateReadDataPart(MachineCycleNames machineCycle)
         {
             _readPart = new ReadT3InstructionPart(Cpu, machineCycle, Registers.HL);
@@ -34,9 +76,6 @@
 
         private CpuState CreateOutputPart(MachineCycleNames machineCycle)
         {
-            // decremented B is the IO address MSB
-            MoveNext();
-
             _outputPart = new OutputInstructionPart(Cpu, machineCycle, Registers.BC)
             {
                 Data = _readPart.Data

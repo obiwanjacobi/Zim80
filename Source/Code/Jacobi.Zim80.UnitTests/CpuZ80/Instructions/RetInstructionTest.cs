@@ -1,10 +1,10 @@
-﻿using System;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Jacobi.Zim80.Test;
-using Jacobi.Zim80.CpuZ80.Opcodes;
+﻿using Jacobi.Zim80.CpuZ80.Opcodes;
 using Jacobi.Zim80.CpuZ80.UnitTests;
-using System.Linq;
 using Jacobi.Zim80.Diagnostics;
+using Jacobi.Zim80.Test;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
+using System;
+using System.Linq;
 
 namespace Jacobi.Zim80.CpuZ80.Instructions.UnitTests
 {

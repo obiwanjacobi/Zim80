@@ -1,10 +1,10 @@
-﻿using System;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using FluentAssertions;
 using Jacobi.Zim80.CpuZ80.Opcodes;
-using Jacobi.Zim80.Test;
 using Jacobi.Zim80.CpuZ80.UnitTests;
-using FluentAssertions;
 using Jacobi.Zim80.Diagnostics;
+using Jacobi.Zim80.Test;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
+using System;
 
 namespace Jacobi.Zim80.UnitTests.CpuZ80.Instructions
 {
@@ -38,7 +38,7 @@ namespace Jacobi.Zim80.UnitTests.CpuZ80.Instructions
 
             count.Should().Be(5);
             model.Cpu.AssertRegisters(bc: 0, de: WrAddress + Length, hl: RdAddress + Length);
-            model.Cpu.Registers.Flags.Z.Should().Be(true);
+            model.Cpu.Registers.Flags.PV.Should().Be(false);
         }
 
         private SimulationModel ExecuteTest(OpcodeByte ob, Func<Zim80.CpuZ80.CpuZ80, int> preTest)

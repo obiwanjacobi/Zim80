@@ -23,27 +23,12 @@
             base.OnClockNeg();
         }
 
-        protected virtual void MoveNext()
-        {
-            if (IsDecrement)
-                Registers.HL--;
-            else
-                Registers.HL++;
-
-            Registers.B--;
-            Registers.Flags.Z = Alu.IsZero(Registers.B);
-            Registers.Flags.N = true;
-        }
-
         protected CpuState CreateRepeatPart(MachineCycleNames machineCycle)
         {
             return new RepeatInstructionPart(Cpu, machineCycle, -2);
         }
 
-        protected virtual bool IsConditionMet()
-        {
-            return IsRepeat && Registers.Flags.Z;
-        }
+        protected abstract bool IsConditionMet();
 
         protected bool IsDecrement
         {

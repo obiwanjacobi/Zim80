@@ -26,7 +26,7 @@ namespace Jacobi.Zim80.CpuZ80
             return newValue;
         }
 
-        // Y/X flags not supported for (HL) and IX/IY +d
+        // TODO: Y/X flags not correct for (HL) and IX/IY +d
         // see undocumented (p15)
         public void TestBit(byte bit, byte value)
         {
@@ -168,37 +168,39 @@ namespace Jacobi.Zim80.CpuZ80
             Flags.C = (newValue & 0xF0000) > 0;
             Flags.H = HalfCarryFromHi((byte)(acc >> 8), (byte)(newValue >> 8));
             Flags.N = true;
-            //Flags.PV = IsOverflow(); TODO
+            // TODO: Flags.PV = IsOverflow();
 
             return (ushort)newValue;
         }
 
         public byte Add8(byte acc, byte value, bool addCarry = false)
         {
+            var oldC = Flags.C;
             var newValue = acc + value;
-            if (addCarry && Flags.C) newValue++;
+            if (addCarry && oldC) newValue++;
 
             Flags.S = IsNegative((byte)newValue);
             Flags.Z = IsZero(newValue);
             Flags.H = HalfCarryFromLo(acc, (byte)newValue);
-            Flags.PV = IsOverflow(acc, value, newValue);
             Flags.N = false;
             Flags.C = (uint)newValue > 0xFF;
+            Flags.PV = Flags.C != oldC;
 
             return (byte)newValue;
         }
 
         public byte Sub8(byte acc, byte value, bool subCarry = false)
         {
+            var oldC = Flags.C;
             var newValue = acc - value;
-            if (subCarry && Flags.C) newValue--;
+            if (subCarry && oldC) newValue--;
 
             Flags.S = IsNegative((byte)newValue);
             Flags.Z = IsZero(newValue);
             Flags.H = HalfCarryFromHi(acc, (byte)newValue);
-            Flags.PV = IsOverflow(acc, value, newValue);
             Flags.N = true;
             Flags.C = (uint)newValue > 0xFF;
+            Flags.PV = Flags.C != oldC;
 
             return (byte)newValue;
         }
@@ -554,12 +556,12 @@ namespace Jacobi.Zim80.CpuZ80
         {
             if (IsNegative(value1) && IsNegative(value2))
             {
-                return newValue > 0;
+                return !IsNegative((byte)newValue);
             }
 
             if (!IsNegative(value1) && !IsNegative(value2))
             {
-                return newValue < 0;
+                return IsNegative((byte)newValue);
             }
 
             return false;

@@ -1,11 +1,10 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Jacobi.Zim80.CpuZ80.Opcodes;
-using Jacobi.Zim80.Test;
-using System;
+﻿using Jacobi.Zim80.CpuZ80.Opcodes;
 using Jacobi.Zim80.CpuZ80.UnitTests;
-using Jacobi.Zim80.Memory.UnitTests;
-using Jacobi.Zim80.UnitTests;
 using Jacobi.Zim80.Diagnostics;
+using Jacobi.Zim80.Memory.UnitTests;
+using Jacobi.Zim80.Test;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
+using System;
 
 namespace Jacobi.Zim80.CpuZ80.Instructions.UnitTests
 {
@@ -23,11 +22,11 @@ namespace Jacobi.Zim80.CpuZ80.Instructions.UnitTests
             var model = ExecuteTest(ob, (cpu) => 
                 {
                     cpu.Registers.HL = Address;
-                    cpu.Registers.BC = IoAddress;
+                    cpu.Registers.BC = 0x0100 | IoAddress;
 
                 }, true);
 
-            model.Cpu.AssertRegisters(hl: Address + 1, bc: 0xFF02);
+            model.Cpu.AssertRegisters(hl: Address + 1, bc: IoAddress);
             model.Memory.Assert(Address, Value);
         }
 
@@ -38,11 +37,11 @@ namespace Jacobi.Zim80.CpuZ80.Instructions.UnitTests
             var model = ExecuteTest(ob, (cpu) =>
             {
                 cpu.Registers.HL = Address;
-                cpu.Registers.BC = IoAddress;
+                cpu.Registers.BC = 0x0100 | IoAddress;
 
             }, true);
 
-            model.Cpu.AssertRegisters(hl: Address - 1, bc: 0xFF02);
+            model.Cpu.AssertRegisters(hl: Address - 1, bc: IoAddress);
             model.Memory.Assert(Address, Value);
         }
 
@@ -53,11 +52,11 @@ namespace Jacobi.Zim80.CpuZ80.Instructions.UnitTests
             var model = ExecuteTest(ob, (cpu) =>
             {
                 cpu.Registers.HL = Address;
-                cpu.Registers.BC = IoAddress;
+                cpu.Registers.BC = 0x0100 | IoAddress;
 
             }, true);
 
-            model.Cpu.AssertRegisters(hl: Address + 1, bc: 0xFF02);
+            model.Cpu.AssertRegisters(hl: Address + 1, bc: IoAddress);
             model.Memory.Assert(Address, Value);
         }
 
@@ -68,11 +67,11 @@ namespace Jacobi.Zim80.CpuZ80.Instructions.UnitTests
             var model = ExecuteTest(ob, (cpu) =>
             {
                 cpu.Registers.HL = Address;
-                cpu.Registers.BC = IoAddress;
+                cpu.Registers.BC = 0x0100 | IoAddress;
 
             }, true);
 
-            model.Cpu.AssertRegisters(hl: Address - 1, bc: 0xFF02);
+            model.Cpu.AssertRegisters(hl: Address - 1, bc: IoAddress);
             model.Memory.Assert(Address, Value);
         }
 

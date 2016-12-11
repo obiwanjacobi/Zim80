@@ -37,7 +37,7 @@
             }
         }
 
-        protected override void MoveNext()
+        protected void MoveNext()
         {
             if (IsDecrement)
                 Registers.HL--;
@@ -47,15 +47,20 @@
             Registers.BC--;
 
             bool c = Registers.Flags.C; // save carry
-            Cpu.Alu.Sub8(Registers.A, _readPart.Data.Value);
-            Registers.Flags.PV = Registers.BC == 0;
-            // carry is unaffected
-            Registers.Flags.C = c;
+            var temp = Cpu.Alu.Sub8(Registers.A, _readPart.Data.Value);
+            Registers.Flags.C = c;  // carry is unaffected
+            Registers.Flags.PV = Registers.BC != 0;
+            Registers.Flags.N = true;
+
+            // undocumented p16
+            if (Registers.Flags.H) temp--;
+            Registers.Flags.X = (temp & (1 << 3)) > 0;
+            Registers.Flags.Y = (temp & (1 << 1)) > 0;
         }
 
         protected override bool IsConditionMet()
         {
-            return base.IsConditionMet() || (IsRepeat && Registers.BC == 0);
+            return IsRepeat && (Registers.Flags.Z || Registers.BC == 0);
         }
 
         private CpuState CreateReadDataPart(MachineCycleNames machineCycle)

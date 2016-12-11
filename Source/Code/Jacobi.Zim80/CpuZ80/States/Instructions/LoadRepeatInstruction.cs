@@ -37,7 +37,12 @@
             }
         }
 
-        protected override void MoveNext()
+        protected override bool IsConditionMet()
+        {
+            return IsRepeat && Registers.BC == 0;
+        }
+
+        protected void MoveNext()
         {
             if (IsDecrement)
             {
@@ -51,9 +56,14 @@
             }
 
             Registers.BC--;
-            Registers.Flags.Z = Alu.IsZero(Registers.B) && Alu.IsZero(Registers.C);
-            Registers.Flags.H = true;
+            Registers.Flags.H = false;
             Registers.Flags.N = true;
+            Registers.Flags.PV = Registers.BC != 0;
+
+            // undocumented p16
+            var temp = _readPart.Data.Value + Registers.A;
+            Registers.Flags.X = (temp & (1 << 3)) > 0;
+            Registers.Flags.Y = (temp & (1 << 1)) > 0;
         }
 
         private CpuState CreateWriteDatatPart(MachineCycleNames machineCycle)

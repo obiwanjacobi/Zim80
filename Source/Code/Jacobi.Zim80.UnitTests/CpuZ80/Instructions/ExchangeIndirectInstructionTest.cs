@@ -3,7 +3,6 @@ using Jacobi.Zim80.CpuZ80.UnitTests;
 using Jacobi.Zim80.Diagnostics;
 using Jacobi.Zim80.Memory.UnitTests;
 using Jacobi.Zim80.Test;
-using Jacobi.Zim80.UnitTests;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 
