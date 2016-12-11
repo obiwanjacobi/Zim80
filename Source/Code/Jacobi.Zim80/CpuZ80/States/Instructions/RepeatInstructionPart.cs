@@ -6,8 +6,8 @@ namespace Jacobi.Zim80.CpuZ80.States.Instructions
     {
         private readonly sbyte _deltaPC;
 
-        public RepeatInstructionPart(Die die, MachineCycleNames activeMachineCycle, sbyte deltaPC) 
-            : base(die, activeMachineCycle)
+        public RepeatInstructionPart(CpuZ80 cpu, MachineCycleNames activeMachineCycle, sbyte deltaPC) 
+            : base(cpu, activeMachineCycle)
         {
             if (deltaPC >= 0) throw new ArgumentException(
                 "The value must be negative.", "deltaPC");
@@ -19,7 +19,7 @@ namespace Jacobi.Zim80.CpuZ80.States.Instructions
         {
             if (ExecutionEngine.Cycles.IsLastCycle)
             {
-                Die.Registers.PC = Alu.Add(Die.Registers.PC, _deltaPC);
+                Cpu.Registers.PC = Alu.Add(Cpu.Registers.PC, _deltaPC);
             }
 
             base.OnClockHigh();

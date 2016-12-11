@@ -7,8 +7,8 @@ namespace Jacobi.Zim80.CpuZ80.States.Instructions
         private ReadT3InstructionPart _readInstructionLo;
         private ReadT3InstructionPart _readInstructionHi;
 
-        public LoadImmediateIndirect16Instruction(Die die) 
-            : base(die)
+        public LoadImmediateIndirect16Instruction(CpuZ80 cpu) 
+            : base(cpu)
         { }
 
         private bool IsWrite
@@ -69,13 +69,13 @@ namespace Jacobi.Zim80.CpuZ80.States.Instructions
 
             if (IsWrite)
             {
-                return new WriteT3InstructionPart(Die, MachineCycleNames.M5, address)
+                return new WriteT3InstructionPart(Cpu, MachineCycleNames.M5, address)
                 {
                     Data = new OpcodeByte(GetValueHi())
                 };
             }
 
-            _readInstructionHi = new ReadT3InstructionPart(Die, MachineCycleNames.M5, address);
+            _readInstructionHi = new ReadT3InstructionPart(Cpu, MachineCycleNames.M5, address);
             return _readInstructionHi;
         }
 
@@ -85,13 +85,13 @@ namespace Jacobi.Zim80.CpuZ80.States.Instructions
 
             if (IsWrite)
             {
-                return new WriteT3InstructionPart(Die, MachineCycleNames.M4, address)
+                return new WriteT3InstructionPart(Cpu, MachineCycleNames.M4, address)
                 {
                     Data = new OpcodeByte(GetValueLo())
                 };
             }
 
-            _readInstructionLo = new ReadT3InstructionPart(Die, MachineCycleNames.M4, address);
+            _readInstructionLo = new ReadT3InstructionPart(Cpu, MachineCycleNames.M4, address);
             return _readInstructionLo;
         }
     }

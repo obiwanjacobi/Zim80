@@ -2,8 +2,8 @@
 {
     internal class IntModeInstruction : SingleCycleInstruction
     {
-        public IntModeInstruction(Die die) 
-            : base(die)
+        public IntModeInstruction(CpuZ80 cpu) 
+            : base(cpu)
         { }
 
         protected override void OnLastCycleFirstM()

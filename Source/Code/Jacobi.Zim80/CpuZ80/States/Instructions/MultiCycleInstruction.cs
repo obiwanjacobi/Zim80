@@ -4,8 +4,8 @@
     {
         private CpuState _currentPart;
 
-        public MultiCycleInstruction(Die die)
-            : base(die)
+        public MultiCycleInstruction(CpuZ80 cpu)
+            : base(cpu)
         { }
 
         protected abstract CpuState GetInstructionPart(MachineCycleNames machineCycle);

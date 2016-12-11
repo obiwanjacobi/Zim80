@@ -2,13 +2,13 @@
 {
     internal class NegateInstruction : SingleCycleInstruction
     {
-        public NegateInstruction(Die die) 
-            : base(die)
+        public NegateInstruction(CpuZ80 cpu) 
+            : base(cpu)
         { }
 
         protected override void OnLastCycleFirstM()
         {
-            Registers.A = Die.Alu.Negate(Registers.A);
+            Registers.A = Cpu.Alu.Negate(Registers.A);
         }
     }
 }

@@ -4,8 +4,8 @@
     {
         private ReadT3InstructionPart _instructionPart;
 
-        public MathIndirectInstruction(Die die) 
-            : base(die)
+        public MathIndirectInstruction(CpuZ80 cpu) 
+            : base(cpu)
         { }
 
         protected override CpuState GetInstructionPart(MachineCycleNames machineCycle)
@@ -24,7 +24,7 @@
                     if (!hasExtension)
                         throw Errors.InvalidMachineCycle(machineCycle);
                     // z80 does the IX+d arithmetic
-                    return new AutoCompleteInstructionPart(Die, machineCycle);
+                    return new AutoCompleteInstructionPart(Cpu, machineCycle);
                 case MachineCycleNames.M4:
                     if (!hasExtension)
                         throw Errors.InvalidMachineCycle(machineCycle);
@@ -37,12 +37,12 @@
 
         protected override void OnLastCycleLastM()
         {
-            Die.Alu.DoAccumulatorMath(ExecutionEngine.Opcode.Definition.MathOperationFromY, _instructionPart.Data.Value);
+            Cpu.Alu.DoAccumulatorMath(ExecutionEngine.Opcode.Definition.MathOperationFromY, _instructionPart.Data.Value);
         }
 
         private CpuState CreateReadIndirectValueInstructionPart(MachineCycleNames machineCycle)
         {
-            _instructionPart = new ReadT3InstructionPart(Die, machineCycle, GetAddress());
+            _instructionPart = new ReadT3InstructionPart(Cpu, machineCycle, GetAddress());
             return _instructionPart;
         }
     }

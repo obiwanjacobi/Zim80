@@ -51,7 +51,6 @@
     <Compile Include="CpuZ80\Alu.cs" />
     <Compile Include="CpuZ80\CpuZ80.cs" />
     <Compile Include="CpuZ80\CycleCounter.cs" />
-    <Compile Include="CpuZ80\Die.cs" />
     <Compile Include="CpuZ80\ExecutionEngine.cs" />
     <Compile Include="CpuZ80\InstructionExecutedEventArgs.cs" />
     <Compile Include="CpuZ80\InterruptManager.cs" />

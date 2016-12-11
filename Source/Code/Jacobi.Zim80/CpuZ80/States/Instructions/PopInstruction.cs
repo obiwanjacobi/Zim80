@@ -2,8 +2,8 @@
 {
     internal class PopInstruction : MultiCycleInstruction
     {
-        public PopInstruction(Die die) 
-            : base(die)
+        public PopInstruction(CpuZ80 cpu) 
+            : base(cpu)
         { }
 
         protected override CpuState GetInstructionPart(MachineCycleNames machineCycle)
@@ -11,10 +11,10 @@
             switch (machineCycle)
             {
                 case MachineCycleNames.M2:
-                    _instructionM2 = new ReadT3InstructionPart(Die, machineCycle, Registers.SP);
+                    _instructionM2 = new ReadT3InstructionPart(Cpu, machineCycle, Registers.SP);
                     return _instructionM2;
                 case MachineCycleNames.M3:
-                    _instructionM3 = new ReadT3InstructionPart(Die, machineCycle, Registers.SP);
+                    _instructionM3 = new ReadT3InstructionPart(Cpu, machineCycle, Registers.SP);
                     return _instructionM3;
                 default:
                     throw Errors.InvalidMachineCycle(machineCycle);

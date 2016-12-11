@@ -2,8 +2,8 @@
 {
     internal class SetInstruction : SingleCycleInstruction
     {
-        public SetInstruction(Die die) 
-            : base(die)
+        public SetInstruction(CpuZ80 cpu) 
+            : base(cpu)
         { }
 
         protected override void OnLastCycleFirstM()
@@ -11,7 +11,7 @@
             var bit = ExecutionEngine.Opcode.Definition.Y;
             var reg = ExecutionEngine.Opcode.Definition.Register8FromZ;
 
-            Registers[reg] = Die.Alu.SetBit(bit, Registers[reg]);
+            Registers[reg] = Cpu.Alu.SetBit(bit, Registers[reg]);
         }
     }
 }

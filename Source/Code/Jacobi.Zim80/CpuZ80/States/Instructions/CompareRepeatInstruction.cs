@@ -4,8 +4,8 @@
     {
         private ReadT3InstructionPart _readPart;
 
-        public CompareRepeatInstruction(Die die) 
-            : base(die)
+        public CompareRepeatInstruction(CpuZ80 cpu) 
+            : base(cpu)
         { }
 
         protected override void OnClockNeg()
@@ -27,7 +27,7 @@
                     return CreateReadDataPart(machineCycle);
                 case MachineCycleNames.M3:
                     // z80 does computation
-                    return new AutoCompleteInstructionPart(Die, machineCycle);
+                    return new AutoCompleteInstructionPart(Cpu, machineCycle);
                 case MachineCycleNames.M4:
                     if (!IsRepeat)
                         throw Errors.InvalidMachineCycle(machineCycle);
@@ -47,7 +47,7 @@
             Registers.BC--;
 
             bool c = Registers.Flags.C; // save carry
-            Die.Alu.Sub8(Registers.A, _readPart.Data.Value);
+            Cpu.Alu.Sub8(Registers.A, _readPart.Data.Value);
             Registers.Flags.PV = Registers.BC == 0;
             // carry is unaffected
             Registers.Flags.C = c;
@@ -60,7 +60,7 @@
 
         private CpuState CreateReadDataPart(MachineCycleNames machineCycle)
         {
-            _readPart = new Instructions.ReadT3InstructionPart(Die, machineCycle, Registers.HL);
+            _readPart = new Instructions.ReadT3InstructionPart(Cpu, machineCycle, Registers.HL);
             return _readPart;
         }
     }

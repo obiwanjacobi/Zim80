@@ -2,13 +2,13 @@
 {
     internal class ShiftRotateExtendedInstruction : ExtendedInstruction
     {
-        public ShiftRotateExtendedInstruction(Die die) 
-            : base(die)
+        public ShiftRotateExtendedInstruction(CpuZ80 cpu) 
+            : base(cpu)
         { }
 
         protected override byte ExecuteOperation(byte value)
         {
-            return Die.Alu.DoShiftRotate(
+            return Cpu.Alu.DoShiftRotate(
                 ExecutionEngine.Opcode.Definition.ShiftRotateFromY, value);
         }
     }

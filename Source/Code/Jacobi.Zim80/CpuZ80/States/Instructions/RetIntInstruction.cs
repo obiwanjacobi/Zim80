@@ -2,8 +2,8 @@
 {
     internal class RetIntInstruction : RetInstruction
     {
-        public RetIntInstruction(Die die) 
-            : base(die)
+        public RetIntInstruction(CpuZ80 cpu) 
+            : base(cpu)
         { }
 
         protected override void OnLastCycleFirstM()

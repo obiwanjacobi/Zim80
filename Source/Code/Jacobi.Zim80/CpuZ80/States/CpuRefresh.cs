@@ -2,8 +2,8 @@
 {
     internal abstract class CpuRefresh : CpuState
     {
-        public CpuRefresh(Die die)
-            : base(die)
+        public CpuRefresh(CpuZ80 cpu)
+            : base(cpu)
         {
             RefreshEnabled = true;
         }
@@ -21,14 +21,14 @@
             {
                 case CycleNames.T1:
                     // always reset refresh on T1.
-                    Die.Refresh.Write(DigitalLevel.High);
+                    Cpu.Refresh.Write(DigitalLevel.High);
                     break;
 
                 case CycleNames.T3:
                     if (IsEnabled)
                     {
                         ExecutionEngine.SetRefreshOnAddressBus();
-                        Die.Refresh.Write(DigitalLevel.Low);
+                        Cpu.Refresh.Write(DigitalLevel.Low);
                     }
                     break;
             }
@@ -41,10 +41,10 @@
             switch (ExecutionEngine.Cycles.CycleName)
             {
                 case CycleNames.T3:
-                    Die.MemoryRequest.Write(DigitalLevel.Low);
+                    Cpu.MemoryRequest.Write(DigitalLevel.Low);
                     break;
                 case CycleNames.T4:
-                    Die.MemoryRequest.Write(DigitalLevel.High);
+                    Cpu.MemoryRequest.Write(DigitalLevel.High);
                     break;
             }
         }

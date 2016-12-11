@@ -2,8 +2,8 @@
 {
     internal class LoadSystemRegisterInstruction : SingleCycleInstruction
     {
-        public LoadSystemRegisterInstruction(Die die) 
-            : base(die)
+        public LoadSystemRegisterInstruction(CpuZ80 cpu) 
+            : base(cpu)
         { }
 
         protected override void OnLastCycleFirstM()

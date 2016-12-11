@@ -2,8 +2,8 @@
 {
     internal class RetInstruction : PopInstruction
     {
-        public RetInstruction(Die die) 
-            : base(die)
+        public RetInstruction(CpuZ80 cpu) 
+            : base(cpu)
         { }
 
         protected override void OnLastCycleFirstM()

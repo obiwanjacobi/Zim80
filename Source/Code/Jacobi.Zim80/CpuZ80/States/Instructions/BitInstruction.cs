@@ -2,8 +2,8 @@
 {
     internal class BitInstruction : SingleCycleInstruction
     {
-        public BitInstruction(Die die) 
-            : base(die)
+        public BitInstruction(CpuZ80 cpu) 
+            : base(cpu)
         { }
 
         protected override void OnLastCycleFirstM()
@@ -13,7 +13,7 @@
 
             var regValue = Registers[reg];
 
-            Die.Alu.TestBit(bit, regValue);
+            Cpu.Alu.TestBit(bit, regValue);
         }
     }
 }

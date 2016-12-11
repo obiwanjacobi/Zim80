@@ -4,8 +4,8 @@ namespace Jacobi.Zim80.CpuZ80.States.Instructions
 {
     internal class WriteImmediateRegisterInstruction : ReadParametersInstruction
     {
-        public WriteImmediateRegisterInstruction(Die die) 
-            : base(die)
+        public WriteImmediateRegisterInstruction(CpuZ80 cpu) 
+            : base(cpu)
         { }
 
         protected override CpuState GetInstructionPart(MachineCycleNames machineCycle)
@@ -13,7 +13,7 @@ namespace Jacobi.Zim80.CpuZ80.States.Instructions
             switch (machineCycle)
             {
                 case MachineCycleNames.M4:
-                    return new WriteT3InstructionPart(Die, machineCycle, GetAddress())
+                    return new WriteT3InstructionPart(Cpu, machineCycle, GetAddress())
                     {
                         Data = new OpcodeByte(GetValueLo())
                     };
@@ -21,7 +21,7 @@ namespace Jacobi.Zim80.CpuZ80.States.Instructions
                     var regA = ExecutionEngine.Opcode.Definition.P == 3;
                     if (regA) throw Errors.AssignedToIllegalOpcode();
 
-                    return new WriteT3InstructionPart(Die, machineCycle, (ushort)(GetAddress() + 1))
+                    return new WriteT3InstructionPart(Cpu, machineCycle, (ushort)(GetAddress() + 1))
                     {
                         Data = new OpcodeByte(GetValueHi())
                     };

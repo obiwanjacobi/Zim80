@@ -2,8 +2,8 @@
 {
     internal class BitSetResExtendedInstruction : ExtendedInstruction
     {
-        public BitSetResExtendedInstruction(Die die) 
-            : base(die)
+        public BitSetResExtendedInstruction(CpuZ80 cpu) 
+            : base(cpu)
         { }
 
         protected override void OnLastCycleLastM()
@@ -13,7 +13,7 @@
             if (ExecutionEngine.Opcode.Definition.X == 1)   //bit
             {
                 var bit = ExecutionEngine.Opcode.Definition.Y;
-                Die.Alu.TestBit(bit, GetValue());
+                Cpu.Alu.TestBit(bit, GetValue());
             }
         }
 
@@ -24,9 +24,9 @@
             switch (ExecutionEngine.Opcode.Definition.X)
             {
                 case 2: //res
-                    return Die.Alu.ResetBit(bit, value);
+                    return Cpu.Alu.ResetBit(bit, value);
                 case 3: //set
-                    return Die.Alu.SetBit(bit, value);
+                    return Cpu.Alu.SetBit(bit, value);
                 default:
                     throw Errors.AssignedToIllegalOpcode();
             }

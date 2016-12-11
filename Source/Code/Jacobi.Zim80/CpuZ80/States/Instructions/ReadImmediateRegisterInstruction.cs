@@ -4,8 +4,8 @@ namespace Jacobi.Zim80.CpuZ80.States.Instructions
 {
     internal class ReadImmediateRegisterInstruction : ReadParametersInstruction
     {
-        public ReadImmediateRegisterInstruction(Die die) 
-            : base(die)
+        public ReadImmediateRegisterInstruction(CpuZ80 cpu) 
+            : base(cpu)
         { }
 
         private ReadT3InstructionPart _instructionM4;
@@ -18,11 +18,11 @@ namespace Jacobi.Zim80.CpuZ80.States.Instructions
             switch (machineCycle)
             {
                 case MachineCycleNames.M4:
-                    _instructionM4 = new ReadT3InstructionPart(Die, machineCycle, GetAddress());
+                    _instructionM4 = new ReadT3InstructionPart(Cpu, machineCycle, GetAddress());
                     return _instructionM4;
                 case MachineCycleNames.M5:
                     if (regA) throw Errors.AssignedToIllegalOpcode();
-                    _instructionM5 = new ReadT3InstructionPart(Die, machineCycle, (ushort)(GetAddress() + 1));
+                    _instructionM5 = new ReadT3InstructionPart(Cpu, machineCycle, (ushort)(GetAddress() + 1));
                     return _instructionM5;
             }
 

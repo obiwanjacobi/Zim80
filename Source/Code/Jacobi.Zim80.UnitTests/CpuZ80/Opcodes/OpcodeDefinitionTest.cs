@@ -91,7 +91,7 @@ namespace Jacobi.Zim80.CpuZ80.Opcodes.UnitTests
         [TestMethod]
         public void OpcodeDefinition_CanCreateInstruction()
         {
-            var die = new Die();
+            var cpu = new CpuZ80();
 
             foreach (var od in OpcodeDefinition.Defintions)
             {
@@ -100,7 +100,7 @@ namespace Jacobi.Zim80.CpuZ80.Opcodes.UnitTests
                 var mnemonic = string.Format(od.Mnemonic, "{0}", "{1}");
                 TestContext.WriteLine("{0}\t\t\t{1}", mnemonic, od.Instruction.Name);
 
-                Action create = () => Instruction.Create<Instruction>(die, od);
+                Action create = () => Instruction.Create<Instruction>(cpu, od);
                 create.ShouldNotThrow(od.ToString());
 
             }

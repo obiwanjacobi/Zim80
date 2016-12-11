@@ -5,8 +5,8 @@
         private ReadT3InstructionPart _readPart;
         private OutputInstructionPart _outputPart;
 
-        public OutRepeatInstruction(Die die) 
-            : base(die)
+        public OutRepeatInstruction(CpuZ80 cpu) 
+            : base(cpu)
         { }
 
         protected override CpuState GetInstructionPart(MachineCycleNames machineCycle)
@@ -28,7 +28,7 @@
 
         private CpuState CreateReadDataPart(MachineCycleNames machineCycle)
         {
-            _readPart = new ReadT3InstructionPart(Die, machineCycle, Registers.HL);
+            _readPart = new ReadT3InstructionPart(Cpu, machineCycle, Registers.HL);
             return _readPart;
         }
 
@@ -37,7 +37,7 @@
             // decremented B is the IO address MSB
             MoveNext();
 
-            _outputPart = new OutputInstructionPart(Die, machineCycle, Registers.BC)
+            _outputPart = new OutputInstructionPart(Cpu, machineCycle, Registers.BC)
             {
                 Data = _readPart.Data
             };

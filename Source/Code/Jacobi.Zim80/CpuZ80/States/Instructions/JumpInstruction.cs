@@ -4,8 +4,8 @@ namespace Jacobi.Zim80.CpuZ80.States.Instructions
 {
     internal class JumpInstruction : ReadParametersInstruction
     {
-        public JumpInstruction(Die die)
-            : base(die)
+        public JumpInstruction(CpuZ80 cpu)
+            : base(cpu)
         { }
 
         protected override void OnLastCycleLastM()

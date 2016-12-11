@@ -2,8 +2,8 @@
 {
     internal class HaltInstruction : Instruction
     {
-        public HaltInstruction(Die die) 
-            : base(die)
+        public HaltInstruction(CpuZ80 cpu) 
+            : base(cpu)
         { }
 
         protected override void OnClockNeg()

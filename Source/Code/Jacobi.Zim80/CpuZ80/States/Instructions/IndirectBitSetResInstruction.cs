@@ -7,8 +7,8 @@ namespace Jacobi.Zim80.CpuZ80.States.Instructions
         private ReadT3InstructionPart _instructionM2;
         private ushort _address;
 
-        public IndirectBitSetResInstruction(Die die)
-            : base(die)
+        public IndirectBitSetResInstruction(CpuZ80 cpu)
+            : base(cpu)
         { }
 
         protected override CpuState GetInstructionPart(MachineCycleNames machineCycle)
@@ -16,11 +16,11 @@ namespace Jacobi.Zim80.CpuZ80.States.Instructions
             switch (machineCycle)
             {
                 case MachineCycleNames.M2:
-                    _instructionM2 = new ReadT3InstructionPart(Die, machineCycle, _address);
+                    _instructionM2 = new ReadT3InstructionPart(Cpu, machineCycle, _address);
                     return _instructionM2;
                 case MachineCycleNames.M3:
                     if (IsBitInstruction) throw Errors.AssignedToIllegalOpcode();
-                    return new WriteT3InstructionPart(Die, machineCycle, _address)
+                    return new WriteT3InstructionPart(Cpu, machineCycle, _address)
                     {
                         Data = new OpcodeByte(GetValue())
                     };
@@ -52,12 +52,12 @@ namespace Jacobi.Zim80.CpuZ80.States.Instructions
             switch (ExecutionEngine.Opcode.Definition.X)
             {
                 case 1: // bit
-                    Die.Alu.TestBit(bit, value);
+                    Cpu.Alu.TestBit(bit, value);
                     return 0;
                 case 2: // res
-                    return Die.Alu.ResetBit(bit, value);
+                    return Cpu.Alu.ResetBit(bit, value);
                 case 3: // set
-                    return Die.Alu.SetBit(bit, value);
+                    return Cpu.Alu.SetBit(bit, value);
                 default:
                     throw Errors.AssignedToIllegalOpcode();
             }

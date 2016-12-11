@@ -2,8 +2,8 @@
 {
     internal class IncDecShiftedIndirectInstruction : IncDecIndirectInstruction
     {
-        public IncDecShiftedIndirectInstruction(Die die) 
-            : base(die)
+        public IncDecShiftedIndirectInstruction(CpuZ80 cpu) 
+            : base(cpu)
         { }
 
         private ReadT3InstructionPart _instructionM2;
@@ -16,16 +16,16 @@
             {
                 case MachineCycleNames.M2:
                     // read d
-                    _instructionM2 = new ReadT3InstructionPart(Die, machineCycle);
+                    _instructionM2 = new ReadT3InstructionPart(Cpu, machineCycle);
                     return _instructionM2;
                 case MachineCycleNames.M3:
                     // we postpone inc/dec operation until M4
-                    return new AutoCompleteInstructionPart(Die, machineCycle);
+                    return new AutoCompleteInstructionPart(Cpu, machineCycle);
                 case MachineCycleNames.M4:
-                    _instructionM4 = new ReadT3InstructionPart(Die, machineCycle, GetAddress());
+                    _instructionM4 = new ReadT3InstructionPart(Cpu, machineCycle, GetAddress());
                     return _instructionM4;
                 case MachineCycleNames.M5:
-                    _instructionM5 = new WriteT3InstructionPart(Die, machineCycle, GetAddress());
+                    _instructionM5 = new WriteT3InstructionPart(Cpu, machineCycle, GetAddress());
                     _instructionM5.Data = IncDecValue(_instructionM4.Data);
                     return _instructionM5;
                 default:

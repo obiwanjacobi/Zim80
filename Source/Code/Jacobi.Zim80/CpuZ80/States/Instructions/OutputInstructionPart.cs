@@ -7,9 +7,9 @@ namespace Jacobi.Zim80.CpuZ80.States.Instructions
     {
         private readonly UInt16 _address;
 
-        public OutputInstructionPart(Die die,
+        public OutputInstructionPart(CpuZ80 cpu,
             MachineCycleNames activeMachineCycle, UInt16 address)
-            : base(die, activeMachineCycle, CycleNames.T4)
+            : base(cpu, activeMachineCycle, CycleNames.T4)
         {
             _address = address;
         }
@@ -26,8 +26,8 @@ namespace Jacobi.Zim80.CpuZ80.States.Instructions
                     ExecutionEngine.SetAddressBus(_address);
                     break;
                 case CycleNames.T2:
-                    Die.IoRequest.Write(DigitalLevel.Low);
-                    Die.Write.Write(DigitalLevel.Low);
+                    Cpu.IoRequest.Write(DigitalLevel.Low);
+                    Cpu.Write.Write(DigitalLevel.Low);
                     break;
             }
         }
@@ -42,17 +42,17 @@ namespace Jacobi.Zim80.CpuZ80.States.Instructions
                     Write();
                     break;
                 case CycleNames.T4:
-                    Die.Write.Write(DigitalLevel.High);
-                    Die.IoRequest.Write(DigitalLevel.High);
-                    Die.DataBus.IsEnabled = false;
+                    Cpu.Write.Write(DigitalLevel.High);
+                    Cpu.IoRequest.Write(DigitalLevel.High);
+                    Cpu.Data.IsEnabled = false;
                     break;
             }
         }
 
         private void Write()
         {
-            Die.DataBus.IsEnabled = true;
-            Die.DataBus.Write(new BusData8(Data.Value));
+            Cpu.Data.IsEnabled = true;
+            Cpu.Data.Write(new BusData8(Data.Value));
         }
     }
 }

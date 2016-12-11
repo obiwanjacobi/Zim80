@@ -2,8 +2,8 @@
 {
     internal abstract class ReadParametersInstruction : MultiCycleInstruction
     {
-        public ReadParametersInstruction(Die die)
-            : base(die)
+        public ReadParametersInstruction(CpuZ80 cpu)
+            : base(cpu)
         { }
 
         protected ReadT3InstructionPart InstructionM2 { get; private set; }
@@ -17,13 +17,13 @@
             switch (machineCycle)
             {
                 case MachineCycleNames.M2:
-                    InstructionM2 = new ReadT3InstructionPart(Die, machineCycle);
+                    InstructionM2 = new ReadT3InstructionPart(Cpu, machineCycle);
                     return InstructionM2;
                 case MachineCycleNames.M3:
                     if (ExecutionEngine.Opcode.Definition.ParameterCount <= 1)
                         throw Errors.InvalidMachineCycle(machineCycle);
 
-                    InstructionM3 = new ReadT3InstructionPart(Die, machineCycle);
+                    InstructionM3 = new ReadT3InstructionPart(Cpu, machineCycle);
                     return InstructionM3;
                 default:
                     throw Errors.InvalidMachineCycle(machineCycle);

@@ -4,8 +4,8 @@ namespace Jacobi.Zim80.CpuZ80.States.Instructions
 {
     internal class CallInstruction : ReadParametersInstruction
     {
-        public CallInstruction(Die die)
-            : base(die)
+        public CallInstruction(CpuZ80 cpu)
+            : base(cpu)
         { }
 
         protected override CpuState GetInstructionPart(MachineCycleNames machineCycle)
@@ -68,7 +68,7 @@ namespace Jacobi.Zim80.CpuZ80.States.Instructions
         #region Private
         private WriteT3InstructionPart CreateInstructionPartM4()
         {
-            return new WriteT3InstructionPart(Die, MachineCycleNames.M4, Registers.SP)
+            return new WriteT3InstructionPart(Cpu, MachineCycleNames.M4, Registers.SP)
             {
                 Data = new OpcodeByte(Registers.GetPC().GetHi())
             };
@@ -76,7 +76,7 @@ namespace Jacobi.Zim80.CpuZ80.States.Instructions
 
         private WriteT3InstructionPart CreateInstructionPartM5()
         {
-            return new WriteT3InstructionPart(Die, MachineCycleNames.M5, Registers.SP)
+            return new WriteT3InstructionPart(Cpu, MachineCycleNames.M5, Registers.SP)
             {
                 Data = new OpcodeByte(Registers.GetPC().GetLo())
             };

@@ -6,8 +6,8 @@ namespace Jacobi.Zim80.CpuZ80.States.Instructions
     {
         private readonly OpcodeDefinition _opcodeDefinition;
 
-        public Interrupt(Die die, OpcodeDefinition opcodeDefinition) 
-            : base(die)
+        public Interrupt(CpuZ80 cpu, OpcodeDefinition opcodeDefinition) 
+            : base(cpu)
         {
             _opcodeDefinition = opcodeDefinition;
         }

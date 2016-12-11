@@ -2,8 +2,8 @@
 {
     internal class LoadImmediateIndirectInstruction : ReadParametersInstruction
     {
-        public LoadImmediateIndirectInstruction(Die die) 
-            : base(die)
+        public LoadImmediateIndirectInstruction(CpuZ80 cpu) 
+            : base(cpu)
         { }
 
         protected override CpuState GetInstructionPart(MachineCycleNames machineCycle)
@@ -12,14 +12,14 @@
             {
                 case MachineCycleNames.M3:
                     if (IsHL)
-                        return new WriteT3InstructionPart(Die, machineCycle, Registers.HL)
+                        return new WriteT3InstructionPart(Cpu, machineCycle, Registers.HL)
                         {
                             Data = InstructionM2.Data
                         };
                     break;  // another param
                 case MachineCycleNames.M4:
                     if (IsHL) throw Errors.InvalidMachineCycle(machineCycle);
-                    return new WriteT3InstructionPart(Die, machineCycle, GetAddress())
+                    return new WriteT3InstructionPart(Cpu, machineCycle, GetAddress())
                     {
                         Data = InstructionM3.Data
                     };

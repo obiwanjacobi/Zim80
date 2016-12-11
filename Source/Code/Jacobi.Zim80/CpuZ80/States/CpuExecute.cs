@@ -6,8 +6,8 @@ namespace Jacobi.Zim80.CpuZ80.States
     {
         private Instruction _instruction;
 
-        public CpuExecute(Die die, bool createInstruction = true)
-            : base(die)
+        public CpuExecute(CpuZ80 cpu, bool createInstruction = true)
+            : base(cpu)
         {
             if (createInstruction)
                 CreateInstruction();
@@ -25,7 +25,7 @@ namespace Jacobi.Zim80.CpuZ80.States
 
         protected void CreateInstruction()
         {
-            _instruction = Instruction.Create<Instruction>(Die, ExecutionEngine.Opcode.Definition);
+            _instruction = Instruction.Create<Instruction>(Cpu, ExecutionEngine.Opcode.Definition);
         }
 
         private void HandleInstructionCompletion()

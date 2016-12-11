@@ -2,8 +2,8 @@
 {
     internal abstract class RepeatInstruction : MultiCycleInstruction
     {
-        public RepeatInstruction(Die die) 
-            : base(die)
+        public RepeatInstruction(CpuZ80 cpu) 
+            : base(cpu)
         { }
 
         protected override void OnClockNeg()
@@ -37,7 +37,7 @@
 
         protected CpuState CreateRepeatPart(MachineCycleNames machineCycle)
         {
-            return new RepeatInstructionPart(Die, machineCycle, -2);
+            return new RepeatInstructionPart(Cpu, machineCycle, -2);
         }
 
         protected virtual bool IsConditionMet()

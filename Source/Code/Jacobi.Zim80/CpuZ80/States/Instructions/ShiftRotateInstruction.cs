@@ -4,8 +4,8 @@ namespace Jacobi.Zim80.CpuZ80.States.Instructions
 {
     internal class ShiftRotateInstruction : SingleCycleInstruction
     {
-        public ShiftRotateInstruction(Die die) 
-            : base(die)
+        public ShiftRotateInstruction(CpuZ80 cpu) 
+            : base(cpu)
         { }
 
         protected override void OnLastCycleFirstM()
@@ -18,16 +18,16 @@ namespace Jacobi.Zim80.CpuZ80.States.Instructions
                 switch (ExecutionEngine.Opcode.Definition.ShiftRotateFromY)
                 {
                     case ShiftRotateOperations.RotateLeftCarry:
-                        Registers.A = Die.Alu.RotateLeftCarryA(Registers.A);
+                        Registers.A = Cpu.Alu.RotateLeftCarryA(Registers.A);
                         break;
                     case ShiftRotateOperations.RotateRightCarry:
-                        Registers.A = Die.Alu.RotateRightCarryA(Registers.A);
+                        Registers.A = Cpu.Alu.RotateRightCarryA(Registers.A);
                         break;
                     case ShiftRotateOperations.RotateLeft:
-                        Registers.A = Die.Alu.RotateLeftA(Registers.A);
+                        Registers.A = Cpu.Alu.RotateLeftA(Registers.A);
                         break;
                     case ShiftRotateOperations.RotateRight:
-                        Registers.A = Die.Alu.RotateRightA(Registers.A);
+                        Registers.A = Cpu.Alu.RotateRightA(Registers.A);
                         break;
                     default:
                         throw Errors.AssignedToIllegalOpcode();
@@ -38,7 +38,7 @@ namespace Jacobi.Zim80.CpuZ80.States.Instructions
                 var reg = ExecutionEngine.Opcode.Definition.Register8FromZ;
                 var op = ExecutionEngine.Opcode.Definition.ShiftRotateFromY;
                 
-                Die.Alu.DoShiftRotate(op, reg);
+                Cpu.Alu.DoShiftRotate(op, reg);
             }
         }
     }

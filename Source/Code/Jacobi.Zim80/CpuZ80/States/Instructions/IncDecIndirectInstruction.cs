@@ -4,8 +4,8 @@ namespace Jacobi.Zim80.CpuZ80.States.Instructions
 {
     internal class IncDecIndirectInstruction : ReadIndirectInstruction
     {
-        public IncDecIndirectInstruction(Die die) 
-            : base(die)
+        public IncDecIndirectInstruction(CpuZ80 cpu) 
+            : base(cpu)
         { }
 
         private ReadT3InstructionPart _instructionM2;
@@ -16,10 +16,10 @@ namespace Jacobi.Zim80.CpuZ80.States.Instructions
             switch (machineCycle)
             {
                 case MachineCycleNames.M2:
-                    _instructionM2 = new ReadT3InstructionPart(Die, machineCycle, GetAddress());
+                    _instructionM2 = new ReadT3InstructionPart(Cpu, machineCycle, GetAddress());
                     return _instructionM2;
                 case MachineCycleNames.M3:
-                    _instructionM3 = new WriteT3InstructionPart(Die, machineCycle, GetAddress());
+                    _instructionM3 = new WriteT3InstructionPart(Cpu, machineCycle, GetAddress());
                     _instructionM3.Data = IncDecValue(_instructionM2.Data);
                     return _instructionM3;
                 default:
@@ -33,10 +33,10 @@ namespace Jacobi.Zim80.CpuZ80.States.Instructions
             switch (ExecutionEngine.Opcode.Definition.Z)
             {
                 case 4:  // INC (HL)
-                    result = Die.Alu.Inc8(value.Value);
+                    result = Cpu.Alu.Inc8(value.Value);
                     break;
                 case 5:  // DEC (HL)
-                    result = Die.Alu.Dec8(value.Value);
+                    result = Cpu.Alu.Dec8(value.Value);
                     break;
                 default:
                     throw Errors.AssignedToIllegalOpcode();

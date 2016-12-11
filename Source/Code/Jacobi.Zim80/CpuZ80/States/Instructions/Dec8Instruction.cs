@@ -2,8 +2,8 @@
 {
     internal class Dec8Instruction : SingleCycleInstruction
     {
-        public Dec8Instruction(Die die)
-            : base(die)
+        public Dec8Instruction(CpuZ80 cpu)
+            : base(cpu)
         { }
 
         protected override void OnLastCycleFirstM()
@@ -26,7 +26,7 @@
             else
             {
                 Registers[register] =
-                        Die.Alu.Dec8(Registers[register]);
+                        Cpu.Alu.Dec8(Registers[register]);
             }
         }
 
@@ -35,13 +35,13 @@
             if (ExecutionEngine.Opcode.Definition.IsIX)
             {
                 Registers.GetIX().SetHi(
-                        Die.Alu.Dec8(Registers.GetIX().GetHi()));
+                        Cpu.Alu.Dec8(Registers.GetIX().GetHi()));
                 return true;
             }
             if (ExecutionEngine.Opcode.Definition.IsIY)
             {
                 Registers.GetIY().SetHi(
-                        Die.Alu.Dec8(Registers.GetIY().GetHi()));
+                        Cpu.Alu.Dec8(Registers.GetIY().GetHi()));
                 return true;
             }
 
@@ -53,13 +53,13 @@
             if (ExecutionEngine.Opcode.Definition.IsIX)
             {
                 Registers.GetIX().SetLo(
-                        Die.Alu.Dec8(Registers.GetIX().GetLo()));
+                        Cpu.Alu.Dec8(Registers.GetIX().GetLo()));
                 return true;
             }
             if (ExecutionEngine.Opcode.Definition.IsIY)
             {
                 Registers.GetIY().SetLo(
-                        Die.Alu.Dec8(Registers.GetIY().GetLo()));
+                        Cpu.Alu.Dec8(Registers.GetIY().GetLo()));
                 return true;
             }
 

@@ -2,8 +2,8 @@
 {
     internal abstract class SingleCycleInstruction : Instruction
     {
-        protected SingleCycleInstruction(Die die)
-            : base(die)
+        protected SingleCycleInstruction(CpuZ80 cpu)
+            : base(cpu)
         { }
 
         protected override void OnClockNeg()

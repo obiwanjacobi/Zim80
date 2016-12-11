@@ -2,8 +2,8 @@
 {
     internal class DecimalAdjustInstruction : SingleCycleInstruction
     {
-        public DecimalAdjustInstruction(Die die) 
-            : base(die)
+        public DecimalAdjustInstruction(CpuZ80 cpu) 
+            : base(cpu)
         { }
 
         protected override void OnLastCycleFirstM()
@@ -23,7 +23,7 @@
 
         private void DecimalAdjustAccumulator()
         {
-            Registers.A = Die.Alu.DecimalAdjust(Registers.A);
+            Registers.A = Cpu.Alu.DecimalAdjust(Registers.A);
         }
 
         private void ComplementAccumulator()

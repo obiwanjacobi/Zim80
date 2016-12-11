@@ -5,8 +5,8 @@ namespace Jacobi.Zim80.CpuZ80.States.Instructions
 {
     internal class LoadImmediate8Instruction : ReadParametersInstruction
     {
-        public LoadImmediate8Instruction(Die die)
-            : base(die)
+        public LoadImmediate8Instruction(CpuZ80 cpu)
+            : base(cpu)
         { }
 
         protected override void OnLastCycleLastM()

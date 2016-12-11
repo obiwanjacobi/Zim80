@@ -7,8 +7,8 @@ namespace Jacobi.Zim80.CpuZ80.States.Instructions
         private ReadT3InstructionPart _readIndirectPart;
         private InputInstructionPart _inputPart;
 
-        public InInstruction(Die die) 
-            : base(die)
+        public InInstruction(CpuZ80 cpu) 
+            : base(cpu)
         { }
 
         protected override void OnLastCycleLastM()
@@ -54,13 +54,13 @@ namespace Jacobi.Zim80.CpuZ80.States.Instructions
 
         private CpuState CreateReadIndirectPart(MachineCycleNames machineCycle)
         {
-            _readIndirectPart = new Instructions.ReadT3InstructionPart(Die, machineCycle);
+            _readIndirectPart = new Instructions.ReadT3InstructionPart(Cpu, machineCycle);
             return _readIndirectPart;
         }
 
         private CpuState CreateInputPart(MachineCycleNames machineCycle)
         {
-            _inputPart = new InputInstructionPart(Die, machineCycle, GetAddress());
+            _inputPart = new InputInstructionPart(Cpu, machineCycle, GetAddress());
             return _inputPart;
         }
 

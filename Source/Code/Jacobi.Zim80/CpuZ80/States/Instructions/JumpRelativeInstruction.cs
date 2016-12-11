@@ -2,8 +2,8 @@
 {
     internal class JumpRelativeInstruction : ReadParametersInstruction
     {
-        public JumpRelativeInstruction(Die die) 
-            : base(die)
+        public JumpRelativeInstruction(CpuZ80 cpu) 
+            : base(cpu)
         { }
 
         protected override CpuState GetInstructionPart(MachineCycleNames machineCycle)
@@ -12,7 +12,7 @@
             {
                 case MachineCycleNames.M3:
                     // just chews thru the M3 cycles.
-                    return new AutoCompleteInstructionPart(Die, machineCycle);
+                    return new AutoCompleteInstructionPart(Cpu, machineCycle);
                 default:
                     return base.GetInstructionPart(machineCycle);
             }

@@ -4,8 +4,8 @@ namespace Jacobi.Zim80.CpuZ80.States.Instructions
 {
     internal class ExchangeInstruction : SingleCycleInstruction
     {
-        public ExchangeInstruction(Die die)
-            : base(die)
+        public ExchangeInstruction(CpuZ80 cpu)
+            : base(cpu)
         { }
 
         protected override void OnLastCycleFirstM()

@@ -4,8 +4,8 @@ namespace Jacobi.Zim80.CpuZ80.States.Instructions
 {
     internal class NmiInterrupt : Interrupt
     {
-        public NmiInterrupt(Die die, OpcodeDefinition opcodeDefinition) 
-            : base(die, opcodeDefinition)
+        public NmiInterrupt(CpuZ80 cpu, OpcodeDefinition opcodeDefinition) 
+            : base(cpu, opcodeDefinition)
         { }
 
         protected override void StartInterrupt()

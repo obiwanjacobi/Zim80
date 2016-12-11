@@ -2,8 +2,8 @@
 {
     internal class RstInstruction : PushInstruction
     {
-        public RstInstruction(Die die) 
-            : base(die)
+        public RstInstruction(CpuZ80 cpu) 
+            : base(cpu)
         { }
 
         protected override void OnLastCycleFirstM()

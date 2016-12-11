@@ -11,11 +11,11 @@ namespace Jacobi.Zim80.CpuZ80
         private CpuInterrupt _pendingNMI;
         private CpuInterrupt _pendingINT;
 
-        public InterruptManager(Die die)
-            : base(die)
+        public InterruptManager(CpuZ80 cpu)
+            : base(cpu)
         {
             // NMI is edge triggered
-            die.NonMaskableInterrupt.OnChanged += NonMaskableInterupt_OnChanged;
+            cpu.NonMaskableInterrupt.OnChanged += NonMaskableInterupt_OnChanged;
         }
 
         public bool HasInterruptWaiting
@@ -25,20 +25,20 @@ namespace Jacobi.Zim80.CpuZ80
 
         internal void EnableInterrupt()
         {
-            Die.Registers.Interrupt.IFF1 = true;
-            Die.Registers.Interrupt.IFF2 = true;
+            Cpu.Registers.Interrupt.IFF1 = true;
+            Cpu.Registers.Interrupt.IFF2 = true;
         }
 
         internal void DisableInterrupt()
         {
-            Die.Registers.Interrupt.IFF1 = false;
-            Die.Registers.Interrupt.IFF2 = false;
+            Cpu.Registers.Interrupt.IFF1 = false;
+            Cpu.Registers.Interrupt.IFF2 = false;
         }
 
         // nmi
         internal void PushNmi()
         {
-            Die.Registers.Interrupt.IFF1 = false;
+            Cpu.Registers.Interrupt.IFF1 = false;
         }
         // int
         internal void PushInt()
@@ -48,7 +48,7 @@ namespace Jacobi.Zim80.CpuZ80
         // reti/retn (ret?)
         internal void PopInt()
         {
-            Die.Registers.Interrupt.IFF1 = Die.Registers.Interrupt.IFF2;
+            Cpu.Registers.Interrupt.IFF1 = Cpu.Registers.Interrupt.IFF2;
         }
 
         // number of instructions the interrupts remain disabled.
@@ -57,12 +57,12 @@ namespace Jacobi.Zim80.CpuZ80
         internal void SuspendInterrupts(int numberOfInstructions = 2)
         {
             _interruptSuspendedInstructionCount = numberOfInstructions;
-            Die.Registers.Interrupt.IsSuspended = true;
+            Cpu.Registers.Interrupt.IsSuspended = true;
         }
 
         internal CpuInterrupt PopInterrupt()
         {
-            DetermineINT(Die.Interrupt.Level);
+            DetermineINT(Cpu.Interrupt.Level);
 
             if (_pendingRES != null) return Clear(ref _pendingRES);
             if (_pendingBRQ != null) return Clear(ref _pendingBRQ);
@@ -86,7 +86,7 @@ namespace Jacobi.Zim80.CpuZ80
 
                 if (_interruptSuspendedInstructionCount == 0)
                 {
-                    Die.Registers.Interrupt.IsSuspended = false;
+                    Cpu.Registers.Interrupt.IsSuspended = false;
                 }
             }
         }
@@ -102,7 +102,7 @@ namespace Jacobi.Zim80.CpuZ80
             if (level == DigitalLevel.NegEdge)
             {
                 var def = OpcodeDefinition.GetNmiDefinition();
-                _pendingNMI = new CpuInterrupt(Die, def);
+                _pendingNMI = new CpuInterrupt(Cpu, def);
             }
         }
 
@@ -112,7 +112,7 @@ namespace Jacobi.Zim80.CpuZ80
             if (ExecutionEngine.Cycles.IsLastMachineCycle &&
                 ExecutionEngine.Cycles.IsLastCycle)
             {
-                DetermineINT(Die.Interrupt.Level);
+                DetermineINT(Cpu.Interrupt.Level);
             }
 
             base.OnClockPos();
@@ -120,11 +120,11 @@ namespace Jacobi.Zim80.CpuZ80
 
         private void DetermineINT(DigitalLevel level)
         {
-            if (Die.Registers.Interrupt.IFF1 &&
+            if (Cpu.Registers.Interrupt.IFF1 &&
                 level == DigitalLevel.Low)
             {
-                var def = OpcodeDefinition.GetInterruptDefinition(Die.Registers.Interrupt.InterruptMode);
-                _pendingINT = new CpuInterrupt(Die, def);
+                var def = OpcodeDefinition.GetInterruptDefinition(Cpu.Registers.Interrupt.InterruptMode);
+                _pendingINT = new CpuInterrupt(Cpu, def);
             }
         }
     }

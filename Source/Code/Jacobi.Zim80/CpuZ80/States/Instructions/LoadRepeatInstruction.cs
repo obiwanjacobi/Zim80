@@ -5,8 +5,8 @@
         private ReadT3InstructionPart _readPart;
         private WriteT3InstructionPart _writePart;
 
-        public LoadRepeatInstruction(Die die) 
-            : base(die)
+        public LoadRepeatInstruction(CpuZ80 cpu) 
+            : base(cpu)
         { }
 
         protected override void OnClockNeg()
@@ -58,7 +58,7 @@
 
         private CpuState CreateWriteDatatPart(MachineCycleNames machineCycle)
         {
-            _writePart = new Instructions.WriteT3InstructionPart(Die, machineCycle, Registers.DE)
+            _writePart = new Instructions.WriteT3InstructionPart(Cpu, machineCycle, Registers.DE)
             {
                 Data = _readPart.Data
             };
@@ -67,7 +67,7 @@
 
         private CpuState CreateReadDataPart(MachineCycleNames machineCycle)
         {
-            _readPart = new ReadT3InstructionPart(Die, machineCycle, Registers.HL);
+            _readPart = new ReadT3InstructionPart(Cpu, machineCycle, Registers.HL);
             return _readPart;
         }
     }

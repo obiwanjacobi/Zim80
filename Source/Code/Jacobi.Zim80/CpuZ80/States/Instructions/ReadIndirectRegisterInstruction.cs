@@ -6,8 +6,8 @@ namespace Jacobi.Zim80.CpuZ80.States.Instructions
     {
         private ReadT3InstructionPart _instructionPart;
 
-        public ReadIndirectRegisterInstruction(Die die)
-            : base(die)
+        public ReadIndirectRegisterInstruction(CpuZ80 cpu)
+            : base(cpu)
         { }
 
         protected override CpuState GetInstructionPart(MachineCycleNames machineCycle)
@@ -25,7 +25,7 @@ namespace Jacobi.Zim80.CpuZ80.States.Instructions
                     if (!hasExtension)
                         throw Errors.InvalidMachineCycle(machineCycle);
                     // z80 does the IX+d arithmetic
-                    return new AutoCompleteInstructionPart(Die, machineCycle);
+                    return new AutoCompleteInstructionPart(Cpu, machineCycle);
                 case MachineCycleNames.M4:
                     if (!hasExtension)
                         throw Errors.InvalidMachineCycle(machineCycle);
@@ -38,7 +38,7 @@ namespace Jacobi.Zim80.CpuZ80.States.Instructions
 
         private ReadT3InstructionPart CreateReadAddressInstructionPart(MachineCycleNames machineCycle)
         {
-            _instructionPart = new ReadT3InstructionPart(Die, machineCycle, GetAddress());
+            _instructionPart = new ReadT3InstructionPart(Cpu, machineCycle, GetAddress());
             return _instructionPart;
         }
 

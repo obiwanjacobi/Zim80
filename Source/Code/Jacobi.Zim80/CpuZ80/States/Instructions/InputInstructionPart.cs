@@ -7,8 +7,8 @@ namespace Jacobi.Zim80.CpuZ80.States.Instructions
     {
         private ushort _address;
 
-        public InputInstructionPart(Die die, MachineCycleNames activeMachineCycle, ushort address)
-            : base(die, activeMachineCycle, CycleNames.T4)
+        public InputInstructionPart(CpuZ80 cpu, MachineCycleNames activeMachineCycle, ushort address)
+            : base(cpu, activeMachineCycle, CycleNames.T4)
         {
             _address = address;
         }
@@ -25,8 +25,8 @@ namespace Jacobi.Zim80.CpuZ80.States.Instructions
                     ExecutionEngine.SetAddressBus(_address);
                     break;
                 case CycleNames.T2:
-                    Die.IoRequest.Write(DigitalLevel.Low);
-                    Die.Read.Write(DigitalLevel.Low);
+                    Cpu.IoRequest.Write(DigitalLevel.Low);
+                    Cpu.Read.Write(DigitalLevel.Low);
                     break;
             }
         }
@@ -39,15 +39,15 @@ namespace Jacobi.Zim80.CpuZ80.States.Instructions
             {
                 case CycleNames.T4:
                     Read();
-                    Die.Read.Write(DigitalLevel.High);
-                    Die.IoRequest.Write(DigitalLevel.High);
+                    Cpu.Read.Write(DigitalLevel.High);
+                    Cpu.IoRequest.Write(DigitalLevel.High);
                     break;
             }
         }
 
         private void Read()
         {
-            Data = new OpcodeByte(Die.DataBus.Slave.Value.ToByte());
+            Data = new OpcodeByte(Cpu.Data.Slave.Value.ToByte());
         }
     }
 }

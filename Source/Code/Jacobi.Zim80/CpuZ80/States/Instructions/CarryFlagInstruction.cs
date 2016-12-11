@@ -2,8 +2,8 @@
 {
     internal class CarryFlagInstruction : SingleCycleInstruction
     {
-        public CarryFlagInstruction(Die die) 
-            : base(die)
+        public CarryFlagInstruction(CpuZ80 cpu) 
+            : base(cpu)
         { }
 
         protected override void OnLastCycleFirstM()

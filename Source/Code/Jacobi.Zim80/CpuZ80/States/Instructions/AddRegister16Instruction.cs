@@ -4,14 +4,14 @@ namespace Jacobi.Zim80.CpuZ80.States.Instructions
 {
     internal class AddRegister16Instruction : MultiCycleInstruction
     {
-        public AddRegister16Instruction(Die die) 
-            : base(die)
+        public AddRegister16Instruction(CpuZ80 cpu) 
+            : base(cpu)
         { }
 
         protected override CpuState GetInstructionPart(MachineCycleNames machineCycle)
         {
             // these cycles perform the add in hardware
-            return new AutoCompleteInstructionPart(Die, machineCycle);
+            return new AutoCompleteInstructionPart(Cpu, machineCycle);
         }
 
         protected override void OnLastCycleLastM()
@@ -30,28 +30,28 @@ namespace Jacobi.Zim80.CpuZ80.States.Instructions
 
         private void Add16(Register16Table reg16)
         {
-            Registers.HL = Die.Alu.Add16(Registers.HL, Registers[reg16]);
+            Registers.HL = Cpu.Alu.Add16(Registers.HL, Registers[reg16]);
         }
 
         private void AddIX16(Register16Table reg16)
         {
             if (reg16 == Register16Table.HL)
-                Registers.IX = Die.Alu.Add16(Registers.IX, Registers.IX);
+                Registers.IX = Cpu.Alu.Add16(Registers.IX, Registers.IX);
             else
-                Registers.IX = Die.Alu.Add16(Registers.IX, Registers[reg16]);
+                Registers.IX = Cpu.Alu.Add16(Registers.IX, Registers[reg16]);
         }
 
         private void AddIY16(Register16Table reg16)
         {
             if (reg16 == Register16Table.HL)
-                Registers.IY = Die.Alu.Add16(Registers.IY, Registers.IY);
+                Registers.IY = Cpu.Alu.Add16(Registers.IY, Registers.IY);
             else
-                Registers.IY = Die.Alu.Add16(Registers.IY, Registers[reg16]);
+                Registers.IY = Cpu.Alu.Add16(Registers.IY, Registers[reg16]);
         }
 
         private void AddCarry16(Register16Table reg16)
         {
-            Registers.HL = Die.Alu.Add16(Registers.HL, Registers[reg16], addCarry: true);
+            Registers.HL = Cpu.Alu.Add16(Registers.HL, Registers[reg16], addCarry: true);
         }
     }
 }

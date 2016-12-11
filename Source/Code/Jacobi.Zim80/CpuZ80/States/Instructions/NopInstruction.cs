@@ -2,8 +2,8 @@
 {
     internal class NopInstruction : SingleCycleInstruction
     {
-        public NopInstruction(Die die)
-            : base(die)
+        public NopInstruction(CpuZ80 cpu)
+            : base(cpu)
         { }
 
         protected override void OnLastCycleFirstM()

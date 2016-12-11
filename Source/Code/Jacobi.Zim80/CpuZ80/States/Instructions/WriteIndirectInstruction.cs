@@ -2,8 +2,8 @@
 {
     internal abstract class WriteIndirectInstruction : ReadParametersInstruction
     {
-        public WriteIndirectInstruction(Die die)
-            : base(die)
+        public WriteIndirectInstruction(CpuZ80 cpu)
+            : base(cpu)
         { }
 
         protected ushort GetAddress()

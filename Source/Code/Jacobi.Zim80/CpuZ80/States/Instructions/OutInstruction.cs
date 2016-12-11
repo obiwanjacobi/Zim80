@@ -7,8 +7,8 @@ namespace Jacobi.Zim80.CpuZ80.States.Instructions
         private ReadT3InstructionPart _readIndirectPart;
         private OutputInstructionPart _outputPart;
 
-        public OutInstruction(Die die) 
-            : base(die)
+        public OutInstruction(CpuZ80 cpu) 
+            : base(cpu)
         { }
 
         protected override CpuState GetInstructionPart(MachineCycleNames machineCycle)
@@ -29,13 +29,13 @@ namespace Jacobi.Zim80.CpuZ80.States.Instructions
 
         private CpuState CreateReadIndirectPart(MachineCycleNames machineCycle)
         {
-            _readIndirectPart = new Instructions.ReadT3InstructionPart(Die, machineCycle);
+            _readIndirectPart = new Instructions.ReadT3InstructionPart(Cpu, machineCycle);
             return _readIndirectPart;
         }
 
         private CpuState CreateOutputPart(MachineCycleNames machineCycle)
         {
-            _outputPart = new OutputInstructionPart(Die, machineCycle, GetAddress())
+            _outputPart = new OutputInstructionPart(Cpu, machineCycle, GetAddress())
             {
                 Data = new OpcodeByte(GetValue())
             };

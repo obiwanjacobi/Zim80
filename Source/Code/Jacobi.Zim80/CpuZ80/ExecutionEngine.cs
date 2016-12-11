@@ -6,7 +6,7 @@ namespace Jacobi.Zim80.CpuZ80
 {
     internal class ExecutionEngine
     {
-        private readonly Die _die;
+        private readonly CpuZ80 _cpu;
         private readonly CycleCounter _cycles = new CycleCounter();
         private readonly OpcodeBuilder _opcodeBuilder = new OpcodeBuilder();
         private readonly InterruptManager _interruptManager;
@@ -14,20 +14,20 @@ namespace Jacobi.Zim80.CpuZ80
         private CpuStates _currentState;
         private ushort _instructionAddress;
 
-        public ExecutionEngine(Die die)
+        public ExecutionEngine(CpuZ80 cpu)
         {
-            _die = die;
-            _interruptManager = new InterruptManager(_die);
+            _cpu = cpu;
+            _interruptManager = new InterruptManager(_cpu);
 
             StartFetch();
 
             // the engine that drives it all
-            _die.Clock.OnChanged += Clock_OnChanged;
+            _cpu.Clock.OnChanged += Clock_OnChanged;
         }
 
         public event EventHandler<InstructionExecutedEventArgs> InstructionExecuted;
 
-        public Die Die { get { return _die; } }
+        public CpuZ80 Cpu { get { return _cpu; } }
 
         public InterruptManager InterruptManager { get { return _interruptManager; } }
 
@@ -36,7 +36,7 @@ namespace Jacobi.Zim80.CpuZ80
         public bool AddOpcodeByte(OpcodeByte opcodeByte)
         {
             if (_opcodeBuilder.IsEmpty)
-                _instructionAddress = (ushort)(Die.Registers.PC - 1);
+                _instructionAddress = (ushort)(Cpu.Registers.PC - 1);
 
             var valid = _opcodeBuilder.Add(opcodeByte);
 
@@ -71,20 +71,20 @@ namespace Jacobi.Zim80.CpuZ80
 
         public void SetPcOnAddressBus()
         {
-            SetAddressBus(_die.Registers.PC);
-            _die.Registers.PC++;
+            SetAddressBus(_cpu.Registers.PC);
+            _cpu.Registers.PC++;
         }
 
         public void SetRefreshOnAddressBus()
         {
-            SetAddressBus(_die.Registers.IR);
+            SetAddressBus(_cpu.Registers.IR);
 
-            _die.Registers.IncrementR();
+            _cpu.Registers.IncrementR();
         }
 
         public void SetAddressBus(UInt16 address)
         {
-            _die.AddressBus.Write(new BusData16(address));
+            _cpu.Address.Write(new BusData16(address));
         }
 
         private void Clock_OnChanged(object sender, DigitalLevelChangedEventArgs e)
@@ -101,7 +101,7 @@ namespace Jacobi.Zim80.CpuZ80
 
         internal void NotifyInstructionExecuted()
         {
-            InstructionExecuted?.Invoke(this, new InstructionExecutedEventArgs(Opcode));
+            InstructionExecuted?.Invoke(Cpu, new InstructionExecutedEventArgs(Opcode));
         }
 
         private void SwitchToNextState()
@@ -124,7 +124,7 @@ namespace Jacobi.Zim80.CpuZ80
 
         private void StartFetch()
         {
-            _state = new CpuFetch(_die);
+            _state = new CpuFetch(_cpu);
             _currentState = CpuStates.Fetch;
             _opcodeBuilder.Clear();
             _cycles.Reset();
@@ -137,13 +137,13 @@ namespace Jacobi.Zim80.CpuZ80
             {
                 if (_opcodeBuilder.HasReversedOffsetParameterOrder)
                 {
-                    _state = new CpuReadParameterThenExecute(_die);
+                    _state = new CpuReadParameterThenExecute(_cpu);
                     _currentState = CpuStates.Execute;
                     _cycles.Continue(3);
                 }
                 else
                 {
-                    _state = new CpuFetch(_die);
+                    _state = new CpuFetch(_cpu);
                     _cycles.Continue();
                 }
                 return true;
@@ -154,7 +154,7 @@ namespace Jacobi.Zim80.CpuZ80
 
         private void StartExecute()
         {
-            _state = new CpuExecute(_die);
+            _state = new CpuExecute(_cpu);
             _currentState = CpuStates.Execute;
         }
 

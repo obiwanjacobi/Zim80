@@ -2,14 +2,14 @@
 {
     internal class MathRegister8Instruction : SingleCycleInstruction
     {
-        public MathRegister8Instruction(Die die) 
-            : base(die)
+        public MathRegister8Instruction(CpuZ80 cpu) 
+            : base(cpu)
         { }
 
         protected override void OnLastCycleFirstM()
         {
             var reg = ExecutionEngine.Opcode.Definition.Register8FromZ;
-            Die.Alu.DoAccumulatorMath(ExecutionEngine.Opcode.Definition.MathOperationFromY, Registers[reg]);
+            Cpu.Alu.DoAccumulatorMath(ExecutionEngine.Opcode.Definition.MathOperationFromY, Registers[reg]);
         }
     }
 }

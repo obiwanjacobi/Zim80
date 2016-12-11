@@ -8,14 +8,14 @@ namespace Jacobi.Zim80.CpuZ80.States
         private CpuState _currentPart;
         private bool _opcodeWasRead;
 
-        public CpuReadParameterThenExecute(Die die)
-            : base(die, createInstruction: false)
+        public CpuReadParameterThenExecute(CpuZ80 cpu)
+            : base(cpu, createInstruction: false)
         {
             // turn off refresh logic - not a true M1 cycle.
             RefreshEnabled = false;
 
             // read d-offset that comes before the opcode
-            _currentPart = new ReadT3InstructionPart(Die, MachineCycleNames.M1);
+            _currentPart = new ReadT3InstructionPart(Cpu, MachineCycleNames.M1);
         }
 
         public override void OnClock(DigitalLevel level)
@@ -49,7 +49,7 @@ namespace Jacobi.Zim80.CpuZ80.States
                 if (!_opcodeWasRead)
                 {
                     // read instruction opcode
-                    _currentPart = new ReadT3InstructionPart(Die, MachineCycleNames.M1);
+                    _currentPart = new ReadT3InstructionPart(Cpu, MachineCycleNames.M1);
                     ExecutionEngine.Cycles.Continue(5);
                     _opcodeWasRead = true;
                 }

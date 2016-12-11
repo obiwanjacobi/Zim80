@@ -5,8 +5,8 @@ namespace Jacobi.Zim80.CpuZ80.States.Instructions
 {
     internal class PushInstruction : MultiCycleInstruction
     {
-        public PushInstruction(Die die) 
-            : base(die)
+        public PushInstruction(CpuZ80 cpu) 
+            : base(cpu)
         { }
         
         protected override CpuState GetInstructionPart(MachineCycleNames machineCycle)
@@ -69,7 +69,7 @@ namespace Jacobi.Zim80.CpuZ80.States.Instructions
         #region Private
         private WriteT3InstructionPart CreateInstructionPartM2()
         {
-            return new WriteT3InstructionPart(Die, MachineCycleNames.M2, Registers.SP)
+            return new WriteT3InstructionPart(Cpu, MachineCycleNames.M2, Registers.SP)
             {
                 Data = new OpcodeByte(GetRegisterHighValue())
             };
@@ -77,7 +77,7 @@ namespace Jacobi.Zim80.CpuZ80.States.Instructions
 
         private WriteT3InstructionPart CreateInstructionPartM3()
         {
-            return new WriteT3InstructionPart(Die, MachineCycleNames.M3, Registers.SP)
+            return new WriteT3InstructionPart(Cpu, MachineCycleNames.M3, Registers.SP)
             {
                 Data = new OpcodeByte(GetRegisterLowValue())
             };

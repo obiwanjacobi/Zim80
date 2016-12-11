@@ -4,7 +4,9 @@ namespace Jacobi.Zim80.CpuZ80
 {
     public class CpuZ80 : INamedObject
     {
-        private readonly Die _die;
+        private readonly ExecutionEngine _execEngine;
+        private readonly Alu _alu;
+        private readonly Registers _registers;
 
         public CpuZ80()
         {
@@ -30,12 +32,11 @@ namespace Jacobi.Zim80.CpuZ80
             Address = new BusMaster<BusData16>("Address");
             Data = new BusMasterSlave<BusData8>("Data");
 
-            // bond wires
-            _die = new Die(
-                Clock, Reset, Interrupt, NonMaskableInterrupt, 
-                Wait, BusRequest, BusAcknowledge,
-                MemoryRequest, IoRequest, Read, Write, 
-                MachineCycle1, Refresh, Halt, Address, Data);
+            _execEngine = new ExecutionEngine(this);
+            _registers = new Registers();
+            _alu = new Alu(_registers);
+
+            Initialize();
         }
 
         public string Name { get; set; }
@@ -63,12 +64,32 @@ namespace Jacobi.Zim80.CpuZ80
         public BusMasterSlave<BusData8> Data { get; }
 
         public Registers Registers
-        { get { return _die.Registers; } }
+        { get { return _registers; } }
+
+        internal ExecutionEngine Engine
+        { get { return _execEngine; } }
+
+        internal Alu Alu
+        { get { return _alu; } }
 
         public event EventHandler<InstructionExecutedEventArgs> InstructionExecuted
         {
-            add { _die.Engine.InstructionExecuted += value; }
-            remove { _die.Engine.InstructionExecuted -= value; }
+            add { Engine.InstructionExecuted += value; }
+            remove { Engine.InstructionExecuted -= value; }
+        }
+
+        private void Initialize()
+        {
+            // startup state
+            Address.IsEnabled = true;
+            BusAcknowledge.Write(DigitalLevel.High);
+            Halt.Write(DigitalLevel.High);
+            IoRequest.Write(DigitalLevel.High);
+            MemoryRequest.Write(DigitalLevel.High);
+            MachineCycle1.Write(DigitalLevel.High);
+            Refresh.Write(DigitalLevel.High);
+            Read.Write(DigitalLevel.High);
+            Write.Write(DigitalLevel.High);
         }
     }
 }

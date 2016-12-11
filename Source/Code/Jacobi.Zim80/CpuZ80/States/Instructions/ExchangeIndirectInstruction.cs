@@ -7,8 +7,8 @@ namespace Jacobi.Zim80.CpuZ80.States.Instructions
         private ReadT3InstructionPart _instructionM2;
         private ReadT3InstructionPart _instructionM3;
 
-        public ExchangeIndirectInstruction(Die die) 
-            : base(die)
+        public ExchangeIndirectInstruction(CpuZ80 cpu) 
+            : base(cpu)
         { }
 
         protected override void OnLastCycleLastM()
@@ -37,18 +37,18 @@ namespace Jacobi.Zim80.CpuZ80.States.Instructions
             switch (machineCycle)
             {
                 case MachineCycleNames.M2:
-                    _instructionM2 = new ReadT3InstructionPart(Die, machineCycle, Registers.SP);
+                    _instructionM2 = new ReadT3InstructionPart(Cpu, machineCycle, Registers.SP);
                     return _instructionM2;
                 case MachineCycleNames.M3:
-                    _instructionM3 = new ReadT3InstructionPart(Die, machineCycle, (ushort)(Registers.SP + 1));
+                    _instructionM3 = new ReadT3InstructionPart(Cpu, machineCycle, (ushort)(Registers.SP + 1));
                     return _instructionM3;
                 case MachineCycleNames.M4:
-                    return new WriteT3InstructionPart(Die, machineCycle, Registers.SP)
+                    return new WriteT3InstructionPart(Cpu, machineCycle, Registers.SP)
                     {
                         Data = new OpcodeByte(GetValueLo())
                     };
                 case MachineCycleNames.M5:
-                    return new WriteT3InstructionPart(Die, machineCycle, (ushort)(Registers.SP + 1))
+                    return new WriteT3InstructionPart(Cpu, machineCycle, (ushort)(Registers.SP + 1))
                     {
                         Data = new OpcodeByte(GetValueHi())
                     };

@@ -4,12 +4,12 @@
     {
         private CycleNames? _lastCycle;
 
-        public AutoCompleteInstructionPart(Die die, MachineCycleNames activeMachineCycle) 
-            : base(die, activeMachineCycle)
+        public AutoCompleteInstructionPart(CpuZ80 cpu, MachineCycleNames activeMachineCycle) 
+            : base(cpu, activeMachineCycle)
         { }
 
-        public AutoCompleteInstructionPart(Die die, MachineCycleNames activeMachineCycle, CycleNames lastCycle)
-            : base(die, activeMachineCycle)
+        public AutoCompleteInstructionPart(CpuZ80 cpu, MachineCycleNames activeMachineCycle, CycleNames lastCycle)
+            : base(cpu, activeMachineCycle)
         {
             _lastCycle = lastCycle;
         }

@@ -8,8 +8,8 @@ namespace Jacobi.Zim80.CpuZ80.States
     {
         private readonly Interrupt _interrupt;
 
-        public CpuInterrupt(Die die, OpcodeDefinition definition) 
-            : base(die)
+        public CpuInterrupt(CpuZ80 cpu, OpcodeDefinition definition) 
+            : base(cpu)
         {
             if (definition == null)
                 throw new ArgumentNullException("definition");
@@ -22,7 +22,7 @@ namespace Jacobi.Zim80.CpuZ80.States
                     + definition.ToString());
 
             _interrupt = (Interrupt)Activator.CreateInstance(
-                _definition.Instruction, Die, _definition);
+                _definition.Instruction, Cpu, _definition);
         }
 
         private readonly OpcodeDefinition _definition;

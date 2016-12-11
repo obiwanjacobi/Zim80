@@ -2,8 +2,8 @@
 {
     internal class MathDirectInstruction : ReadParametersInstruction
     {
-        public MathDirectInstruction(Die die) 
-            : base(die)
+        public MathDirectInstruction(CpuZ80 cpu) 
+            : base(cpu)
         { }
 
         protected override void OnLastCycleLastM()
@@ -11,7 +11,7 @@
             base.OnLastCycleLastM();
 
             var mathOp = ExecutionEngine.Opcode.Definition.MathOperationFromY;
-            Die.Alu.DoAccumulatorMath(mathOp, InstructionM2.Data.Value);
+            Cpu.Alu.DoAccumulatorMath(mathOp, InstructionM2.Data.Value);
         }
     }
 }

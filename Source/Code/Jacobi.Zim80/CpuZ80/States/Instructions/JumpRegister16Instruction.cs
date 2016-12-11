@@ -2,8 +2,8 @@
 {
     internal class JumpRegister16Instruction : SingleCycleInstruction
     {
-        public JumpRegister16Instruction(Die die) 
-            : base(die)
+        public JumpRegister16Instruction(CpuZ80 cpu) 
+            : base(cpu)
         { }
 
         protected override void OnLastCycleFirstM()

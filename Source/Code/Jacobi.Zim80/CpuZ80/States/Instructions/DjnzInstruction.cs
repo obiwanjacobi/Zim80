@@ -2,15 +2,15 @@
 {
     internal class DjnzInstruction : JumpRelativeInstruction
     {
-        public DjnzInstruction(Die die)
-            : base(die)
+        public DjnzInstruction(CpuZ80 cpu)
+            : base(cpu)
         { }
 
         protected override void OnLastCycleFirstM()
         {
             // NOTE: docs say no flags are affected...
             Registers.B =
-                Die.Alu.Dec8(Registers.B);
+                Cpu.Alu.Dec8(Registers.B);
 
             base.OnLastCycleFirstM();
         }

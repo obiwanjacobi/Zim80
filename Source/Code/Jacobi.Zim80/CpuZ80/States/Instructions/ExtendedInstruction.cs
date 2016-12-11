@@ -14,8 +14,8 @@ namespace Jacobi.Zim80.CpuZ80.States.Instructions
         private ReadT3InstructionPart _readPart;
         private WriteT3InstructionPart _writePart;
 
-        public ExtendedInstruction(Die die) 
-            : base(die)
+        public ExtendedInstruction(CpuZ80 cpu) 
+            : base(cpu)
         { }
 
         // derived class performs the instruction operation
@@ -53,13 +53,13 @@ namespace Jacobi.Zim80.CpuZ80.States.Instructions
 
         private ReadT3InstructionPart CreateReadAddressInstructionPart(MachineCycleNames machineCycle)
         {
-            _readPart = new ReadT3InstructionPart(Die, machineCycle, GetAddress());
+            _readPart = new ReadT3InstructionPart(Cpu, machineCycle, GetAddress());
             return _readPart;
         }
 
         private WriteT3InstructionPart CreateWriteAddressInstructionPart(MachineCycleNames machineCycle)
         {
-            _writePart = new WriteT3InstructionPart(Die, machineCycle, GetAddress())
+            _writePart = new WriteT3InstructionPart(Cpu, machineCycle, GetAddress())
             {
                 Data = new OpcodeByte(GetValueToWriteBack(GetValue()))
             };

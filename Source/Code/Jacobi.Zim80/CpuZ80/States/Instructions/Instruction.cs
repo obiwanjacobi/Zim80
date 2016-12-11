@@ -5,15 +5,15 @@ namespace Jacobi.Zim80.CpuZ80.States.Instructions
 {
     internal abstract class Instruction : CpuState
     {
-        protected Instruction(Die die)
-            : base(die)
+        protected Instruction(CpuZ80 cpu)
+            : base(cpu)
         { }
 
-        protected Registers Registers { get { return Die.Registers; } }
+        protected Registers Registers { get { return Cpu.Registers; } }
 
         protected abstract void OnLastCycleFirstM();
 
-        internal static T Create<T>(Die die, OpcodeDefinition opcodeDefinition)
+        internal static T Create<T>(CpuZ80 cpu, OpcodeDefinition opcodeDefinition)
             where T : Instruction
         {
             if (opcodeDefinition == null)
@@ -26,7 +26,7 @@ namespace Jacobi.Zim80.CpuZ80.States.Instructions
             if (!typeof(T).IsAssignableFrom(opcodeDefinition.Instruction))
                 throw Errors.AssignedToIllegalOpcode();
 
-            return (T)Activator.CreateInstance(opcodeDefinition.Instruction, die);
+            return (T)Activator.CreateInstance(opcodeDefinition.Instruction, cpu);
         }
     }
 }

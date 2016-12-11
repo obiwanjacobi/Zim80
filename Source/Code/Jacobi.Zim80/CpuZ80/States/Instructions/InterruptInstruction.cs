@@ -2,8 +2,8 @@
 {
     internal class InterruptInstruction : SingleCycleInstruction
     {
-        public InterruptInstruction(Die die) 
-            : base(die)
+        public InterruptInstruction(CpuZ80 cpu) 
+            : base(cpu)
         { }
 
         protected override void OnLastCycleFirstM()
