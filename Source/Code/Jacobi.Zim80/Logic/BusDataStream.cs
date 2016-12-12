@@ -35,7 +35,7 @@ namespace Jacobi.Zim80.Logic
 
         public override string ToString()
         {
-            var bytes = _samples.Select((s) => s.ToByte());
+            var bytes = _samples.Select((s) => s.ToByte()).Where(c => c != 0);
             return Encoding.UTF8.GetString(bytes.ToArray());
         }
     }
