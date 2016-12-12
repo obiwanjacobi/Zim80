@@ -43,13 +43,7 @@ namespace Jacobi.Zim80
             // catch up with set level value
             if (Level != DigitalLevel.Floating)
             {
-                var newLevel = Level;
-                foreach (var level in new DigitalLevelCycler(
-                    DigitalLevelCycler.NextLevel(_digitalSignal.Level), newLevel))
-                {
-                    Level = level;
-                    _digitalSignal.OnNewProviderValue(this);
-                }
+                SetNewLevel(Level);
             }
         }
 
@@ -78,6 +72,21 @@ namespace Jacobi.Zim80
                 return 0;
             }
 
+            return SetNewLevel(newLevel);
+        }
+
+        public bool IsConnected
+        {
+            get { return _digitalSignal != null; }
+        }
+
+        private int SetNewLevel(DigitalLevel newLevel)
+        {
+            if (DigitalSignal.Level == newLevel)
+            {
+                return 0;
+            }
+
             if (newLevel == DigitalLevel.Floating)
             {
                 Level = newLevel;
@@ -85,9 +94,16 @@ namespace Jacobi.Zim80
                 return 1;
             }
 
-            var count = 0;
-            foreach (var level in new DigitalLevelCycler(
-                DigitalLevelCycler.NextLevel(_digitalSignal.Level), newLevel))
+            var nextLevel = DigitalLevelCycler.NextLevel(_digitalSignal.Level);
+            if (nextLevel == newLevel)
+            {
+                Level = newLevel;
+                _digitalSignal.OnNewProviderValue(this);
+                return 1;
+            }
+
+            int count = 0;
+            foreach (var level in new DigitalLevelCycler(nextLevel, newLevel))
             {
                 Level = level;
                 _digitalSignal.OnNewProviderValue(this);
@@ -95,11 +111,6 @@ namespace Jacobi.Zim80
             }
 
             return count;
-        }
-
-        public bool IsConnected
-        {
-            get { return _digitalSignal != null; }
         }
 
         private void ThrowIfNotConnected()

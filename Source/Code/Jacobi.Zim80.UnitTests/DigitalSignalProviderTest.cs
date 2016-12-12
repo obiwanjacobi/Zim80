@@ -83,6 +83,23 @@ namespace Jacobi.Zim80.UnitTests
         }
 
         [TestMethod]
+        public void Connected_WriteHighTwice_NoChange()
+        {
+            var uut = new DigitalSignalProvider();
+            var signal = new DigitalSignal();
+            uut.ConnectTo(signal);
+            uut.Write(DigitalLevel.High);
+
+            var levels = new List<DigitalLevel>();
+            signal.OnChanged += (s, e) => levels.Add(e.Level);
+
+            var count = uut.Write(DigitalLevel.High);
+
+            count.Should().Be(0);
+            levels.Should().HaveCount(count);
+        }
+
+        [TestMethod]
         public void MultipleProviders_OneWrites_NoConflicts()
         {
             var provider1 = new DigitalSignalProvider();
