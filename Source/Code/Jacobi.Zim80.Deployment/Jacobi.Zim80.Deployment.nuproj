@@ -19,7 +19,7 @@
   <Import Project="$(NuProjPath)\NuProj.props" Condition="Exists('$(NuProjPath)\NuProj.props')" />
   <PropertyGroup Label="Configuration">
     <Id>Jacobi.Zim80-$(Configuration)</Id>
-    <Version>0.1.0</Version>
+    <Version>0.1.1</Version>
     <Title>Symmetry Zim80</Title>
     <Authors>Marc Jacobi</Authors>
     <Owners>Marc Jacobi</Owners>

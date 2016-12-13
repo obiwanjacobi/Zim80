@@ -43,7 +43,7 @@ namespace Jacobi.Zim80
                     _isEnabled = value;
 
                     if (!_isEnabled)
-                        Value = NewBusData();
+                        WriteInternal(NewBusData());
                 }
             }
         }

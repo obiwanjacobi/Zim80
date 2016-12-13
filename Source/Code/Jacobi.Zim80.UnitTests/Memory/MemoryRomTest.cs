@@ -38,6 +38,25 @@ namespace Jacobi.Zim80.Memory.UnitTests
         }
 
         [TestMethod]
+        public void DisableAfterRead_DataBus_IsFloating()
+        {
+            var mem = MemoryTestExtensions.NewRom(new byte[] { Value });
+            var ceProv = mem.ChipEnable.CreateConnection();
+            var oeProv = mem.OutputEnable.CreateConnection();
+            var addressBus = mem.Address.CreateConnection();
+            var dataBus = mem.Data.CreateConnection();
+
+            ceProv.Write(DigitalLevel.Low);
+            oeProv.Write(DigitalLevel.Low);
+            addressBus.IsEnabled = true;
+            addressBus.Write(new BusData16(0));
+
+            // disable
+            oeProv.Write(DigitalLevel.High);
+            dataBus.Value.IsFloating.Should().Be(true);
+        }
+
+        [TestMethod]
         public void Read_FirstAddress_CorrectValue()
         {
             var mem = MemoryTestExtensions.NewRom(new byte[] { Value });
