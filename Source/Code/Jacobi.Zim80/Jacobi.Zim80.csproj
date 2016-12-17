@@ -154,13 +154,15 @@
     <Compile Include="CpuZ80\States\Instructions\WriteT3InstructionPart.cs" />
     <Compile Include="Diagnostics\LogicAnalyzerExtensions.cs" />
     <Compile Include="INamedObject.cs" />
-    <Compile Include="Logic\BusDataStream.cs" />
+    <Compile Include="BusDataBuffer.cs" />
+    <Compile Include="BusDataInputStream.cs" />
     <Compile Include="Logic\BusDecoder.cs" />
+    <Compile Include="Logic\InputPort.cs" />
     <Compile Include="Logic\OutputPort.cs" />
     <Compile Include="Logic\SignalGenerator.cs" />
     <Compile Include="Logic\AndGate.cs" />
     <Compile Include="Logic\Buffer.cs" />
-    <Compile Include="Logic\DigitalStream.cs" />
+    <Compile Include="DigitalInputStream.cs" />
     <Compile Include="Logic\Gate.cs" />
     <Compile Include="Logic\InvertorGate.cs" />
     <Compile Include="Logic\LogicAnalyzer.cs" />

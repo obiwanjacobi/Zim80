@@ -36,8 +36,8 @@
 
         public string Name { get; set; }
 
-        private BusDataStream _dataStream;
-        public BusDataStream DataStream { get { return _dataStream; } }
+        private BusDataInputStream _dataStream;
+        public BusDataInputStream DataStream { get { return _dataStream; } }
 
         private readonly BusSlave _busSlave;
         public BusSlave Input { get { return _busSlave; } }
@@ -48,7 +48,7 @@
             if (!Input.IsConnected) return;
 
             if (_dataStream == null)
-                _dataStream = new BusDataStream(Input.Bus);
+                _dataStream = new BusDataInputStream(Input.Bus);
 
             _dataStream.Sample();
         }

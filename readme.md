@@ -1,11 +1,11 @@
 # Symmetry (Zim80)
 Welcome to the Symmetry or Zim80 project.
 
-This Z80 simulator is targeted for homebrewn Z80 computer where the attached hardware is custom. 
+This Z80 simulator is targeted for homebrewn Z80 computers where the attached hardware is custom. 
 It is the goal of this project to also simulate the digital electrical signals and therefor allow
 custom computer hardware to be included in the simulation. You may be required to write some of the
 custom components yourself, it should be fairly easy to accomplish.
-Symmerty comes with a set of often used digital components such as memory and gates.
+Symmerty comes with a set of commonly used digital components such as memory and gates.
 
 See also the wiki for more information.
 

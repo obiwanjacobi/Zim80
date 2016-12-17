@@ -21,7 +21,7 @@ namespace Jacobi.Zim80.Diagnostics
             get { return _waves.Select((w) => w.Offset + w.SignalStream.Samples.Count()).Min(); }
         }
 
-        public void Add(DigitalStream digitalStream, int offset = 0)
+        public void Add(DigitalInputStream digitalStream, int offset = 0)
         {
             var wave = new WaveSignal
             {
@@ -32,13 +32,13 @@ namespace Jacobi.Zim80.Diagnostics
             _waves.Add(wave);
         }
 
-        public void AddRange(IEnumerable<DigitalStream> digitalStreams)
+        public void AddRange(IEnumerable<DigitalInputStream> digitalStreams)
         {
             foreach (var stream in digitalStreams)
                 Add(stream);
         }
 
-        public void Add(BusDataStream busStream, int offset = 0)
+        public void Add(BusDataInputStream busStream, int offset = 0)
         {
             var wave = new WaveSignal
             {
@@ -49,7 +49,7 @@ namespace Jacobi.Zim80.Diagnostics
             _waves.Add(wave);
         }
 
-        public void AddRange(IEnumerable<BusDataStream> busStreams)
+        public void AddRange(IEnumerable<BusDataInputStream> busStreams)
         {
             foreach (var stream in busStreams)
                 Add(stream);
@@ -93,7 +93,7 @@ namespace Jacobi.Zim80.Diagnostics
     internal class WaveSignal
     {
         public int Offset;
-        public DigitalStream SignalStream;
-        public BusDataStream BusStream;
+        public DigitalInputStream SignalStream;
+        public BusDataInputStream BusStream;
     }
 }

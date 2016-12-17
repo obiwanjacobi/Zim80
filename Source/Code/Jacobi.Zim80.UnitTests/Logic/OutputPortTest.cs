@@ -36,7 +36,7 @@ namespace Jacobi.Zim80.UnitTests.Logic
 
             _portEnable.Write(DigitalLevel.PosEdge);
 
-            _uut.DataStream.Samples.First().ToByte().Should().Be(Value);
+            _uut.DataStream.Data.First().ToByte().Should().Be(Value);
         }
 
         [TestMethod]
@@ -53,9 +53,9 @@ namespace Jacobi.Zim80.UnitTests.Logic
 
             _portEnable.Write(DigitalLevel.PosEdge);
 
-            _uut.DataStream.Samples.Should().HaveCount(2);
-            _uut.DataStream.Samples.First().ToByte().Should().Be(Value);
-            _uut.DataStream.Samples.Skip(1).First().ToByte().Should().Be(Value2);
+            _uut.DataStream.Data.Should().HaveCount(2);
+            _uut.DataStream.Data.First().ToByte().Should().Be(Value);
+            _uut.DataStream.Data.Skip(1).First().ToByte().Should().Be(Value2);
         }
 
         [TestMethod]

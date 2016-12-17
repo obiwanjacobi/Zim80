@@ -1,13 +1,13 @@
 ﻿using System.Collections.Generic;
 
-namespace Jacobi.Zim80.Logic
+namespace Jacobi.Zim80
 {
-    public class DigitalStream
+    public class DigitalInputStream
     {
         private readonly List<DigitalLevel> _samples = new List<DigitalLevel>();
         private readonly DigitalSignal _signal;
 
-        public DigitalStream(DigitalSignal signal)
+        public DigitalInputStream(DigitalSignal signal)
         {
             _signal = signal;
         }

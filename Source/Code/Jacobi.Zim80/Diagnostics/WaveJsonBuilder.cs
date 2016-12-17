@@ -25,13 +25,13 @@ namespace Jacobi.Zim80.Diagnostics
             _json.Append("\n");
         }
 
-        private void WaveFrom(BusDataStream stream, int offset)
+        private void WaveFrom(BusDataInputStream stream, int offset)
         {
             _json.Append("{ name: \"");
             _json.Append(stream.Bus.Name);
             _json.Append("\", wave: \"");
             WaveFrom(offset);
-            var data = WaveFrom(stream.Samples);
+            var data = WaveFrom(stream.Data);
             _json.Append("\", data: [");
             int index = 0;
             foreach (var str in data)
@@ -48,7 +48,7 @@ namespace Jacobi.Zim80.Diagnostics
             _json.Append("] },");
         }
 
-        private void WaveFrom(DigitalStream stream, int offset)
+        private void WaveFrom(DigitalInputStream stream, int offset)
         {  
             _json.Append("{ name: \"");
             _json.Append(stream.DigitalSignal.Name);
