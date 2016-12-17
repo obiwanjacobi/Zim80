@@ -138,17 +138,39 @@ namespace Jacobi.Zim80.UnitTests.Test
         {
             var uut = new SimulationModelBuilder();
             uut.AddCpuMemory();
-
-            var name = "Test";
-            uut.AddOutputPort(0x10, name);
+            var outputPort = uut.AddOutputPort(0x10, "Test");
 
             uut.Model.Components.Should().HaveCount(3); // decoder/invertor/or
             uut.Model.OutputPorts.Should().HaveCount(1);
 
-            var outputPort = uut.Model.OutputPorts[name];
-
             outputPort.Input.IsConnected.Should().BeTrue();
             outputPort.PortEnable.IsConnected.Should().BeTrue();
+        }
+
+        [TestMethod]
+        public void AddInputPort_AddedToModel()
+        {
+            var uut = new SimulationModelBuilder();
+
+            var name = "Test";
+            uut.AddInputPort(new InputPort() { Name = name });
+
+            uut.Model.InputPorts.Should().HaveCount(1);
+            uut.Model.InputPorts[name].Should().NotBeNull();
+        }
+
+        [TestMethod]
+        public void AddInputPort_CpuMemory_ConnectedAndAddedToModel()
+        {
+            var uut = new SimulationModelBuilder();
+            uut.AddCpuMemory();
+            var inputPort = uut.AddInputPort(0x10, "Test");
+
+            uut.Model.Components.Should().HaveCount(3); // decoder/invertor/or
+            uut.Model.InputPorts.Should().HaveCount(1);
+
+            inputPort.Output.IsConnected.Should().BeTrue();
+            inputPort.PortEnable.IsConnected.Should().BeTrue();
         }
     }
 }

@@ -41,5 +41,18 @@ namespace Jacobi.Zim80.Test
                 return _outputPorts;
             }
         }
+
+        private Dictionary<string, InputPort> _inputPorts;
+
+        public IDictionary<string, InputPort> InputPorts
+        {
+            get
+            {
+                if (_inputPorts == null)
+                    _inputPorts = new Dictionary<string, InputPort>();
+
+                return _inputPorts;
+            }
+        }
     }
 }

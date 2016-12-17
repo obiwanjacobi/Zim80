@@ -81,30 +81,30 @@ namespace Jacobi.Zim80.Test
             SetModelAddressAndDataBus();
         }
 
-        public void AddOutputPort(ushort ioAddress, string name = null)
+        public OutputPort AddOutputPort(ushort ioAddress, string name = null)
         {
             Bus address = Model.Address;
             Bus data = Model.Data;
 
-            AddOutputPort(address, data, ioAddress, name);
+            return AddOutputPort(address, data, ioAddress, name);
         }
 
-        public void AddOutputPort(Bus address, Bus data, ushort ioAddress, string name = null)
+        public OutputPort AddOutputPort(Bus address, Bus data, ushort ioAddress, string name = null)
         {
             if (name == null) name = string.Empty;
 
-            var decoder = new BusDecoder(address, name + "-IoAddressDecoder");
+            var decoder = new BusDecoder(address, name + "-OutputAddressDecoder");
             decoder.AddValue(ioAddress);
             AddComponent(decoder);
 
             var invertor = new InvertorGate() {
-                Name = name + "-AddressDecodeInvertor"
+                Name = name + "-OutAddressDecodeInvertor"
             };
             AddComponent(invertor);
             decoder.Output.ConnectTo(invertor.Input);
 
             var or = new OrGate() {
-                Name = name + "-PortEnableIO"
+                Name = name + "-OutPortEnableIO"
             };
             or.AddInput().ConnectTo(Model.Cpu.IoRequest);
             or.AddInput().ConnectTo(invertor.Output);
@@ -113,6 +113,45 @@ namespace Jacobi.Zim80.Test
             var outputPort = new OutputPort(data, name);
             AddOutputPort(outputPort);
             outputPort.PortEnable.ConnectTo(or.Output);
+            return outputPort;
+        }
+
+        public InputPort AddInputPort(ushort ioAddress, string name = null)
+        {
+            Bus address = Model.Address;
+            Bus data = Model.Data;
+
+            return AddInputPort(address, data, ioAddress, name);
+        }
+
+        public InputPort AddInputPort(Bus address, Bus data, ushort ioAddress, string name = null)
+        {
+            if (name == null) name = string.Empty;
+
+            var decoder = new BusDecoder(address, name + "-InputAddressDecoder");
+            decoder.AddValue(ioAddress);
+            AddComponent(decoder);
+
+            var invertor = new InvertorGate()
+            {
+                Name = name + "-InAddressDecodeInvertor"
+            };
+            AddComponent(invertor);
+            decoder.Output.ConnectTo(invertor.Input);
+
+            var or = new OrGate()
+            {
+                Name = name + "-InPortEnableIO"
+            };
+            or.AddInput().ConnectTo(Model.Cpu.IoRequest);
+            or.AddInput().ConnectTo(invertor.Output);
+            AddComponent(or);
+
+            var inputPort = new InputPort(data, name);
+            AddInputPort(inputPort);
+            inputPort.PortEnable.ConnectTo(or.Output);
+
+            return inputPort;
         }
 
         public void AddComponent(INamedObject component)
@@ -123,6 +162,11 @@ namespace Jacobi.Zim80.Test
         public void AddOutputPort(OutputPort outputPort)
         {
             Model.OutputPorts.Add(outputPort.Name, outputPort);
+        }
+
+        public void AddInputPort(InputPort inputPort)
+        {
+            Model.InputPorts.Add(inputPort.Name, inputPort);
         }
 
         public SimulationModel Model { get; protected set; }
