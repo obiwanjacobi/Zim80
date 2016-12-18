@@ -104,6 +104,9 @@ namespace Jacobi.Zim80
 
         protected virtual BusData NewBusData()
         {
+            if (IsConnected)
+                return Bus.NewBusData();
+
             return new BusData(0);
         }
 

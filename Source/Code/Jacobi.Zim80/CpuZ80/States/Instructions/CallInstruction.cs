@@ -38,6 +38,7 @@ namespace Jacobi.Zim80.CpuZ80.States.Instructions
                         if (!IsConditionMet())
                         {
                             ExecutionEngine.Cycles.SetAltCycles();
+                            IsComplete = true;
                         }
                         break;
                     case MachineCycleNames.M5:

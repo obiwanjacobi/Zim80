@@ -8,6 +8,7 @@ namespace Jacobi.Zim80.IntegrationTests.CpuZ80.Routines
     [DeploymentItem(OutPath + CopyStringBin)]
     public class CopyString : IntegrationTest
     {
+        public const string OutPath = @"CpuZ80\Routines\";
         private const string CopyStringBin = "CopyString.bin";
         private const string Expected = "Hello World!";
 

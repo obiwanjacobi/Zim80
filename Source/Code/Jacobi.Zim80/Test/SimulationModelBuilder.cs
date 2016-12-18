@@ -107,6 +107,7 @@ namespace Jacobi.Zim80.Test
                 Name = name + "-OutPortEnableIO"
             };
             or.AddInput().ConnectTo(Model.Cpu.IoRequest);
+            or.AddInput().ConnectTo(Model.Cpu.Write);
             or.AddInput().ConnectTo(invertor.Output);
             AddComponent(or);
 
@@ -144,6 +145,7 @@ namespace Jacobi.Zim80.Test
                 Name = name + "-InPortEnableIO"
             };
             or.AddInput().ConnectTo(Model.Cpu.IoRequest);
+            or.AddInput().ConnectTo(Model.Cpu.Read);
             or.AddInput().ConnectTo(invertor.Output);
             AddComponent(or);
 

@@ -8,6 +8,7 @@ namespace Jacobi.Zim80.IntegrationTests.CpuZ80.Routines
     [DeploymentItem(OutPath + Ldir1Bin)]
     public class Ldir : IntegrationTest
     {
+        public const string OutPath = @"CpuZ80\Routines\";
         private const string Ldir1Bin = "Ldir1.bin";
         private const string Expected = "Hello World!";
 

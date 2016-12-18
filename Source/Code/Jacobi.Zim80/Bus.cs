@@ -72,7 +72,7 @@ namespace Jacobi.Zim80
             get { return _signals; }
         }
 
-        protected virtual BusData NewBusData()
+        protected internal virtual BusData NewBusData()
         {
             return new BusData(BusWidth);
         }
@@ -165,7 +165,7 @@ namespace Jacobi.Zim80
             get { return (T)base.Value; }
         }
 
-        protected override BusData NewBusData()
+        protected internal override BusData NewBusData()
         {
             return new T();
         }

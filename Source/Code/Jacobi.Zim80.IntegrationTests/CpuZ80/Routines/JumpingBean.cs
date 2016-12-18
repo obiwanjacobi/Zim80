@@ -8,6 +8,7 @@ namespace Jacobi.Zim80.IntegrationTests.CpuZ80.Routines
     [DeploymentItem(OutPath + JumpingBeanBin)]
     public class JumpingBean : IntegrationTest
     {
+        public const string OutPath = @"CpuZ80\Routines\";
         private const string JumpingBeanBin = "JumpingBean.bin";
         private const string Expected = "Hello World!";
 

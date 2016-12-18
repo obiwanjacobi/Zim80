@@ -8,6 +8,7 @@ namespace Jacobi.Zim80.IntegrationTests.CpuZ80.Routines
     [DeploymentItem(OutPath + CallSubRoutineBin)]
     public class CallSubRoutine : IntegrationTest
     {
+        public const string OutPath = @"CpuZ80\Routines\";
         private const string CallSubRoutineBin = "CallSubRoutine.bin";
         private const string Expected = "Hello World!";
 

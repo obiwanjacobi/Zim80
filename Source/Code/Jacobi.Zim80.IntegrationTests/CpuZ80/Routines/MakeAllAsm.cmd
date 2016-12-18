@@ -3,5 +3,5 @@
 @CALL MakeAsm CallSubRoutine
 @CALL MakeAsm JumpingBean
 
-::@del /Q zout
-::@rd zout
+@del /Q zout
+@rd zout

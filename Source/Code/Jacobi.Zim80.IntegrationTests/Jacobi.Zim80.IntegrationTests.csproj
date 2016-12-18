@@ -65,6 +65,8 @@
     <Compile Include="CpuZ80\Routines\CallSubRoutine.cs" />
     <Compile Include="CpuZ80\Routines\CopyString.cs" />
     <Compile Include="CpuZ80\Routines\JumpingBean.cs" />
+    <Compile Include="CpuZ80\Zexlax\Prelim.cs" />
+    <Compile Include="CpuZ80\Zexlax\ZexAll.cs" />
     <Compile Include="IntegrationTest.cs" />
     <Compile Include="CpuZ80\Routines\Ldir.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -94,6 +96,9 @@
     </Content>
     <Content Include="CpuZ80\Zexlax\zexall.zmac.asm" />
     <Content Include="CpuZ80\Zexlax\zexdoc.zmac.asm" />
+    <Content Include="CpuZ80\Zexlax\zexprelim.zmac.asm">
+      <DependentUpon>Prelim.cs</DependentUpon>
+    </Content>
   </ItemGroup>
   <ItemGroup>
     <Content Include="CpuZ80\Routines\CopyString.bin">
@@ -110,7 +115,14 @@
     </Content>
     <None Include="CpuZ80\Routines\MakeAllAsm.cmd" />
     <None Include="CpuZ80\Routines\MakeAsm.cmd" />
+    <None Include="CpuZ80\Zexlax\MakeAllAsm.cmd" />
     <None Include="CpuZ80\Zexlax\MakeAsm.cmd" />
+    <None Include="CpuZ80\Zexlax\zexall.zmac.bin" />
+    <None Include="CpuZ80\Zexlax\zexdoc.zmac.bin" />
+    <Content Include="CpuZ80\Zexlax\zexprelim.zmac.bin">
+      <DependentUpon>Prelim.cs</DependentUpon>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup />

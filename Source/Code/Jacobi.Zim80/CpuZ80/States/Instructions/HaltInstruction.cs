@@ -16,6 +16,8 @@
 
         protected override void OnLastCycleFirstM()
         {
+            Cpu.Halt.Write(DigitalLevel.Low);
+
             if (ExecutionEngine.InterruptManager.HasInterruptWaiting)
                 IsComplete = true;
         }

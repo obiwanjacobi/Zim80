@@ -148,13 +148,6 @@ namespace Jacobi.Zim80.CpuZ80
             if (_opcodeCycles != null)
             {
                 var index = MachineCycleToIndex(machineCycle);
-
-                if (index >= _opcodeCycles.Length)
-                {
-                    throw new InvalidOperationException(
-                        string.Format("The instuction {0} did not signal complete within its declared machine cycles.", OpcodeDefinition));
-                }
-
                 return (CycleNames)_opcodeCycles[(int)index];
             }
 
@@ -166,14 +159,11 @@ namespace Jacobi.Zim80.CpuZ80
             int index = (int)machineCycle;
             index += _continueCount;
 
-            //if (OpcodeDefinition != null &&
-            //    OpcodeDefinition.Ext1 != 0)
-            //{
-            //    index++;
-
-            //    if (OpcodeDefinition.Ext2 != 0)
-            //        index++;
-            //}
+            if (index >= _opcodeCycles.Length)
+            {
+                throw new InvalidOperationException(
+                    string.Format("The instuction {0} did not signal complete within its declared machine cycles.", OpcodeDefinition));
+            }
 
             return index;
         }

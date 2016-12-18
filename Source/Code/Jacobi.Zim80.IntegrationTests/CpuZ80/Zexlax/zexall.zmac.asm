@@ -25,7 +25,9 @@
 ; Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
     aseg
-    org	100h
+; MJ: this doesn't work    
+    ;org	100h
+    ds	100h,0  ; this does
 
     jp	start
 
