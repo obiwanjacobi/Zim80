@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 
 namespace Jacobi.Zim80
@@ -9,10 +10,12 @@ namespace Jacobi.Zim80
     /// </summary>
     public class BusData
     {
-        private readonly List<DigitalLevel> _signals = new List<DigitalLevel>();
+        private readonly List<DigitalLevel> _signals;
 
         public BusData(int width)
         {
+            _signals = new List<DigitalLevel>(width);
+
             Width = width;
             for (int i = 0; i < width; i++)
                 _signals.Add(DigitalLevel.Floating);
@@ -151,17 +154,21 @@ namespace Jacobi.Zim80
 
         private void ReadBits(int maxWidth, Action<int> write)
         {
+            var mask = 1;
             for (int i = 0; i < Width && i < maxWidth; i++)
             {
-                var level = Read(i);
+                var level = _signals[i];
                 if (level == DigitalLevel.High ||
                     level == DigitalLevel.PosEdge)
                 {
-                    write((1 << i));
+                    write(mask);
                 }
+
+                mask <<= 1;
             }
         }
 
+        [Conditional("DEBUG")]
         private void ThrowIfMaxWidthOutOfRange(int maxWidth, int expected)
         {
             if (maxWidth < 0 || maxWidth > expected)

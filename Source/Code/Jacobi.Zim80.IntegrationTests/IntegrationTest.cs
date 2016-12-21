@@ -37,14 +37,17 @@ namespace Jacobi.Zim80.IntegrationTests
             builder.AddCpuClockGen();
             builder.AddCpuMemory();
             builder.AddOutputPort(0x20, "ConsoleOut");
-            builder.AddLogicAnalyzer();
-
-            builder.Model.Cpu.InstructionExecuted += Cpu_InstructionExecuted;
+            //builder.AddLogicAnalyzer();
 
             var bytes = LoadFile(file);
             builder.Model.Memory.Write(bytes);
 
             return builder.Model;
+        }
+
+        protected void LogExecutionPath(SimulationModel model)
+        {
+            model.Cpu.InstructionExecuted += Cpu_InstructionExecuted;
         }
 
         private void Cpu_InstructionExecuted(object sender, Zim80.CpuZ80.InstructionExecutedEventArgs e)
@@ -86,7 +89,7 @@ namespace Jacobi.Zim80.IntegrationTests
 
         protected byte[] LoadFile(string file)
         {
-            var path = Path.Combine(TestContext.TestDeploymentDir, file);
+            var path = Path.Combine(TestContext.DeploymentDirectory, file);
             return File.ReadAllBytes(path);
         }
     }

@@ -19,6 +19,9 @@ EndProject
 Project("{FF286327-C783-4F7A-AB73-9BCBAD0D4460}") = "Jacobi.Zim80.Deployment", "Jacobi.Zim80.Deployment\Jacobi.Zim80.Deployment.nuproj", "{23C04351-C4A7-4E96-A0CD-6C5437CE2E3E}"
 EndProject
 Global
+	GlobalSection(Performance) = preSolution
+		HasPerformanceSessions = true
+	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
 		Release|Any CPU = Release|Any CPU

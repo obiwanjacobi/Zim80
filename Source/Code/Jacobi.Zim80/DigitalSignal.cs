@@ -67,10 +67,9 @@ namespace Jacobi.Zim80
 
         internal void OnNewProviderValue(DigitalSignalProvider provider)
         {
-            if (!_providers.Contains(provider))
-                throw new ArgumentException("Specified Provider is not connected to this DigitalSignal.", nameof(provider));
-
+            ThrowIfNotOurs(provider);
             ThrowIfMultipleProvidersActive(provider);
+
             if (Level != provider.Level)
             {
                 _level = provider.Level;
@@ -78,15 +77,23 @@ namespace Jacobi.Zim80
             }
         }
 
+        #region Private
+        private readonly List<DigitalSignalConsumer> _consumers = new List<DigitalSignalConsumer>();
+        private readonly List<DigitalSignalProvider> _providers = new List<DigitalSignalProvider>();
+
         private void NotifyOnChanged(DigitalSignalProvider provider)
         {
             OnChanged?.Invoke(this, new DigitalLevelChangedEventArgs(provider, Level));
         }
 
-        #region Private
-        private readonly List<DigitalSignalConsumer> _consumers = new List<DigitalSignalConsumer>();
-        private readonly List<DigitalSignalProvider> _providers = new List<DigitalSignalProvider>();
+        [Conditional("DEBUG")]
+        private void ThrowIfNotOurs(DigitalSignalProvider provider)
+        {
+            if (!_providers.Contains(provider))
+                throw new ArgumentException("Specified Provider is not connected to this DigitalSignal.", nameof(provider));
+        }
 
+        [Conditional("DEBUG")]
         private void ThrowIfMultipleProvidersActive(DigitalSignalProvider changeProvider)
         {
             if (AreMultipleProvidersActive(changeProvider))

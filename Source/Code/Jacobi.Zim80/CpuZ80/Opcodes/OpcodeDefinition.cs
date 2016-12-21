@@ -2,7 +2,6 @@
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.Linq;
 
 namespace Jacobi.Zim80.CpuZ80.Opcodes
 {
@@ -156,28 +155,47 @@ namespace Jacobi.Zim80.CpuZ80.Opcodes
             return Mnemonic;
         }
 
+        private static Dictionary<int, OpcodeDefinition> _noExtensions = new Dictionary<int, OpcodeDefinition>();
+        private static Dictionary<int, OpcodeDefinition> _oneExtension = new Dictionary<int, OpcodeDefinition>();
+        private static Dictionary<int, OpcodeDefinition> _twoExtensions = new Dictionary<int, OpcodeDefinition>();
+
+        static OpcodeDefinition()
+        {
+            // sort Opcode Definitions into buckes for fast finding.
+            foreach (var od in Defintions)
+            {
+                if (!od.HasExtension)
+                    _noExtensions.Add(od.Value, od);
+                else if (od.Ext2 == 0)
+                    _oneExtension.Add(od.Ext1 << 8 | od.Value, od);
+                else
+                    _twoExtensions.Add(od.Ext2 << 16 | od.Ext1 << 8 | od.Value, od);
+            }
+        }
+
         public static OpcodeDefinition Find(OpcodeByte opcode,
             OpcodeByte ext1 = null, OpcodeByte ext2 = null)
         {
             var result = FindInternal(opcode, ext1, ext2);
 
-            //if (!result.Any() && 
+            //if (result == null && 
             //    ext1 != null && ext1.Value != 0)
             //{
             //    // shift extensions 
             //    result = FindInternal(opcode, ext2, OpcodeByte.Empty);
             //}
 
-            return result.SingleOrDefault();
+            return result;
         }
 
-        private static IEnumerable<OpcodeDefinition> FindInternal(OpcodeByte opcode, OpcodeByte ext1, OpcodeByte ext2)
+        private static OpcodeDefinition FindInternal(OpcodeByte opcode, OpcodeByte ext1, OpcodeByte ext2)
         {
-            return (from od in Defintions
-                    where (ext1 == null && od.Ext1 == 0) || ext1 != null && od.Ext1 == ext1.Value
-                    where (ext2 == null && od.Ext2 == 0) || ext2 != null && od.Ext2 == ext2.Value
-                    where od.IsEqualTo(opcode)
-                    select od);
+            if (ext1 != null && ext2 != null)
+                return _twoExtensions[ext2.Value << 16 | ext1.Value << 8 | opcode.Value];
+            else if (ext1 != null && ext2 == null)
+                return _oneExtension[ext1.Value << 8 | opcode.Value];
+            else 
+                return _noExtensions[opcode.Value];
         }
 
         // interrupt definitions

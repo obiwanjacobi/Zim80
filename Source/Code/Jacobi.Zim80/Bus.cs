@@ -119,11 +119,16 @@ namespace Jacobi.Zim80
 
         protected void ApplyValue(BusData value)
         {
-            int index = 0;
-            foreach (var level in value.Signals)
+            //int index = 0;
+            //foreach (var level in value.Signals)
+            //{
+            //    _signals[index].Level = level;
+            //    index++;
+            //}
+
+            for (int i = 0; i < value.Width; i++)
             {
-                _signals[index].Level = level;
-                index++;
+                _signals[i].Level = value[i];
             }
         }
 
@@ -132,6 +137,7 @@ namespace Jacobi.Zim80
             OnChanged?.Invoke(this, new BusChangedEventArgs<BusData>(source, Value));
         }
 
+        [Conditional("DEBUG")]
         private void ThrowIfMultipleMastersAreActive(BusMaster currentMaster)
         {
             if (AreMultipleMastersActive(currentMaster))

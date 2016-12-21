@@ -25,7 +25,9 @@
 ; Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
     aseg
-    org	100h
+; MJ: this doesn't work    
+    ;org	100h
+    ds	100h,0  ; this does
 
     jp	start
 
@@ -87,14 +89,17 @@ msbtlo	equ	msbt & 0ffh
 ; hand using a binary search of the test space.
 
 
-start:	ld	hl,(6)
+start:	
+    ld	hl,(6)  ; MJ: don't know what is there in CP/M ramtop? 0000h for us
     ld	sp,hl
     ld	de,msg1
-    ld	c,9
-    call	bdos
+    call    outStr
+    ;ld	c,9
+    ;call	bdos
 
     ld	hl,tests	; first test case
-loop:	ld	a,(hl)		; end of list ?
+loop:	
+    ld	a,(hl)		; end of list ?
     inc	hl
     or	(hl)
     jp	z,done
@@ -103,11 +108,16 @@ loop:	ld	a,(hl)		; end of list ?
     jp	loop
     
 done:	ld	de,msg2
-    ld	c,9
-    call	bdos
+    call    outStr
+    ;ld	c,9
+    ;call	bdos
     jp	0		; warm boot
 
 tests:
+    dw	ld166
+    dw	0
+
+
     dw	adc16
     dw	add16
     dw	add16x
@@ -193,7 +203,7 @@ tstr	macro	insn1,insn2,insn3,insn4,memop,riy,rix,rhl,rde,rbc,flags,acc,rsp,?lab
     endm
 
 tmsg	macro	msg,?lab
-?lab:	db	'msg'
+?lab:	db	msg
     if	$ ge ?lab+31
     error	'message too long'
     else
@@ -742,7 +752,8 @@ stabd:	db	0d7h		; flag mask
     tmsg	'ld (<bc,de>),a................'
 
 ; start test pointed to by (hl)
-stt:	push	hl
+stt:
+    push	hl
     ld	a,(hl)		; get pointer to test
     inc	hl
     ld	h,(hl)
@@ -774,8 +785,9 @@ stt:	push	hl
     ld	de,20+20+4	; skip incmask, scanmask and expcrc
     add	hl,de
     ex	de,hl
-    ld	c,9
-    call	bdos		; show test name
+    call    outStr
+    ;ld	c,9
+    ;call	bdos		; show test name
     call	initcrc		; initialise crc
 ; test loop
 tlp:	ld	a,(iut)
@@ -797,17 +809,21 @@ tlp2:	call	count		; increment the counter
     ld	de,okmsg
     jp	z,tlpok
     ld	de,ermsg1
-    ld	c,9
-    call	bdos
+    call    outStr
+    ;ld	c,9
+    ;call	bdos
     call	phex8
     ld	de,ermsg2
-    ld	c,9
-    call	bdos
+    call    outStr
+    ;ld	c,9
+    ;call	bdos
     ld	hl,crcval
     call	phex8
     ld	de,crlf
-tlpok:	ld	c,9
-    call	bdos
+tlpok:	
+    call    outStr
+    ;ld	c,9
+    ;call	bdos
     pop	hl
     inc	hl
     inc	hl
@@ -1076,14 +1092,16 @@ test:	push	af
     push	hl
       if	0
     ld	de,crlf
-    ld	c,9
-    call	bdos
+    call    outStr
+    ;ld	c,9
+    ;call	bdos
     ld	hl,iut
     ld	b,4
     call	hexstr
     ld	e,' '
-    ld	c,2
-    call	bdos
+    call outChar
+    ;ld	c,2
+    ;call	bdos
     ld	b,16
     ld	hl,msbt
     call	hexstr
@@ -1125,19 +1143,22 @@ tcrc:	ld	a,(de)
     jp	nz,tcrc
       if	0
     ld	e,' '
-    ld	c,2
-    call	bdos
+    call    outChar
+    ;ld	c,2
+    ;call	bdos
     ld	hl,crcval
     call	phex8
     ld	de,crlf
-    ld	c,9
-    call	bdos
+    call    outStr
+    ;ld	c,9
+    ;call	bdos
     ld	hl,msat
     ld	b,16
     call	hexstr
     ld	de,crlf
-    ld	c,9
-    call	bdos
+    call    outStr
+    ;ld	c,9
+    ;call	bdos
       endif
     pop	hl
     pop	de
@@ -1198,24 +1219,54 @@ phex1:	push	af
     add	a,'a'-'9'-1
 ph11:	add	a,'0'
     ld	e,a
-    ld	c,2
-    call	bdos
+    call    outChar
+    ;ld	c,2
+    ;call	bdos
     pop	hl
     pop	de
     pop	bc
     pop	af
     ret
 
-bdos	push	af
-    push	bc
-    push	de
-    push	hl
-    call	5
-    pop	hl
-    pop	de
-    pop	bc
-    pop	af
+
+; de points to msg
+outStr:
+    push bc
+    ex de, hl
+    ld bc, 0020h
+outStr_loop:
+    ld a, (hl)
+    cp '$'
+    jr z, outStr_end
+    cp 0
+    jr z, outStr_end
+    out (c), a
+    inc hl
+    jr outStr_loop
+outStr_end:
+    ex de, hl
+    pop bc
     ret
+
+; e contains char
+outChar:
+    push bc
+    ld bc, 0020h
+    out (c), e
+    pop bc
+    ret
+
+
+;bdos	push	af
+;    push	bc
+;    push	de
+;    push	hl
+;    call	5
+;    pop	hl
+;    pop	de
+;    pop	bc
+;    pop	af
+;    ret
 
 msg1:	db	'Z80doc instruction exerciser',10,13,'$'
 msg2:	db	'Tests complete$'
@@ -1276,8 +1327,9 @@ crclp:	ld	a,(de)
     ld	hl,crcval
     call	phex8
     ld	de,crlf
-    ld	c,9
-    call	bdos
+    call    outStr
+    ;ld	c,9
+    ;call	bdos
       endif
     pop	hl
     pop	de

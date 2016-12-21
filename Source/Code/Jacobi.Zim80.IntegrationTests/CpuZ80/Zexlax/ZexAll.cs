@@ -10,7 +10,7 @@ namespace Jacobi.Zim80.IntegrationTests.CpuZ80.Zexlax
         public const string OutPath = @"CpuZ80\Zexlax\";
         private const string ZexAllBin = "zexall.zmac.bin";
 
-        [TestMethod]
+        //[TestMethod]
         public void Int_ZexAll()
         {
             ushort start = 0x100;
