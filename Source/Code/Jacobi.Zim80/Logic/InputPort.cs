@@ -33,7 +33,7 @@
 
         private readonly DigitalSignalConsumer _portEnable;
 
-        // active low (samples on pos-edge)
+        // active low (samples on low)
         public DigitalSignalConsumer PortEnable { get { return _portEnable; } }
 
         public string Name { get; set; }
@@ -46,7 +46,7 @@
 
         private void PortEnable_OnChanged(object sender, DigitalLevelChangedEventArgs e)
         {
-            if (e.Level != DigitalLevel.PosEdge)
+            if (e.Level != DigitalLevel.Low)
             {
                 Output.IsEnabled = false;
                 return;

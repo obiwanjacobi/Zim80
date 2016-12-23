@@ -30,7 +30,7 @@ namespace Jacobi.Zim80.UnitTests.Logic
         [TestMethod]
         public void Enable_PosEdge_ReleaseValue()
         {
-            _portEnable.Write(DigitalLevel.PosEdge);
+            _portEnable.Write(DigitalLevel.Low);
 
             _output.Value.ToByte().Should().Be(Value);
         }
@@ -38,12 +38,12 @@ namespace Jacobi.Zim80.UnitTests.Logic
         [TestMethod]
         public void Enable_Cycles_ReleaseMultipleValues()
         {
-            _portEnable.Write(DigitalLevel.PosEdge);
+            _portEnable.Write(DigitalLevel.Low);
 
             _output.Value.ToByte().Should().Be(Value);
 
             _portEnable.Write(DigitalLevel.High);
-            _portEnable.Write(DigitalLevel.PosEdge);
+            _portEnable.Write(DigitalLevel.Low);
 
             _output.Value.ToByte().Should().Be(Value2);
         }

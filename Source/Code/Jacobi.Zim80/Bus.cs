@@ -146,10 +146,8 @@ namespace Jacobi.Zim80
 
         private bool AreMultipleMastersActive(BusMaster currentMaster)
         {
-            var floating = new BusData(BusWidth);
-
             return _masters
-                .Where(m => !m.Value.Equals(floating))
+                .Where(m => !m.Value.IsFloating)
                 .Except(new[] { currentMaster })
                 .Any();
         }

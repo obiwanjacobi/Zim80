@@ -2,6 +2,9 @@
 using Jacobi.Zim80.Logic;
 using Jacobi.Zim80.Test;
 using FluentAssertions;
+using Jacobi.Zim80.Memory;
+using System;
+using Jacobi.Zim80.Diagnostics;
 
 namespace Jacobi.Zim80.UnitTests.Logic
 {
@@ -61,6 +64,25 @@ namespace Jacobi.Zim80.UnitTests.Logic
 
             enable.Write(DigitalLevel.Low);
             output.DigitalSignal.Level.Should().Be(DigitalLevel.Low);
+        }
+
+        [TestMethod]
+        public void AddInputPort_InitialState_IsPropegated()
+        {
+            var uut = new SimulationModelBuilder();
+            uut.AddCpuMemory();
+            ((IDirectMemoryAccess<BusData8>)uut.Model.Memory)[0] = new BusData8(0); // nop
+            uut.AddCpuClockGen();
+            var inputPort = uut.AddInputPort(0x10, "Test");
+            uut.AddLogicAnalyzer();
+
+            inputPort.DataBuffer.Write(new BusData8(0xFF));
+
+            uut.Model.ClockGen.SquareWave(4);
+
+            Console.WriteLine(uut.Model.LogicAnalyzer.ToWaveJson());
+
+            inputPort.DataBuffer.Read().ToByte().Should().Be(0xFF);
         }
     }
 }
