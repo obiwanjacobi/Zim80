@@ -72,4 +72,28 @@ namespace Jacobi.Zim80
                 throw new ArgumentException("The BusWith is too small.", nameof(bus));
         }
     }
+
+    // taps off specific bus signals
+    public class BusTap<T> : BusTap
+        where T : BusData, new()
+    {
+        public BusTap()
+            : base(new T().Width)
+        { }
+
+        public new Bus<T> SourceBus
+        {
+            get { return (Bus<T>)base.SourceBus; }
+        }
+
+        public void ConnectTo(Bus<T> bus, int offset = 0, int count = 0)
+        {
+            base.ConnectTo(bus, offset, count);
+        }
+
+        public void ConnectToByIndex(Bus<T> bus, params int[] indexes)
+        {
+            base.ConnectToByIndex(bus, indexes);
+        }
+    }
 }

@@ -94,8 +94,11 @@ namespace Jacobi.Zim80
                 return 1;
             }
 
-            var nextLevel = DigitalLevelCycler.NextLevel(_digitalSignal.Level);
-            if (nextLevel == newLevel)
+            var currentLevel = _digitalSignal.Level;
+            var nextLevel = DigitalLevelCycler.NextLevel(currentLevel);
+
+            if (nextLevel == newLevel || 
+                currentLevel == DigitalLevel.Floating)
             {
                 Level = newLevel;
                 _digitalSignal.OnNewProviderValue(this);

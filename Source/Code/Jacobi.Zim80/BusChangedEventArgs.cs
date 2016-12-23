@@ -1,9 +1,11 @@
 ﻿using System;
+using System.Diagnostics;
 
 namespace Jacobi.Zim80
 {
     public class BusChangedEventArgs : EventArgs
     {
+        [DebuggerStepThrough]
         public BusChangedEventArgs(BusMaster busMaster, BusData value)
         {
             BusMaster = busMaster;
@@ -18,6 +20,7 @@ namespace Jacobi.Zim80
     public class BusChangedEventArgs<T> : EventArgs
         where T : BusData
     {
+        [DebuggerStepThrough]
         public BusChangedEventArgs(BusMaster busMaster, T value)
         {
             BusMaster = busMaster;

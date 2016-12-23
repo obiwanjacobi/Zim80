@@ -1,9 +1,11 @@
 ﻿using System;
+using System.Diagnostics;
 
 namespace Jacobi.Zim80
 {
     public class DigitalLevelChangedEventArgs : EventArgs
     {
+        [DebuggerStepThrough]
         public DigitalLevelChangedEventArgs(DigitalSignalProvider provider, DigitalLevel level)
         {
             Provider = provider;

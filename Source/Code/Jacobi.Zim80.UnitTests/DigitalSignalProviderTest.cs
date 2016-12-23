@@ -75,11 +75,9 @@ namespace Jacobi.Zim80.UnitTests
 
             var count = uut.Write(DigitalLevel.High);
 
-            count.Should().Be(3);
+            count.Should().Be(1);
             levels.Should().HaveCount(count);
-            levels[0].Should().Be(DigitalLevel.Low);
-            levels[1].Should().Be(DigitalLevel.PosEdge);
-            levels[2].Should().Be(DigitalLevel.High);
+            levels[0].Should().Be(DigitalLevel.High);
         }
 
         [TestMethod]
