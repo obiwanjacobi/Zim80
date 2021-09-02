@@ -9,19 +9,17 @@ Symmerty comes with a set of commonly used digital components such as memory and
 
 See also the wiki for more information.
 
-
 ------------------------------------
-
 
 ## Credits:
 
 Using the WaveDrom json format to generate wave diagrams from recorded signal changes by the LogicAnalyzer. Copyright (c) 2011-2016 Aliaksei Chapyzhenka
 http://wavedrom.com/
 
-Using the Zexlax Z80 excercizer scripts Copyright (C) 1994  Frank D. Cringle Modified by J.G.Harston for zmac compatibility.
+Using the Zexlax Z80 exercizer scripts Copyright (C) 1994  Frank D. Cringle Modified by J.G.Harston for zmac compatibility.
 http://mdfs.net/Software/Z80/Exerciser (CPM.zip)
 
-Using the zmac Z80 Macro Cross Assembler by George Phillips to assmble the Zexlax scripts.
+Using the zmac Z80 Macro Cross Assembler by George Phillips to assemble the Zexlax scripts.
 http://members.shaw.ca/gp2000/zmac.html
 
 Using the Dgml Xml syntax to generate graphic models of connected signals. Copyright Microsoft.
@@ -29,8 +27,6 @@ https://msdn.microsoft.com/en-us/library/dn966108.aspx
 
 Thank you all for making this available.
 
-
 ## Resources
 
 Used http://Z80.info resources, such as the instruction decoding page http://z80.info/decoding.htm.
-

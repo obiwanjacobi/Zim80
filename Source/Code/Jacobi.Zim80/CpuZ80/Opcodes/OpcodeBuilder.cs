@@ -33,8 +33,11 @@ namespace Jacobi.Zim80.CpuZ80.Opcodes
 
         public bool IsEmpty
         {
-            get { return _ext1 == null && _ext2 == null && _tmpOffset == null && 
-                    _opcodeDef == null && Opcode == null; }
+            get
+            {
+                return _ext1 == null && _ext2 == null && _tmpOffset == null &&
+                  _opcodeDef == null && Opcode == null;
+            }
         }
 
         public bool HasShiftExtension
@@ -123,7 +126,7 @@ namespace Jacobi.Zim80.CpuZ80.Opcodes
         private void SetExtension(OpcodeByte opcodeByte)
         {
             _ext2 = null;
-            
+
             if (_ext1 == null)
             {
                 _ext1 = opcodeByte;

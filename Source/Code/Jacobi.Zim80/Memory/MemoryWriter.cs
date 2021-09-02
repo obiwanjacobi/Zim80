@@ -29,7 +29,7 @@ namespace Jacobi.Zim80.Memory
 
         public DataT this[AddressT address]
         {
-            // TODO: unsiged to signed cast
+            // TODO: unsigned to signed cast
             get { return _memory[(int)address.ToUInt32()]; }
             set { _memory[(int)address.ToUInt32()] = value; }
         }
